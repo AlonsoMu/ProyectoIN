@@ -1,0 +1,56 @@
+/* Estilo personalizado para las tarjetas */
+.custom-card {
+    background-color: #e9ecef; /* Color de fondo de las tarjetas */
+    margin: 20px; /* Espaciado entre las tarjetas */
+    padding: 5px; /* Espaciado dentro de las tarjetas */
+    max-width: 700px; /* Ancho máximo del cuadro de la tarjeta */
+}
+
+.custom-card img {
+    max-height: 150px; /* Establece la altura máxima de la imagen */
+    width: auto; /* Permite que el ancho se ajuste automáticamente */
+    border: 2px solid rgba(0, 0, 0, 0); /* Borde de 2px sólido, puedes cambiar el color si lo deseas */
+    border-radius: 10px; /* Borde redondeado */
+}
+
+.custom-card .card-body div {
+    margin-left: 30px;
+}
+
+.custom-card .whatsapp-icon {
+    color: #4CAF50; /* Color verde para el ícono de WhatsApp */
+}
+.slider{
+    width: 75vw;
+    height: auto;
+    margin: auto;
+    overflow: hidden;
+}
+
+.slider .slide-track{
+    display: flex;
+    animation: scroll 40s linear infinite;
+    -webkit-animation: scroll 40s linear infinite;
+    width: calc(200px * 14);
+}
+
+.slider .slide{
+    width: 200px;
+
+}
+
+.slider .slide img{
+    width: 100%;
+}
+
+@keyframes scroll {
+    0%{
+        -webkit-transform: translateX(0);
+        transform: translateX(0)
+    }
+
+    100%{
+        -webkit-transform: translateX(calc(-200px * 4));
+        transform: translateX(calc(-200px * 4))
+    }
+}
