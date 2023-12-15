@@ -47,17 +47,7 @@
                     <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav ms-auto me-5">  
-                        <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            ES
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">EN</a></li>
-                            <li><a class="dropdown-item" href="#">JP</a>
-                        </ul>
-                        </li>
-                    </ul>
+                    
                     </div>
                 </div>
             </nav>
@@ -159,41 +149,40 @@
     </div>
 
 
-    
 
-  <div class="slider">
-    <div class="slide-track">
-        <div class="slide">
-            <img src="../img/ComerJordan.jpg" alt="">
-        </div>
-        <div class="slide">
-            <img src="../img/GettyImages-1241089605.png" alt="">
-        </div>
-        <div class="slide">
-            <img src="../img/Ken-Buck.jpg" alt="">
-        </div>
-        <div class="slide">
-            <img src="../img/Rettig-Hearing.jpeg" alt="">
-        </div>
-        <div class="slide">
-            <img src="../img/ComerJordan.jpg" alt="">
-        </div>
-        <div class="slide">
-            <img src="../img/GettyImages-1241089605.png" alt="">
-        </div>
-        <div class="slide">
-            <img src="../img/Ken-Buck.jpg" alt="">
-        </div>
-        <div class="slide">
-            <img src="../img/Rettig-Hearing.jpeg" alt="">
+    
+    <!-- Slider infinito-->
+    <div class="slider">
+        <div class="slide-track">
+            <div class="slide">
+                <img src="../img/ComerJordan.jpg" alt="">
+            </div>
+            <div class="slide">
+                <img src="../img/GettyImages-1241089605.png" alt="">
+            </div>
+            <div class="slide">
+                <img src="../img/Ken-Buck.jpg" alt="">
+            </div>
+            <div class="slide">
+                <img src="../img/Rettig-Hearing.jpeg" alt="">
+            </div>
+            <div class="slide">
+                <img src="../img/ComerJordan.jpg" alt="">
+            </div>
+            <div class="slide">
+                <img src="../img/GettyImages-1241089605.png" alt="">
+            </div>
+            <div class="slide">
+                <img src="../img/Ken-Buck.jpg" alt="">
+            </div>
+            <div class="slide">
+                <img src="../img/Rettig-Hearing.jpeg" alt="">
+            </div>
         </div>
     </div>
-  </div>
 
     
-        <!-- Swiper -->
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="script.js"></script>
+    
 
     
 
