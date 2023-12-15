@@ -1,0 +1,27 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+a {
+  text-decoration: none; /* Elimina la línea subrayada en todos los enlaces */
+}
+
+/* Estilo adicional si lo deseas para cambiar el color cuando el enlace está en estado hover (sobre él) */
+a:hover {
+  color: #007bff; /* Puedes cambiar el color según tus preferencias */
+}
+
+
+#map {
+  height: 100%;
+}
+
+/* 
+ * Optional: Makes the sample page fill the window. 
+ */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
