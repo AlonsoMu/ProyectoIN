@@ -17,6 +17,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
 
@@ -33,7 +34,7 @@
           <strong><h3 class="text-center">¿Qué lugar deseas encontrar?</h3></strong>
         </div>
         <div class="col-md-2">
-          <a href="views/index.php"><input type="button" class="btn  btn-primary text-end" value="IR A LISTADO"></a>
+          <a href="./views/index.php"><input type="button" class="btn  btn-primary text-end" value="IR A LISTADO"></a>
           <!--<button class="btn  btn-primary text-end">IR A LISTADO </button>-->
         </div>
       </div>
@@ -44,7 +45,7 @@
         <a href="#">  Restaurantes </a>   |
         <a href="#">  Bodegas </a>   
       </div>
-      <div class="row">
+      <div class="row mt-3">
         <div class="col-md-8 mx-auto">
           <div class="input-group mb-3 border rounded">
             <input type="text" class="form-control" placeholder="Buscar...">
@@ -57,11 +58,269 @@
     </div> <!-- FIN DEL CONTAINER-->
     <style>
       #map {
-        height: 530px;
+        height: 500px;
         background-color: aqua;
       }
     </style>  
     <div id="map"></div>
+
+    <div class="w-100 p-2 bg-light">
+      <section class="container-920">
+        <div class="container text-center my-3">
+          <div class="row mx-auto my-auto justify-content-center">
+            <div id="recipeCarousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner" role="listbox">
+                <div class="carousel-item">
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/1.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/1.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/2.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/3.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/1.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/2.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/3.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/1.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/2.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/3.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/1.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/2.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/3.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/1.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/2.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/3.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/1.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/2.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/3.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/1.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item active">
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/2.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/1.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/2.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="card mx-3">
+                      <div class="card-img my-3">
+                        <img src="./img/3.svg" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a class="carousel-control-prev bg-transparent w-aut" href="#recipeCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              </a>
+              <a class="carousel-control-next bg-transparent w-aut" href="#recipeCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              </a>
+            </div>
+          </div>      
+        </div>
+      </section>
+    </div> <!-- FIN DEL CARRUSEL -->
+    <!-- Footer -->
+    <footer class="bg-dark" id="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 pt-5 text-center">
+            <h2 class="h2 text-light pb-3 border-light">Soporte</h2>
+            <ul class="list-unstyled text-light footer-link-list">
+              <li>
+                <a class="text-decoration-none text-white" href="#">Ayuda</a>
+              </li>
+              <li>
+                <a class="text-decoration-none text-white" href="#">Términos y condiciones</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-4 pt-5 text-center">
+            <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
+            <ul class="list-unstyled text-light footer-link-list">
+              <li>
+                <a class="text-decoration-none text-white" href="#">
+                  <i class="bi bi-envelope"></i> Info@hotmail.com
+                </a>
+              </li>
+              <li>
+                <a class="text-decoration-none text-white" href="#">
+                  <i class="bi bi-phone"></i> +51 985 752 963
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4 pt-5 text-center">
+            <h2 class="h2 text-light pb-3 border-light">Redes sociales</h2>
+            <ul class="list-unstyled text-light d-flex justify-content-center">
+              <li class="me-3">
+                <a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-facebook"></i></a>
+              </li>
+              <li class="me-3">
+                <a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-instagram"></i></a>
+              </li>
+              <li class="me-3">
+                <a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-tiktok"></i></a>
+              </li>
+              <li>
+                <a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-linkedin"></i></a>
+              </li>
+            </ul>
+          </div>                  
+          <div class="row">
+            <div class="col-12 py-3 text-center">
+              <div class="border-top border-light my-3"></div>
+              <p class="text-light">
+                &copy; 2023 Nombre - Todos los derechos reservados
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
     
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -108,5 +367,21 @@
   
   window.initMap = initMap;
   
+  </script>
+  <script type="text/javascript">
+    let items = document.querySelectorAll('.carousel .carousel-item')
+
+    items.forEach((el) => {
+      const minPerSlide = 4
+      let next = el.nextElementSibling
+      for(var i=1; i<minPerSlide; i++) {
+        if (!next){
+          next = items[0]
+        }
+        let cloneChild = next.cloneNode(true)
+        el.appendChild(cloneChild.children[0])
+        next = next.nextElementSibling
+      }
+    })
   </script>
 </html>
