@@ -30,7 +30,7 @@ CREATE TABLE usuarios(
     claveacceso				VARCHAR(100) 	NOT NULL,
     celular 				CHAR(11) 		NULL,
     token 					CHAR(6) 		NULL, -- CLAVE DE RECUPERACION
-    nivelaccceso 			CHAR(3)			NOT NULL, -- ADM
+    nivelacceso 			CHAR(3)			NOT NULL, -- ADM
     estado					CHAR(1) 		NOT NULL DEFAULT '1',
     create_at				DATETIME		NOT NULL DEFAULT NOW(),
     update_at				DATETIME		NULL,
@@ -46,7 +46,6 @@ CREATE TABLE planes(
 	idplan 					INT 			AUTO_INCREMENT PRIMARY KEY,
     tipoplan 				CHAR(8) 		NOT NULL, -- FREE | PREMIUM
     precio 					DECIMAL(9,2)	NOT NULL,
-    duracion 				INT 			NOT NULL,
     create_at				DATETIME		NOT NULL DEFAULT NOW(),
     update_at				DATETIME		NULL,
     inactive_at				DATETIME 		NULL
@@ -61,7 +60,7 @@ CREATE TABLE categorias(
     create_at				DATETIME		NOT NULL DEFAULT NOW(),
     update_at				DATETIME		NULL,
     inactive_at				DATETIME 		NULL
-)ENGINE = INNDOB;
+)ENGINE = INNODB;
 
 -- ---------------------------------------------------------------------------
 -- 								| TABLA SUBCATEGORIAS |
@@ -121,6 +120,8 @@ CREATE TABLE negocios(
     correo 					VARCHAR(100) 	NULL,
     facebook				VARCHAR(200) 	NULL,
     whatsapp				VARCHAR(100) 	NULL,
+    instagram				VARCHAR(100)	NULL,
+    tiktok					VARCHAR(100)	NULL,
     logo 					VARCHAR(100) 	NULL,
     valoracion				INT 			NULL,
     create_at 				DATETIME		DEFAULT NOW(),
