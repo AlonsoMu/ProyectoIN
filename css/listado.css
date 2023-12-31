@@ -1,0 +1,66 @@
+/* Estilo personalizado para las tarjetas */
+.custom-card {
+    background-color: #e9ecef; /* Color de fondo de las tarjetas */
+    margin: 20px; /* Espaciado entre las tarjetas */
+    padding: 5px; /* Espaciado dentro de las tarjetas */
+    max-width: 700px; /* Ancho máximo del cuadro de la tarjeta */
+}
+
+.custom-card img {
+    max-height: 150px; /* Establece la altura máxima de la imagen */
+    width: auto; /* Permite que el ancho se ajuste automáticamente */
+    border: 2px solid rgba(0, 0, 0, 0); /* Borde de 2px sólido, puedes cambiar el color si lo deseas */
+    border-radius: 10px; /* Borde redondeado */
+}
+
+.custom-card .card-body div {
+    margin-left: 30px;
+}
+
+.custom-card .whatsapp-icon {
+    color: #4CAF50; /* Color verde para el ícono de WhatsApp */
+}
+.img-fluid{max-width:initial; height:80px;}
+    .carousel-control-prev-icon, .carousel-control-next-icon{background-color:#000; border-radius:50px; background-size:50%;}
+    .carousel-control-next, .carousel-control-prev{width:35px;}
+    /*.carousel-inner{width:95% margin:0 auto;}*/
+    .container-920{max-width:920px; margin:0 auto;}
+
+    @media (max-width: 767px) {
+        .carousel-inner .carousel-item > div {
+            display: none;
+        }
+        .carousel-inner .carousel-item > div:first-child {
+            display: block;
+        }
+    }
+
+    .carousel-inner .carousel-item.active,
+    .carousel-inner .carousel-item-next,
+    .carousel-inner .carousel-item-prev {
+        display: flex;
+    }
+
+    /* medium and up screens */
+    @media (min-width: 768px) {
+
+        .carousel-inner .carousel-item-end.active,
+        .carousel-inner .carousel-item-next {
+            transform: translateX(25%);
+        }
+
+        .carousel-inner .carousel-item-start.active, 
+        .carousel-inner .carousel-item-prev {
+            transform: translateX(-25%);
+        }
+    }
+
+    .carousel-inner .carousel-item-end,
+    .carousel-inner .carousel-item-start { 
+        transform: translateX(0);
+    }
+
+
+
+
+
