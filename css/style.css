@@ -353,3 +353,159 @@ a {
           color: #000 !important; }
       .sticky-wrapper.is-sticky .site-navbar .site-navigation .site-menu > li.active a {
         color: #000; }
+
+.media-29101 img {
+  margin-bottom: 20px; }
+
+.media-29101 h3 {
+  font-size: 18px;
+  font-weight: 900 !important; }
+  .media-29101 h3 a {
+    color: #6c757d; }
+
+.owl-2-style .owl-nav {
+  display: none; }
+
+.owl-2-style .owl-dots {
+  text-align: center;
+  position: relative;
+  bottom: -0px; }
+  .owl-2-style .owl-dots .owl-dot {
+    display: inline-block; }
+    .owl-2-style .owl-dots .owl-dot span {
+      display: inline-block;
+      width: 15px;
+      height: 3px;
+      border-radius: 0px;
+      background: #cccccc;
+      -webkit-transition: 0.3s all cubic-bezier(0.32, 0.71, 0.53, 0.53);
+      -o-transition: 0.3s all cubic-bezier(0.32, 0.71, 0.53, 0.53);
+      transition: 0.3s all cubic-bezier(0.32, 0.71, 0.53, 0.53);
+      margin: 3px; }
+    .owl-2-style .owl-dots .owl-dot.active span {
+      background: #007bff; }
+    .owl-2-style .owl-dots .owl-dot:active, .owl-2-style .owl-dots .owl-dot:focus {
+      outline: none; }
+
+
+/* _________________________________________  */
+
+/* Estilo adicional para aumentar el tamaño de las estrellas */
+.stars i {
+    font-size: 1.5rem;
+    margin-right: 5px; /* Ajusta el valor según sea necesario */
+}
+
+/* Ajuste de tamaño del card y sombra */
+.custom-card {
+    max-width: 1200px;
+    width: 100%;/* Hace que el card ocupe el ancho completo */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* Agrega sombra */
+    margin: 2rem auto; /* Centra el card horizontalmente con un margen superior */
+    position: relative; /* Permite posicionar elementos relativos a este contenedor */
+    overflow: hidden; /* Oculta el contenido que se desborda del contenedor */
+   align-items: center;
+}
+
+/* Añade espaciado entre las filas en dispositivos pequeños */
+.custom-card .row {
+    margin-bottom: 1rem;
+}
+
+/* Estilo para la lista de redes sociales */
+.social-list {
+    list-style: none;
+    padding: 0;
+}
+
+.social-list p {
+    margin: 0; /* Elimina el margen predeterminado de los párrafos */
+}
+
+/* Estilo para la portada */
+.portada {
+    width: 100%;
+    height: 40%; /* Ajusta la altura según sea necesario */
+    background-size: cover;
+    background-position: top;
+}
+
+/* Estilo para el cuadro encima de la portada */
+.cuadro-encima,
+.cuadro-encima2 {
+    position: absolute;
+    top: 41%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.cuadro-encima2 {
+    top: 100px;
+    background-color:rgba(0, 0, 0, .7);
+    padding: 10px;
+    border-radius: 5px;
+    width: 70%;
+    color:#FFF;
+    max-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cuadro-encima2 p {
+    margin: 0; /* Elimina el margen predeterminado del párrafo */
+}
+
+.cuadro-encima2 i {
+    margin-right: 5px; /* Ajusta el espacio entre el ícono y el texto */
+}
+
+/* ESTILOS DE LA VISTA 3 */
+.limitador{border-right:1px solid #d5d5d5;}
+.spacing1{padding-right:40px!important;}
+.spacing2{padding-left:40px!important;}
+.font11{font-size:11px;}
+.font12{font-size:12px;}
+.font13{font-size:13px;}
+.font14{font-size:14px;}
+.font15{font-size:15px;}
+.font16{font-size:16px;}
+.font17{font-size:17px;}
+.font18{font-size:18px;}
+.font19{font-size:19px;}
+.font20{font-size:20px;}
+.font21{font-size:21px;}
+.font22{font-size:22px;}
+.font23{font-size:23px;}
+.font24{font-size:24px;}
+.width100{width:100%;}
+.mt-l{padding-top:210px;}
+.dia_activo{background:#888888!important; color:#FFF;}
+.dia_activo p{color:#FFF;}
+.lineabaja{text-align:center; position:relative;}
+.lineabaja:before{border-top:2px solid #000; content:""; margin:0 auto; position:absolute; top:115%; left:0; right:0; bottom:0; width:12%;}
+.utils [class^="border"]{display:inline-block; width:8rem; height:7rem; margin:0.25rem; background-color:#E4E4E4; border-radius:10px; text-align:center;}
+
+
+/* movil  */
+@media only screen and (max-width: 767px){
+    .cuadro-encima2{top:85px; width:50%}
+    .cuadro-encima{width:100%;}
+    .custom-card{border-radius:15px;}
+    .card-title{text-align:center;}
+    .stars{text-align:center;}
+
+    .limitador{border-right:0px;}
+    .spacing1{padding-right:15px!important; margin-bottom:20px;}
+    .spacing2{padding-left:15px!important;}
+
+    .demimv{width:50%; padding-top:15px;}
+    .demimv:last-child{border-left:1px solid #d5d5d5!important;}
+
+    .mt-l{padding-top:310px;}
+    
+}

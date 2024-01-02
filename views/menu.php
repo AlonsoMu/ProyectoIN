@@ -19,94 +19,6 @@
     
     <!-- Style -->
     <link rel="stylesheet" href="../css/style.css">
-
-    <style>
-        /* Estilo adicional para aumentar el tamaño de las estrellas */
-        .stars i {
-            font-size: 1.5rem;
-            margin-right: 5px; /* Ajusta el valor según sea necesario */
-        }
-
-        /* Ajuste de tamaño del card y sombra */
-        .custom-card {
-            max-width: 1200px;
-            width: 100%;/* Hace que el card ocupe el ancho completo */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); /* Agrega sombra */
-            margin: 2rem auto; /* Centra el card horizontalmente con un margen superior */
-            position: relative; /* Permite posicionar elementos relativos a este contenedor */
-            overflow: hidden; /* Oculta el contenido que se desborda del contenedor */
-           align-items: center;
-        }
-
-        /* Añade espaciado entre las filas en dispositivos pequeños */
-        .custom-card .row {
-            margin-bottom: 1rem;
-        }
-
-        /* Estilo para la lista de redes sociales */
-        .social-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .social-list p {
-            font-size: 1.25rem; /* Tamaño del texto */
-            margin: 0; /* Elimina el margen predeterminado de los párrafos */
-        }
-
-        /* Estilo para la portada */
-        .portada {
-            width: 100%;
-            height: 600px; /* Ajusta la altura según sea necesario */
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Estilo para el cuadro encima de la portada */
-        .cuadro-encima,
-        .cuadro-encima2 {
-            position: absolute;
-            top: 41%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-            background-color: transparent;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .cuadro-encima2 {
-            top: 100px;
-            background-color:rgba(0, 0, 0, .7);
-            padding: 10px;
-            border-radius: 5px;
-            width: 70%;
-            color:#FFF;
-            max-width: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cuadro-encima2 p {
-            margin: 0; /* Elimina el margen predeterminado del párrafo */
-        }
-
-        .cuadro-encima2 i {
-            margin-right: 5px; /* Ajusta el espacio entre el ícono y el texto */
-        }
-
-        /* PAPI */
-        @media only screen and (max-width: 767px){
-            .cuadro-encima2{top:85px; width:50%}
-            .cuadro-encima{width:100%;}
-            .custom-card{border-radius:15px;}
-            .card-title{text-align:center;}
-            .stars{text-align:center;}
-        }
-
-
-    </style>
 </head>
 
 <body>
@@ -180,23 +92,23 @@
                             </div>
                         </div>
                         <div class="row mt-4">
-                            <div class="col-md-4">
+                            <div class="col-md-4 limitador spacing1">
                                 <!-- Sección de imagen -->
                                 <img src="../img/logo.png" class="img-fluid" alt="Imagen">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 limitador spacing2 demimv">
                                 <!-- Sección con lista de redes sociales -->
                                 <div class="social-list">
-                                    <p><i class="bi bi-facebook"></i> Facebook</p>
-                                    <p><i class="bi bi-whatsapp"></i> WhatsApp</p>
-                                    <p><i class="bi bi-instagram"></i> Instagram</p>
-                                    <p><i class="bi bi-tiktok"></i> TikTok</p>
+                                    <p><i class="bi bi-facebook font14"></i> Facebook</p>
+                                    <p><i class="bi bi-whatsapp font14"></i> WhatsApp</p>
+                                    <p><i class="bi bi-instagram font14"></i> Instagram</p>
+                                    <p><i class="bi bi-tiktok font14"></i> TikTok</p>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 spacing2 demimv">
                                 <!-- Sección con dirección aleatoria y icono de ubicación -->
                                 <!-- Icono de ubicación -->
-                                <p><i class="bi bi-geo-alt"></i>Dirección: Dirección Aleatoria</p>
+                                <p><i class="bi bi-geo-alt font14"></i>Dirección: Dirección Aleatoria</p>
                             </div>
                         </div>
                     </div>
@@ -205,10 +117,110 @@
         </div>
     </section>
 
+    <!-- ACERCA DE -->
+    <section class="width100">
+        <div class="container mt-l">
+            <!-- TEXT -->
+            <h1 class="font24 font-weight-bold">Acerca de...</h1>
+            
+            <!-- CONTENIDO -->
+            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit ad mattis, varius phasellus hendrerit metus cum faucibus nec gravida cras sagittis, vivamus sociosqu curabitur sapien velit dictum fringilla sodales. Venenatis aenean auctor facilisi litora accumsan quis dui. Aptent cursus  nostra a eu elementum fermentum donec dui. Aptent cursus congue mus interdum mauris risus.</p>
+        </div>
+    </section>
+
+    <!-- GALERIA -->
+    <section class="width100 bg-light">
+        <div class="container mt-5 py-5">
+            <!-- TITULO -->
+            <h1 class="font24 font-weight-bold lineabaja mb-5">Galería de fotos</h1>
+            
+            <!-- IMAGENES -->
+            <div class="owl-2-style">
+                <div class="owl-carousel owl-2">
+                  <div class="media-29101">
+                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                  </div>
+                  <div class="media-29101">
+                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                  </div>
+                  <div class="media-29101">
+                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                  </div>
+                  <div class="media-29101">
+                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                  </div>
+                  <div class="media-29101">
+                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                  </div>
+                  <div class="media-29101">
+                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- VISITANOS -->
+    <section class="width100">        
+        <!-- TITULO -->
+        <h1 class="font24 font-weight-bold lineabaja my-5">Visítanos</h1>
+    </section>
+
+    <!-- MAPA -->
+    <section class="width100 bg-secondary">        
+        <div class="container">
+            <div style="height:400px;"></div>
+        </div>
+    </section>
+
+    <!-- Horarios de atención -->
+    <section class="width100">        
+        <div class="container mt-5">
+            <!-- TITULO -->
+            <h1 class="font24 font-weight-bold lineabaja my-5">Horario de atención</h1>
+
+            <div class="row utils justify-content-center">
+                <span class="border">
+                    <h3 class="font20 font-weight-bold mt-4">Lunes</h3>
+                    <p class="font12">2pm - 10pm</p>
+                </span>
+                <span class="border">
+                    <h3 class="font20 font-weight-bold mt-4">Martes</h3>
+                    <p class="font12">2pm - 10pm</p>
+                </span>
+                <span class="border">
+                    <h3 class="font20 font-weight-bold mt-4">Miercoles</h3>
+                    <p class="font12">2pm - 10pm</p>
+                </span>
+                <span class="border dia_activo">
+                    <h3 class="font20 font-weight-bold mt-4">Jueves</h3>
+                    <p class="font12">2pm - 10pm</p>
+                </span>
+                <span class="border">
+                    <h3 class="font20 font-weight-bold mt-4">Viernes</h3>
+                    <p class="font12">2pm - 10pm</p>
+                </span>
+                <span class="border">
+                    <h3 class="font20 font-weight-bold mt-4">Sábado</h3>
+                    <p class="font12">2pm - 10pm</p>
+                </span>
+                <span class="border">
+                    <h3 class="font20 font-weight-bold mt-4">Domingo</h3>
+                    <p class="font12">2pm - 10pm</p>
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <footer style="height:100px;">
+    </footer>
+
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.sticky.js"></script>
+    <script src="../js/owl.carousel.min.js"></script>
     <script src="../js/main.js"></script>
 </body>
 
