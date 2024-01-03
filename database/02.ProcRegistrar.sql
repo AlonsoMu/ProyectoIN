@@ -16,7 +16,7 @@ BEGIN
 		(apellidos, nombres, tipodoc, numerodoc)
 	VALUES
 		(_apellidos, _nombres, _tipodoc, _numerodoc);
-	SELECT @@last_insert_id 'idpersona';
+	-- SELECT @@last_insert_id 'idpersona';
 END $$
 
 -- -------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ BEGIN
 		(idpersona, avatar, correo, claveacceso, celular, nivelacceso)
 	VALUES
 		(_idpersona, NULLIF(_avatar, ''), _correo, _claveacceso, _celular, _nivelacceso);
-	SELECT @@last_insert_id 'idusuario';
+	-- SELECT @@last_insert_id 'idusuario';
 END $$
 
 -- ------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ BEGIN
 		(tipoplan, precio)
 	VALUES
 		(_tipoplan, _precio);
-	SELECT @@last_insert_id 'idplan';
+	-- SELECT @@last_insert_id 'idplan';
 END $$
 
 -- ----------------------------------------------------------------------------
@@ -70,7 +70,7 @@ BEGIN
 		(nomcategoria)
 	VALUES
 		(_nomcategoria);
-	SELECT @@last_insert_id 'idcategoria';
+	-- SELECT @@last_insert_id 'idcategoria';
 END $$
 
 -- ---------------------------------------------------------------------------
@@ -87,7 +87,7 @@ BEGIN
 		(idcategoria, nomsubcategoria)
     VALUES
 		(_idcategoria, _nomsubcategoria);
-	SELECT @@last_insert_id 'idsubcategoria';
+	-- SELECT @@last_insert_id 'idsubcategoria';
 END $$
 
 -- ------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ BEGIN
 		(apertura, cierre, dia)
 	VALUES
 		(_apertura, _cierre, _dia);
-	SELECT @@last_insert_id 'idhorario';
+	-- SELECT @@last_insert_id 'idhorario';
 END $$
 
 -- ------------------------------------------------------------------------
@@ -123,7 +123,7 @@ BEGIN
 		(idhorario, latitud, longitud)
 	VALUES
 		(_idhorario, _latitud, _longitud);
-	SELECT @@last_insert_id 'idubicacion';
+	-- SELECT @@last_insert_id 'idubicacion';
 END $$
 
 -- -------------------------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ END $$
 
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_registrar(
-	IN _idcliente 			INT,
+	IN _idpersona 			INT,
     IN _idusuario			INT,
     IN _idsubcategoria		INT,
     IN _idubicacion			INT,
@@ -152,12 +152,12 @@ CREATE PROCEDURE spu_negocios_registrar(
 )
 BEGIN
 	INSERT INTO negocios
-		(idcliente, idusuario, idsubcategoria, idubicacion, nroruc, nombre, descripcion, 
+		(idpersona, idusuario, idsubcategoria, idubicacion, nroruc, nombre, descripcion, 
 		distrito, direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, logo, valoracion)
     VALUES
-		(_idcliente, _idusuario, _idsubcategoria, _idubicacion, _nroruc, _nombre, _descripcion, 
+		(_idpersona, _idusuario, _idsubcategoria, _idubicacion, _nroruc, _nombre, _descripcion, 
 		_distrito, _direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _logo, _valoracion);
-	SELECT @@last_insert_id 'idnegocio';
+	-- SELECT @@last_insert_id 'idnegocio';
 END $$
 
 -- ------------------------------------------------------------------------------------------------
@@ -174,7 +174,7 @@ BEGIN
 		(idnegocio, rutafoto)
 	VALUES
 		(_idnegocio, _rutafoto);
-	SELECT @@last_insert_id 'idgaleria';
+	-- SELECT @@last_insert_id 'idgaleria';
 END $$
 
 -- ------------------------------------------------------------------------------------------------------
@@ -194,5 +194,5 @@ BEGIN
 		(idplan, idnegocio, idusuario, fechainicio, fechafin)
 	VALUES
 		(idplan, idnegocio, idusuario, fechainicio, fechafin);
-	SELECT @@last_insert_id 'idcontrato';
+	-- SELECT @@last_insert_id 'idcontrato';
 END $$

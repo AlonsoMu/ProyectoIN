@@ -45,12 +45,13 @@ INSERT INTO ubicaciones (idhorario, latitud, longitud) VALUES
 (2, -13.4183725, -76.1337673),
 (3, -13.4128998, -76.1294291);
 
-INSERT INTO negocios (idcliente, idusuario, idsubcategoria, idubicacion, nroruc, nombre,
+INSERT INTO negocios (idpersona, idusuario, idsubcategoria, idubicacion, nroruc, nombre,
  descripcion, distrito, direccion, telefono, correo, valoracion) VALUES
 (1, 1, 1, 1, '12345678901', 'Norkys', 'ricos pollos a la brasa','Chincha Alta', 'Av. Principal 123', '987654321', 'info@tiendatech.com', 4),
 (2, 1, 2, 2, '98765432101', 'Yump Place', 'juegos entretenidos','Chincha Alta', 'Calle Secundaria 456', '987654322', 'info@modaelegante.com', 5),
 (3, 1, 3, 3, '11112222333', 'Topitop', 'lo mejor en tops','Pueblo Nuevo', 'Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', 3);
 
+SELECT * FROM negocios;
 
 INSERT INTO galerias (idnegocio, rutafoto)
 VALUES

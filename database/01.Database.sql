@@ -107,7 +107,7 @@ CREATE TABLE ubicaciones(
 -- -------------------------------------------------------------------------------------------------
 CREATE TABLE negocios(
 	idnegocio 				INT 			AUTO_INCREMENT 	PRIMARY KEY,
-    idcliente 				INT 			NOT NULL, -- FK
+    idpersona 				INT 			NOT NULL, -- FK
     idusuario 				INT 			NOT NULL, -- FK
     idsubcategoria 			INT 			NOT NULL, -- FK
     idubicacion 			INT 			NOT NULL, -- FK
@@ -127,7 +127,7 @@ CREATE TABLE negocios(
     create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL,
-    CONSTRAINT fk_idcliente_neg 			FOREIGN KEY (idcliente) REFERENCES personas (idpersona),
+    CONSTRAINT fk_idpersona_neg 			FOREIGN KEY (idpersona) REFERENCES personas (idpersona),
     CONSTRAINT fk_idusuario_neg 			FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario),
     CONSTRAINT fk_idsubcategoria_neg		FOREIGN KEY (idsubcategoria) REFERENCES subcategorias (idsubcategoria),
     CONSTRAINT fk_idubicacion_neg 			FOREIGN KEY (idubicacion) REFERENCES ubicaciones (idubicacion),

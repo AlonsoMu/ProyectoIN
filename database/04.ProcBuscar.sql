@@ -2,12 +2,12 @@ USE innovacion;
 
 DELIMITER $$
 CREATE PROCEDURE spu_personas_buscar(
-	IN nombre_apellido VARCHAR(100)
+    IN nombre_apellido VARCHAR(100)
 )
 BEGIN
-	SELECT
-		p.idpersona,
-        CONCAT(p.apellidos, ', ', p.nombres) AS 'Apellidos y Nombres',
+    SELECT
+        p.idpersona,
+        CONCAT(p.nombres, ' ', p.apellidos) AS 'Nombres y Apellidos',
         p.numerodoc
     FROM personas p
     WHERE NOT EXISTS (
@@ -20,10 +20,9 @@ BEGIN
         CONCAT(p.nombres, ' ', p.apellidos) LIKE CONCAT('%', nombre_apellido, '%')
     );
 END $$
+CALL spu_personas_buscar('Harold Napa');
 
 -- ##########################################################################################################################
-
-CALL spu_personas_buscar('Yorghet Hernandez');
 
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_buscar(
@@ -36,7 +35,7 @@ BEGIN
         p.idpersona,
         n.nombre AS NombreComercial,
         s.nomsubcategoria,
-        CONCAT(p.apellidos, ', ', p.nombres) AS Cliente,
+        CONCAT(p.nombres, ' ', p.apellidos) AS Cliente,
         n.nroruc,
         n.telefono,
         n.whatsapp,
@@ -45,14 +44,13 @@ BEGIN
         n.tiktok,
         n.descripcion
     FROM negocios n
-    INNER JOIN personas p ON n.idcliente = p.idpersona
+    INNER JOIN personas p ON n.idpersona = p.idpersona
     INNER JOIN usuarios u ON n.idusuario = u.idusuario
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%');
 END $$
 
 -- ##########################################################################################################################
-
 CALL spu_negocios_buscar('Norkys');
 
 

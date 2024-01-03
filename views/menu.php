@@ -11,14 +11,15 @@
 
     <link rel="stylesheet" href="../fonts/icomoon/style.css">
 
-    <link rel="stylesheet" href="../css/owl.carousel.min.css">
+    <link rel="stylesheet" href="..//css/owl.carousel.min.css">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="..//css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     
     <!-- Style -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="..//css/style.css">
+    
 </head>
 
 <body>
@@ -169,9 +170,7 @@
 
     <!-- MAPA -->
     <section class="width100 bg-secondary">        
-        <div class="container">
-            <div style="height:400px;"></div>
-        </div>
+      <div id="map" style="height: 400px;"></div>   
     </section>
 
     <!-- Horarios de atención -->
@@ -212,16 +211,127 @@
             </div>
         </div>
     </section>
+    <div class="container mt-3 d-flex justify-content-start align-items-center">
+    <!-- Icono de WhatsApp junto al botón -->
+    <a href="https://wa.me/TUNUMERODETELEFONO" target="_blank" class="whatsapp-icon">
+        <i class="bi bi-whatsapp" style="font-size: 3em; color: #25D366; margin-right: 10px;"></i>
+    </a>
+
+    <!-- Botón "Inicia con nosotros" -->
+    <button type="button" class="btn btn-primary">
+        Inicia con nosotros
+    </button>
+</div>
+<div class="container mt-3 d-flex align-items-center">
+    <!-- Icono de WhatsApp más grande con color negro -->
+    <a href="https://wa.me/TUNUMERODETELEFONO" target="_blank" class="whatsapp-icon">
+        <i class="bi bi-whatsapp" style="font-size: 3em; color: black;"></i>
+    </a>
+
+    <!-- Botón "Inicia con nosotros" con fondo plomo -->
+    <button type="button" class="btn ml-3" style="background-color: #A9A9A9;">
+        Inicia con nosotros
+    </button>
+</div>
+
+
+
+<!-- algo -->
+<div class="container mt-3 d-flex justify-content-start align-items-center position-relative">
+    <!-- Botón "Inicia con nosotros" -->
+    <button type="button" class="btn btn-primary position-absolute" style="z-index: 1;">
+        Inicia con nosotros
+    </button>
+
+    <!-- Icono de WhatsApp más grande y detrás del botón -->
+    <a href="https://wa.me/TUNUMERODETELEFONO" target="_blank" class="whatsapp-icon position-relative" style="z-index: 0;">
+        <i class="bi bi-whatsapp" style="font-size: 3em; color: #25D366;"></i>
+    </a>
+</div>
+<div class="container mt-3 d-flex align-items-center position-relative">
+    <!-- Icono de WhatsApp más grande -->
+    <a href="https://wa.me/TUNUMERODETELEFONO" target="_blank" class="whatsapp-icon position-absolute" style="z-index: 1;">
+        <i class="bi bi-whatsapp" style="font-size: 3em; color: #25D366;"></i>
+    </a>
+
+    <!-- Botón "Inicia con nosotros" -->
+    <button type="button" class="btn btn-primary ml-3">
+        Inicia con nosotros
+    </button>
+</div>
 
     <footer style="height:100px;">
     </footer>
 
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/jquery.sticky.js"></script>
-    <script src="../js/owl.carousel.min.js"></script>
-    <script src="../js/main.js"></script>
+    <script src="..//js/jquery-3.3.1.min.js"></script>
+    <script src="..//js/popper.min.js"></script>
+    <script src="..//js/bootstrap.min.js"></script>
+    <script src="..//js/jquery.sticky.js"></script>
+    <script src="..//js/owl.carousel.min.js"></script>
+    <script src="..//js/main.js"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
+
+  <script>
+    let map;
+
+    function initMap() {
+      const mapDiv = document.getElementById('map');
+      const mapOptions = {
+        center: { lat: -13.4098500, lng: -76.1323500 }, // Coordenadas de ejemplo
+        zoom: 15,
+      };
+
+      map = new google.maps.Map(mapDiv, mapOptions);
+
+      // Puedes agregar marcadores u otras configuraciones aquí
+    }
+  </script>
+  <!-- Idiomas -->
+<script>
+    function cambiarIdioma(idioma) {
+        // Traducciones
+        const traducciones = {
+            'espanol': {
+                'inicio': 'inicio',
+                'servicios': 'servicios',
+                // Agrega más traducciones según sea necesario
+            },
+            'english': {
+                'inicio': 'home',
+                'servicios': 'services',
+                // Agrega más traducciones según sea necesario
+            },
+            'portugues': {
+                'inicio': 'início',
+                'servicios': 'serviços',
+                // Agrega más traducciones según sea necesario
+            }
+        };
+
+        // Selecciona el idioma actual
+        const idiomaActual = traducciones[idioma];
+
+        // Actualiza los textos en el menú principal
+        const menuItems = document.querySelectorAll('.main-menu a.nav-link');
+        menuItems.forEach(item => {
+            const claveTraduccion = item.textContent.toLowerCase();
+            item.textContent = idiomaActual[claveTraduccion] || item.textContent;
+        });
+
+        // También puedes agregar más elementos para traducir aquí...
+
+        // Actualiza el texto de los días de la semana en el horario
+        const diasSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+        diasSemana.forEach(dia => {
+            const elementoDia = document.querySelector(`.border h3:contains('${dia}')`);
+            if (elementoDia) {
+                const claveTraduccion = dia.toLowerCase();
+                elementoDia.textContent = idiomaActual[claveTraduccion] || dia;
+            }
+        });
+    }
+</script>
+
 </body>
 
 </html>

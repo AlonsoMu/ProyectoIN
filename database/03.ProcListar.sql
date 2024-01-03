@@ -17,18 +17,19 @@ END $$
 DELIMITER $$
 CREATE PROCEDURE spu_personas_listar()
 BEGIN
-	SELECT 
-    idpersona,
-    CONCAT(apellidos, ',', nombres) AS 'Nombres y Apellidos',
-    tipodoc,
-    numerodoc
-	FROM personas
-	WHERE inactive_at IS NULL
-    AND idpersona NOT IN (
-        SELECT idpersona
-        FROM usuarios
-    );
+    SELECT 
+        idpersona,
+        CONCAT(nombres, ' ', apellidos) AS 'Nombres y Apellidos',
+        tipodoc,
+        numerodoc
+    FROM personas
+    WHERE inactive_at IS NULL
+        AND idpersona NOT IN (
+            SELECT idpersona
+            FROM usuarios
+        );
 END $$
+CALL spu_personas_listar();
 
 -- ##########################################################################################################################
 
@@ -44,16 +45,34 @@ END $$
 
 -- ##########################################################################################################################
 
-DELIMITER $$
-CREATE PROCEDURE spu_subcategorias_listar()
-BEGIN
-	SELECT
-		c.nomcategoria,
-		s.nomsubcategoria
-	FROM categorias c
-	INNER JOIN subcategorias s ON c.idcategoria = s.idcategoria;
-END $$
+/*DELIMITER $$
+CREATE PROCEDURE spu_subcategorias_listar(IN _idcategoria INT)
+BEGIN 
+    SELECT 
+		sub.idsubcategoria,
+		sub.nomsubcategoria
+		FROM subcategorias sub
+		WHERE sub.idcategoria = _idcategoria
+          AND sub.inactive_at IS NULL;
+END $$*/
 
+DELIMITER $$
+CREATE PROCEDURE spu_subcategorias_listar(IN _idcategoria INT)
+BEGIN 
+    SELECT 
+		sub.idsubcategoria,
+        cat.idcategoria,
+        cat.nomcategoria,
+		sub.nomsubcategoria
+		FROM subcategorias sub
+        INNER JOIN categorias cat ON cat.idcategoria = sub.idcategoria
+		WHERE sub.idcategoria = 1
+          AND sub.inactive_at IS NULL;
+END $$
+CALL spu_subcategorias_listar(1);
+
+SELECT * FROM categorias;
+SELECT * FROM subcategorias;
 -- ##########################################################################################################################
 
 DELIMITER $$
@@ -85,7 +104,7 @@ BEGIN
 		ubicaciones u
 	INNER JOIN horarios h ON u.idubicacion = h.idhorario;
 END $$
-
+CALL spu_ubicaciones_listar();
 -- ##########################################################################################################################
 
 DELIMITER $$
@@ -106,11 +125,11 @@ BEGIN
     n.tiktok,
     n.descripcion
 	FROM negocios n
-	INNER JOIN personas p ON n.idcliente = p.idpersona
+	INNER JOIN personas p ON n.idpersona = p.idpersona
 	INNER JOIN usuarios u ON n.idusuario = u.idusuario
 	INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria;
 END $$
-
+CALL spu_negocios_listar();
 -- ##########################################################################################################################
 
 DELIMITER $$
