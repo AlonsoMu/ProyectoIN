@@ -211,64 +211,81 @@
             </div>
         </div>
     </section>
-    <div class="container mt-3 d-flex justify-content-start align-items-center">
-    <!-- Icono de WhatsApp junto al botón -->
-    <a href="https://wa.me/TUNUMERODETELEFONO" target="_blank" class="whatsapp-icon">
-        <i class="bi bi-whatsapp" style="font-size: 3em; color: #25D366; margin-right: 10px;"></i>
+
+    
+
+    
+
+
+    <a href="https://wa.me/1234567890?text=hello+123" target=”_blank” class="whatsapp-btn">
+      <i class="bi bi-whatsapp"></i>
     </a>
-
-    <!-- Botón "Inicia con nosotros" -->
-    <button type="button" class="btn btn-primary">
-        Inicia con nosotros
-    </button>
-</div>
-<div class="container mt-3 d-flex align-items-center">
-    <!-- Icono de WhatsApp más grande con color negro -->
-    <a href="https://wa.me/TUNUMERODETELEFONO" target="_blank" class="whatsapp-icon">
-        <i class="bi bi-whatsapp" style="font-size: 3em; color: black;"></i>
-    </a>
-
-    <!-- Botón "Inicia con nosotros" con fondo plomo -->
-    <button type="button" class="btn ml-3" style="background-color: #A9A9A9;">
-        Inicia con nosotros
-    </button>
-</div>
+    <div class="cuadro-btn">Inicia con nosotros</div>
 
 
+    <!-- Footer -->
+    <footer class="bg-dark" id="footer">
+        <div class="container">
+            <div class="row mt-5">
 
-<!-- algo -->
-<div class="container mt-3 d-flex justify-content-start align-items-center position-relative">
-    <!-- Botón "Inicia con nosotros" -->
-    <button type="button" class="btn btn-primary position-absolute" style="z-index: 1;">
-        Inicia con nosotros
-    </button>
+                <div class="col-md-4 pt-5 text-center">
+                    <h2 class="h2 text-light pb-3 border-light">Soporte</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none text-white" href="#">Ayuda</a></li>
+                        <li><a class="text-decoration-none text-white" href="#">Términos y condiciones</a></li>
+                    </ul>
+                </div>
 
-    <!-- Icono de WhatsApp más grande y detrás del botón -->
-    <a href="https://wa.me/TUNUMERODETELEFONO" target="_blank" class="whatsapp-icon position-relative" style="z-index: 0;">
-        <i class="bi bi-whatsapp" style="font-size: 3em; color: #25D366;"></i>
-    </a>
-</div>
-<div class="container mt-3 d-flex align-items-center position-relative">
-    <!-- Icono de WhatsApp más grande -->
-    <a href="https://wa.me/TUNUMERODETELEFONO" target="_blank" class="whatsapp-icon position-absolute" style="z-index: 1;">
-        <i class="bi bi-whatsapp" style="font-size: 3em; color: #25D366;"></i>
-    </a>
+                    <div class="col-md-4 pt-5 text-center">
+                        <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
+                        <ul class="list-unstyled text-light footer-link-list">
+                            <li>
+                                <a class="text-decoration-none text-white" href="#">
+                                    <i class="bi bi-envelope"></i> Info@hotmail.com
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-decoration-none text-white" href="#">
+                                    <i class="bi bi-phone"></i> +51 985 752 963
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
-    <!-- Botón "Inicia con nosotros" -->
-    <button type="button" class="btn btn-primary ml-3">
-        Inicia con nosotros
-    </button>
-</div>
+                    <div class="col-md-4 pt-5 text-center">
+                        <h2 class="h2 text-light pb-3 border-light">Redes sociales</h2>
+                        <ul class="list-unstyled text-light d-flex justify-content-center">
+                            <li class="mx-3"><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-facebook"></i></a></li>
+                            <li class="mx-3"><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-instagram"></i></a></li>
+                            <li class="mx-3"><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-tiktok"></i></a></li>
+                            <li><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-linkedin"></i></a></li>
+                        </ul>
+                    </div>
 
-    <footer style="height:100px;">
+                
+                    
+                <div class="row pie">
+                    <div class="col-12 py-3 text-center">
+                        <div class="border-top border-light my-3"></div>
+                        <p class="text-light">
+                            &copy; 2023 Nombre - Todos los derechos reservados
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </footer>
 
-    <script src="..//js/jquery-3.3.1.min.js"></script>
-    <script src="..//js/popper.min.js"></script>
-    <script src="..//js/bootstrap.min.js"></script>
-    <script src="..//js/jquery.sticky.js"></script>
-    <script src="..//js/owl.carousel.min.js"></script>
-    <script src="..//js/main.js"></script>
+
+   
+
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.sticky.js"></script>
+    <script src="../js/owl.carousel.min.js"></script>
+    <script src="../js/main.js"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
 
   <script>
