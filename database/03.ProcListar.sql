@@ -1,6 +1,6 @@
 USE innovacion;
     
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_personas_listar()
 BEGIN
 	SELECT 
@@ -10,7 +10,7 @@ BEGIN
         numerodoc
 	FROM personas
     WHERE inactive_at IS NULL;
-END $$
+END $$*/
 
 -- ##########################################################################################################################
 

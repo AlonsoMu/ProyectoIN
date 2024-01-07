@@ -30,7 +30,6 @@ CALL spu_disponible_negocio('Domingo');
 
 
 DELIMITER $$
-
 CREATE PROCEDURE spu_disponible2_negocio(
     IN _dia_actual VARCHAR(20)
 )

@@ -4,7 +4,7 @@ use innovacion;
 
 INSERT INTO personas (apellidos, nombres, tipodoc, numerodoc) VALUES
 ('Muñoz','Alonso','DNI','74136969'),
-('Hernandez','Yorghet','DNI','78654321'),
+('Hernandez','Yorghet','DNI','72159736'),
 ('Napa','Harold','DNI','78291819');
 
 SELECT * FROM PERSONAS;
