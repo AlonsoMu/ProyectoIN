@@ -11,14 +11,14 @@
 
     <link rel="stylesheet" href="../fonts/icomoon/style.css">
 
-    <link rel="stylesheet" href="..//css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../css/owl.carousel.min.css">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="..//css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     
     <!-- Style -->
-    <link rel="stylesheet" href="..//css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     
 </head>
 

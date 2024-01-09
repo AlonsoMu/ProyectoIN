@@ -123,7 +123,7 @@
                     <h5 class="card-title">Pollería</h5>
                         <p class="card-text">Distrito: Distrito 1<br>Ubicación: Calle 123<br>
                             <i class="bi bi-whatsapp whatsapp-icon"></i> 923456789</p>
-                        <button class="btn btn-primary">Ver más <i class="bi bi-arrow-right"></i></button>
+                        <a href="menu.php" class="btn btn-primary">Ver más <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                     <h5 class="card-title">Pollería</h5>
                         <p class="card-text">Distrito: Distrito 1<br>Ubicación: Calle 123<br>
                             <i class="bi bi-whatsapp whatsapp-icon"></i> 923456789</p>
-                        <button class="btn btn-primary">Ver más <i class="bi bi-arrow-right"></i></button>
+                        <a href="menu.php" class="btn btn-primary">Ver más <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -147,7 +147,7 @@
                         <h5 class="card-title">Pollería</h5>
                             <p class="card-text">Distrito: Distrito 1<br>Ubicación: Calle 123<br>
                                 <i class="bi bi-whatsapp whatsapp-icon"></i> 923456789</p>
-                            <button class="btn btn-primary">Ver más <i class="bi bi-arrow-right"></i></button>
+                            <a href="menu.php" class="btn btn-primary">Ver más <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
