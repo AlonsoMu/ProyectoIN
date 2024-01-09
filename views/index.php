@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
         <!-- Style -->
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="..//css/style.css">
         <link rel="stylesheet" href="../css/listado.css">
     </head>
 
@@ -30,36 +30,37 @@
         </div> <!-- .site-mobile-menu -->
 
         <header class="site-navbar-wrap">
-            <div class="site-navbar site-navbar-target js-sticky-header bg-light">
-            <div class="container">
-              <div class="row align-items-center">
-                <div class="col-2">
-                  <h1 class="my-0 site-logo"><a href="index.html"><img src="../img/logo.png" alt="" height="40" /></a></h1>
-                </div>
-                <div class="col-10">
-                  <nav class="site-navigation text-right" role="navigation">
-                    <div class="container">
-                      <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3 text-dark"></span></a></div>
+      <div class="site-navbar site-navbar-target js-sticky-header" style="background-color: #5B4AFF;">
 
-                      <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
-                        <li class="active"><a href="#home-section" class="nav-link">inicio</a></li>
-                        <li><a href="#servicios" class="nav-link">servicios</a></li>
-                        <li class="has-children">
-                          <a href="#" class="nav-link"><strong>Idioma</strong></a>
-                          <ul class="dropdown arrow-top">
-                            <li><a href="#" class="nav-link">Español</a></li>
-                            <li><a href="#" class="nav-link">English</a></li>
-                            <li><a href="#" class="nav-link">Portugues</a></li>
-                          </ul>
-                        </li>
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-2">
+              <h1 class="my-0 site-logo"><a href="index.html"><img src="../img/sting.svg" alt="" height="40" /></a></h1>
+            </div>
+            <div class="col-10">
+              <nav class="site-navigation text-right" role="navigation">
+                <div class="container">
+                  <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3 text-dark"></span></a></div>
+
+                  <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
+                    <li class="active"><a href="#home-section"  style="color: #ffff" class="nav-link">inicio</a></li>
+                    <li><a href="#servicios"  class="nav-link" style="color: #ffff">servicios</a></li>
+                    <li class="has-children">
+                      <a href="#" class="nav-link" style="color: #ffff"><strong>Idioma</strong></a>
+                      <ul class="dropdown arrow-top">
+                        <li><a href="#" class="nav-link">Español</a></li>
+                        <li><a href="#" class="nav-link">English</a></li>
+                        <li><a href="#" class="nav-link">Portugues</a></li>
                       </ul>
-                    </div>
-                  </nav>
+                    </li>
+                  </ul>
                 </div>
-              </div>
+              </nav>
             </div>
           </div>
-        </header>
+        </div>
+      </div>
+    </header>
 
         <section class="espacio_eredado">
         </section>

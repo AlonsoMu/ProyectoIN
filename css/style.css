@@ -81,7 +81,7 @@ a {
       padding: 10px 5px; }
       .site-navbar .site-navigation .site-menu > li > a {
         padding: 20px 10px;
-        color: #000;
+        color: #ffffff; /* Cambio de color al menú*/
         font-size: 15px;
         text-decoration: none !important; }
         .site-navbar .site-navigation .site-menu > li > a.active {
