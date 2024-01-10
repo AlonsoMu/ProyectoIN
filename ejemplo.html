@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #menu {
+      background-color: #fff;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+    }
+
+    #menu .item {
+      color: #5c4afe;
+      text-decoration: none;
+      padding: 10px;
+      display: block;
+      background-color: #eee;
+      border-radius: 5px;
+    }
+
+    #menu a:hover {
+      background-color: #5c4afe;
+      color: #fff;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: fixed;
+      top: 153px; /* Ajusta según tus necesidades */
+      left: 0;
+      width: 100%;
+      background-color: #5c4afe;
+      z-index: 1;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .dropdown-content a {
+      color: #5c4afe;
+      padding: 12px 16px;
+      display: block;
+      text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #5c4afe;
+      color: #fff;
+    }
+
+    .item{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .dropdown img {
+      width: 16px;
+      height: 16px;
+      margin-left: 5px;
+    }
+
+    .separator {
+      margin: 0 10px;
+      color: #fff;
+    }
+
+    .contebtn{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 50px;
+      padding: 50px;
+      flex: 1;
+    }
+
+    .botones{
+        background-color: #fff;
+        color: #5c4afe;
+        border: none;
+        border-radius: 4px;
+        padding: 18px 14px;
+        cursor: pointer;
+        width: 110px;
+        width: calc(25% - 10px); 
+    }
+    .botones:hover{
+        background-color: #00e7ad;
+        color: #fff;
+    }
+
+    /* Media query para pantallas más pequeñas */
+    @media screen and (max-width: 600px) {
+      .dropdown-content {
+        top: 40px; /* Ajusta según tus necesidades */
+      }
+
+      .dropdown-content a {
+        width: calc(33.33% - 16px); /* Ajusta según tus necesidades */
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="cont">
+    <div>
+        <h1 style="color: #5c4afe;text-align:center;font-size:22px;" >¿Que lugar deseas encontrar?</h1>
+        <br>
+        <span style="display: flex;justify-content:center;align-items:center;gap:5px;" ><?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+            <svg fill="#000000" width="12px" height="12px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="16"/>
+            </svg>
+            <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+            <svg fill="#5c4afe" width="12px" height="12px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="16"/>
+            </svg>
+            <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+            <svg fill="#07e3ac" width="12px" height="12px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="16"/>
+            </svg>
+        </span>
+        <br>
+    </div>
+</div>
+<div id="menu">
+  <span style="color: #9a9a9c;" >Todos los negocios</span>
+  <span style="color: #9a9a9c;" class="separator">|</span>
+  <div class="dropdown">
+    <a class="item" href="#">Hoteles <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"  ><path fill="#00e7ad" d="M12.78 5.22a.749.749 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.06 0L3.22 6.28a.749.749 0 1 1 1.06-1.06L8 8.939l3.72-3.719a.749.749 0 0 1 1.06 0Z"></path></svg></a>
+    <div class="dropdown-content">
+        <div class="contebtn">
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+          </div>
+    </div>
+  </div>
+  <div class="dropdown">
+    <a class="item" href="#">Farmacias <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill="#00e7ad" d="M12.78 5.22a.749.749 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.06 0L3.22 6.28a.749.749 0 1 1 1.06-1.06L8 8.939l3.72-3.719a.749.749 0 0 1 1.06 0Z"></path></svg></a>
+    <div class="dropdown-content">
+    <div class="contebtn">
+      <button class="botones" >Tradicional</button>
+      <button class="botones" >Tradicional</button>
+      <button class="botones" >Tradicional</button>
+      <button class="botones" >Tradicional</button>
+      <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+    </div>
+    </div>
+  </div>
+  <div class="dropdown">
+    <a class="item" href="#">Restaurantes <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill="#00e7ad" d="M12.78 5.22a.749.749 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.06 0L3.22 6.28a.749.749 0 1 1 1.06-1.06L8 8.939l3.72-3.719a.749.749 0 0 1 1.06 0Z"></path></svg></a>
+    <div class="dropdown-content">
+        <div class="contebtn">
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+          </div>
+    </div>
+  </div>
+  <div class="dropdown">
+    <a class="item" href="#">Bodegas<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path fill="#00e7ad" d="M12.78 5.22a.749.749 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.06 0L3.22 6.28a.749.749 0 1 1 1.06-1.06L8 8.939l3.72-3.719a.749.749 0 0 1 1.06 0Z"></path></svg></a>
+    <div class="dropdown-content">
+        <div class="contebtn">
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+            <button class="botones" >Tradicional</button>
+          </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
