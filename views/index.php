@@ -44,9 +44,9 @@
 
                   <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
                     <li class="active"><a href="#home-section"  style="color: #ffff" class="nav-link">inicio</a></li>
-                    <li><a href="#servicios"  class="nav-link" style="color: #ffff">servicios</a></li>
+                    <li><a href="#servicios"  class="nav-link">servicios</a></li>
                     <li class="has-children">
-                      <a href="#" class="nav-link" style="color: #ffff"><strong>Idioma</strong></a>
+                      <a href="#" class="nav-link"><strong>Idioma</strong></a>
                       <ul class="dropdown arrow-top">
                         <li><a href="#" class="nav-link">Español</a></li>
                         <li><a href="#" class="nav-link">English</a></li>
