@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     
     <!-- Style -->
-    <link rel="stylesheet" href="..//css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     
 </head>
 
@@ -34,7 +34,7 @@
     </div> <!-- .site-mobile-menu -->
 
     <header class="site-navbar-wrap">
-      <div class="site-navbar site-navbar-target js-sticky-header" style="background-color: #5B4AFF;">
+      <div class="site-navbar site-navbar-target js-sticky-header sting">
 
         <div class="container">
           <div class="row align-items-center">
@@ -66,7 +66,7 @@
       </div>
     </header>
 
-    <section class="portada" style="background-image: url('../img/Ken-Buck.jpg');">
+    <section class="portada" style="background-image: url('../img/portada.jpg');">
         <div class="cuadro-encima2">
             <i class="bi bi-clock"></i>
             <p class="text-light">Hoy Abierto</p>
@@ -79,11 +79,11 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <!-- Primera sección con el título -->
-                                <h3 class="card-title">Chifa Oriental</h3>
+                                <h3 class="card-title text-sting">Chifa Oriental</h3>
                             </div>
                             <div class="col-md-4">
                                 <!-- Segunda sección con estrellas de valoración -->
-                                <div class="stars">
+                                <div class="stars estrella-sting">
                                     <!-- Estrellas de valoración -->
                                     <i class="bi bi-star-fill"></i>
                                     <i class="bi bi-star-fill"></i>
@@ -123,7 +123,7 @@
     <section class="width100">
         <div class="container mt-l">
             <!-- TEXT -->
-            <h1 class="font24 font-weight-bold">Acerca de...</h1>
+            <h1 class="font24 text-sting">Acerca de...</h1>
             
             <!-- CONTENIDO -->
             <p>Lorem ipsum dolor sit amet consectetur adipiscing elit ad mattis, varius phasellus hendrerit metus cum faucibus nec gravida cras sagittis, vivamus sociosqu curabitur sapien velit dictum fringilla sodales. Venenatis aenean auctor facilisi litora accumsan quis dui. Aptent cursus  nostra a eu elementum fermentum donec dui. Aptent cursus congue mus interdum mauris risus.</p>
@@ -131,10 +131,10 @@
     </section>
 
     <!-- GALERIA -->
-    <section class="width100 bg-light">
+    <section class="width100 sting">
         <div class="container mt-5 py-5">
             <!-- TITULO -->
-            <h1 class="font24 font-weight-bold lineabaja mb-5">Galería de fotos</h1>
+            <h1 class="font24 text-blanco lineabaja mb-5">Galería de fotos</h1>
             
             <!-- IMAGENES -->
             <div class="owl-2-style">
@@ -166,7 +166,7 @@
     <!-- VISITANOS -->
     <section class="width100">        
         <!-- TITULO -->
-        <h1 class="font24 font-weight-bold lineabaja my-5">Visítanos</h1>
+        <h1 class="font24 text-sting lineabaja my-5">Visítanos</h1>
     </section>
 
     <!-- MAPA -->
@@ -178,7 +178,7 @@
     <section class="width100">        
         <div class="container mt-5">
             <!-- TITULO -->
-            <h1 class="font24 font-weight-bold lineabaja my-5">Horario de atención</h1>
+            <h1 class="font24 text-sting lineabaja my-5">Horario de atención</h1>
 
             <div class="row utils justify-content-center">
                 <span class="border">
@@ -221,11 +221,11 @@
     <a href="https://wa.me/1234567890?text=hello+123" target=”_blank” class="whatsapp-btn">
       <i class="bi bi-whatsapp"></i>
     </a>
-    <div class="cuadro-btn">Inicia con nosotros</div>
+    <div class="cuadro-btn text-sting">Inicia con nosotros</div>
 
 
     <!-- Footer -->
-    <footer class="bg-dark" id="footer">
+    <footer class="footer-sting" id="footer">
         <div class="container">
             <div class="row mt-5">
 

@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
         <!-- Style -->
-        <link rel="stylesheet" href="..//css/style.css">
+        <link rel="stylesheet" href="../css/style.css">
         <link rel="stylesheet" href="../css/listado.css">
     </head>
 

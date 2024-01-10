@@ -501,12 +501,12 @@ a {
 /* WSP */
 .cuadro-btn{position:fixed; bottom:22px; right:40px; z-index:8888; width:150px; height:55px; border-radius:8px; padding-left:50px; line-height:15px; background-color:#FFF; display:flex; align-items:center; justify-content:center; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;}
 
-.whatsapp-btn{position:fixed; bottom:20px; right:160px; z-index:9999; width:60px; height:60px; border-radius:50%; background-color:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(0, 0, 0, 0.3);
+.whatsapp-btn{position:fixed; bottom:20px; right:160px; z-index:9999; width:60px; height:60px; border-radius:50%; background-color:#5B4AFF; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(0, 0, 0, 0.3);
   animation: breathe 2s ease-in-out infinite;}
 .whatsapp-btn i{color:#fff; font-size:24px; animation:beat 2s ease-in-out infinite; text-decoration:none;}
 @keyframes breathe{
   0% {
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+    box-shadow: 0 0 0 0 rgba(91, 74, 255);
   }
   70% {
     box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
@@ -554,3 +554,37 @@ a {
     .pie{margin-right:0px; margin-left:0px;}
     
 }
+
+/* color de sting  */
+.sting{
+  background-color: #5B4AFF;
+}
+
+
+/* color de footer  */
+.footer-sting{
+  background-color: #010039;
+  ;
+}
+
+/* color de footer  */
+.text-sting{
+  color: #5B4AFF;
+  font-weight: bold;
+  font-weight: 200px;
+}
+
+/* texto blanco relleno  */
+.text-blanco{
+  color: #FFF;
+  font-weight: bold;
+  font-weight: 200px;
+}
+
+/* color estrellas */
+
+.estrella-sting{
+  color:#0AFFC2;
+}
+
+
