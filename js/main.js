@@ -114,5 +114,27 @@ $(function() {
           }
       });            
   }
+});
 
+
+/* KIOSCO */
+function kiosco(evt, negocioName) {
+	var i, x, tab;
+	x = document.getElementsByClassName("nego_acti");
+	for (i = 0; i < x.length; i++) {
+	  x[i].style.display = "none";
+	}
+
+	tab = document.getElementsByClassName("tabs");
+	for (i = 0; i < x.length; i++) {
+	  tab[i].className = tab[i].className.replace(" corrector_nav_hover", "");
+	}
+	
+	document.getElementById(negocioName).style.display = "block";
+	evt.currentTarget.className += " corrector_nav_hover";
+}
+
+$(".topright").click(function(){
+	this.parentElement.style.display="none";
+	$(".tabs").removeClass('corrector_nav_hover');
 });

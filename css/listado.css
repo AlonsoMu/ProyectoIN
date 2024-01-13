@@ -1,13 +1,21 @@
 /* Estilo personalizado para las tarjetas */
 .custom-card2 {
-    background-color: #e9ecef; /* Color de fondo de las tarjetas */
+    background-color: #5B4AFF; /* Color de fondo de las tarjetas */
     margin:20px 0; /* Espaciado entre las tarjetas */
     padding: 5px; /* Espaciado dentro de las tarjetas */
     max-width: 700px; /* Ancho máximo del cuadro de la tarjeta */
+    border-radius:10px;
 }
 
+.card-title{color:#FFF; font-size:18px; font-weight:600; margin-bottom:20px;}
+.card-text{color:#FFF;}
+.card-text span{font-weight:600;}
+.wsp{width:23px!important; border:0px!important; border-radius:0px!important;}
+.vermas{background-color:#00E7AD; color:#5B4AFF; border-radius:20px; font-size:14px; padding:5px 25px; font-weight:600;}
+.background_cote{background-color:#EFEDFF;}
+
 .custom-card2 img {
-    max-height: 150px; /* Establece la altura máxima de la imagen */
+    max-height: 220px; /* Establece la altura máxima de la imagen */
     width: auto; /* Permite que el ancho se ajuste automáticamente */
     border: 2px solid rgba(0, 0, 0, 0); /* Borde de 2px sólido, puedes cambiar el color si lo deseas */
     border-radius: 10px; /* Borde redondeado */

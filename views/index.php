@@ -20,18 +20,18 @@
     </head>
 
     <body>
-        <div class="site-mobile-menu site-navbar-target">
-          <div class="site-mobile-menu-header">
-            <div class="site-mobile-menu-close mt-3">
-              <span class="icon-close2 js-menu-toggle"></span>
-            </div>
-          </div>
-          <div class="site-mobile-menu-body"></div>
-        </div> <!-- .site-mobile-menu -->
 
-        <header class="site-navbar-wrap">
-      <div class="site-navbar site-navbar-target js-sticky-header" style="background-color: #5B4AFF;">
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
 
+    <header class="site-navbar-wrap">
+      <div class="site-navbar site-navbar-target js-sticky-header">
         <div class="container">
           <div class="row align-items-center">
             <div class="col-2">
@@ -43,8 +43,8 @@
                   <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3 text-dark"></span></a></div>
 
                   <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
-                    <li class="active"><a href="#home-section"  style="color: #ffff" class="nav-link">inicio</a></li>
-                    <li><a href="#servicios"  class="nav-link">servicios</a></li>
+                    <li><a href="#home-section"   class="nav-link">Inicio</a></li>
+                    <li><a href="#servicios"  class="nav-link" >Servicios</a></li>
                     <li class="has-children">
                       <a href="#" class="nav-link"><strong>Idioma</strong></a>
                       <ul class="dropdown arrow-top">
@@ -65,99 +65,165 @@
         <section class="espacio_eredado">
         </section>
         <div class="container mt-5 text-center">
-            <h1>¿Qué lugar deseas encontrar?</h1>
+            <h1 class="nav_titulo mb-5 lineabajo">¿Qué lugar deseas encontrar?</h1>
             <div class="d-flex justify-content-center mt-4 valor_c">
-                <a class="nav-link corrector_nav" data-bs-toggle="collapse" href="#negocios">Todos</a>
-                    <span class="text-muted mx-3"> | </span>
-                <a class="nav-link corrector_nav" data-bs-toggle="collapse" href="#hoteles">Hoteles</a>
-                    <span class="text-muted mx-3"> | </span>
-                <a class="nav-link corrector_nav" data-bs-toggle="collapse" href="#farmacias">Farmacias</a>
-                    <span class="text-muted mx-3"> | </span>
-                <a class="nav-link corrector_nav" data-bs-toggle="collapse" href="#restaurantes">Restaurantes</a>
-                    <span class="text-muted mx-3"> | </span>
-                <a class="nav-link corrector_nav" data-bs-toggle="collapse" href="#bodegas">Bodegas</a>
+                <a class="nav-link corrector_nav1" data-bs-toggle="collapse" href="#negocios">Todos los negocios</a>
+                    <span class="text-muted mx-3 m-division"> | </span>
+                <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'hoteles')">Hoteles <i class="bi bi-chevron-down"></i></a>
+                <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'farmacias')">Farmacias <i class="bi bi-chevron-down"></i></a>
+                <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'restaurantes')">Restaurantes <i class="bi bi-chevron-down"></i></a>
+                <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'bodegas')">Bodegas <i class="bi bi-chevron-down"></i></a>
+            </div>
+        </div>
+
+        <div class="w-100 bg-azul reor">
+            <div id="hoteles" class="pb-5 w-820 text-center nego_acti" style="display:none;">
+                <span class="topright">&times</span>
+                <div class="row pb-4">
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                </div>
+                <div class="row">
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Criollos</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Tradicional</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Extranjeros</button></div>
+                </div>
+            </div>
+
+            <div id="farmacias" class="pb-5 w-820 text-center nego_acti" style="display:none;">
+                <span class="topright">&times</span>
+                <div class="row pb-4">
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Comida rapidas</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Otros</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Criollos</button></div>
+                </div>
+                <div class="row">
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                </div>
+            </div>
+
+            <div id="restaurantes" class="pb-5 w-820 text-center nego_acti" style="display:none;">
+                <span class="topright">&times</span>
+                <div class="row pb-4">
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                </div>
+                <div class="row">
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Mariscos</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Extranjeros</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Otros</button></div>
+                </div>
+            </div>
+
+            <div id="bodegas" class="pb-5 w-820 text-center nego_acti" style="display:none;">
+                <span class="topright">&times</span>
+                <div class="row pb-4">
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Tradicional</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Criollos</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Extranjeros</button></div>
+                </div>
+                <div class="row">
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+                </div>
             </div>
         </div>
 
         <div class="container mt-4 d-flex justify-content-center">
             <div class="input-group" style="max-width: 700px;">
-                <input type="search" id="form1" class="form-control" />
+                <input type="search" id="form1" class="form-control" placeholder="Buscar..." />
                 <button type="button" class="bus btn btn-primary">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </div>
 
-        <div class="container mt-3 d-flex justify-content-start">
-            <div class="input-group my-5" style="max-width: 300px;">
+        <div class="container mt-5">
+            <div class="container">
+            <div class="row">
+                <label>
+                    Filtrar por <i class="bi bi-funnel-fill"></i>
+                </label>
+            </div>
+            <div class="row pt-4 distritoc" style="max-width: 300px;">
+                <label class="pr-3">Distrito: </label>
                 <select class="form-select" aria-label="Selecciona un distrito">
-                    <option selected>Selecciona un distrito</option>
+                    <option selected>Selecciona</option>
                     <option value="distrito1">Distrito 1</option>
                     <option value="distrito2">Distrito 2</option>
                     <option value="distrito3">Distrito 3</option>
                     <!-- Agrega más opciones según sea necesario -->
                 </select>
-                <button type="button" class="bus btn btn-primary">
-                    <i class="bi bi-filter"></i> Filtrar
-                </button>
+            </div>
             </div>
         </div>
 
         <!-- Tarjetas con información -->
-        <div class="container mt-4">
+        <div class="container mt-5">
             <div class="card custom-card2">
                 <div class="card-body d-flex align-items-center">
-                    <img src="../img/ComerJordan.jpg" alt="Imagen de la tarjeta">
+                    <img src="../img/negocio.svg" alt="Imagen de la tarjeta">
                     <div>
-                    <h5 class="card-title">Pollería</h5>
-                        <p class="card-text">Distrito: Distrito 1<br>Ubicación: Calle 123<br>
-                            <i class="bi bi-whatsapp whatsapp-icon"></i> 923456789</p>
-                        <a href="menu.php" class="btn btn-primary">Ver más <i class="bi bi-arrow-right"></i></a>
+                    <h5 class="card-title">Lorem ipsum sit amet</h5>
+                        <p class="card-text"><span>Distrito:</span> Sit amet consectetur<br>
+                                             <span>Ubicación:</span> Sit amet consectetur<br>
+                        <img src="../img/whatsapp_10.svg" class="wsp" /> 923456789</p>
+                        <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
 
             <div class="card custom-card2">
                 <div class="card-body d-flex align-items-center">
-                    <img src="../img/GettyImages-1241089605.png" alt="Imagen de la tarjeta">
+                    <img src="../img/negocio.svg" alt="Imagen de la tarjeta">
                     <div>
-                    <h5 class="card-title">Pollería</h5>
-                        <p class="card-text">Distrito: Distrito 1<br>Ubicación: Calle 123<br>
-                            <i class="bi bi-whatsapp whatsapp-icon"></i> 923456789</p>
-                        <a href="menu.php" class="btn btn-primary">Ver más <i class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <!-- Agrega más tarjetas según sea necesario -->
-            <div class="card custom-card2">
-                <div class="card-body d-flex align-items-center">
-                    <img src="../img/Ken-Buck.jpg" alt="Imagen de la tarjeta">
-                    <div>
-                    <h5 class="card-title">Pollería</h5>
-                        <p class="card-text">Distrito: Distrito 1<br>Ubicación: Calle 123<br>
-                            <i class="bi bi-whatsapp whatsapp-icon"></i> 923456789</p>
-                        <a href="menu.php" class="btn btn-primary">Ver más <i class="bi bi-arrow-right"></i></a>
+                    <h5 class="card-title">Lorem ipsum sit amet</h5>
+                        <p class="card-text"><span>Distrito:</span> Sit amet consectetur<br>
+                                             <span>Ubicación:</span> Sit amet consectetur<br>
+                        <img src="../img/whatsapp_10.svg" class="wsp" /> 923456789</p>
+                        <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
 
             <div class="card custom-card2">
                 <div class="card-body d-flex align-items-center">
-                    <img src="../img/Rettig-Hearing.jpeg" alt="Imagen de la tarjeta">
+                    <img src="../img/negocio.svg" alt="Imagen de la tarjeta">
                     <div>
-                        <h5 class="card-title">Pollería</h5>
-                            <p class="card-text">Distrito: Distrito 1<br>Ubicación: Calle 123<br>
-                                <i class="bi bi-whatsapp whatsapp-icon"></i> 923456789</p>
-                            <a href="menu.php" class="btn btn-primary">Ver más <i class="bi bi-arrow-right"></i></a>
+                    <h5 class="card-title">Lorem ipsum sit amet</h5>
+                        <p class="card-text"><span>Distrito:</span> Sit amet consectetur<br>
+                                             <span>Ubicación:</span> Sit amet consectetur<br>
+                        <img src="../img/whatsapp_10.svg" class="wsp" /> 923456789</p>
+                        <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
+
+            <div class="card custom-card2">
+                <div class="card-body d-flex align-items-center">
+                    <img src="../img/negocio.svg" alt="Imagen de la tarjeta">
+                    <div>
+                    <h5 class="card-title">Lorem ipsum sit amet</h5>
+                        <p class="card-text"><span>Distrito:</span> Sit amet consectetur<br>
+                                             <span>Ubicación:</span> Sit amet consectetur<br>
+                        <img src="../img/whatsapp_10.svg" class="wsp" /> 923456789</p>
+                        <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
 
 
 
     
-        <div class="w-100 p-3 bg-light mt-5">
+        <div class="w-100 p-3 background_cote mt-5">
         <section class="container-920">
         <div class="container text-center my-3">
             <!-- IMAGENES -->
@@ -195,55 +261,56 @@
 
 
     <!-- Footer -->
-    <footer class="bg-dark" id="footer">
-        <div class="container">
+    <footer id="footer" class="bg-footer">
+        <div class="container mb-5">
             <div class="row">
 
-                <div class="col-md-4 pt-5 text-center">
-                    <h2 class="h2 text-light pb-3 border-light">Soporte</h2>
+                <div class="col-md-4 pt-5 text-left">
+                    <h2 class="h2 text-light pb-3 border-light"><img src="../img/sting.svg" alt="" height="40"></h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none text-white" href="#">Ayuda</a></li>
-                        <li><a class="text-decoration-none text-white" href="#">Términos y condiciones</a></li>
+                        <li>Creativos, Estratégicos <br/>e Innovadores</li>
                     </ul>
                 </div>
 
-                    <div class="col-md-4 pt-5 text-center">
-                        <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
-                        <ul class="list-unstyled text-light footer-link-list">
-                            <li>
-                                <a class="text-decoration-none text-white" href="#">
-                                    <i class="bi bi-envelope"></i> Info@hotmail.com
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-decoration-none text-white" href="#">
-                                    <i class="bi bi-phone"></i> +51 985 752 963
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="col-md-4 pt-5 text-left">
+                    <h2 class="h2 text-light pb-3 border-light">Síguenos</h2>
+                    <ul class="list-unstyled text-light d-flex justify-content-left">
+                        <li class="pr-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon _facebook.svg" /></a></li>
+                        <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon _instagram.svg" /></a></li>
+                        <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon_logo_behance.svg" /></a></li>
+                        <li class="pl-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon_tiktok.svg" /></a></li>
+                    </ul>
+                </div>
 
-                    <div class="col-md-4 pt-5 text-center">
-                        <h2 class="h2 text-light pb-3 border-light">Redes sociales</h2>
-                        <ul class="list-unstyled text-light d-flex justify-content-center">
-                            <li class="mx-3"><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-facebook"></i></a></li>
-                            <li class="mx-3"><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-instagram"></i></a></li>
-                            <li class="mx-3"><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-tiktok"></i></a></li>
-                            <li><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-linkedin"></i></a></li>
-                        </ul>
-                    </div>
+                <div class="col-md-4 pt-5 text-left">
+                    <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li>Lorem ipsum dolor sit am secta emy dipiscing, elit netus pharetra copy condimentum lacus.</li>
+                        <li class="py-3">
+                            <a class="text-decoration-none text-white" href="#">
+                                <img src="../img/buzon.svg" /> stingstudio.chincha@gmail.com
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-decoration-none text-white" href="#">
+                                <img src="../img/phone.svg" /> +51 907 233 783
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
-                
-                    
+            </div>
+        </div>
+
+        <div class="w-100 bg-footer linen pt-3">
+            <div class="container">
                 <div class="row pie">
                     <div class="col-12 py-3 text-center">
-                        <div class="border-top border-light my-3"></div>
                         <p class="text-light">
-                            &copy; 2023 Nombre - Todos los derechos reservados
+                            &copy; Sting Studio 2024 | Creativos, Estratégicos e Innovadores
                         </p>
                     </div>
                 </div>
-
             </div>
         </div>
     </footer>

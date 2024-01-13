@@ -47,8 +47,8 @@
                   <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3 text-dark"></span></a></div>
 
                   <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
-                    <li class="active"><a href="#home-section"  style="color: #ffff" class="nav-link">inicio</a></li>
-                    <li><a href="#servicios"  class="nav-link">servicios</a></li>
+                    <li><a href="#home-section"  class="nav-link">Inicio</a></li>
+                    <li><a href="#servicios"  class="nav-link">Servicios</a></li>
                     <li class="has-children">
                       <a href="#" class="nav-link"><strong>Idioma</strong></a>
                       <ul class="dropdown arrow-top">
@@ -68,8 +68,8 @@
 
     <section class="portada" style="background-image: url('../img/portada.jpg');">
         <div class="cuadro-encima2">
-            <i class="bi bi-clock"></i>
-            <p class="text-light">Hoy Abierto</p>
+            <i class="bi bi-clock icon-sting"></i>
+            <p class="text-sting">Hoy Abierto</p>
         </div>
         <div class="cuadro-encima">
             <!-- Contenido del cuadro encima de la portada -->
@@ -96,21 +96,22 @@
                         <div class="row mt-4">
                             <div class="col-md-4 limitador spacing1">
                                 <!-- Sección de imagen -->
-                                <img src="../img/logo.png" class="img-fluid" alt="Imagen">
+                                <img src="../img/oriental.jpg" class="img-fluid" alt="Imagen">
                             </div>
                             <div class="col-md-4 limitador spacing2 demimv">
                                 <!-- Sección con lista de redes sociales -->
                                 <div class="social-list">
-                                    <p><i class="bi bi-facebook font14"></i> Facebook</p>
-                                    <p><i class="bi bi-whatsapp font14"></i> WhatsApp</p>
-                                    <p><i class="bi bi-instagram font14"></i> Instagram</p>
-                                    <p><i class="bi bi-tiktok font14"></i> TikTok</p>
+                                    <p><i class="bi bi-facebook font14 icon-sting"></i> Facebook</p>
+                                    <p><i class="bi bi-whatsapp font14 icon-sting"></i> WhatsApp</p>
+                                    <p><i class="bi bi-instagram font14 icon-sting"></i> Instagram</p>
+                                    <p><i class="bi bi-tiktok font14 icon-sting"></i> TikTok</p>
                                 </div>
                             </div>
-                            <div class="col-md-4 spacing2 demimv">
-                                <!-- Sección con dirección aleatoria y icono de ubicación -->
-                                <!-- Icono de ubicación -->
-                                <p><i class="bi bi-geo-alt font14"></i>Dirección: Dirección Aleatoria</p>
+                            <div class="col-md-4 limitador spacing2 demimv">
+                                <div class="social-list">
+                                    <p><i class="bi bi-geo-alt font14 icon-sting"></i>Paseo la Breña N° 274-Huancayo</p>
+                                    <p><i class="bi bi-browser-chrome font14 icon-sting"></i>www.chifaoriental.com</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -181,33 +182,33 @@
             <h1 class="font24 text-sting lineabaja my-5">Horario de atención</h1>
 
             <div class="row utils justify-content-center">
-                <span class="border">
-                    <h3 class="font20 font-weight-bold mt-4">Lunes</h3>
-                    <p class="font12">2pm - 10pm</p>
+                <span class="border dia_noactivo">
+                    <h3 class="font20 font-weight-bold mt-4 text-sting">Lunes</h3>
+                    <p class="font12 font-weight-bold">2pm - 10pm</p>
                 </span>
-                <span class="border">
-                    <h3 class="font20 font-weight-bold mt-4">Martes</h3>
-                    <p class="font12">2pm - 10pm</p>
+                <span class="border dia_noactivo">
+                    <h3 class="font20 font-weight-bold mt-4 text-sting">Martes</h3>
+                    <p class="font12 font-weight-bold">2pm - 10pm</p>
                 </span>
-                <span class="border">
-                    <h3 class="font20 font-weight-bold mt-4">Miercoles</h3>
-                    <p class="font12">2pm - 10pm</p>
+                <span class="border dia_noactivo">
+                    <h3 class="font20 font-weight-bold mt-4 text-sting">Miercoles</h3>
+                    <p class="font12 font-weight-bold">2pm - 10pm</p>
                 </span>
                 <span class="border dia_activo">
-                    <h3 class="font20 font-weight-bold mt-4">Jueves</h3>
-                    <p class="font12">2pm - 10pm</p>
+                    <h3 class="font20 font-weight-bold mt-4 text-sting">Jueves</h3>
+                    <p class="font12 font-weight-bold">2pm - 10pm</p>
                 </span>
-                <span class="border">
-                    <h3 class="font20 font-weight-bold mt-4">Viernes</h3>
-                    <p class="font12">2pm - 10pm</p>
+                <span class="border dia_noactivo">
+                    <h3 class="font20 font-weight-bold mt-4 text-sting">Viernes</h3>
+                    <p class="font12 font-weight-bold">2pm - 10pm</p>
                 </span>
-                <span class="border">
-                    <h3 class="font20 font-weight-bold mt-4">Sábado</h3>
-                    <p class="font12">2pm - 10pm</p>
+                <span class="border dia_noactivo">
+                    <h3 class="font20 font-weight-bold mt-4 text-sting">Sábado</h3>
+                    <p class="font12 font-weight-bold">2pm - 10pm</p>
                 </span>
-                <span class="border">
-                    <h3 class="font20 font-weight-bold mt-4">Domingo</h3>
-                    <p class="font12">2pm - 10pm</p>
+                <span class="border dia_noactivo">
+                    <h3 class="font20 font-weight-bold mt-4 text-sting">Domingo</h3>
+                    <p class="font12 font-weight-bold">2pm - 10pm</p>
                 </span>
             </div>
         </div>
@@ -225,55 +226,56 @@
 
 
     <!-- Footer -->
-    <footer class="footer-sting" id="footer">
-        <div class="container">
-            <div class="row mt-5">
+    <footer id="footer" class="bg-footer">
+        <div class="container mt-5">
+            <div class="row">
 
-                <div class="col-md-4 pt-5 text-center">
-                    <h2 class="h2 text-light pb-3 border-light">Soporte</h2>
+                <div class="col-md-4 pt-5 text-left">
+                    <h2 class="h2 text-light pb-3 border-light"><img src="../img/sting.svg" alt="" height="40"></h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none text-white" href="#">Ayuda</a></li>
-                        <li><a class="text-decoration-none text-white" href="#">Términos y condiciones</a></li>
+                        <li>Creativos, Estratégicos <br/>e Innovadores</li>
                     </ul>
                 </div>
 
-                    <div class="col-md-4 pt-5 text-center">
-                        <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
-                        <ul class="list-unstyled text-light footer-link-list">
-                            <li>
-                                <a class="text-decoration-none text-white" href="#">
-                                    <i class="bi bi-envelope"></i> Info@hotmail.com
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-decoration-none text-white" href="#">
-                                    <i class="bi bi-phone"></i> +51 985 752 963
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="col-md-4 pt-5 text-left">
+                    <h2 class="h2 text-light pb-3 border-light">Síguenos</h2>
+                    <ul class="list-unstyled text-light d-flex justify-content-left">
+                        <li class="pr-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon _facebook.svg" /></a></li>
+                        <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon _instagram.svg" /></a></li>
+                        <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon_logo_behance.svg" /></a></li>
+                        <li class="pl-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon_tiktok.svg" /></a></li>
+                    </ul>
+                </div>
 
-                    <div class="col-md-4 pt-5 text-center">
-                        <h2 class="h2 text-light pb-3 border-light">Redes sociales</h2>
-                        <ul class="list-unstyled text-light d-flex justify-content-center">
-                            <li class="mx-3"><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-facebook"></i></a></li>
-                            <li class="mx-3"><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-instagram"></i></a></li>
-                            <li class="mx-3"><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-tiktok"></i></a></li>
-                            <li><a class="text-decoration-none text-white fs-4" href="#"><i class="bi bi-linkedin"></i></a></li>
-                        </ul>
-                    </div>
+                <div class="col-md-4 pt-5 text-left">
+                    <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li>Lorem ipsum dolor sit am secta emy dipiscing, elit netus pharetra copy condimentum lacus.</li>
+                        <li class="py-3">
+                            <a class="text-decoration-none text-white" href="#">
+                                <img src="../img/buzon.svg" /> stingstudio.chincha@gmail.com
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-decoration-none text-white" href="#">
+                                <img src="../img/phone.svg" /> +51 907 233 783
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
-                
-                    
+            </div>
+        </div>
+
+        <div class="w-100 bg-footer linen pt-3">
+            <div class="container">
                 <div class="row pie">
                     <div class="col-12 py-3 text-center">
-                        <div class="border-top border-light my-3"></div>
                         <p class="text-light">
-                            &copy; 2023 Nombre - Todos los derechos reservados
+                            &copy; Sting Studio 2024 | Creativos, Estratégicos e Innovadores
                         </p>
                     </div>
                 </div>
-
             </div>
         </div>
     </footer>
