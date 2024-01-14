@@ -1,3 +1,15 @@
+<?php
+  session_start(); // Crea o hereda la sessión
+
+  if (!isset($_SESSION["status"]) || $_SESSION["status"] == false || $_SESSION["nivelacceso"] !== "ADM") {
+  // if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
+    # code...
+    echo "<h1 class='mt-5 text-center'>Acesso denegado 🤨 </h1>";
+    echo "<a href='./index.php'>Iniciar Sesión</a>";
+    exit();
+    /* NO SE PORQE NO FUNCIOAN */
+  }
+  ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -52,10 +64,13 @@
             </ul>
             
             <ul class="logout-mode">
-                <li><a href="#">
-                    <i class="uil uil-signout"></i>
-                    <span class="link-name">Logout</span>
-                </a></li>
+                <li>
+                    <a href="../../controllers/usuario.controller.php?operacion=destroy">
+                        <i class="uil uil-signout"></i>
+                        <span class="link-name">Logout</span>
+                    </a>
+                </li>
+                
 
                 <li class="mode">
                     <a href="#">

@@ -15,8 +15,8 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
         <!-- Style -->
-        <link rel="stylesheet" href="../css/style.css">
-        <link rel="stylesheet" href="../css/listado.css">
+        <link rel="stylesheet" href="..//css/style.css">
+        <link rel="stylesheet" href="..//css/listado.css">
     </head>
 
     <body>
@@ -319,15 +319,15 @@
 
         
         <!-- Bootstrap JavaScript Libraries -->
-        <script src="../js/jquery-3.3.1.min.js"></script>
-        <script src="../js/popper.min.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
+        <script src="..//js/jquery-3.3.1.min.js"></script>
+        <script src="..//js/popper.min.js"></script>
+        <script src="..//js/bootstrap.min.js"></script>
 
        
 
-        <script src="../js/jquery.sticky.js"></script>
-        <script src="../js/owl.carousel.min.js"></script>
-        <script src="../js/main.js"></script>
+        <script src="..//js/jquery.sticky.js"></script>
+        <script src="..//js/owl.carousel.min.js"></script>
+        <script src="..//js/main.js"></script>
 
        
     </body>
