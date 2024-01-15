@@ -3,7 +3,7 @@ session_start();
 
 
 if (isset($_SESSION["status"]) && $_SESSION["status"]) {
-  header("./administrador.html");
+  header("./administrador.php");
 }
 
 ?>
@@ -12,6 +12,9 @@ if (isset($_SESSION["status"]) && $_SESSION["status"]) {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="../../css/bootstrap.min.css"> -->
+    <!-- SweetAlert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Iniciar sesión</title>
     <style>
       body {
@@ -118,40 +121,39 @@ if (isset($_SESSION["status"]) && $_SESSION["status"]) {
       }
 
       @media screen and (max-width: 600px) {
-  .login-container {
-    width: 80%;
-  }
+        .login-container {
+          width: 80%;
+        }
 
-  .form-group button {
-    width: 100%;
-  }
-  .login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+        .form-group button {
+          width: 100%;
+        }
+        .login-form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
 
-.form-group button {
-  width: 100%;
-  max-width: 200px; /* Ajusta según sea necesario */
-  margin: 0 auto;
-}
+        .form-group button {
+          width: 100%;
+          max-width: 200px; /* Ajusta según sea necesario */
+          margin: 0 auto;
+        }
 
-}
-@media screen and (max-width: 600px) {
-  .circular-icon {
-    width: 50px;
-    height: 50px;
-    top: -30px;
-  }
-}
-
-
+      }
+      @media screen and (max-width: 600px) {
+        .circular-icon {
+          width: 50px;
+          height: 50px;
+          top: -30px;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="login-container">
       <div class="circular-icon"><img src="../../img/login.svg" alt="Imagen de perfil"></div>
+      <br>
       <h2>Iniciar sesión</h2>
       <form class="login-form" autocomplete="off" id="frm-login">
         <div class="form-group">
@@ -168,6 +170,15 @@ if (isset($_SESSION["status"]) && $_SESSION["status"]) {
       </form>
       <a href="../../recuperar.php" class="reset-password">¿Olvidaste tu contraseña?</a>
     </div>
+    <!--Alerta de bienvenida-->
+    <script src="../../js/toastr.js"></script>
+    <!-- Bootstrap JavaScript Libraries -->
+  
+
+  <script src="../../js/jquery-3.3.1.min.js"></script>
+  <script src="../../js/popper.min.js"></script>
+  <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../js/jquery.sticky.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () =>{
         function $(id){
@@ -178,30 +189,33 @@ if (isset($_SESSION["status"]) && $_SESSION["status"]) {
           event.preventDefault();
           login();
         });
-
         function login(){
           const parametros = new FormData();
-          parametros.append("operacion", "login");
-          parametros.append("correo", $("#correo").value);
-          parametros.append("claveacceso", $("#claveacceso").value);
+          parametros.append("operacion","login");
+          parametros.append("correo",$("#correo").value);
+          parametros.append("claveacceso",$("#claveacceso").value);
 
           fetch(`../../controllers/usuario.controller.php`,{
             method: "POST",
             body: parametros
           })
-          .then(respuesta => respuesta.json())
-          .then(data =>{
-            console.log(data)
-            if(data.acceso == true){
-              alert("Inicio de sesión exitoso")
-              window.location.href = '../usuarios/administrador.php'
-            }else{
-              alert("Acceso denegado");
-            }
-          })
-          .catch(e =>{
-            console.error(e);
-          });
+            .then(respuesta => respuesta.json())
+            .then(data =>{
+              console.log(data)
+              if(data.acceso == true){
+                bienvenida(`¡Inicio de Sesión Exitoso!`);
+                setTimeout(function(){
+                  window.location.href = '../usuarios/administrador.php'
+                },2000);               
+              }else{
+                //alert("Acceso denegado");
+                notificar('error','Acceso denegado', data.mensaje);
+              }
+              
+            })
+            .catch(e =>{
+              console.error(e)
+            });
         }
       })
     </script>

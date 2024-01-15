@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión</title>
+    <!-- Icono de la página -->
+    <link rel="icon" type="image/png" href="./img/sting.svg">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Recuperar</title>
     <style>
       body {
         font-family: 'Arial', sans-serif;
@@ -109,91 +112,145 @@
       }
 
       @media screen and (max-width: 600px) {
-  .login-container {
-    width: 80%;
-  }
+        .login-container {
+          width: 80%;
+        }
 
-  .form-group button {
-    width: 100%;
-  }
-  .login-form {
+        .form-group button {
+          width: 100%;
+        }
+        .login-form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .form-group button {
+          width: 100%;
+          max-width: 200px; /* Ajusta según sea necesario */
+          margin: 0 auto;
+        }
+
+      }
+      @media screen and (max-width: 600px) {
+        .circular-icon {
+          width: 50px;
+          height: 50px;
+          top: -30px;
+        }
+      }
+
+      .form-card {
+        width: 280px;
+        height: 350px;
+        border-radius: 1.2rem;
+        background-color: #fff;
+        padding: 1.3rem;
+        color: #212121;
+        text-align: center;
+        position: relative;
+      }
+
+      .form-card-prompt {
+        margin-bottom: 2rem;
+        font-size: 19px;
+      }
+      /* hard reset */
+      .form-card-input {
+        all: unset;
+      }
+
+      .form-card-input-wrapper {
+        position: relative;
+        width: 100%;
+        height: 3rem;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        margin-bottom: 5px;
+      }
+
+      .form-card-input {
+        font-size: 2rem;
+        font-weight: bold;
+        letter-spacing: 2rem;
+        text-align: start;
+        -webkit-transform: translateX(36px);
+        -ms-transform: translateX(36px);
+        transform: translateX(36px);
+        position: absolute;
+        z-index: 3;
+        background-color: transparent;
+      }
+
+      .form-card-input-bg {
+        content: '';
+        width: 240px;
+        height: 60px;
+        margin: auto;
+        inset: 0;
+        bottom: 10px;
+        position: absolute;
+        z-index: 1;
+        border-radius: 12px;
+        background-color: rgba(206, 206, 206, 0.664);
+      }
+      .button-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  margin-top: 20px;
 }
 
-.form-group button {
+.button-container button {
+  background-color: #5B4AFF;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
   width: 100%;
-  max-width: 200px; /* Ajusta según sea necesario */
-  margin: 0 auto;
+  margin-bottom: 10px;
 }
 
+.button-container button:hover {
+  background-color: #00E7AD;
 }
-@media screen and (max-width: 600px) {
-  .circular-icon {
-    width: 50px;
-    height: 50px;
-    top: -30px;
-  }
-}
-
-.form-card {
-  width: 280px;
-  height: 350px;
-  border-radius: 1.2rem;
-  background-color: #fff;
-  padding: 1.3rem;
-  color: #212121;
-  text-align: center;
-  position: relative;
+/* Estilo para el formulario de cambio de contraseña */
+#form-cambiarpass {
+  margin-top: 5px;
 }
 
-.form-card-prompt {
-  margin-bottom: 2rem;
-  font-size: 14px;
-}
-/* hard reset */
-.form-card-input {
-  all: unset;
+#form-cambiarpass label {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 5px; /* Ajusta según sea necesario */
+  color: #666;
 }
 
-.form-card-input-wrapper {
-  position: relative;
+#form-cambiarpass input {
   width: 100%;
-  height: 3rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-bottom: 1rem;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  box-sizing: border-box;
+  margin-top: 5px;
 }
 
-.form-card-input {
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: 2rem;
-  text-align: start;
-  -webkit-transform: translateX(36px);
-  -ms-transform: translateX(36px);
-  transform: translateX(36px);
-  position: absolute;
-  z-index: 3;
-  background-color: transparent;
+#form-cambiarpass button {
+  background-color: #5B4AFF;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 15px;
 }
 
-.form-card-input-bg {
-  content: '';
-  width: 240px;
-  height: 60px;
-  margin: auto;
-  inset: 0;
-  bottom: 10px;
-  position: absolute;
-  z-index: 1;
-  border-radius: 12px;
-  background-color: rgba(206, 206, 206, 0.664);
+#form-cambiarpass button:hover {
+  background-color: #00E7AD;
 }
     </style>
-
   </head>
   <body>
     <div class="login-container">
@@ -214,7 +271,7 @@
           <!--Hacemos una renderización-->
         </div>
       </form>
-      <form action="" id="form-cambiarpass">
+      <form action="" id="form-cambiarpass" class="hidden">
         <div class="input-group" id="cambiarpass">
           <!--Haremos la renderización para cambiar la contraseña-->
         </div>
@@ -230,15 +287,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
   </script>
-
+  <script src="./js/toastr.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
-
-
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-
       const div = document.querySelector("#ingresartoken");
       const div2 = document.querySelector("#cambiarpass");
       const boton = document.querySelector("#submit");
@@ -261,7 +315,7 @@
         .then(respuesta => respuesta.json())
         .then(data => {
           if (data.idusuario > 0) {
-            alert(`Por favor verificar el token en su correo: ${data.correo}`);
+            notificar('success', 'Se encontró el correo', `Por favor verificar el token en su correo: ${data.correo}`,3);
             registraToken();
             $("#correo").setAttribute("readonly", "true");
 
@@ -284,7 +338,7 @@
 
             // Agregar evento click al botón "Reenviar Token"
             $("#reenviartoken").addEventListener("click", () => {
-              alert('Se ha reenviado el token al correo');
+              notificar('info', 'Reenviando token', 'Se ha reenviado el token al correo',2);
               registraToken(); // Vuelve a enviar el token
             });
 
@@ -294,7 +348,7 @@
               ValidarToken();
             });
           } else {
-            alert('El correo no se encuentra registrado');
+            notificar('error', 'No encontrado', 'El correo no se encuentra registrado',2);
             $("#form-rest").reset();
           }
         })
@@ -345,16 +399,21 @@
 
             if(diferenciaTiempo > tiempoExpiracion){
               // El token ha expirado
-              alert('El token ha expirado');
+              notificar('warning','Token expirado','El token ha expirado',2);
             }else{
               $("#token").setAttribute("readonly", "true");
-              //console.log(data)
-              alert('Registro encontrado en la base de datos');
-              //Yo pense en hacer una renderizacion 
+              notificar('success','Encontrado','Registro encontrado en la base de datos',2);
+
+              // Ocultar el área de ingreso de token
+              $("#ingresartoken").style.display = "none";
+    
+              // Mostrar el formulario de cambio de contraseña
+              $("#form-cambiarpass").classList.remove("hidden");
               nuevaContraseña = `
                 <label for="claveacceso">Nueva Contraseña</label>
                 <input type="password" id="claveacceso" name="claveacceso" placeholder="Ingrese su nueva clave" required>
                 <button type="submit" id="cambiarpass" class="mt-3">Cambiar Contraseña</button>
+                <br><br>
               `;
               div2.innerHTML += nuevaContraseña;
               // Ocultar el botón de "Validar"
@@ -362,7 +421,7 @@
               $("#reenviartoken").style.display = "none";
             }
           }else{
-            alert('No encontrado en la base de datos')
+            notificar('warning','No se encontró','No encontrado en la base de datos',2)
           }
         })  
         .catch(e =>{
@@ -397,13 +456,12 @@
       $("#form-cambiarpass").addEventListener("submit", (event) => {
         event.preventDefault();
         CambiarPass();
-        alert('Ahora ya puedes hacer Login');
+        notificar('info','Cambio de contraseña exitoso','Ya puedes iniciar sesión',3);
         setTimeout(function(){
-          window.location.href = 'index.php';
-        },3000);
+          window.location.href = './views/usuarios/index.php';
+        },2000);
       });
     });
-
   </script>
 </body>
 </html>
