@@ -10,18 +10,6 @@ if (isset($_POST['operacion'])) {
     case 'listar':
       enviarJSON($ubicacion->listar());
       break;
-
-    case 'listarCategoria':
-      enviarJSON($ubicacion->listarCategoria());
-      break;
-
-    case 'listarSubcategoria':
-      $datos = [
-        'idcategoria' => $_POST['idcategoria']
-      ];
-      enviarJSON($ubicacion->listarSubcategoria($datos));
-      break;
-
     case 'obtenerNegocio':
       $datos = [
         'idsubcategoria' => $_POST['idsubcategoria']

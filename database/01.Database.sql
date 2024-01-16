@@ -165,3 +165,7 @@ CREATE TABLE contratos(
     CONSTRAINT fk_idusuario_con 			FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario),
     CONSTRAINT chk_fechafin_con 			CHECK (fechafin > fechainicio)
 )ENGINE = INNODB;
+DELETE FROM subcategorias;
+ALTER TABLE subcategorias AUTO_INCREMENT 1;
+-- Volver a activar la restricción de clave externa
+SET foreign_key_checks = 1;

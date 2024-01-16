@@ -300,16 +300,7 @@
           center: peruCoords,
           zoom: 16,
         });
-    }
-
-    
-
- 
-
-      
-
-      
-
+      }
       //      navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
       //   const coords = {
       //     lat: latitude,
@@ -352,7 +343,7 @@
       }
       getYourLocation();
 
-/*const locationOne = () =>{
+      /*const locationOne = () =>{
         if(navigator.geolocation){
           navigator.geolocation.getCurrentPosition(
             ({coords: {latitude, longitude}} )=>{
@@ -374,7 +365,7 @@
           alert("tu navegador no hay ubicacion")
         }
       };*/
-     
+     sssssss
   </script>
 </body>
 </html>

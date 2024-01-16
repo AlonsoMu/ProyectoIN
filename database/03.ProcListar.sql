@@ -42,7 +42,9 @@ BEGIN
 	FROM categorias
     WHERE inactive_at IS NULL;
 END $$
-
+CALL spu_categorias_listar();
+SELECT * FROM categorias;
+SELECT * FROM subcategorias;
 -- ##########################################################################################################################
 
 /*DELIMITER $$
@@ -66,7 +68,7 @@ BEGIN
 		sub.nomsubcategoria
 		FROM subcategorias sub
         INNER JOIN categorias cat ON cat.idcategoria = sub.idcategoria
-		WHERE sub.idcategoria = 1
+		WHERE sub.idcategoria = _idcategoria
           AND sub.inactive_at IS NULL;
 END $$
 CALL spu_subcategorias_listar(1);

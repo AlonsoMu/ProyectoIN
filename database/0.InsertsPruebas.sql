@@ -22,15 +22,25 @@ INSERT INTO planes (tipoplan, precio) VALUES
 
 
 INSERT INTO categorias (nomcategoria) VALUES
-('comida'),
-('entretenimiento'),
-('tiendas');
+('Hoteles'),
+('Farmacias'),
+('Restaurantes'),
+('Bodegas');
 
 
 INSERT INTO subcategorias (idcategoria, nomsubcategoria ) VALUES
-(1,'pollerias'),
-(2,'juegos'),
-(3,'ropa');
+(1,'Playa'),
+(1,'Urbano'),
+(1,'Lujo'),
+(2,'Pediátrica'),
+(2,'Comercial'),
+(2,'Clínica'),
+(3,'Japones'),
+(3,'Italiano'),
+(3,'Mexicano'),
+(4,'Abarrotes'),
+(4,'Artesanal'),
+(4,'General');
 
 
 INSERT INTO horarios (apertura, cierre, dia) VALUES
@@ -77,3 +87,5 @@ VALUES
 (2, 2, 1, '2024-01-15', '2024-02-15'),
 (2, 3, 1, '2024-02-01', '2024-03-01');
 
+SELECT * FROM categorias;
+SELECT * FROM subcategorias;
