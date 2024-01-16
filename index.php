@@ -61,21 +61,20 @@
       </div>
     </header>
 
-    <section class="espacio_eredado">
-    </section>
+    <section class="espacio_eredado"></section>
     <div class="container mt-5 text-center">
         <h1 class="nav_titulo mb-5 lineabajo">¿Qué lugar deseas encontrar?</h1>
-        <div class="d-flex justify-content-center mt-4 valor_c">
+        <div class="d-flex justify-content-center mt-4 valor_c" id="categoria">
             <a class="nav-link corrector_nav1" data-bs-toggle="collapse" href="./views/index.php">Todos los negocios</a>
                 <span class="text-muted mx-3 m-division"> | </span>
-            <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'hoteles')">Hoteles <i class="bi bi-chevron-down"></i></a>
+            <!-- <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'hoteles')">Hoteles <i class="bi bi-chevron-down"></i></a>
             <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'farmacias')">Farmacias <i class="bi bi-chevron-down"></i></a>
             <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'restaurantes')">Restaurantes <i class="bi bi-chevron-down"></i></a>
-            <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'bodegas')">Bodegas <i class="bi bi-chevron-down"></i></a>
+            <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'bodegas')">Bodegas <i class="bi bi-chevron-down"></i></a> -->
         </div>
     </div>
 
-    <div class="w-100 bg-azul reor">
+    <div class="w-100 bg-azul reor" id="subcategoria">
         <div id="hoteles" class="pb-5 w-820 text-center nego_acti" style="display:none;">
             <span class="topright">&times</span>
             <div class="row pb-4">
@@ -160,7 +159,7 @@
           </select>
       </div>
       </div>
-  </div>
+    </div>
     
 
     <style>
@@ -287,9 +286,45 @@
 
   
 
-  <script>
+  <script type="text/javascript">
       let map;
+      document.addEventListener("DOMContentLoaded", () => {
+        function getCategoria() {
+            const parametros = new FormData();
+            parametros.append("operacion", "listar");
 
+            fetch(`./controllers/categoria.controller.php`, {
+                method: "POST",
+                body: parametros
+            })
+                .then(respuesta => respuesta.json())
+                .then(datos => {
+                    const categoriaDiv = document.getElementById("categoria");
+
+                    datos.forEach(element => {
+                        const enlace = document.createElement("a");
+                        enlace.className = "nav-link corrector_nav tabs";
+                        enlace.setAttribute("data-bs-toggle", "collapse");
+                        enlace.setAttribute("onclick", `kiosco(event, '${element.nomcategoria}')`);
+
+                        const icono = document.createElement("i");
+                        icono.className = "bi bi-chevron-down";
+
+                        enlace.innerHTML = `${element.nomcategoria} `;
+                        enlace.appendChild(icono);
+
+                        categoriaDiv.appendChild(enlace);
+                    });
+                })
+                .catch(e => {
+                    console.error(e);
+                });
+        }
+
+        getCategoria();
+    });
+
+      // FUNCIONES PARA EL MAPA
       function initMap() {
         const peruCoords = {
           lat: -13.4098500,
@@ -365,7 +400,6 @@
           alert("tu navegador no hay ubicacion")
         }
       };*/
-     sssssss
   </script>
 </body>
 </html>
