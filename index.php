@@ -74,22 +74,10 @@
         </div>
     </div>
 
-    <div class="w-100 bg-azul reor" id="subcategoria">
-        <div id="hoteles" class="pb-5 w-820 text-center nego_acti" style="display:none;">
-            <span class="topright">&times</span>
-            <div class="row pb-4">
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-            </div>
-            <div class="row">
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Criollos</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Tradicional</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Extranjeros</button></div>
-            </div>
-        </div>
+    <div class="w-100 bg-azul reor " id="subcategoria">
+        
 
-        <div id="farmacias" class="pb-5 w-820 text-center nego_acti" style="display:none;">
+        <!-- <div id="farmacias" class="pb-5 w-820 text-center nego_acti" style="display:none;">
             <span class="topright">&times</span>
             <div class="row pb-4">
               <div class="col-sm"><button type="button" class="btn btn-light col-11">Comida rapidas</button></div>
@@ -129,7 +117,7 @@
               <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
               <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="container mt-4 d-flex justify-content-center">
@@ -321,8 +309,88 @@
                 });
         }
 
-        getCategoria();
-    });
+        function cargarSubcategorias(idcategoria) {
+        const parametros = new FormData();
+        parametros.append("operacion", "listar");
+        parametros.append("idcategoria", 1);
+
+        fetch(`./controllers/subcategoria.controller.php`, {
+            method: "POST",
+            body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+            console.log(datos);
+            const subcategoriaDiv = document.getElementById("subcategoria");
+            //subcategoriaDiv.innerHTML = ''; // Limpiar contenido anterior
+
+            datos.forEach(element => {
+                nuevaFila = `
+                    <div id="${element.nomcategoria}" class="pb-5 w-820 text-center nego_acti" style="display:none;">
+                        <span class="topright">&times;</span>
+                        <div class="row pb-4">
+                            <div class="col-sm"><button type="button" class="btn btn-light col-11">${element.nomsubcategoria}</button></div>
+                            <!-- Otros botones aquí -->
+                        </div>
+                        <div class="row">
+                            <!-- Otros botones aquí -->
+                        </div>
+                    </div>
+                `;
+                subcategoriaDiv.innerHTML += nuevaFila;
+            });
+        })
+        .catch(e => {
+            console.error(e);
+        });
+    }
+
+       /* function getSubcategoria(idcategoria) {
+        const parametros = new FormData();
+        parametros.append("operacion", "listar");
+        parametros.append("idcategoria", 1);
+
+        fetch(`./controllers/subcategoria.controller.php`, {
+            method: "POST",
+            body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+            console.log(datos);
+            $("#subcategoria").innerHTML = '';
+
+            datos.forEach(element => {
+                nuevaFila = `
+                    <div id="${element.nomcategoria}" class="pb-5 w-820 text-center nego_acti" style="display:none;">
+                        <span class="topright">&times;</span>
+                        <div class="row pb-4">
+                            <div class="col-sm"><button type="button" class="btn btn-light col-11">${element.nomsubcategoria}</button></div>
+                            <!-- Otros botones aquí -->
+                        </div>
+                        <div class="row">
+                            <!-- Otros botones aquí -->
+                        </div>
+                    </div>
+                `;
+                $("#subcategoria").innerHTML += nuevaFila;
+            });
+        })
+        .catch(e => {
+            console.error(e);
+        });
+    }*/
+
+    
+
+    // Llamar a la función para obtener categorías al cargar la página
+    getCategoria();
+    cargarSubcategorias();
+});
+
+
+
+
+    
 
       // FUNCIONES PARA EL MAPA
       function initMap() {
