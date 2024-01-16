@@ -622,4 +622,8 @@ a {
   font-weight: 200px;
 }
 
-
+.btn-light:hover {
+  color: #212529;
+  background-color: #0AFFC2;
+  border-color: #0AFFC2;
+}
