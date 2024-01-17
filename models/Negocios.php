@@ -26,7 +26,7 @@ class Negocio extends Conexion{
   public function obtenerNyH($datos = []){
     try {
       
-      $consulta = $this->conexion->prepare("CALL spu_obtener_negocios_y_disponibilidad(?,?)");
+      $consulta = $this->conexion->prepare("CALL spu_obtener_nyh(?,?)");
       $consulta->execute(
         array(
           $datos['idsubcategoria'],

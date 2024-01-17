@@ -60,11 +60,19 @@ INSERT INTO ubicaciones (idhorario, latitud, longitud) VALUES
 (4, -13.4029212, -76.1600548),
 (5, -13.4053329, -76.1272912);
 
+INSERT INTO ubicaciones (idhorario, latitud, longitud) VALUES
+(3, -13.4054328, -76.1275315);
+
+
 INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, idubicacion, nroruc, nombre,
  descripcion, direccion, telefono, correo, valoracion) VALUES
 (1, 1, 1, 7, 1, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', 4),
 (6, 2, 1, 8, 2, '98765432101', 'costumbres', 'comida italiana','Calle Secundaria 456', '987654322', 'info@modaelegante.com', 5),
 (7, 1, 1, 9, 3, '11112222333', 'naoky', 'comida mexicana','Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', 3);
+
+INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, idubicacion, nroruc, nombre,
+ descripcion, direccion, telefono, correo, valoracion) VALUES
+ (1, 1, 1, 7, 4, '1111222233', 'boulevard', 'comida japonesa','Av. Deportiva 789', '980526013', 'info@deportesxtreme.com', 3);
 
 SELECT * FROM negocios;
 SELECT * FROM subcategorias;

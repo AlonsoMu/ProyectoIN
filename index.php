@@ -374,6 +374,9 @@
       function actualizarMapa() {
         const distritoSelect = document.getElementById("distrito");
         const selectedDistritoId = distritoSelect.value;
+
+        // Limpiar marcadores existentes
+        clearMarkers();
   
         if (selectedDistritoId) {
           // Realiza una llamada para obtener las coordenadas del distrito seleccionado
@@ -381,14 +384,16 @@
           .then(coordenadas => {
             // Actualiza el mapa con las nuevas coordenadas
             map.setCenter(coordenadas);
-            map.setZoom(16);
+            map.setZoom(12);
   
             // Agrega un marcador en las nuevas coordenadas
-            new google.maps.Marker({
+            const marker = new google.maps.Marker({
               position: coordenadas,
               map: map,
               icon: "./img/ubicacion.svg"
             });
+            // Agrega el nuevo marcador a la lista de marcadores
+            markers.push(marker);
           })
           .catch(error => {
             console.error("Error al obtener coordenadas del distrito:", error);
@@ -442,6 +447,7 @@
 
     // Declarar una variable global para almacenar los marcadores
     let markers = [];
+    
     let infoWindow;
 
     function clearMarkers() {
@@ -468,11 +474,17 @@
       }
     });
 
+    
+
     // Modificar la función listarNegocios para aceptar el ID del distrito
     function listarNegocios(idsubcategoria, iddistrito) {
       console.log("Ingresando a listarNegocios");
       // Limpiar marcadores existentes
       clearMarkers();
+
+      // Limpiar el select de distritos
+      const distritoSelect = document.getElementById("distrito");
+      distritoSelect.selectedIndex = 0;
 
       const parametros = new FormData();
       parametros.append("operacion", "obtenerNyH");
