@@ -274,7 +274,7 @@
   <script type="text/javascript">
       let map;
       let infoWindow;
-      let markers = [];
+     
       document.addEventListener("DOMContentLoaded", () => {
         function getCategoria() {
           const parametros = new FormData();
@@ -337,7 +337,7 @@
               const subcategoriaContainer = document.getElementById(`subcategoria-${element.categoria}`);
               element.subcategorias.forEach(subcategoria => {
                 const nuevaFilaSubcategoria = `
-                  <div class="col-sm"><button type="button" class="btn btn-light col-11">${subcategoria.nomsubcategoria}</button></div>
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11" data-idsubcategoria="${subcategoria.idsubcategoria}">${subcategoria.nomsubcategoria}</button></div>
                 `;
                 subcategoriaContainer.innerHTML += nuevaFilaSubcategoria;
               });
@@ -464,20 +464,113 @@
         });
 
       }
-      //      navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
-      //   const coords = {
-      //     lat: latitude,
-      //     lng: longitude
-      //   };
-      //   map.setCenter(coords);
-      //   map.setZoom(16);
-      //   new google.maps.Marker({
-      //     position: coords,
-      //     map: map
-      //   });
-      // }, () => {
-      //   alert("Tu navegador está bien, pero ocurrió un error al obtener tu ubicación");
-      // });
+
+      // Declarar una variable global para almacenar los marcadores
+let markers = [];
+
+function clearMarkers() {
+    markers.forEach(marker => {
+        marker.setMap(null);
+    });
+    markers = [];
+}
+
+// Modificar la función listarNegocios
+function listarNegocios(idsubcategoria) {
+    console.log("Ingresando a listarNegocios");
+
+    // Limpiar marcadores existentes
+    clearMarkers();
+
+    const parametros = new FormData();
+    parametros.append("operacion", "obtenerNegocio");
+    parametros.append("idsubcategoria", idsubcategoria);
+
+    fetch('./controllers/negocio.controller.php', {
+        method: "POST",
+        body: parametros
+    })
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+        console.log(datos);
+
+        if (datos.length > 0) {
+            // Crear un bucle para recorrer todos los elementos y agregar marcadores
+            datos.forEach(element => {
+                const point = new google.maps.LatLng(
+                    parseFloat(element.latitud),
+                    parseFloat(element.longitud)
+                );
+
+                // Agregar un marcador para cada elemento
+                const marker = new google.maps.Marker({
+                    map: map, // Asumo que "map" es tu objeto google.maps.Map
+                    position: point,
+                    title: element.nomnegocio,
+                });
+
+                marker.addListener('mouseover', function () {
+                    mostrarInfoWindow(element, marker);
+                });
+
+                marker.addListener('mouseout', function () {
+                    infoWindow.close();
+                });
+
+                markers.push(marker);
+            });
+
+            // Centrar y hacer zoom solo si hay marcadores
+            if (markers.length > 0) {
+                const bounds = new google.maps.LatLngBounds();
+                markers.forEach(marker => {
+                    bounds.extend(marker.getPosition());
+                });
+                map.fitBounds(bounds);
+            }
+        }
+    })
+    .catch(e => {
+        console.error(e);
+    });
+}
+
+// Evento de clic en los botones de subcategoría
+document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('btn-light')) {
+        const idSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
+        if (idSubcategoria !== null) {
+            console.log("ID de Subcategoría:", idSubcategoria);
+            listarNegocios(idSubcategoria);
+        }
+    }
+});
+
+// Función para obtener el ID de subcategoría desde el botón
+function obtenerIdSubcategoriaDesdeBoton(boton) {
+    // Verificar si el atributo 'data-idsubcategoria' está presente
+    if (boton && boton.getAttribute) {
+        // Obtener el valor del atributo 'data-idsubcategoria'
+        const idSubcategoria = parseInt(boton.getAttribute('data-idsubcategoria'));
+        if (!isNaN(idSubcategoria)) {
+            return idSubcategoria;
+        } else {
+            console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
+            return null;
+        }
+    } else {
+        console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
+        return null;
+    }
+}
+//obtenerIdSubcategoriaDesdeBoton();
+
+      
+     
+      
+
+      
+      
       function getYourLocation() {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
@@ -505,29 +598,9 @@
         }
       }
       getYourLocation();
+      
 
-      /*const locationOne = () =>{
-        if(navigator.geolocation){
-          navigator.geolocation.getCurrentPosition(
-            ({coords: {latitude, longitude}} )=>{
-              const coords = {
-                lat: latitude,
-                lng: longitude
-              }
-              map.setCenter(coords);
-              map.setZoom(12);
-              new google.maps.Marker({
-                position: coords,
-                map: map
-              });
-            }, () =>{
-              alert("tu navegador esta bien, pero ocurrio un error")
-            }
-          )
-        }else{
-          alert("tu navegador no hay ubicacion")
-        }
-      };*/
+      
   </script>
 </body>
 </html>
