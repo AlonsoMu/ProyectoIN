@@ -65,61 +65,60 @@
 
     <section class="espacio_eredado"></section>
     <div class="container mt-5 text-center">
-        <h1 class="nav_titulo mb-5 lineabajo">¿Qué lugar deseas encontrar?</h1>
-        <div class="d-flex justify-content-center mt-4 valor_c" id="categoria">
-            <a class="nav-link corrector_nav1" data-bs-toggle="collapse" href="./views/index.php">Todos los negocios</a>
-                <span class="text-muted mx-3 m-division"> | </span>
-            <!-- <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'hoteles')">Hoteles <i class="bi bi-chevron-down"></i></a>
-            <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'farmacias')">Farmacias <i class="bi bi-chevron-down"></i></a>
-            <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'restaurantes')">Restaurantes <i class="bi bi-chevron-down"></i></a>
-            <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'bodegas')">Bodegas <i class="bi bi-chevron-down"></i></a> -->
-        </div>
+      <h1 class="nav_titulo mb-5 lineabajo">¿Qué lugar deseas encontrar?</h1>
+      <div class="d-flex justify-content-center mt-4 valor_c" id="categoria">
+        <a class="nav-link corrector_nav1" data-bs-toggle="collapse" href="./views/index.php">Todos los negocios</a>
+        <span class="text-muted mx-3 m-division"> | </span>
+        <!-- <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'hoteles')">Hoteles <i class="bi bi-chevron-down"></i></a>
+        <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'farmacias')">Farmacias <i class="bi bi-chevron-down"></i></a>
+        <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'restaurantes')">Restaurantes <i class="bi bi-chevron-down"></i></a>
+        <a class="nav-link corrector_nav tabs" data-bs-toggle="collapse" onclick="kiosco(event,'bodegas')">Bodegas <i class="bi bi-chevron-down"></i></a> -->
+      </div>
     </div>
 
     <div class="w-100 bg-azul reor " id="subcategoria">
-        
-
-        <!-- <div id="farmacias" class="pb-5 w-820 text-center nego_acti" style="display:none;">
-            <span class="topright">&times</span>
-            <div class="row pb-4">
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Comida rapidas</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Otros</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Criollos</button></div>
-            </div>
-            <div class="row">
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-            </div>
+      <!-- <div id="farmacias" class="pb-5 w-820 text-center nego_acti" style="display:none;">
+        <span class="topright">&times</span>
+        <div class="row pb-4">
+          <div class="col-sm"><button type="button" class="btn btn-light col-11">Comida rapidas</button></div>
+          <div class="col-sm"><button type="button" class="btn btn-light col-11">Otros</button></div>
+          <div class="col-sm"><button type="button" class="btn btn-light col-11">Criollos</button></div>
+        </div>
+        <div class="row">
+          <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+          <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+          <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+          </div>
         </div>
 
         <div id="restaurantes" class="pb-5 w-820 text-center nego_acti" style="display:none;">
-            <span class="topright">&times</span>
-            <div class="row pb-4">
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-            </div>
-            <div class="row">
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Mariscos</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Extranjeros</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Otros</button></div>
-            </div>
+          <span class="topright">&times</span>
+          <div class="row pb-4">
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+          </div>
+          <div class="row">
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Mariscos</button></div>
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Extranjeros</button></div>
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Otros</button></div>
+          </div>
         </div>
 
         <div id="bodegas" class="pb-5 w-820 text-center nego_acti" style="display:none;">
-            <span class="topright">&times</span>
-            <div class="row pb-4">
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Tradicional</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Criollos</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Extranjeros</button></div>
-            </div>
-            <div class="row">
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-              <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
-            </div>
-        </div> -->
+          <span class="topright">&times</span>
+          <div class="row pb-4">
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Tradicional</button></div>
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Criollos</button></div>
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Extranjeros</button></div>
+          </div>
+          <div class="row">
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+            <div class="col-sm"><button type="button" class="btn btn-light col-11">Light</button></div>
+          </div>
+        </div>
+      </div> -->
     </div>
 
     <div class="container mt-4 d-flex justify-content-center">
@@ -133,18 +132,18 @@
 
     <div class="container mt-5">
       <div class="container">
-      <div class="row">
+        <div class="row">
           <label>
-              Filtrar por <i class="bi bi-funnel-fill"></i>
+            Filtrar por <i class="bi bi-funnel-fill"></i>
           </label>
-      </div>
-      <div class="row pt-4 distritoc" style="max-width: 300px;">
+        </div>
+        <div class="row pt-4 distritoc" style="max-width: 300px;">
           <label class="pr-3">Distrito: </label>
           <select class="form-select" aria-label="Selecciona un distrito" id="distrito">
-              <option selected value="">Selecciona</option>
-              <!-- Agrega más opciones según sea necesario -->
+            <option selected value="">Selecciona</option>
+            <!-- Agrega más opciones según sea necesario -->
           </select>
-      </div>
+        </div>
       </div>
     </div>
     
@@ -157,126 +156,107 @@
     </style>  
     
     
-    <div id="mapDiv" class="mt-5">
-
-    </div>
-
-    
+    <div id="mapDiv" class="mt-5"></div>
 
     <!-- FOOTER CARRUSEL -->
-   
     <div class="w-100 p-3 background_cote mt-5">
       <section class="container-920">
         <div class="container text-center my-3">
-            <!-- IMAGENES -->
-            <div class="owl-2-style">
-                <div class="owl-carousel owl-2">
-                  <div class="media-29101">
-                    <a href="#"><img src="./img/1.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                  <div class="media-29101">
-                    <a href="#"><img src="./img/2.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                  <div class="media-29101">
-                    <a href="#"><img src="./img/3.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                  <div class="media-29101">
-                    <a href="#"><img src="./img/1.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                  <div class="media-29101">
-                    <a href="#"><img src="./img/2.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                  <div class="media-29101">
-                    <a href="#"><img src="./img/3.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                </div>
-            </div>      
+          <!-- IMAGENES -->
+          <div class="owl-2-style">
+            <div class="owl-carousel owl-2">
+              <div class="media-29101">
+                <a href="#"><img src="./img/1.svg" alt="Image" class="img-fluid"></a>
+              </div>
+              <div class="media-29101">
+                <a href="#"><img src="./img/2.svg" alt="Image" class="img-fluid"></a>
+              </div>
+              <div class="media-29101">
+                <a href="#"><img src="./img/3.svg" alt="Image" class="img-fluid"></a>
+              </div>
+              <div class="media-29101">
+                <a href="#"><img src="./img/1.svg" alt="Image" class="img-fluid"></a>
+              </div>
+              <div class="media-29101">
+                <a href="#"><img src="./img/2.svg" alt="Image" class="img-fluid"></a>
+              </div>
+              <div class="media-29101">
+                <a href="#"><img src="./img/3.svg" alt="Image" class="img-fluid"></a>
+              </div>
+            </div>
+          </div>      
         </div>
       </section>
     </div>
 
+    <a href="https://wa.me/51962662710?text=Deseo más información" target=”_blank” class="whatsapp-btn">
+      <i class="bi bi-whatsapp"></i>
+    </a>
+    <div class="cuadro-btn">Inicia con nosotros</div>
 
-  <a href="https://wa.me/1234567890?text=hello+123" target=”_blank” class="whatsapp-btn">
-    <i class="bi bi-whatsapp"></i>
-  </a>
-  <div class="cuadro-btn">Inicia con nosotros</div>
-
-
-  <!-- Footer -->
+    <!-- Footer -->
     <footer id="footer" class="bg-footer">
-        <div class="container mb-5">
-            <div class="row">
-
-                <div class="col-md-4 pt-5 text-left">
-                    <h2 class="h2 text-light pb-3 border-light"><img src="./img/sting.svg" alt="" height="40"></h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li>Creativos, Estratégicos <br/>e Innovadores</li>
-                    </ul>
-                </div>
-
-                <div class="col-md-4 pt-5 text-left">
-                    <h2 class="h2 text-light pb-3 border-light">Síguenos</h2>
-                    <ul class="list-unstyled text-light d-flex justify-content-left">
-                        <li class="pr-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="./img/icon _facebook.svg" /></a></li>
-                        <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="./img/icon _instagram.svg" /></a></li>
-                        <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="./img/icon_logo_behance.svg" /></a></li>
-                        <li class="pl-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="./img/icon_tiktok.svg" /></a></li>
-                    </ul>
-                </div>
-
-                <div class="col-md-4 pt-5 text-left">
-                    <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li>Lorem ipsum dolor sit am secta emy dipiscing, elit netus pharetra copy condimentum lacus.</li>
-                        <li class="py-3">
-                            <a class="text-decoration-none text-white" href="#">
-                                <img src="./img/buzon.svg" /> stingstudio.chincha@gmail.com
-                            </a>
-                        </li>
-                        <li>
-                            <a class="text-decoration-none text-white" href="#">
-                                <img src="./img/phone.svg" /> +51 907 233 783
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
+      <div class="container mb-5">
+        <div class="row">
+          <div class="col-md-4 pt-5 text-left">
+            <h2 class="h2 text-light pb-3 border-light"><img src="./img/sting.svg" alt="" height="40"></h2>
+            <ul class="list-unstyled text-light footer-link-list">
+              <li>Creativos, Estratégicos <br/>e Innovadores</li>
+            </ul>
+          </div>
+          <div class="col-md-4 pt-5 text-left">
+            <h2 class="h2 text-light pb-3 border-light">Síguenos</h2>
+            <ul class="list-unstyled text-light d-flex justify-content-left">
+              <li class="pr-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="./img/icon _facebook.svg" /></a></li>
+              <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="./img/icon _instagram.svg" /></a></li>
+              <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="./img/icon_logo_behance.svg" /></a></li>
+              <li class="pl-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="./img/icon_tiktok.svg" /></a></li>
+            </ul>
+          </div>
+          <div class="col-md-4 pt-5 text-left">
+            <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
+            <ul class="list-unstyled text-light footer-link-list">
+              <li>Lorem ipsum dolor sit am secta emy dipiscing, elit netus pharetra copy condimentum lacus.</li>
+              <li class="py-3">
+                <a class="text-decoration-none text-white" href="#">
+                  <img src="./img/buzon.svg" /> stingstudio.chincha@gmail.com
+                </a>
+              </li>
+              <li>
+                <a class="text-decoration-none text-white" href="#">
+                  <img src="./img/phone.svg" /> +51 907 233 783
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
 
-        <div class="w-100 bg-footer linen pt-3">
-            <div class="container">
-                <div class="row pie">
-                    <div class="col-12 py-3 text-center">
-                        <p class="text-light">
-                            &copy; Sting Studio 2024 | Creativos, Estratégicos e Innovadores
-                        </p>
-                    </div>
-                </div>
+      <div class="w-100 bg-footer linen pt-3">
+        <div class="container">
+          <div class="row pie">
+            <div class="col-12 py-3 text-center">
+              <p class="text-light">
+                &copy; Sting Studio 2024 | Creativos, Estratégicos e Innovadores
+              </p>
             </div>
+          </div>
         </div>
+      </div>
     </footer>
 
-  
-    
-  <!-- Bootstrap JavaScript Libraries -->
-  
-  <script src="./js/jquery-3.3.1.min.js"></script>
-  <script src="./js/popper.min.js"></script>
-  <script src="./js/bootstrap.min.js"></script>
-  <script src="./js/jquery.sticky.js"></script>
-  <script src="./js/owl.carousel.min.js"></script>
-  <script src="./js/main.js"></script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/jquery.sticky.js"></script>
+    <script src="./js/owl.carousel.min.js"></script>
+    <script src="./js/main.js"></script>
 
- 
-  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
 
-  
-
-  <script type="text/javascript">
+    <script type="text/javascript">
       let map;
-      
-     
       document.addEventListener("DOMContentLoaded", () => {
         function getCategoria() {
           const parametros = new FormData();
@@ -352,22 +332,19 @@
 
         document.addEventListener('click', function (event) {
           if (event.target.classList.contains('topright')) {
-              // Buscar el contenedor padre del elemento clicado
-              const subcategoriaContainer = event.target.closest('.nego_acti');
-              const categoriaContainer = event.target.classList.contains('tabs');
+            // Buscar el contenedor padre del elemento clicado
+            const subcategoriaContainer = event.target.closest('.nego_acti');
+            const categoriaContainer = event.target.classList.contains('tabs');
               
-              // Verificar si se encontró un contenedor y cerrarlo
-              if (subcategoriaContainer) {
-                  subcategoriaContainer.style.display = 'none';
-              }
-              if (categoriaContainer) {
-                  categoriaContainer.style.display  = 'none';
-                  
-              }
+            // Verificar si se encontró un contenedor y cerrarlo
+            if (subcategoriaContainer) {
+              subcategoriaContainer.style.display = 'none';
+            }
+            if (categoriaContainer) {
+              categoriaContainer.style.display  = 'none';   
+            }
           }
         });
-
-       
 
         function getDistrito(){
           const parametros = new FormData();
@@ -385,7 +362,6 @@
             const etiqueta = document.createElement("option");
             etiqueta.value = element.iddistrito;
             etiqueta.innerHTML = element.nomdistrito;
-
             distritoSelect.appendChild(etiqueta);
           });
         })
@@ -446,184 +422,178 @@
       getCategoria();
       cargarSubcategorias();
       getDistrito();
+    }); //FIN DEL DOM
+
+    // FUNCIONES PARA EL MAPA
+    function initMap() {
+      const peruCoords = {
+        lat: -13.4098500,
+        lng: -76.1323500
+      };
+      const mapDiv = document.getElementById('mapDiv');
+      map = new google.maps.Map(mapDiv, {
+        center: peruCoords,
+        zoom: 16,
+      });
+      // Inicializar el objeto infoWindow
+      infoWindow = new google.maps.InfoWindow();
+      getYourLocation();
+    }
+
+    // Declarar una variable global para almacenar los marcadores
+    let markers = [];
+    let infoWindow;
+
+    function clearMarkers() {
+      markers.forEach(marker => {
+        marker.setMap(null);
+      });
+      markers = [];
+    }
+
+    document.addEventListener('change', function (event) {
+      if (event.target.id === 'distrito') {
+        // Obtener el ID de la subcategoría seleccionada
+        console.log(document.querySelector('.nego_acti'));
+        const subcategoriaSeleccionada = document.querySelector('.nego_acti').getAttribute('data-idsubcategoria');
+
+        // Obtener el ID del distrito seleccionado
+        const distritoSeleccionado = event.target.value;
+
+        // Verificar si se seleccionó una subcategoría y un distrito
+        if (subcategoriaSeleccionada && distritoSeleccionado) {
+          // Llamar a la función para listar negocios
+          listarNegocios(subcategoriaSeleccionada, distritoSeleccionado);
+        }
+      }
     });
 
+    // Modificar la función listarNegocios para aceptar el ID del distrito
+    function listarNegocios(idsubcategoria, iddistrito) {
+      console.log("Ingresando a listarNegocios");
+      // Limpiar marcadores existentes
+      clearMarkers();
 
+      const parametros = new FormData();
+      parametros.append("operacion", "obtenerNyH");
+      parametros.append("idsubcategoria", idsubcategoria);
+      parametros.append("iddistrito", iddistrito);
 
-
-    
-
-      // FUNCIONES PARA EL MAPA
-      function initMap() {
-        const peruCoords = {
-          lat: -13.4098500,
-          lng: -76.1323500
-        };
-        const mapDiv = document.getElementById('mapDiv');
-        map = new google.maps.Map(mapDiv, {
-          center: peruCoords,
-          zoom: 16,
-        });
-        // Inicializar el objeto infoWindow
-        infoWindow = new google.maps.InfoWindow();
-        getYourLocation();
-      }
-
-      // Declarar una variable global para almacenar los marcadores
-      let markers = [];
-      let infoWindow;
-
-      function clearMarkers() {
-          markers.forEach(marker => {
-              marker.setMap(null);
+      fetch('./controllers/negocio.controller.php', {
+        method: "POST",
+        body: parametros
+      })
+      .then(respuesta => respuesta.json())
+      .then(datos => {
+        console.log(datos);
+        if (datos.length > 0) {
+          // Crear un bucle para recorrer todos los elementos y agregar marcadores
+          datos.forEach(element => {
+            const point = new google.maps.LatLng(
+              parseFloat(element.latitud),
+              parseFloat(element.longitud)
+            );
+            // Agregar un marcador para cada elemento
+            const marker = new google.maps.Marker({
+              map: map, // Asumo que "map" es tu objeto google.maps.Map
+              position: point,
+              title: element.nomnegocio,
+            });
+            marker.addListener('mouseover', function () {
+              mostrarInfoWindow(element, marker);
+            });
+            marker.addListener('mouseout', function () {
+              infoWindow.close();
+            });
+            markers.push(marker);
           });
-          markers = [];
-      }
-
-      // Modificar la función listarNegocios
-      function listarNegocios(idsubcategoria) {
-          console.log("Ingresando a listarNegocios");
-
-          // Limpiar marcadores existentes
-          clearMarkers();
-
-          const parametros = new FormData();
-          parametros.append("operacion", "obtenerNyH");
-          parametros.append("idsubcategoria", idsubcategoria);
-
-          fetch('./controllers/negocio.controller.php', {
-              method: "POST",
-              body: parametros
-          })
-          .then(respuesta => respuesta.json())
-          .then(datos => {
-              console.log(datos);
-
-              if (datos.length > 0) {
-                  // Crear un bucle para recorrer todos los elementos y agregar marcadores
-                  datos.forEach(element => {
-                      const point = new google.maps.LatLng(
-                          parseFloat(element.latitud),
-                          parseFloat(element.longitud)
-                      );
-
-                      // Agregar un marcador para cada elemento
-                      const marker = new google.maps.Marker({
-                          map: map, // Asumo que "map" es tu objeto google.maps.Map
-                          position: point,
-                          title: element.nomnegocio,
-                      });
-
-                      marker.addListener('mouseover', function () {
-                          mostrarInfoWindow(element, marker);
-                      });
-
-                      marker.addListener('mouseout', function () {
-                          infoWindow.close();
-                      });
-
-                      markers.push(marker);
-                  });
-
-                  // Centrar y hacer zoom solo si hay marcadores
-                  if (markers.length > 0) {
-                      const bounds = new google.maps.LatLngBounds();
-                      markers.forEach(marker => {
-                          bounds.extend(marker.getPosition());
-                      });
-                      map.fitBounds(bounds);
-                  }
-              }
-          })
-          .catch(e => {
-              console.error(e);
-          });
-      }
-
-      // Evento de clic en los botones de subcategoría
-      document.addEventListener('click', function (event) {
-          if (event.target.classList.contains('btn-light')) {
-              const idSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
-              if (idSubcategoria !== null) {
-                  console.log("ID de Subcategoría:", idSubcategoria);
-                  listarNegocios(idSubcategoria);
-              }
+          // Centrar y hacer zoom solo si hay marcadores
+          if (markers.length > 0) {
+            const bounds = new google.maps.LatLngBounds();
+            markers.forEach(marker => {
+              bounds.extend(marker.getPosition());
+            });
+            map.fitBounds(bounds);
           }
+        }
+      })
+      .catch(e => {
+        console.error(e);
       });
+    }
 
-      // Función para obtener el ID de subcategoría desde el botón
-      function obtenerIdSubcategoriaDesdeBoton(boton) {
-          // Verificar si el atributo 'data-idsubcategoria' está presente
-          if (boton && boton.getAttribute) {
-              // Obtener el valor del atributo 'data-idsubcategoria'
-              const idSubcategoria = parseInt(boton.getAttribute('data-idsubcategoria'));
-              if (!isNaN(idSubcategoria)) {
-                  return idSubcategoria;
-              } else {
-                  console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
-                  return null;
-              }
-          } else {
-              console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
-              return null;
-          }
-      }
-
-      function mostrarInfoWindow(element, marker) {
-            const contentString = `
-            <div class="card-window">
-              <div class="logo-window">
-                  <img src="./img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="Logo de la chifa oriental" style="width: 100px; height: 100px; object-fit: cover;">
-              </div>
-              <div class="info-window">
-                  <h1 class="name-window">${element.nombre}</h1>
-                  <h2 class="title-window">${element.Estado}</h2>
-                  <p class="distrito-window">${element.nomdistrito}</p>
-                  <p class="phone-window"><i class="bi bi-whatsapp"></i> ${element.telefono}</p>
-              </div>
-          </div>`;
-
-            infoWindow.setContent(contentString);
-            infoWindow.open(map, marker);
+    // Evento de clic en los botones de subcategoría
+    document.addEventListener('click', function (event) {
+      if (event.target.classList.contains('btn-light')) {
+        const idSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
+        if (idSubcategoria !== null) {
+          console.log("ID de Subcategoría:", idSubcategoria);
+          listarNegocios(idSubcategoria);
         }
-
-
-      
-     
-      
-
-      
-      
-      function getYourLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const coords = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-              };
-
-              map.setCenter(coords);
-              map.setZoom(16);
-
-              new google.maps.Marker({
-                position: coords,
-                map: map,
-                icon: "./img/ubicacion.svg"
-              });
-            },
-            () => {
-              alert("Tu navegador está bien, pero ocurrió un error al obtener tu ubicación");
-            }
-          );
+      }
+    });
+    
+    // Función para obtener el ID de subcategoría desde el botón
+    function obtenerIdSubcategoriaDesdeBoton(boton) {
+      // Verificar si el atributo 'data-idsubcategoria' está presente
+      if (boton && boton.getAttribute) {
+        // Obtener el valor del atributo 'data-idsubcategoria'
+        const idSubcategoria = parseInt(boton.getAttribute('data-idsubcategoria'));
+        if (!isNaN(idSubcategoria)) {
+          return idSubcategoria;
         } else {
-          alert("Tu navegador no cuenta con geolocalización");
+          console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
+          return null;
         }
+      } else {
+        console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
+        return null;
       }
-      
-      
+    }
 
-      
-  </script>
-</body>
+    function mostrarInfoWindow(element, marker) {
+      const contentString = `
+      <div class="card-window">
+        <div class="logo-window">
+          <img src="./img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="Logo de la chifa oriental" style="width: 100px; height: 100px; object-fit: cover;">
+        </div>
+        <div class="info-window">
+          <h1 class="name-window">${element.nombre}</h1>
+          <h2 class="title-window">${element.Estado}</h2>
+          <p class="distrito-window">${element.nomdistrito}</p>
+          <p class="phone-window"><i class="bi bi-whatsapp"></i> ${element.telefono}</p>
+        </div>
+      </div>`;
+      infoWindow.setContent(contentString);
+      infoWindow.open(map, marker);
+    }
+    
+    function getYourLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const coords = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            map.setCenter(coords);
+            map.setZoom(16);
+
+            new google.maps.Marker({
+              position: coords,
+              map: map,
+              icon: "./img/ubicacion.svg"
+            });
+          },
+          () => {
+            alert("Tu navegador está bien, pero ocurrió un error al obtener tu ubicación");
+          }
+        );
+      } else {
+        alert("Tu navegador no cuenta con geolocalización");
+      }
+    } 
+    </script>
+  </body>
 </html>

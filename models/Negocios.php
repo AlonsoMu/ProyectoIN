@@ -38,6 +38,22 @@ class Negocio extends Conexion{
       die($e->getMessage());
     }
   }
+  
+  public function obtenerSyD($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_obtener_negocios_subdis(?,?)");
+      $consulta->execute(
+        array(
+          $datos['idsubcategoria'],
+          $datos['iddistrito'],
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+  
     
 
   

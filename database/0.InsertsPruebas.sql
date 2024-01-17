@@ -52,6 +52,7 @@ INSERT INTO horarios (apertura, cierre, dia) VALUES
 ('07:45:00', '16:45:00', 'Sábado'),
 ('08:30:00', '15:30:00', 'Domingo');
 
+SELECT *  FROM horarios;
 
 
 INSERT INTO ubicaciones (idhorario, latitud, longitud) VALUES
@@ -111,3 +112,20 @@ VALUES
     ('sunampe', -13.4291925, -76.1821982),
     ('tambo de mora', -13.4579713, -76.2041976);
 SELECT * FROM distritos;
+SELECT * FROM negocios;
+SELECT * FROM ubicaciones;
+SELECT * FROM horarios;
+SELECT 
+	n.idnegocio,
+    s.idsubcategoria,
+    d.iddistrito,
+	n.nombre,
+	n.descripcion,
+    n.direccion,
+    n.telefono,
+	s.nomsubcategoria,
+	d.nomdistrito
+FROM negocios n
+INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+WHERE s.idsubcategoria =8 AND d.iddistrito = 6;

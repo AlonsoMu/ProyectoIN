@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-01-2024 a las 13:56:53
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.0.28
+-- Tiempo de generación: 17-01-2024 a las 20:51:58
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -233,23 +233,40 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_negocios` (IN `_idsubcategoria` INT)   BEGIN
     SELECT 
-        n.idnegocio,
-        u.idubicacion,
+		n.idnegocio,
+		u.idubicacion,
         d.iddistrito,
         s.idsubcategoria,
         s.nomsubcategoria,
-        u.latitud,
-        u.longitud,
-        n.nombre,
-        n.direccion,
+		u.latitud,
+		u.longitud,
+		n.nombre,
+		n.direccion,
         d.nomdistrito,
         n.telefono
-        FROM negocios n
-        INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+		FROM negocios n
+		INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
         INNER JOIN distritos d ON n.iddistrito = d.iddistrito
         INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
-        WHERE n.idsubcategoria = _idsubcategoria
+		WHERE n.idsubcategoria = _idsubcategoria
         AND n.inactive_at IS NULL; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_negocios_subdis` (IN `_idsubcategoria` INT, IN `_iddistrito` INT)   BEGIN
+	SELECT 
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        n.nombre,
+        n.descripcion,
+        n.direccion,
+        n.telefono,
+        s.nomsubcategoria,
+        d.nomdistrito
+    FROM negocios n
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE s.idsubcategoria = _idsubcategoria AND d.iddistrito = _iddistrito;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_negocios_y_disponibilidad` (IN `_idsubcategoria` INT, IN `_dia_actual` VARCHAR(20))   BEGIN
@@ -460,7 +477,7 @@ CREATE TABLE `contratos` (
   `create_at` datetime DEFAULT current_timestamp(),
   `update_at` datetime DEFAULT NULL,
   `inactive_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -531,13 +548,13 @@ CREATE TABLE `horarios` (
 --
 
 INSERT INTO `horarios` (`idhorario`, `apertura`, `cierre`, `dia`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, '10:00:00', '16:00:00', 'lunes', '2024-01-17 04:58:27', NULL, NULL),
-(2, '07:45:00', '16:45:00', 'martes', '2024-01-17 04:58:27', NULL, NULL),
-(3, '11:00:00', '15:30:00', 'miercoles', '2024-01-17 04:58:27', NULL, NULL),
-(4, '09:00:00', '16:00:00', 'jueves', '2024-01-17 04:58:27', NULL, NULL),
-(5, '11:30:00', '16:00:00', 'Viernes', '2024-01-17 04:58:27', NULL, NULL),
-(6, '07:45:00', '16:45:00', 'Sábado', '2024-01-17 04:58:27', NULL, NULL),
-(7, '08:30:00', '15:30:00', 'Domingo', '2024-01-17 04:58:27', NULL, NULL);
+(1, '10:00:00', '16:00:00', 'Viernes', '2024-01-05 23:12:15', NULL, NULL),
+(2, '07:45:00', '16:45:00', 'Sábado', '2024-01-05 23:12:15', NULL, NULL),
+(3, '08:30:00', '15:30:00', 'Domingo', '2024-01-05 23:12:15', NULL, NULL),
+(4, '10:00:00', '16:00:00', 'lunes', '2024-01-17 11:49:06', NULL, NULL),
+(5, '07:45:00', '16:45:00', 'martes', '2024-01-17 11:49:06', NULL, NULL),
+(6, '11:00:00', '15:30:00', 'miercoles', '2024-01-17 11:49:06', NULL, NULL),
+(7, '09:00:00', '16:00:00', 'jueves', '2024-01-17 11:49:06', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -576,7 +593,8 @@ CREATE TABLE `negocios` (
 INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idpersona`, `idusuario`, `idsubcategoria`, `idubicacion`, `nroruc`, `nombre`, `descripcion`, `direccion`, `telefono`, `correo`, `facebook`, `whatsapp`, `instagram`, `tiktok`, `logo`, `valoracion`, `create_at`, `update_at`, `inactive_at`) VALUES
 (1, 1, 1, 1, 7, 1, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', NULL, NULL, NULL, NULL, NULL, 4, '2024-01-17 00:25:14', NULL, NULL),
 (2, 6, 2, 1, 8, 2, '98765432101', 'costumbres', 'comida italiana', 'Calle Secundaria 456', '987654322', 'info@modaelegante.com', NULL, NULL, NULL, NULL, NULL, 5, '2024-01-17 00:25:14', NULL, NULL),
-(3, 7, 1, 1, 9, 3, '11112222333', 'naoky', 'comida mexicana', 'Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', NULL, NULL, NULL, NULL, NULL, 3, '2024-01-17 00:25:14', NULL, NULL);
+(3, 7, 1, 1, 9, 3, '11112222333', 'naoky', 'comida mexicana', 'Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', NULL, NULL, NULL, NULL, NULL, 3, '2024-01-17 00:25:14', NULL, NULL),
+(4, 1, 1, 1, 7, 4, '10721597364', 'boulevard325', 'campestre', 'Av.San Martín', '946989937', 'info@gmail.com', NULL, NULL, NULL, NULL, NULL, 5, '2024-01-17 14:15:06', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -681,9 +699,10 @@ CREATE TABLE `ubicaciones` (
 --
 
 INSERT INTO `ubicaciones` (`idubicacion`, `idhorario`, `latitud`, `longitud`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 3, -13.4176253, -76.1345425, '2024-01-17 05:01:15', NULL, NULL),
-(2, 4, -13.4029212, -76.1600548, '2024-01-17 05:01:15', NULL, NULL),
-(3, 5, -13.4053329, -76.1272912, '2024-01-17 05:01:15', NULL, NULL);
+(1, 1, -13.4176195, -76.1320643, '2024-01-17 11:58:27', NULL, NULL),
+(2, 2, -13.4028911, -76.1575943, '2024-01-17 11:58:27', NULL, NULL),
+(3, 3, -13.4053329, -76.1272912, '2024-01-17 11:58:27', NULL, NULL),
+(4, 1, -13.4187325, -76.1281828, '2024-01-17 14:13:43', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -851,7 +870,7 @@ ALTER TABLE `horarios`
 -- AUTO_INCREMENT de la tabla `negocios`
 --
 ALTER TABLE `negocios`
-  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
@@ -875,7 +894,7 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de la tabla `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
-  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

@@ -99,3 +99,28 @@ END $$
 DELIMITER ;
 
 CALL spu_obtener_negocios_y_disponibilidad(7, 'miercoles');
+
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_obtener_negocios_subdis(
+	IN _idsubcategoria 		INT,
+    IN _iddistrito 			INT 
+)
+BEGIN
+	SELECT 
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        n.nombre,
+        n.descripcion,
+        n.direccion,
+        n.telefono,
+        s.nomsubcategoria,
+        d.nomdistrito
+    FROM negocios n
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE s.idsubcategoria = _idsubcategoria AND d.iddistrito = _iddistrito;
+END  $$
+CALL spu_obtener_negocios_subdis(8,6);
