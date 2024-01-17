@@ -125,6 +125,8 @@ BEGIN
 END  $$
 CALL spu_obtener_negocios_subdis(8,6);
 
+
+
 DELIMITER $$
 CREATE PROCEDURE spu_obtener_nyh(
     IN _idsubcategoria INT,
