@@ -309,76 +309,65 @@
                 });
         }
 
-        function cargarSubcategorias(idcategoria) {
-        const parametros = new FormData();
-        parametros.append("operacion", "listar");
-        parametros.append("idcategoria", 1);
+        function cargarSubcategorias() {
+          const parametros = new FormData();
+          parametros.append("operacion", "listarsub");
 
-        fetch(`./controllers/subcategoria.controller.php`, {
-            method: "POST",
-            body: parametros
-        })
-        .then(respuesta => respuesta.json())
-        .then(datos => {
-            console.log(datos);
-            const subcategoriaDiv = document.getElementById("subcategoria");
-            //subcategoriaDiv.innerHTML = ''; // Limpiar contenido anterior
+          fetch(`./controllers/subcategoria.controller.php`, {
+              method: "POST",
+              body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+              console.log(datos);
 
-            datos.forEach(element => {
-                nuevaFila = `
-                    <div id="${element.nomcategoria}" class="pb-5 w-820 text-center nego_acti" style="display:none;">
-                        <span class="topright">&times;</span>
-                        <div class="row pb-4">
-                            <div class="col-sm"><button type="button" class="btn btn-light col-11">${element.nomsubcategoria}</button></div>
-                            <!-- Otros botones aquí -->
-                        </div>
-                        <div class="row">
-                            <!-- Otros botones aquí -->
-                        </div>
-                    </div>
-                `;
-                subcategoriaDiv.innerHTML += nuevaFila;
-            });
-        })
-        .catch(e => {
-            console.error(e);
+              const subcategoriaDiv = document.getElementById("subcategoria");
+              datos.forEach(element => {
+
+                  // Mostrar categoría
+                  const nuevaFilaCategoria = `
+                      <div id="${element.categoria}" class="pb-5 w-820 text-center nego_acti" style="display:none;" data-id="${element.categoria}">
+                          <span class="topright">&times;</span>
+
+                          <div class="row pb-4 hyundai"  id="subcategoria-${element.categoria}">
+                          </div>
+                      </div>
+                  `;
+                  subcategoriaDiv.innerHTML += nuevaFilaCategoria;
+
+                  // Mostrar subcategorías
+                  const subcategoriaContainer = document.getElementById(`subcategoria-${element.categoria}`);
+                  element.subcategorias.forEach(subcategoria => {
+                      const nuevaFilaSubcategoria = `
+                          <div class="col-sm"><button type="button" class="btn btn-light col-11">${subcategoria.nomsubcategoria}</button></div>
+                      `;
+                      subcategoriaContainer.innerHTML += nuevaFilaSubcategoria;
+                  });
+              });
+          })
+          .catch(e => {
+              console.error(e);
+          });
+        }
+
+        document.addEventListener('click', function (event) {
+          if (event.target.classList.contains('topright')) {
+              // Buscar el contenedor padre del elemento clicado
+              const subcategoriaContainer = event.target.closest('.nego_acti');
+              const categoriaContainer = event.target.classList.contains('tabs');
+              
+              // Verificar si se encontró un contenedor y cerrarlo
+              if (subcategoriaContainer) {
+                  subcategoriaContainer.style.display = 'none';
+              }
+              if (categoriaContainer) {
+                  categoriaContainer.style.display  = 'none';
+                  
+              }
+          }
         });
-    }
 
-       /* function getSubcategoria(idcategoria) {
-        const parametros = new FormData();
-        parametros.append("operacion", "listar");
-        parametros.append("idcategoria", 1);
-
-        fetch(`./controllers/subcategoria.controller.php`, {
-            method: "POST",
-            body: parametros
-        })
-        .then(respuesta => respuesta.json())
-        .then(datos => {
-            console.log(datos);
-            $("#subcategoria").innerHTML = '';
-
-            datos.forEach(element => {
-                nuevaFila = `
-                    <div id="${element.nomcategoria}" class="pb-5 w-820 text-center nego_acti" style="display:none;">
-                        <span class="topright">&times;</span>
-                        <div class="row pb-4">
-                            <div class="col-sm"><button type="button" class="btn btn-light col-11">${element.nomsubcategoria}</button></div>
-                            <!-- Otros botones aquí -->
-                        </div>
-                        <div class="row">
-                            <!-- Otros botones aquí -->
-                        </div>
-                    </div>
-                `;
-                $("#subcategoria").innerHTML += nuevaFila;
-            });
-        })
-        .catch(e => {
-            console.error(e);
-        });
-    }*/
+       
 
     
 

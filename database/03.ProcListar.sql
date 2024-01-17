@@ -59,6 +59,18 @@ BEGIN
 END $$*/
 
 DELIMITER $$
+CREATE PROCEDURE spu_subcategorias_listartodo()
+BEGIN
+	SELECT 
+		sub.idsubcategoria,
+        cat.nomcategoria,
+		sub.nomsubcategoria
+		FROM subcategorias sub
+        INNER JOIN categorias cat ON cat.idcategoria = sub.idcategoria;
+END $$
+
+    
+DELIMITER $$
 CREATE PROCEDURE spu_subcategorias_listar(IN _idcategoria INT)
 BEGIN 
     SELECT 
