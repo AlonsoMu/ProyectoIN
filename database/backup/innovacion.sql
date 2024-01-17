@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-01-2024 a las 06:26:28
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 17-01-2024 a las 13:56:53
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,6 +44,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_buscar_token` (IN `_correo` VAR
 	SELECT *
     FROM usuarios
     WHERE correo = _correo AND token = _token;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_carrusel_registrar` (IN `_foto` VARCHAR(200))   BEGIN
+	INSERT INTO carrusel
+		(foto)
+	VALUES
+		(_foto);
+	SELECT @@last_insert_id 'idcarrusel';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_categorias_listar` ()   BEGIN
@@ -225,16 +233,61 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_negocios` (IN `_idsubcategoria` INT)   BEGIN
     SELECT 
-		n.idnegocio,
-		u.idubicacion,
-		u.latitud,
-		u.longitud,
-		n.nombre,
-		n.direccion
-		FROM negocios n
-		INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
-		WHERE n.idsubcategoria = _idsubcategoria
+        n.idnegocio,
+        u.idubicacion,
+        d.iddistrito,
+        s.idsubcategoria,
+        s.nomsubcategoria,
+        u.latitud,
+        u.longitud,
+        n.nombre,
+        n.direccion,
+        d.nomdistrito,
+        n.telefono
+        FROM negocios n
+        INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+        INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+        INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+        WHERE n.idsubcategoria = _idsubcategoria
         AND n.inactive_at IS NULL; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_negocios_y_disponibilidad` (IN `_idsubcategoria` INT, IN `_dia_actual` VARCHAR(20))   BEGIN
+    DECLARE _hora_actual TIME;
+    DECLARE estado VARCHAR(10);
+
+    -- Obtener la hora actual
+    SET _hora_actual = CURRENT_TIME();
+
+    -- Verificar el estado del negocio
+    SELECT
+        CASE
+            WHEN _hora_actual BETWEEN h.apertura AND h.cierre THEN 'Abierto'
+            ELSE 'Cerrado'
+        END INTO estado
+    FROM horarios h
+    WHERE h.dia = _dia_actual;
+
+    -- Mostrar la información de los negocios y su estado de disponibilidad
+    SELECT 
+        n.idnegocio,
+        u.idubicacion,
+        d.iddistrito,
+        s.idsubcategoria,
+        s.nomsubcategoria,
+        u.latitud,
+        u.longitud,
+        n.nombre,
+        n.direccion,
+        d.nomdistrito,
+        n.telefono,
+        estado AS 'Estado'
+    FROM negocios n
+    INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    WHERE n.idsubcategoria = _idsubcategoria
+    AND n.inactive_at IS NULL; 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_personas_buscar` (IN `nombre_apellido` VARCHAR(100))   BEGIN
@@ -356,6 +409,20 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `carrusel`
+--
+
+CREATE TABLE `carrusel` (
+  `idcarrusel` int(11) NOT NULL,
+  `foto` varchar(200) NOT NULL,
+  `create_at` datetime DEFAULT current_timestamp(),
+  `update_at` datetime DEFAULT NULL,
+  `inactive_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `categorias`
 --
 
@@ -393,7 +460,7 @@ CREATE TABLE `contratos` (
   `create_at` datetime DEFAULT current_timestamp(),
   `update_at` datetime DEFAULT NULL,
   `inactive_at` datetime DEFAULT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -464,9 +531,13 @@ CREATE TABLE `horarios` (
 --
 
 INSERT INTO `horarios` (`idhorario`, `apertura`, `cierre`, `dia`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, '10:00:00', '16:00:00', 'Viernes', '2024-01-05 23:12:15', NULL, NULL),
-(2, '07:45:00', '16:45:00', 'Sábado', '2024-01-05 23:12:15', NULL, NULL),
-(3, '08:30:00', '15:30:00', 'Domingo', '2024-01-05 23:12:15', NULL, NULL);
+(1, '10:00:00', '16:00:00', 'lunes', '2024-01-17 04:58:27', NULL, NULL),
+(2, '07:45:00', '16:45:00', 'martes', '2024-01-17 04:58:27', NULL, NULL),
+(3, '11:00:00', '15:30:00', 'miercoles', '2024-01-17 04:58:27', NULL, NULL),
+(4, '09:00:00', '16:00:00', 'jueves', '2024-01-17 04:58:27', NULL, NULL),
+(5, '11:30:00', '16:00:00', 'Viernes', '2024-01-17 04:58:27', NULL, NULL),
+(6, '07:45:00', '16:45:00', 'Sábado', '2024-01-17 04:58:27', NULL, NULL),
+(7, '08:30:00', '15:30:00', 'Domingo', '2024-01-17 04:58:27', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -610,9 +681,9 @@ CREATE TABLE `ubicaciones` (
 --
 
 INSERT INTO `ubicaciones` (`idubicacion`, `idhorario`, `latitud`, `longitud`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 1, -13.4176253, -76.1345425, '2024-01-05 23:12:15', NULL, NULL),
-(2, 2, -13.4029212, -76.1600548, '2024-01-05 23:12:15', NULL, NULL),
-(3, 3, -13.4053329, -76.1272912, '2024-01-05 23:12:15', NULL, NULL);
+(1, 3, -13.4176253, -76.1345425, '2024-01-17 05:01:15', NULL, NULL),
+(2, 4, -13.4029212, -76.1600548, '2024-01-17 05:01:15', NULL, NULL),
+(3, 5, -13.4053329, -76.1272912, '2024-01-17 05:01:15', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -648,6 +719,12 @@ INSERT INTO `usuarios` (`idusuario`, `idpersona`, `avatar`, `correo`, `claveacce
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `carrusel`
+--
+ALTER TABLE `carrusel`
+  ADD PRIMARY KEY (`idcarrusel`);
 
 --
 -- Indices de la tabla `categorias`
@@ -735,6 +812,12 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `carrusel`
+--
+ALTER TABLE `carrusel`
+  MODIFY `idcarrusel` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
@@ -762,7 +845,7 @@ ALTER TABLE `galerias`
 -- AUTO_INCREMENT de la tabla `horarios`
 --
 ALTER TABLE `horarios`
-  MODIFY `idhorario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idhorario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `negocios`
