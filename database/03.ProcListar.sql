@@ -47,6 +47,21 @@ SELECT * FROM categorias;
 SELECT * FROM subcategorias;
 -- ##########################################################################################################################
 
+DELIMITER $$
+CREATE PROCEDURE spu_distritos_listar()
+BEGIN
+	SELECT 
+		iddistrito,
+        nomdistrito,
+        latitud,
+        longitud
+	FROM distritos
+    WHERE inactive_at IS NULL;
+END $$
+CALL spu_categorias_listar();
+SELECT * FROM categorias;
+SELECT * FROM subcategorias;
+
 /*DELIMITER $$
 CREATE PROCEDURE spu_subcategorias_listar(IN _idcategoria INT)
 BEGIN 
@@ -70,7 +85,7 @@ BEGIN
 END $$
 
     
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_subcategorias_listar(IN _idcategoria INT)
 BEGIN 
     SELECT 
@@ -83,7 +98,7 @@ BEGIN
 		WHERE sub.idcategoria = _idcategoria
           AND sub.inactive_at IS NULL;
 END $$
-CALL spu_subcategorias_listar(1);
+CALL spu_subcategorias_listar(1);*/
 
 SELECT * FROM categorias;
 SELECT * FROM subcategorias;

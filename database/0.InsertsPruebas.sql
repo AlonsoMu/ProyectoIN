@@ -89,3 +89,20 @@ VALUES
 
 SELECT * FROM categorias;
 SELECT * FROM subcategorias;
+SELECT * FROM negocios;
+
+
+INSERT INTO distritos (nomdistrito, latitud, longitud)
+VALUES
+	('chincha alta', -13.4255087, -76.1470108),
+    ('alto larán', -13.4367338, -76.0884531),
+    ('chavín', -13.4366365, -76.1245031),
+    ('chincha baja', -13.4949757, -76.192646),
+    ('el carmen', -13.4986644, -76.0630971),
+    ('grocio prado', -13.2903374, -76.3373479),
+    ('pueblo nuevo', -13.3193912, -76.1088001),
+    ('san juan de yanac', -13.2082954, -75.9906011),
+    ('san pedro de huacarpana', -13.0694787, -75.7914073),
+    ('sunampe', -13.4291925, -76.1821982),
+    ('tambo de mora', -13.4579713, -76.2041976);
+SELECT * FROM distritos;

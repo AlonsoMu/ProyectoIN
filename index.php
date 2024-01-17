@@ -138,11 +138,8 @@
       </div>
       <div class="row pt-4 distritoc" style="max-width: 300px;">
           <label class="pr-3">Distrito: </label>
-          <select class="form-select" aria-label="Selecciona un distrito">
-              <option selected>Selecciona</option>
-              <option value="distrito1">Distrito 1</option>
-              <option value="distrito2">Distrito 2</option>
-              <option value="distrito3">Distrito 3</option>
+          <select class="form-select" aria-label="Selecciona un distrito" id="distrito">
+              <option selected value="">Selecciona</option>
               <!-- Agrega más opciones según sea necesario -->
           </select>
       </div>
@@ -276,6 +273,8 @@
 
   <script type="text/javascript">
       let map;
+      let infoWindow;
+      let markers = [];
       document.addEventListener("DOMContentLoaded", () => {
         function getCategoria() {
             const parametros = new FormData();
@@ -314,29 +313,28 @@
           parametros.append("operacion", "listarsub");
 
           fetch(`./controllers/subcategoria.controller.php`, {
-              method: "POST",
-              body: parametros
+            method: "POST",
+            body: parametros
           })
           .then(respuesta => respuesta.json())
           .then(datos => {
-              console.log(datos);
+            console.log(datos);
 
-              const subcategoriaDiv = document.getElementById("subcategoria");
-              datos.forEach(element => {
+            const subcategoriaDiv = document.getElementById("subcategoria");
+            datos.forEach(element => {
 
-                  // Mostrar categoría
-                  const nuevaFilaCategoria = `
-                      <div id="${element.categoria}" class="pb-5 w-820 text-center nego_acti" style="display:none;" data-id="${element.categoria}">
-                          <span class="topright">&times;</span>
+              // Mostrar categoría
+              const nuevaFilaCategoria = `
+                <div id="${element.categoria}" class="pb-5 w-820 text-center nego_acti" style="display:none;" data-id="${element.categoria}">
+                  <span class="topright">&times;</span>
 
-                          <div class="row pb-4 hyundai"  id="subcategoria-${element.categoria}">
-                          </div>
-                      </div>
-                  `;
-                  subcategoriaDiv.innerHTML += nuevaFilaCategoria;
+                  <div class="row pb-4 hyundai"  id="subcategoria-${element.categoria}"></div>
+                </div>
+              `;
+              subcategoriaDiv.innerHTML += nuevaFilaCategoria;
 
-                  // Mostrar subcategorías
-                  const subcategoriaContainer = document.getElementById(`subcategoria-${element.categoria}`);
+              // Mostrar subcategorías
+              const subcategoriaContainer = document.getElementById(`subcategoria-${element.categoria}`);
                   element.subcategorias.forEach(subcategoria => {
                       const nuevaFilaSubcategoria = `
                           <div class="col-sm"><button type="button" class="btn btn-light col-11">${subcategoria.nomsubcategoria}</button></div>
@@ -369,11 +367,35 @@
 
        
 
-    
+    function getDistrito(){
+      const parametros = new FormData();
+      parametros.append("operacion", "listar")
+      
+      fetch(`./controllers/distrito.controller.php`, {
+        method: "POST",
+        body: parametros
+      })
+      .then(respuesta => respuesta.json())
+      .then(datos =>{
+        //console.log(datos)
+        const distritoSelect = document.getElementById("distrito");
+        datos.forEach(element => {
+          const etiqueta = document.createElement("option");
+          etiqueta.value = element.iddistrito;
+          etiqueta.innerHTML = element.nomdistrito;
+
+          distritoSelect.appendChild(etiqueta);
+        });
+      })
+      .catch(e => {
+        console.error(e);
+      });
+    }
 
     // Llamar a la función para obtener categorías al cargar la página
     getCategoria();
     cargarSubcategorias();
+    getDistrito();
 });
 
 

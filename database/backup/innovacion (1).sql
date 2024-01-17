@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-01-2024 a las 04:10:21
+-- Tiempo de generación: 17-01-2024 a las 05:18:07
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -104,6 +104,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_disponible_negocio` (IN `_dia_a
 
     -- Mostrar el estado del negocio
     SELECT estado AS 'Estado';
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_distritos_listar` ()   BEGIN
+	SELECT 
+		iddistrito,
+        nomdistrito,
+        latitud,
+        longitud
+	FROM distritos
+    WHERE inactive_at IS NULL;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_galerias_listar` (IN `_idnegocio` INT)   BEGIN
@@ -288,6 +298,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_subcategorias_listar` (IN `_idc
           AND sub.inactive_at IS NULL;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_subcategorias_listartodo` ()   BEGIN
+	SELECT 
+		sub.idsubcategoria,
+        cat.nomcategoria,
+		sub.nomsubcategoria
+		FROM subcategorias sub
+        INNER JOIN categorias cat ON cat.idcategoria = sub.idcategoria;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_subcategorias_registrar` (IN `_idcategoria` INT, IN `_nomsubcategoria` VARCHAR(100))   BEGIN
 	INSERT INTO subcategorias
 		(idcategoria, nomsubcategoria)
@@ -373,6 +392,39 @@ CREATE TABLE `contratos` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `distritos`
+--
+
+CREATE TABLE `distritos` (
+  `iddistrito` int(11) NOT NULL,
+  `nomdistrito` varchar(50) NOT NULL,
+  `latitud` double NOT NULL,
+  `longitud` double NOT NULL,
+  `create_at` datetime DEFAULT current_timestamp(),
+  `update_at` datetime DEFAULT NULL,
+  `inactive_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `distritos`
+--
+
+INSERT INTO `distritos` (`iddistrito`, `nomdistrito`, `latitud`, `longitud`, `create_at`, `update_at`, `inactive_at`) VALUES
+(1, 'chincha alta', -13.4255087, -76.1470108, '2024-01-16 23:04:54', NULL, NULL),
+(2, 'alto larán', -13.4367338, -76.0884531, '2024-01-16 23:04:54', NULL, NULL),
+(3, 'chavín', -13.4366365, -76.1245031, '2024-01-16 23:04:54', NULL, NULL),
+(4, 'chincha baja', -13.4949757, -76.192646, '2024-01-16 23:04:54', NULL, NULL),
+(5, 'el carmen', -13.4986644, -76.0630971, '2024-01-16 23:04:54', NULL, NULL),
+(6, 'grocio prado', -13.2903374, -76.3373479, '2024-01-16 23:04:54', NULL, NULL),
+(7, 'pueblo nuevo', -13.3193912, -76.1088001, '2024-01-16 23:04:54', NULL, NULL),
+(8, 'san juan de yanac', -13.2082954, -75.9906011, '2024-01-16 23:04:54', NULL, NULL),
+(9, 'san pedro de huacarpana', -13.0694787, -75.7914073, '2024-01-16 23:04:54', NULL, NULL),
+(10, 'sunampe', -13.4291925, -76.1821982, '2024-01-16 23:04:54', NULL, NULL),
+(11, 'tambo de mora', -13.4579713, -76.2041976, '2024-01-16 23:04:54', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `galerias`
 --
 
@@ -384,24 +436,6 @@ CREATE TABLE `galerias` (
   `update_at` datetime DEFAULT NULL,
   `inactive_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `galerias`
---
-
-INSERT INTO `galerias` (`idgaleria`, `idnegocio`, `rutafoto`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 1, 'prueba.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(2, 2, 'prueba2.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(3, 3, 'prueba3.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(4, 1, 'prueba4.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(5, 1, 'prueba5.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(6, 1, 'prueba6.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(7, 2, 'prueba7.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(8, 2, 'prueba8.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(9, 2, 'prueba9.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(10, 3, 'prueba10.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(11, 3, 'prueba11.jpg', '2024-01-05 23:12:15', NULL, NULL),
-(12, 3, 'prueba12.jpg', '2024-01-05 23:12:15', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -436,6 +470,7 @@ INSERT INTO `horarios` (`idhorario`, `apertura`, `cierre`, `dia`, `create_at`, `
 
 CREATE TABLE `negocios` (
   `idnegocio` int(11) NOT NULL,
+  `iddistrito` int(11) NOT NULL,
   `idpersona` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `idsubcategoria` int(11) NOT NULL,
@@ -443,7 +478,6 @@ CREATE TABLE `negocios` (
   `nroruc` char(15) DEFAULT NULL,
   `nombre` varchar(200) NOT NULL,
   `descripcion` varchar(200) DEFAULT NULL,
-  `distrito` varchar(60) NOT NULL,
   `direccion` varchar(100) NOT NULL,
   `telefono` char(11) DEFAULT NULL,
   `correo` varchar(100) DEFAULT NULL,
@@ -616,6 +650,12 @@ ALTER TABLE `contratos`
   ADD KEY `fk_idusuario_con` (`idusuario`);
 
 --
+-- Indices de la tabla `distritos`
+--
+ALTER TABLE `distritos`
+  ADD PRIMARY KEY (`iddistrito`);
+
+--
 -- Indices de la tabla `galerias`
 --
 ALTER TABLE `galerias`
@@ -634,6 +674,7 @@ ALTER TABLE `horarios`
 ALTER TABLE `negocios`
   ADD PRIMARY KEY (`idnegocio`),
   ADD UNIQUE KEY `uk_nroruc_neg` (`nroruc`),
+  ADD KEY `fk_iddistrito_neg` (`iddistrito`),
   ADD KEY `fk_idpersona_neg` (`idpersona`),
   ADD KEY `fk_idusuario_neg` (`idusuario`),
   ADD KEY `fk_idsubcategoria_neg` (`idsubcategoria`),
@@ -691,10 +732,16 @@ ALTER TABLE `contratos`
   MODIFY `idcontrato` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `distritos`
+--
+ALTER TABLE `distritos`
+  MODIFY `iddistrito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT de la tabla `galerias`
 --
 ALTER TABLE `galerias`
-  MODIFY `idgaleria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idgaleria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `horarios`
@@ -760,6 +807,7 @@ ALTER TABLE `galerias`
 -- Filtros para la tabla `negocios`
 --
 ALTER TABLE `negocios`
+  ADD CONSTRAINT `fk_iddistrito_neg` FOREIGN KEY (`iddistrito`) REFERENCES `distritos` (`iddistrito`),
   ADD CONSTRAINT `fk_idpersona_neg` FOREIGN KEY (`idpersona`) REFERENCES `personas` (`idpersona`),
   ADD CONSTRAINT `fk_idsubcategoria_neg` FOREIGN KEY (`idsubcategoria`) REFERENCES `subcategorias` (`idsubcategoria`),
   ADD CONSTRAINT `fk_idubicacion_neg` FOREIGN KEY (`idubicacion`) REFERENCES `ubicaciones` (`idubicacion`),

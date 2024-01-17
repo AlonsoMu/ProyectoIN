@@ -107,6 +107,7 @@ CREATE TABLE ubicaciones(
 -- -------------------------------------------------------------------------------------------------
 CREATE TABLE negocios(
 	idnegocio 				INT 			AUTO_INCREMENT 	PRIMARY KEY,
+    iddistrito				INT 			NOT NULL, -- FK | campo agregado
     idpersona 				INT 			NOT NULL, -- FK
     idusuario 				INT 			NOT NULL, -- FK
     idsubcategoria 			INT 			NOT NULL, -- FK
@@ -114,7 +115,7 @@ CREATE TABLE negocios(
     nroruc 					CHAR(15) 		NULL, -- UK
     nombre					VARCHAR(200)	NOT NULL,
     descripcion 			VARCHAR(200) 	NULL,
-    distrito 				VARCHAR(60) 	NOT NULL,
+    -- distrito 				VARCHAR(60) 	NOT NULL,
     direccion 				VARCHAR(100) 	NOT NULL,
     telefono				CHAR(11) 		NULL,
     correo 					VARCHAR(100) 	NULL,
@@ -127,6 +128,7 @@ CREATE TABLE negocios(
     create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL,
+    CONSTRAINT fk_iddistrito_neg			FOREIGN KEY (iddistrito) REFERENCES distritos (iddistrito),
     CONSTRAINT fk_idpersona_neg 			FOREIGN KEY (idpersona) REFERENCES personas (idpersona),
     CONSTRAINT fk_idusuario_neg 			FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario),
     CONSTRAINT fk_idsubcategoria_neg		FOREIGN KEY (idsubcategoria) REFERENCES subcategorias (idsubcategoria),
@@ -165,7 +167,20 @@ CREATE TABLE contratos(
     CONSTRAINT fk_idusuario_con 			FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario),
     CONSTRAINT chk_fechafin_con 			CHECK (fechafin > fechainicio)
 )ENGINE = INNODB;
-DELETE FROM subcategorias;
-ALTER TABLE subcategorias AUTO_INCREMENT 1;
+DELETE FROM galerias;
+ALTER TABLE galerias AUTO_INCREMENT 1;
 -- Volver a activar la restricción de clave externa
 SET foreign_key_checks = 1;
+
+
+
+-- TABLA DISTRITOS
+CREATE TABLE distritos(
+	iddistrito					INT 			AUTO_INCREMENT PRIMARY KEY,
+    nomdistrito					VARCHAR(50)		NOT NULL,
+    latitud						DOUBLE 			NOT NULL,
+    longitud 					DOUBLE			NOT NULL,
+	create_at 				DATETIME		DEFAULT NOW(),
+	update_at				DATETIME		NULL,
+	inactive_at				DATETIME	 	NULL
+)ENGINE = INNODB;
