@@ -31,6 +31,8 @@ BEGIN
 END $$
 CALL spu_personas_listar();
 
+
+
 -- ##########################################################################################################################
 
 DELIMITER $$
@@ -61,6 +63,32 @@ END $$
 CALL spu_categorias_listar();
 SELECT * FROM categorias;
 SELECT * FROM subcategorias;
+
+DELIMITER $$
+CREATE PROCEDURE spu_obtener_negocios(IN _idsubcategoria INT)
+BEGIN
+    SELECT 
+        n.idnegocio,
+        u.idubicacion,
+        d.iddistrito,
+        s.idsubcategoria,
+        s.nomsubcategoria,
+        u.latitud,
+        u.longitud,
+        n.nombre,
+        n.direccion,
+        d.nomdistrito,
+        n.telefono
+        FROM negocios n
+        INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+        INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+        INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+        WHERE n.idsubcategoria = _idsubcategoria
+        AND n.inactive_at IS NULL; 
+END $$
+
+CALL spu_obtener_negocios(7);
+
 
 /*DELIMITER $$
 CREATE PROCEDURE spu_subcategorias_listar(IN _idcategoria INT)

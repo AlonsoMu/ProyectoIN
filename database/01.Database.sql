@@ -167,8 +167,8 @@ CREATE TABLE contratos(
     CONSTRAINT fk_idusuario_con 			FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario),
     CONSTRAINT chk_fechafin_con 			CHECK (fechafin > fechainicio)
 )ENGINE = INNODB;
-DELETE FROM galerias;
-ALTER TABLE galerias AUTO_INCREMENT 1;
+DELETE FROM carrusel;
+ALTER TABLE carrusel AUTO_INCREMENT 1;
 -- Volver a activar la restricción de clave externa
 SET foreign_key_checks = 1;
 
@@ -180,6 +180,15 @@ CREATE TABLE distritos(
     nomdistrito					VARCHAR(50)		NOT NULL,
     latitud						DOUBLE 			NOT NULL,
     longitud 					DOUBLE			NOT NULL,
+	create_at 				DATETIME		DEFAULT NOW(),
+	update_at				DATETIME		NULL,
+	inactive_at				DATETIME	 	NULL
+)ENGINE = INNODB;
+
+-- TABLA DISTRITOS
+CREATE TABLE carrusel(
+	idcarrusel				INT 			AUTO_INCREMENT PRIMARY KEY,
+    foto					VARCHAR(200)	NOT NULL,
 	create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL

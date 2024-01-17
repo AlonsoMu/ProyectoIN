@@ -44,16 +44,20 @@ INSERT INTO subcategorias (idcategoria, nomsubcategoria ) VALUES
 
 
 INSERT INTO horarios (apertura, cierre, dia) VALUES
-('10:00:00', '16:00:00', 'Viernes'),
+('10:00:00', '16:00:00', 'lunes'),
+('07:45:00', '16:45:00', 'martes'),
+('11:00:00', '15:30:00', 'miercoles'),
+('09:00:00', '16:00:00', 'jueves'),
+('11:30:00', '16:00:00', 'Viernes'),
 ('07:45:00', '16:45:00', 'Sábado'),
 ('08:30:00', '15:30:00', 'Domingo');
 
 
 
 INSERT INTO ubicaciones (idhorario, latitud, longitud) VALUES
-(1, -13.4180228, -76.1346424),
-(2, -13.4183725, -76.1337673),
-(3, -13.4128998, -76.1294291);
+(3, -13.4176253, -76.1345425),
+(4, -13.4029212, -76.1600548),
+(5, -13.4053329, -76.1272912);
 
 INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, idubicacion, nroruc, nombre,
  descripcion, direccion, telefono, correo, valoracion) VALUES

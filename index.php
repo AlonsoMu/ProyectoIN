@@ -17,6 +17,8 @@
     <!-- Style -->
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/listado.css">
+    <link rel="stylesheet" href="./css/window.css">
+    
   </head>
 
   <body>
@@ -273,7 +275,7 @@
 
   <script type="text/javascript">
       let map;
-      let infoWindow;
+      
      
       document.addEventListener("DOMContentLoaded", () => {
         function getCategoria() {
@@ -462,108 +464,129 @@
           center: peruCoords,
           zoom: 16,
         });
-
+        // Inicializar el objeto infoWindow
+        infoWindow = new google.maps.InfoWindow();
+        getYourLocation();
       }
 
       // Declarar una variable global para almacenar los marcadores
-let markers = [];
+      let markers = [];
+      let infoWindow;
 
-function clearMarkers() {
-    markers.forEach(marker => {
-        marker.setMap(null);
-    });
-    markers = [];
-}
+      function clearMarkers() {
+          markers.forEach(marker => {
+              marker.setMap(null);
+          });
+          markers = [];
+      }
 
-// Modificar la función listarNegocios
-function listarNegocios(idsubcategoria) {
-    console.log("Ingresando a listarNegocios");
+      // Modificar la función listarNegocios
+      function listarNegocios(idsubcategoria) {
+          console.log("Ingresando a listarNegocios");
 
-    // Limpiar marcadores existentes
-    clearMarkers();
+          // Limpiar marcadores existentes
+          clearMarkers();
 
-    const parametros = new FormData();
-    parametros.append("operacion", "obtenerNegocio");
-    parametros.append("idsubcategoria", idsubcategoria);
+          const parametros = new FormData();
+          parametros.append("operacion", "obtenerNyH");
+          parametros.append("idsubcategoria", idsubcategoria);
 
-    fetch('./controllers/negocio.controller.php', {
-        method: "POST",
-        body: parametros
-    })
-    .then(respuesta => respuesta.json())
-    .then(datos => {
-        console.log(datos);
+          fetch('./controllers/negocio.controller.php', {
+              method: "POST",
+              body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+              console.log(datos);
 
-        if (datos.length > 0) {
-            // Crear un bucle para recorrer todos los elementos y agregar marcadores
-            datos.forEach(element => {
-                const point = new google.maps.LatLng(
-                    parseFloat(element.latitud),
-                    parseFloat(element.longitud)
-                );
+              if (datos.length > 0) {
+                  // Crear un bucle para recorrer todos los elementos y agregar marcadores
+                  datos.forEach(element => {
+                      const point = new google.maps.LatLng(
+                          parseFloat(element.latitud),
+                          parseFloat(element.longitud)
+                      );
 
-                // Agregar un marcador para cada elemento
-                const marker = new google.maps.Marker({
-                    map: map, // Asumo que "map" es tu objeto google.maps.Map
-                    position: point,
-                    title: element.nomnegocio,
-                });
+                      // Agregar un marcador para cada elemento
+                      const marker = new google.maps.Marker({
+                          map: map, // Asumo que "map" es tu objeto google.maps.Map
+                          position: point,
+                          title: element.nomnegocio,
+                      });
 
-                marker.addListener('mouseover', function () {
-                    mostrarInfoWindow(element, marker);
-                });
+                      marker.addListener('mouseover', function () {
+                          mostrarInfoWindow(element, marker);
+                      });
 
-                marker.addListener('mouseout', function () {
-                    infoWindow.close();
-                });
+                      marker.addListener('mouseout', function () {
+                          infoWindow.close();
+                      });
 
-                markers.push(marker);
-            });
+                      markers.push(marker);
+                  });
 
-            // Centrar y hacer zoom solo si hay marcadores
-            if (markers.length > 0) {
-                const bounds = new google.maps.LatLngBounds();
-                markers.forEach(marker => {
-                    bounds.extend(marker.getPosition());
-                });
-                map.fitBounds(bounds);
-            }
+                  // Centrar y hacer zoom solo si hay marcadores
+                  if (markers.length > 0) {
+                      const bounds = new google.maps.LatLngBounds();
+                      markers.forEach(marker => {
+                          bounds.extend(marker.getPosition());
+                      });
+                      map.fitBounds(bounds);
+                  }
+              }
+          })
+          .catch(e => {
+              console.error(e);
+          });
+      }
+
+      // Evento de clic en los botones de subcategoría
+      document.addEventListener('click', function (event) {
+          if (event.target.classList.contains('btn-light')) {
+              const idSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
+              if (idSubcategoria !== null) {
+                  console.log("ID de Subcategoría:", idSubcategoria);
+                  listarNegocios(idSubcategoria);
+              }
+          }
+      });
+
+      // Función para obtener el ID de subcategoría desde el botón
+      function obtenerIdSubcategoriaDesdeBoton(boton) {
+          // Verificar si el atributo 'data-idsubcategoria' está presente
+          if (boton && boton.getAttribute) {
+              // Obtener el valor del atributo 'data-idsubcategoria'
+              const idSubcategoria = parseInt(boton.getAttribute('data-idsubcategoria'));
+              if (!isNaN(idSubcategoria)) {
+                  return idSubcategoria;
+              } else {
+                  console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
+                  return null;
+              }
+          } else {
+              console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
+              return null;
+          }
+      }
+
+      function mostrarInfoWindow(element, marker) {
+            const contentString = `
+            <div class="card-window">
+              <div class="logo-window">
+                  <img src="./img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="Logo de la chifa oriental" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+              <div class="info-window">
+                  <h1 class="name-window">${element.nombre}</h1>
+                  <h2 class="title-window">${element.Estado}</h2>
+                  <p class="distrito-window">${element.nomdistrito}</p>
+                  <p class="phone-window"><i class="bi bi-whatsapp"></i> ${element.telefono}</p>
+              </div>
+          </div>`;
+
+            infoWindow.setContent(contentString);
+            infoWindow.open(map, marker);
         }
-    })
-    .catch(e => {
-        console.error(e);
-    });
-}
 
-// Evento de clic en los botones de subcategoría
-document.addEventListener('click', function (event) {
-    if (event.target.classList.contains('btn-light')) {
-        const idSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
-        if (idSubcategoria !== null) {
-            console.log("ID de Subcategoría:", idSubcategoria);
-            listarNegocios(idSubcategoria);
-        }
-    }
-});
-
-// Función para obtener el ID de subcategoría desde el botón
-function obtenerIdSubcategoriaDesdeBoton(boton) {
-    // Verificar si el atributo 'data-idsubcategoria' está presente
-    if (boton && boton.getAttribute) {
-        // Obtener el valor del atributo 'data-idsubcategoria'
-        const idSubcategoria = parseInt(boton.getAttribute('data-idsubcategoria'));
-        if (!isNaN(idSubcategoria)) {
-            return idSubcategoria;
-        } else {
-            console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
-            return null;
-        }
-    } else {
-        console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
-        return null;
-    }
-}
-//obtenerIdSubcategoriaDesdeBoton();
 
       
      
@@ -597,7 +620,7 @@ function obtenerIdSubcategoriaDesdeBoton(boton) {
           alert("Tu navegador no cuenta con geolocalización");
         }
       }
-      getYourLocation();
+      
       
 
       
