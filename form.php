@@ -50,29 +50,26 @@
         return document.querySelector(id);
       }
 
-      
-
-
       function carrusel() {
         const parametros = new FormData();
         parametros.append("operacion", "registrar");
         parametros.append("foto", $("#foto").files[0]);
 
         fetch(`./controllers/carrusel.controller.php`, {
-            method: "POST",
-            body: parametros
-            })
-            .then(respuesta => respuesta.json())
-            .then(datos => {
-            if (datos.idcarrusel > 0) {
-                alert(`Foto registrado con ID: ${datos.idcarrusel}`)
-                $("#form-carrusel").reset();
-            }
-            })
-            .catch(e => {
-            console.error(e)
-            });
-        }
+          method: "POST",
+          body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+          if (datos.idcarrusel > 0) {
+            alert(`Foto registrado con ID: ${datos.idcarrusel}`)
+            $("#form-carrusel").reset();
+          }
+        })
+        .catch(e => {
+          console.error(e)
+        });
+      }
 
       
       $("#form-carrusel").addEventListener("submit", (event) =>{

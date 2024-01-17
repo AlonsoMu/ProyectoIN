@@ -188,8 +188,9 @@ CREATE TABLE distritos(
 -- TABLA DISTRITOS
 CREATE TABLE carrusel(
 	idcarrusel				INT 			AUTO_INCREMENT PRIMARY KEY,
-    foto					VARCHAR(200)	NOT NULL,
+    fotografia				VARCHAR(200)	NULL,
 	create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL
 )ENGINE = INNODB;
+ALTER TABLE carrusel MODIFY foto VARCHAR(200) NULL;

@@ -183,13 +183,13 @@ END $$
 
 DELIMITER $$
 CREATE PROCEDURE spu_carrusel_registrar(
-    IN _foto		VARCHAR(200)
+    IN _fotografia		VARCHAR(200)
 )
 BEGIN
 	INSERT INTO carrusel
-		(foto)
+	(fotografia)
 	VALUES
-		(_foto);
+		(_fotografia);
 	SELECT @@last_insert_id 'idcarrusel';
 END $$
 
