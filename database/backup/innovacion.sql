@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-01-2024 a las 05:18:07
+-- Tiempo de generación: 17-01-2024 a las 06:26:28
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -217,6 +217,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_registrar` (IN `_idper
 	-- SELECT @@last_insert_id 'idnegocio';
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_coordenadas` (IN `_iddistrito` INT)   BEGIN
+    SELECT *
+		FROM distritos
+        WHERE iddistrito = _iddistrito;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_negocios` (IN `_idsubcategoria` INT)   BEGIN
     SELECT 
 		n.idnegocio,
@@ -410,17 +416,17 @@ CREATE TABLE `distritos` (
 --
 
 INSERT INTO `distritos` (`iddistrito`, `nomdistrito`, `latitud`, `longitud`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 'chincha alta', -13.4255087, -76.1470108, '2024-01-16 23:04:54', NULL, NULL),
-(2, 'alto larán', -13.4367338, -76.0884531, '2024-01-16 23:04:54', NULL, NULL),
-(3, 'chavín', -13.4366365, -76.1245031, '2024-01-16 23:04:54', NULL, NULL),
-(4, 'chincha baja', -13.4949757, -76.192646, '2024-01-16 23:04:54', NULL, NULL),
-(5, 'el carmen', -13.4986644, -76.0630971, '2024-01-16 23:04:54', NULL, NULL),
-(6, 'grocio prado', -13.2903374, -76.3373479, '2024-01-16 23:04:54', NULL, NULL),
-(7, 'pueblo nuevo', -13.3193912, -76.1088001, '2024-01-16 23:04:54', NULL, NULL),
-(8, 'san juan de yanac', -13.2082954, -75.9906011, '2024-01-16 23:04:54', NULL, NULL),
+(1, 'chincha alta', -13.417583, -76.1325496, '2024-01-16 23:04:54', NULL, NULL),
+(2, 'alto larán', -13.4423161, -76.0828003, '2024-01-16 23:04:54', NULL, NULL),
+(3, 'chavín', -13.0770802, -75.9129889, '2024-01-16 23:04:54', NULL, NULL),
+(4, 'chincha baja', -13.4589572, -76.1615777, '2024-01-16 23:04:54', NULL, NULL),
+(5, 'el carmen', -13.5001422, -76.05755, '2024-01-16 23:04:54', NULL, NULL),
+(6, 'grocio prado', -13.3981459, -76.1561312, '2024-01-16 23:04:54', NULL, NULL),
+(7, 'pueblo nuevo', -13.4048376, -76.1263936, '2024-01-16 23:04:54', NULL, NULL),
+(8, 'san juan de yanac', -13.210744, -75.7861519, '2024-01-16 23:04:54', NULL, NULL),
 (9, 'san pedro de huacarpana', -13.0694787, -75.7914073, '2024-01-16 23:04:54', NULL, NULL),
-(10, 'sunampe', -13.4291925, -76.1821982, '2024-01-16 23:04:54', NULL, NULL),
-(11, 'tambo de mora', -13.4579713, -76.2041976, '2024-01-16 23:04:54', NULL, NULL);
+(10, 'sunampe', -13.4275167, -76.1643971, '2024-01-16 23:04:54', NULL, NULL),
+(11, 'tambo de mora', -13.4585105, -76.1826305, '2024-01-16 23:04:54', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -491,6 +497,15 @@ CREATE TABLE `negocios` (
   `update_at` datetime DEFAULT NULL,
   `inactive_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `negocios`
+--
+
+INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idpersona`, `idusuario`, `idsubcategoria`, `idubicacion`, `nroruc`, `nombre`, `descripcion`, `direccion`, `telefono`, `correo`, `facebook`, `whatsapp`, `instagram`, `tiktok`, `logo`, `valoracion`, `create_at`, `update_at`, `inactive_at`) VALUES
+(1, 1, 1, 1, 7, 1, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', NULL, NULL, NULL, NULL, NULL, 4, '2024-01-17 00:25:14', NULL, NULL),
+(2, 6, 2, 1, 8, 2, '98765432101', 'costumbres', 'comida italiana', 'Calle Secundaria 456', '987654322', 'info@modaelegante.com', NULL, NULL, NULL, NULL, NULL, 5, '2024-01-17 00:25:14', NULL, NULL),
+(3, 7, 1, 1, 9, 3, '11112222333', 'naoky', 'comida mexicana', 'Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', NULL, NULL, NULL, NULL, NULL, 3, '2024-01-17 00:25:14', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -595,9 +610,9 @@ CREATE TABLE `ubicaciones` (
 --
 
 INSERT INTO `ubicaciones` (`idubicacion`, `idhorario`, `latitud`, `longitud`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 1, -13.4180228, -76.1346424, '2024-01-05 23:12:15', NULL, NULL),
-(2, 2, -13.4183725, -76.1337673, '2024-01-05 23:12:15', NULL, NULL),
-(3, 3, -13.4128998, -76.1294291, '2024-01-05 23:12:15', NULL, NULL);
+(1, 1, -13.4176253, -76.1345425, '2024-01-05 23:12:15', NULL, NULL),
+(2, 2, -13.4029212, -76.1600548, '2024-01-05 23:12:15', NULL, NULL),
+(3, 3, -13.4053329, -76.1272912, '2024-01-05 23:12:15', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -753,7 +768,7 @@ ALTER TABLE `horarios`
 -- AUTO_INCREMENT de la tabla `negocios`
 --
 ALTER TABLE `negocios`
-  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`

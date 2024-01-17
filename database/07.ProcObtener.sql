@@ -17,4 +17,14 @@ BEGIN
         AND n.inactive_at IS NULL; 
 END $$
 CALL spu_obtener_negocios(3);
-SELECT * FROM negocios;
+SELECT * FROM distritos;
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_obtener_coordenadas(IN _iddistrito INT)
+BEGIN
+    SELECT *
+		FROM distritos
+        WHERE iddistrito = _iddistrito;
+END $$
+CALL spu_obtener_coordenadas(1);

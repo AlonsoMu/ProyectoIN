@@ -277,35 +277,35 @@
       let markers = [];
       document.addEventListener("DOMContentLoaded", () => {
         function getCategoria() {
-            const parametros = new FormData();
-            parametros.append("operacion", "listar");
+          const parametros = new FormData();
+          parametros.append("operacion", "listar");
 
-            fetch(`./controllers/categoria.controller.php`, {
-                method: "POST",
-                body: parametros
-            })
-                .then(respuesta => respuesta.json())
-                .then(datos => {
-                    const categoriaDiv = document.getElementById("categoria");
+          fetch(`./controllers/categoria.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            const categoriaDiv = document.getElementById("categoria");
 
-                    datos.forEach(element => {
-                        const enlace = document.createElement("a");
-                        enlace.className = "nav-link corrector_nav tabs";
-                        enlace.setAttribute("data-bs-toggle", "collapse");
-                        enlace.setAttribute("onclick", `kiosco(event, '${element.nomcategoria}')`);
+            datos.forEach(element => {
+              const enlace = document.createElement("a");
+              enlace.className = "nav-link corrector_nav tabs";
+              enlace.setAttribute("data-bs-toggle", "collapse");
+              enlace.setAttribute("onclick", `kiosco(event, '${element.nomcategoria}')`);
 
-                        const icono = document.createElement("i");
-                        icono.className = "bi bi-chevron-down";
+              const icono = document.createElement("i");
+              icono.className = "bi bi-chevron-down";
 
-                        enlace.innerHTML = `${element.nomcategoria} `;
-                        enlace.appendChild(icono);
+              enlace.innerHTML = `${element.nomcategoria} `;
+              enlace.appendChild(icono);
 
-                        categoriaDiv.appendChild(enlace);
-                    });
-                })
-                .catch(e => {
-                    console.error(e);
-                });
+              categoriaDiv.appendChild(enlace);
+            });
+          })
+          .catch(e => {
+            console.error(e);
+          });
         }
 
         function cargarSubcategorias() {
@@ -335,13 +335,13 @@
 
               // Mostrar subcategorías
               const subcategoriaContainer = document.getElementById(`subcategoria-${element.categoria}`);
-                  element.subcategorias.forEach(subcategoria => {
-                      const nuevaFilaSubcategoria = `
-                          <div class="col-sm"><button type="button" class="btn btn-light col-11">${subcategoria.nomsubcategoria}</button></div>
-                      `;
-                      subcategoriaContainer.innerHTML += nuevaFilaSubcategoria;
-                  });
+              element.subcategorias.forEach(subcategoria => {
+                const nuevaFilaSubcategoria = `
+                  <div class="col-sm"><button type="button" class="btn btn-light col-11">${subcategoria.nomsubcategoria}</button></div>
+                `;
+                subcategoriaContainer.innerHTML += nuevaFilaSubcategoria;
               });
+            });
           })
           .catch(e => {
               console.error(e);
@@ -367,36 +367,84 @@
 
        
 
-    function getDistrito(){
-      const parametros = new FormData();
-      parametros.append("operacion", "listar")
+        function getDistrito(){
+          const parametros = new FormData();
+          parametros.append("operacion", "listar")
       
-      fetch(`./controllers/distrito.controller.php`, {
-        method: "POST",
-        body: parametros
-      })
-      .then(respuesta => respuesta.json())
-      .then(datos =>{
-        //console.log(datos)
-        const distritoSelect = document.getElementById("distrito");
-        datos.forEach(element => {
-          const etiqueta = document.createElement("option");
-          etiqueta.value = element.iddistrito;
-          etiqueta.innerHTML = element.nomdistrito;
+          fetch(`./controllers/distrito.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+        .then(respuesta => respuesta.json())
+        .then(datos =>{
+          //console.log(datos)
+          const distritoSelect = document.getElementById("distrito");
+          datos.forEach(element => {
+            const etiqueta = document.createElement("option");
+            etiqueta.value = element.iddistrito;
+            etiqueta.innerHTML = element.nomdistrito;
 
-          distritoSelect.appendChild(etiqueta);
+            distritoSelect.appendChild(etiqueta);
+          });
+        })
+        .catch(e => {
+          console.error(e);
         });
-      })
-      .catch(e => {
-        console.error(e);
-      });
-    }
+      }
+      
+      // Función para actualizar el mapa cuando se selecciona un distrito
+      function actualizarMapa() {
+        const distritoSelect = document.getElementById("distrito");
+        const selectedDistritoId = distritoSelect.value;
+  
+        if (selectedDistritoId) {
+          // Realiza una llamada para obtener las coordenadas del distrito seleccionado
+          obtenerCoordenadasDistrito(selectedDistritoId)
+          .then(coordenadas => {
+            // Actualiza el mapa con las nuevas coordenadas
+            map.setCenter(coordenadas);
+            map.setZoom(16);
+  
+            // Agrega un marcador en las nuevas coordenadas
+            new google.maps.Marker({
+              position: coordenadas,
+              map: map,
+              icon: "./img/ubicacion.svg"
+            });
+          })
+          .catch(error => {
+            console.error("Error al obtener coordenadas del distrito:", error);
+          });
+        }
+      }
 
-    // Llamar a la función para obtener categorías al cargar la página
-    getCategoria();
-    cargarSubcategorias();
-    getDistrito();
-});
+      document.addEventListener('change', function (event) {
+        if (event.target.id === 'distrito') {
+          actualizarMapa();
+        }
+      });
+      
+      // Función para obtener las coordenadas del distrito desde el servidor
+      function obtenerCoordenadasDistrito(distritoId) {
+        const parametros = new FormData();
+        parametros.append("operacion", "obtener");
+        parametros.append("iddistrito", distritoId);
+  
+        return fetch(`./controllers/distrito.controller.php`, {
+          method: "POST",
+          body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(coordenadas => ({
+          lat: parseFloat(coordenadas.latitud),
+          lng: parseFloat(coordenadas.longitud)
+        }));
+      }
+      // Llamar a la función para obtener categorías al cargar la página
+      getCategoria();
+      cargarSubcategorias();
+      getDistrito();
+    });
 
 
 
@@ -414,6 +462,7 @@
           center: peruCoords,
           zoom: 16,
         });
+
       }
       //      navigator.geolocation.getCurrentPosition(({coords: {latitude, longitude}}) => {
       //   const coords = {

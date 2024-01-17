@@ -10,5 +10,11 @@ if (isset($_POST['operacion'])) {
     case 'listar':
       enviarJSON($distrito->listar());
       break;
+    case 'obtener':
+      $datos = [
+        'iddistrito' => $_POST['iddistrito']
+      ];
+      enviarJSON($distrito->obtener($datos));
+      break;
   }
 }

@@ -55,14 +55,15 @@ INSERT INTO ubicaciones (idhorario, latitud, longitud) VALUES
 (2, -13.4183725, -76.1337673),
 (3, -13.4128998, -76.1294291);
 
-INSERT INTO negocios (idpersona, idusuario, idsubcategoria, idubicacion, nroruc, nombre,
- descripcion, distrito, direccion, telefono, correo, valoracion) VALUES
-(1, 1, 1, 1, '12345678901', 'Norkys', 'ricos pollos a la brasa','Chincha Alta', 'Av. Principal 123', '987654321', 'info@tiendatech.com', 4),
-(2, 1, 2, 2, '98765432101', 'Yump Place', 'juegos entretenidos','Chincha Alta', 'Calle Secundaria 456', '987654322', 'info@modaelegante.com', 5),
-(3, 1, 3, 3, '11112222333', 'Topitop', 'lo mejor en tops','Pueblo Nuevo', 'Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', 3);
+INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, idubicacion, nroruc, nombre,
+ descripcion, direccion, telefono, correo, valoracion) VALUES
+(1, 1, 1, 7, 1, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', 4),
+(6, 2, 1, 8, 2, '98765432101', 'costumbres', 'comida italiana','Calle Secundaria 456', '987654322', 'info@modaelegante.com', 5),
+(7, 1, 1, 9, 3, '11112222333', 'naoky', 'comida mexicana','Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', 3);
 
 SELECT * FROM negocios;
-
+SELECT * FROM subcategorias;
+SELECT * FROM ubicaciones;
 INSERT INTO galerias (idnegocio, rutafoto)
 VALUES
 (1,'prueba.jpg'),
