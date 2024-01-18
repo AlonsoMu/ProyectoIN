@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-01-2024 a las 22:37:30
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 18-01-2024 a las 05:36:18
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,6 +44,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_buscar_token` (IN `_correo` VAR
 	SELECT *
     FROM usuarios
     WHERE correo = _correo AND token = _token;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_carrusel_listar` ()   BEGIN
+	SELECT
+		idcarrusel,
+        foto
+	FROM carrusel
+    WHERE inactive_at IS NULL;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_carrusel_registrar` (IN `_foto` VARCHAR(200))   BEGIN
@@ -487,7 +495,10 @@ CREATE TABLE `carrusel` (
 --
 
 INSERT INTO `carrusel` (`idcarrusel`, `foto`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 'c36c30c7826ffd71d7077a1a75c392691d2442cf.jpg', '2024-01-17 16:36:37', NULL, NULL);
+(1, 'c36c30c7826ffd71d7077a1a75c392691d2442cf.jpg', '2024-01-17 16:36:37', NULL, NULL),
+(2, '1839f545ad40ac089c2a06b4a78756fe5384bfc1.jpg', '2024-01-17 16:39:08', NULL, NULL),
+(3, '0b60af60efaff28ad42dae66b844a6f0e3b84b6a.jpg', '2024-01-17 22:42:33', NULL, NULL),
+(4, '2f62da0ad77685fe70cdba5c6ad401f7d6296479.jpg', '2024-01-17 22:42:44', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -887,7 +898,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `carrusel`
 --
 ALTER TABLE `carrusel`
-  MODIFY `idcarrusel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idcarrusel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
