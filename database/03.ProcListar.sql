@@ -200,8 +200,20 @@ BEGIN
     FROM galerias
     WHERE idnegocio = _idnegocio;
 END $$
-
+CALL spu_galerias_listar(1);
 -- ##########################################################################################################################
 
-CALL spu_galerias_listar(1);
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_carrusel_listar()
+BEGIN
+	SELECT
+		idcarrusel,
+        foto
+	FROM carrusel
+    WHERE inactive_at IS NULL;
+END $$
+
+-- ##########################################################################################################################
 

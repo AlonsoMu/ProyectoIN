@@ -22,6 +22,10 @@ if(isset($_POST['operacion'])){
       }
        enviarJson($carrusel->registrarLogo($datosEnviar));
       break;
+
+      case 'listar':
+        enviarJSON($carrusel->listar());
+        break;
   }
 }
 
