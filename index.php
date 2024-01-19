@@ -606,12 +606,11 @@
                 position: point,
                 title: element.nombre,
               });
-              marker.addListener('mouseover', function () {
+              // Cambiar 'mouseover' a 'click' para el evento del marcador
+              marker.addListener('click', function () {
                 mostrarInfoWindow(element, marker);
               });
-              marker.addListener('mouseout', function () {
-                infoWindow.close();
-              });
+
               markers.push(marker);
             });
             // Centrar y hacer zoom solo si hay marcadores
@@ -627,7 +626,13 @@
         .catch(e => {
           console.error(e);
         });
+        // Agregar listener para cerrar la ventana de información al hacer clic en el mapa
+        map.addListener('click', function () {
+          infoWindow.close();
+        });
       }
+
+      
       
       function agregarMarcadorDistrito(iddistrito, latitud, longitud) {
         const marker = new google.maps.Marker({
@@ -668,19 +673,36 @@
       }
 
       function mostrarInfoWindow(element, marker) {
+        // Función para formatear el número de teléfono
+        function formatearTelefono(telefono) {
+          // Eliminar espacios en blanco existentes y cualquier otro carácter no numérico
+          const numeroLimpiado = telefono.replace(/\D/g, '');
+
+          // Dividir el número en bloques de tres dígitos y unirlos con un espacio
+          const numeroFormateado = numeroLimpiado.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+
+          return numeroFormateado;
+        }
+
+        // Formatear el número de teléfono antes de insertarlo en la cadena
+        const telefono = formatearTelefono(element.telefono);
+
+        
+
         const contentString = `
           <div class="card-window">
             <div class="logo-window">
-              <img src="./img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="Logo de la chifa oriental" style="width: 100px; height: 100px; object-fit: cover;">
+              <img src="./img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="Logo de la chifa oriental" style="width: 217px; height: 204px;">
             </div>
             <div class="info-window">
+              <h6 class="nombre">Nombre</h6>
               <h1 class="name-window">${element.nombre}</h1>
-              <h2 class="title-window">${element.Estado}</h2>
-              <p class="distrito-window">${element.nomdistrito}</p>
-              <p class="phone-window"><i class="bi bi-whatsapp"></i> ${element.telefono}</p>
+              <p class="distrito-window">Distrito: ${element.nomdistrito}</p>
+              <p class="title-window"> <img src="./img/abierto.svg"> ${element.Estado}</p>
+              <p class="phone-window" style="color:#5B4AFF; font-weight:600;"><img src="./img/icon_whatsapp.svg"> ${telefono}</p>
             </div>
-          </div>
-        `;
+          </div>`;
+
         infoWindow.setContent(contentString);
         infoWindow.open(map, marker);
       }
