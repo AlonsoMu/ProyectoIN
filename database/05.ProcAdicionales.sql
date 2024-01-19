@@ -181,7 +181,9 @@ CALL spu_obtener_nyh(7, 'miercole');
 
 -- PROCEDIMIENTO BUSCAR POR PRIMERA LETRA DE NEGOCIO
 DELIMITER $$
-CREATE PROCEDURE spu_negocios_busqueda(IN _valor VARCHAR(30))
+CREATE PROCEDURE spu_negocios_busqueda(
+IN _valor VARCHAR(30)
+)
 BEGIN
 	SELECT 
 		n.idnegocio,
@@ -200,5 +202,51 @@ BEGIN
             WHERE n.nombre  LIKE CONCAT('%',_valor,'%');
 END $$
 
+DELIMITER $$
+CREATE PROCEDURE spu_negocios_busqueda(
+    IN _valor VARCHAR(30),
+    IN _dia_actual VARCHAR(20)
+)
+BEGIN
+    DECLARE _hora_actual TIME;
+    DECLARE estado VARCHAR(10);
+
+    -- Obtener la hora actual
+    SET _hora_actual = CURRENT_TIME();
+
+    -- Verificar el estado del negocio
+    SELECT
+        CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM negocios n
+                INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+                INNER JOIN horarios h ON u.idhorario = h.idhorario
+                WHERE n.nombre LIKE CONCAT('%',_valor,'%')
+                  AND h.dia = _dia_actual
+                  AND _hora_actual BETWEEN h.apertura AND h.cierre
+            ) THEN 'Abierto'
+            ELSE 'Cerrado'
+        END INTO estado
+    FROM dual;
+
+    -- Mostrar la información de los negocios y su estado de disponibilidad
+    SELECT 
+        n.idnegocio,
+        u.idubicacion,
+        d.iddistrito,
+        n.nombre,
+        d.nomdistrito,
+        u.latitud,
+        u.longitud,
+        n.telefono,
+        estado AS 'Estado'
+    FROM negocios n
+    INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE n.nombre LIKE CONCAT('%',_valor,'%')
+      AND n.inactive_at IS NULL; 
+END $$
+
 SELECT * FROM negocios;
-CALL spu_negocios_busqueda('naoky');
+CALL spu_negocios_busqueda('naoky','jueves');

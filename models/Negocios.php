@@ -56,10 +56,11 @@ class Negocio extends Conexion{
 
   public function buscar($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spu_negocios_busqueda(?)");
+      $consulta = $this->conexion->prepare("CALL spu_negocios_busqueda(?,?)");
       $consulta->execute(
         array(
-          $datos['valor']
+          $datos['valor'],
+          $datos['dia_actual']
         )
       );
       return $consulta->fetchAll(PDO::FETCH_ASSOC);

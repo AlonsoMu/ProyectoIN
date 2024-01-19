@@ -46,8 +46,22 @@ if (isset($_POST['operacion'])) {
       enviarJSON($negocio->obtenerSyD($datos));
     break;
     case 'buscar':
+      $formato = 'EEEE'; 
+      $idioma = 'es';
+
+      $intlDateFormatter = new IntlDateFormatter(
+        $idioma,
+        IntlDateFormatter::FULL,
+        IntlDateFormatter::NONE,
+        null,
+        null,
+        $formato
+      );
+
+      $dia_actual = $intlDateFormatter->format(time());
       $datosEnviar =[
-        "valor"  => $_POST["valor"]
+        "valor"  => $_POST["valor"],
+        'dia_actual' => $dia_actual
       ];
       enviarJson($negocio->buscar($datosEnviar));
     break;

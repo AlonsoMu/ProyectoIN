@@ -745,12 +745,12 @@
         const contentString = `
           <div class="card-window">
             <div class="logo-window">
-              <img src="./img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="Logo de la chifa oriental" style="width: 217px; height: 204px;">
+              <img src="./img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="Logo de la chifa oriental" class="imag">
             </div>
             <div class="info-window">
               <h6 class="nombre">Nombre</h6>
               <h1 class="name-window">${element.nombre}</h1>
-              <p class="distrito-window">Distrito: ${element.nomdistrito}</p>
+              <p class="distrito-window">Distrito: ${element.nomdistrito}</>
               <p class="title-window"> <img src="./img/abierto.svg"> ${element.Estado}</p>
               <p class="phone-window" style="color:#5B4AFF; font-weight:600;"><img src="./img/icon_whatsapp.svg"> ${telefono}</p>
             </div>
