@@ -17,7 +17,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/listado.css">
-    <link rel="stylesheet" href=".//css/window.css">
+    <link rel="stylesheet" href="./css/window.css">
     
   </head>
 
@@ -251,37 +251,35 @@
     <script src="./js/popper.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/jquery.sticky.js"></script>
-    <script src="./js/owl.carousel.min.js"></script>
-    <script src="./js/main.js"></script>
+    <script src="./js//owl.carousel.min.js"></script>
+    <script src="./js//main.js"></script>
 
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
 
-    <script type="text/javascript">
-      let map;
-      document.addEventListener("DOMContentLoaded", () => {
-
+    <script>
+       document.addEventListener("DOMContentLoaded", () =>{
         function $(id){
           return document.querySelector(id);
         }
 
         function busqueda() {
-  const parametros = new FormData();
-  parametros.append("operacion", "buscar");
-  parametros.append("valor", $("#buscar").value);
+          const parametros = new FormData();
+          parametros.append("operacion", "buscar");
+          parametros.append("valor", $("#buscar").value);
 
-  fetch(`./controllers/negocio.controller.php`, {
-    method: "POST",
-    body: parametros
-  })
-  .then(respuesta => respuesta.json())
-  .then(datos => {
-    if (datos.length > 0) {
-      // Obtener la primera coincidencia (asumiendo que es la más relevante)
-      const primerResultado = datos[0];
+        fetch(`./controllers/negocio.controller.php`, {
+          method: "POST",
+          body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+          if (datos.length > 0) {
+            // Obtener la primera coincidencia (asumiendo que es la más relevante)
+            const primerResultado = datos[0];
 
-      // Obtener la latitud y longitud del resultado
-      const latitud = parseFloat(primerResultado.latitud);
-      const longitud = parseFloat(primerResultado.longitud);
+            // Obtener la latitud y longitud del resultado
+            const latitud = parseFloat(primerResultado.latitud);
+            const longitud = parseFloat(primerResultado.longitud);
 
       // Centrar el mapa en la ubicación del negocio
       map.setCenter({ lat: latitud, lng: longitud });
@@ -314,6 +312,11 @@
             busqueda();
           }
         });
+       })
+    </script>
+    <script type="text/javascript">
+      let map;
+      document.addEventListener("DOMContentLoaded", () => {
 
         function getCategoria() {
           const parametros = new FormData();
@@ -755,7 +758,7 @@
               <p class="phone-window" style="color:#5B4AFF; font-weight:600;"><img src="./img/icon_whatsapp.svg"> ${telefono}</p>
             </div>
           </div>`;
-// VERIFICAR | ARREGLAR ESTADO
+          // VERIFICAR | ARREGLAR ESTADO
         infoWindow.setContent(contentString);
         infoWindow.open(map, marker);
       }

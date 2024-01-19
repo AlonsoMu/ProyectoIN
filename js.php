@@ -370,27 +370,32 @@
         });
       }
       
+      // Función para actualizar el mapa cuando se selecciona un distrito
       function actualizarMapa() {
-  const distritoSelect = document.getElementById("distrito");
-  const selectedDistritoId = distritoSelect.value;
-
-  //clearMarkers();
-  if (selectedDistritoId) {
-    // Realiza una llamada para obtener las coordenadas del distrito seleccionado
-    obtenerCoordenadasDistrito(selectedDistritoId)
-    .then(coordenadas => {
-      // Actualiza el mapa con las nuevas coordenadas
-      map.setCenter(coordenadas);
-      map.setZoom(16);
-
-      // Agrega un marcador en las nuevas coordenadas
-      const marcadorDistrito = agregarMarcadorDistrito(selectedDistritoId, coordenadas[0], coordenadas[1]);
-    })
-    .catch(error => {
-      console.error("Error al obtener coordenadas del distrito:", error);
-    });
-  }
-}
+        const distritoSelect = document.getElementById("distrito");
+        const selectedDistritoId = distritoSelect.value;
+  
+        clearMarkers();
+        if (selectedDistritoId) {
+          // Realiza una llamada para obtener las coordenadas del distrito seleccionado
+          obtenerCoordenadasDistrito(selectedDistritoId)
+          .then(coordenadas => {
+            // Actualiza el mapa con las nuevas coordenadas
+            map.setCenter(coordenadas);
+            map.setZoom(16);
+  
+            // Agrega un marcador en las nuevas coordenadas
+            new google.maps.Marker({
+              position: coordenadas,
+              map: map,
+              icon: "./img/ubicacion.svg"
+            });
+          })
+          .catch(error => {
+            console.error("Error al obtener coordenadas del distrito:", error);
+          });
+        }
+      }
 
       document.addEventListener('change', function (event) {
         if (event.target.id === 'distrito') {
