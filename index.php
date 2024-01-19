@@ -125,7 +125,7 @@
     <div class="container mt-4 d-flex justify-content-center">
       <div class="input-group" style="max-width: 700px;">
         <input type="search" id="buscar" class="form-control" />
-        <button type="button" class="bus btn btn-primary">
+        <button type="button" id="btnBuscar" class="bus btn btn-primary">
           <i class="bi bi-search"></i>
         </button>
       </div>
@@ -263,9 +263,12 @@
         }
 
         function busqueda() {
-          const parametros = new FormData();
-          parametros.append("operacion", "buscar");
-          parametros.append("valor", $("#buscar").value);
+        // Limpiar marcadores antes de realizar una nueva búsqueda
+        clearMarkers();
+
+        const parametros = new FormData();
+        parametros.append("operacion", "buscar");
+        parametros.append("valor", $("#buscar").value);
 
         fetch(`./controllers/negocio.controller.php`, {
           method: "POST",
@@ -281,38 +284,49 @@
             const latitud = parseFloat(primerResultado.latitud);
             const longitud = parseFloat(primerResultado.longitud);
 
-      // Centrar el mapa en la ubicación del negocio
-      map.setCenter({ lat: latitud, lng: longitud });
-      map.setZoom(16);
+            // Centrar el mapa en la ubicación del negocio
+            map.setCenter({ lat: latitud, lng: longitud });
+            map.setZoom(16);
 
-      // Agregar un marcador en la ubicación del negocio
-      const marcadorNegocio = new google.maps.Marker({
-        position: { lat: latitud, lng: longitud },
-        map: map,
-        title: primerResultado.nombre
-      });
+            // Agregar un marcador en la ubicación del negocio
+            const marcadorNegocio = new google.maps.Marker({
+              position: { lat: latitud, lng: longitud },
+              map: map,
+              title: primerResultado.nombre
+            });
 
-      // Mostrar información del negocio al hacer clic en el marcador
-      marcadorNegocio.addListener('click', function () {
-        mostrarInfoWindow(primerResultado, marcadorNegocio);
-      });
-    } else {
-      console.log("No se encontraron resultados para la búsqueda.");
-    }
-  })
-  .catch(e => {
-    console.error(e);
-  });
-}
+            // Mostrar información del negocio al hacer clic en el marcador
+            marcadorNegocio.addListener('click', function () {
+              mostrarInfoWindow(primerResultado, marcadorNegocio);
+            });
 
+            // Almacenar el marcador en la lista de marcadores
+            markers.push(marcadorNegocio);
 
-        // EVENTOS
-        $("#buscar").addEventListener("keypress", (event) =>{
-          if(event.keyCode == 13){
-            busqueda();
+            // Limpiar el campo de búsqueda después de una búsqueda exitosa
+            $("#buscar").value = "";
+          } else {
+            console.log("No se encontraron resultados para la búsqueda.");
           }
+        })
+        .catch(e => {
+          console.error(e);
         });
-       })
+      }
+
+      // EVENTOS
+      $("#buscar").addEventListener("keypress", (event) => {
+        if (event.keyCode == 13) {
+          busqueda();
+        }
+      });
+      // Agregar evento de clic al botón de búsqueda
+      $("#btnBuscar").addEventListener("click", () => {
+        busqueda();
+      });
+
+      });
+       
     </script>
     <script type="text/javascript">
       let map;
