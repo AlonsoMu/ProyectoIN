@@ -53,3 +53,16 @@
 .gm-style .gm-style-iw-c > div {
   overflow: visible !important;
 }
+
+.imag{width: 217px!important; height:204px!important;}
+
+@media only screen and (max-width: 767px){
+  .card-window{width:140px; height:285px; flex-direction:column;}
+  .logo-window{margin-bottom:10px;}
+  .logo-window .imag{width:140px!important; height:140px!important;}
+  .info-window{padding:0px 10px;}
+  .info-window h6{font-size:12px;}
+  .info-window h1{font-size:14px;}
+  .info-window p{font-size:12px;}
+  .info-window img{width: 14px; height: 14px;}
+}

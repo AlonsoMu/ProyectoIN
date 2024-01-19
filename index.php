@@ -17,7 +17,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/listado.css">
-    <link rel="stylesheet" href="./css/window.css">
+    <link rel="stylesheet" href=".//css/window.css">
     
   </head>
 
@@ -121,9 +121,10 @@
       </div> -->
     </div>
 
+    <!-- BUSCADOR -->
     <div class="container mt-4 d-flex justify-content-center">
       <div class="input-group" style="max-width: 700px;">
-        <input type="search" id="form1" class="form-control" />
+        <input type="search" id="buscar" class="form-control" />
         <button type="button" class="bus btn btn-primary">
           <i class="bi bi-search"></i>
         </button>
@@ -165,7 +166,7 @@
           <!-- IMAGENES -->
           <div class="owl-2-style">
             <div class="owl-carousel owl-2" id="carrusel">
-              <div class="media-29101">
+              <!-- <div class="media-29101">
                 <a href="#"><img src="./img/1.svg" alt="Image" class="img-fluid"></a>
               </div>
               <div class="media-29101">
@@ -182,7 +183,7 @@
               </div>
               <div class="media-29101">
                 <a href="#"><img src="./img/3.svg" alt="Image" class="img-fluid"></a>
-              </div>
+              </div> -->
             </div>
           </div>      
         </div>
@@ -258,6 +259,62 @@
     <script type="text/javascript">
       let map;
       document.addEventListener("DOMContentLoaded", () => {
+
+        function $(id){
+          return document.querySelector(id);
+        }
+
+        function busqueda() {
+  const parametros = new FormData();
+  parametros.append("operacion", "buscar");
+  parametros.append("valor", $("#buscar").value);
+
+  fetch(`./controllers/negocio.controller.php`, {
+    method: "POST",
+    body: parametros
+  })
+  .then(respuesta => respuesta.json())
+  .then(datos => {
+    if (datos.length > 0) {
+      // Obtener la primera coincidencia (asumiendo que es la más relevante)
+      const primerResultado = datos[0];
+
+      // Obtener la latitud y longitud del resultado
+      const latitud = parseFloat(primerResultado.latitud);
+      const longitud = parseFloat(primerResultado.longitud);
+
+      // Centrar el mapa en la ubicación del negocio
+      map.setCenter({ lat: latitud, lng: longitud });
+      map.setZoom(16);
+
+      // Agregar un marcador en la ubicación del negocio
+      const marcadorNegocio = new google.maps.Marker({
+        position: { lat: latitud, lng: longitud },
+        map: map,
+        title: primerResultado.nombre
+      });
+
+      // Mostrar información del negocio al hacer clic en el marcador
+      marcadorNegocio.addListener('click', function () {
+        mostrarInfoWindow(primerResultado, marcadorNegocio);
+      });
+    } else {
+      console.log("No se encontraron resultados para la búsqueda.");
+    }
+  })
+  .catch(e => {
+    console.error(e);
+  });
+}
+
+
+        // EVENTOS
+        $("#buscar").addEventListener("keypress", (event) =>{
+          if(event.keyCode == 13){
+            busqueda();
+          }
+        });
+
         function getCategoria() {
           const parametros = new FormData();
           parametros.append("operacion", "listar");
@@ -551,8 +608,6 @@
         markers = [];
       } 
 
-    
-
       document.addEventListener('change', function (event) {
         if (event.target.id === 'distrito') {
           // Obtener el ID de la subcategoría seleccionada
@@ -632,8 +687,6 @@
         });
       }
 
-      
-      
       function agregarMarcadorDistrito(iddistrito, latitud, longitud) {
         const marker = new google.maps.Marker({
           position: new google.maps.LatLng(latitud, longitud),
@@ -702,7 +755,7 @@
               <p class="phone-window" style="color:#5B4AFF; font-weight:600;"><img src="./img/icon_whatsapp.svg"> ${telefono}</p>
             </div>
           </div>`;
-
+// VERIFICAR | ARREGLAR ESTADO
         infoWindow.setContent(contentString);
         infoWindow.open(map, marker);
       }

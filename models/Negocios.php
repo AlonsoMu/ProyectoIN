@@ -53,6 +53,20 @@ class Negocio extends Conexion{
       die($e->getMessage());
     }
   }
+
+  public function buscar($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_negocios_busqueda(?)");
+      $consulta->execute(
+        array(
+          $datos['valor']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
   
     
 

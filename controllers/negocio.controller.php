@@ -45,5 +45,11 @@ if (isset($_POST['operacion'])) {
       ];
       enviarJSON($negocio->obtenerSyD($datos));
     break;
+    case 'buscar':
+      $datosEnviar =[
+        "valor"  => $_POST["valor"]
+      ];
+      enviarJson($negocio->buscar($datosEnviar));
+    break;
   }
 }

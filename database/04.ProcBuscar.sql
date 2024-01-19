@@ -51,9 +51,9 @@ BEGIN
 END $$
 
 -- ##########################################################################################################################
-CALL spu_negocios_buscar('Norkys');
+CALL spu_negocios_buscar('naoky');
 
-
+USE INNOVACION;
 
 
     

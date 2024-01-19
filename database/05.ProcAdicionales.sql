@@ -176,3 +176,29 @@ BEGIN
     WHERE n.idsubcategoria = _idsubcategoria
       AND n.inactive_at IS NULL; 
 END $$
+CALL spu_obtener_nyh(7, 'miercole');
+
+
+-- PROCEDIMIENTO BUSCAR POR PRIMERA LETRA DE NEGOCIO
+DELIMITER $$
+CREATE PROCEDURE spu_negocios_busqueda(IN _valor VARCHAR(30))
+BEGIN
+	SELECT 
+		n.idnegocio,
+        d.iddistrito,
+        u.idubicacion,
+        n.nombre,
+        d.nomdistrito,
+        u.latitud,
+        u.longitud,
+        n.telefono
+        FROM negocios n
+        INNER JOIN distritos d ON 
+			d.iddistrito = n.iddistrito
+		INNER JOIN ubicaciones u ON
+			u.idubicacion = n.idubicacion
+            WHERE n.nombre  LIKE CONCAT('%',_valor,'%');
+END $$
+
+SELECT * FROM negocios;
+CALL spu_negocios_busqueda('naoky');

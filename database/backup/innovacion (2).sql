@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-01-2024 a las 05:36:18
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.0.28
+-- Tiempo de generación: 19-01-2024 a las 05:19:36
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -200,6 +200,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_buscar` (IN `nombre_co
     INNER JOIN usuarios u ON n.idusuario = u.idusuario
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_busqueda` (IN `_valor` VARCHAR(30))   BEGIN
+	SELECT 
+		n.idnegocio,
+        d.iddistrito,
+        u.idubicacion,
+        n.nombre,
+        d.nomdistrito,
+        u.latitud,
+        u.longitud,
+        n.telefono
+        FROM negocios n
+        INNER JOIN distritos d ON 
+			d.iddistrito = n.iddistrito
+		INNER JOIN ubicaciones u ON
+			u.idubicacion = n.idubicacion
+            WHERE n.nombre  LIKE CONCAT('%',_valor,'%');
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listar` ()   BEGIN
