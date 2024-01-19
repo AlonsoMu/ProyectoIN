@@ -101,13 +101,14 @@ CREATE TABLE ubicaciones(
     inactive_at				DATETIME 		NULL,
     CONSTRAINT fk_idhorario_ubi				FOREIGN KEY (idhorario) REFERENCES horarios (idhorario)
 )ENGINE = INNODB;
-
+SELECT * FROM galerias;
 -- -------------------------------------------------------------------------------------------------
 -- 											| TABLA NEGOCIOS |
 -- -------------------------------------------------------------------------------------------------
 CREATE TABLE negocios(
 	idnegocio 				INT 			AUTO_INCREMENT 	PRIMARY KEY,
     iddistrito				INT 			NOT NULL, -- FK | campo agregado
+    idgaleria 				INT 			NOT NULL, -- FK
     idpersona 				INT 			NOT NULL, -- FK
     idusuario 				INT 			NOT NULL, -- FK
     idsubcategoria 			INT 			NOT NULL, -- FK
@@ -129,13 +130,14 @@ CREATE TABLE negocios(
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL,
     CONSTRAINT fk_iddistrito_neg			FOREIGN KEY (iddistrito) REFERENCES distritos (iddistrito),
+    CONSTRAINT fk_idgaleria_gal 			FOREIGN KEY (idgaleria) REFERENCES galerias (idgaleria),
     CONSTRAINT fk_idpersona_neg 			FOREIGN KEY (idpersona) REFERENCES personas (idpersona),
     CONSTRAINT fk_idusuario_neg 			FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario),
     CONSTRAINT fk_idsubcategoria_neg		FOREIGN KEY (idsubcategoria) REFERENCES subcategorias (idsubcategoria),
     CONSTRAINT fk_idubicacion_neg 			FOREIGN KEY (idubicacion) REFERENCES ubicaciones (idubicacion),
     CONSTRAINT uk_nroruc_neg 				UNIQUE(nroruc)
 )ENGINE = INNODB;
-
+SELECT * FROM negocios;
 -- ------------------------------------------------------------------------------------------------
 -- 									| TABLA GALERIAS |
 -- ------------------------------------------------------------------------------------------------

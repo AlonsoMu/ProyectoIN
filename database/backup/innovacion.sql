@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-01-2024 a las 05:19:36
+-- Tiempo de generación: 19-01-2024 a las 05:58:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -202,22 +202,45 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_buscar` (IN `nombre_co
     WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_busqueda` (IN `_valor` VARCHAR(30))   BEGIN
-	SELECT 
-		n.idnegocio,
-        d.iddistrito,
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_busqueda` (IN `_valor` VARCHAR(30), IN `_dia_actual` VARCHAR(20))   BEGIN
+    DECLARE _hora_actual TIME;
+    DECLARE estado VARCHAR(10);
+
+    -- Obtener la hora actual
+    SET _hora_actual = CURRENT_TIME();
+
+    -- Verificar el estado del negocio
+    SELECT
+        CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM negocios n
+                INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+                INNER JOIN horarios h ON u.idhorario = h.idhorario
+                WHERE n.nombre LIKE CONCAT('%',_valor,'%')
+                  AND h.dia = _dia_actual
+                  AND _hora_actual BETWEEN h.apertura AND h.cierre
+            ) THEN 'Abierto'
+            ELSE 'Cerrado'
+        END INTO estado
+    FROM dual;
+
+    -- Mostrar la información de los negocios y su estado de disponibilidad
+    SELECT 
+        n.idnegocio,
         u.idubicacion,
+        d.iddistrito,
         n.nombre,
         d.nomdistrito,
         u.latitud,
         u.longitud,
-        n.telefono
-        FROM negocios n
-        INNER JOIN distritos d ON 
-			d.iddistrito = n.iddistrito
-		INNER JOIN ubicaciones u ON
-			u.idubicacion = n.idubicacion
-            WHERE n.nombre  LIKE CONCAT('%',_valor,'%');
+        n.telefono,
+        estado AS 'Estado'
+    FROM negocios n
+    INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE n.nombre LIKE CONCAT('%',_valor,'%')
+      AND n.inactive_at IS NULL; 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listar` ()   BEGIN
@@ -608,6 +631,15 @@ CREATE TABLE `galerias` (
   `inactive_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `galerias`
+--
+
+INSERT INTO `galerias` (`idgaleria`, `idnegocio`, `rutafoto`, `create_at`, `update_at`, `inactive_at`) VALUES
+(1, 1, 'a.jpg', '2024-01-18 23:53:23', NULL, NULL),
+(2, 2, 'b.jpg', '2024-01-18 23:53:23', NULL, NULL),
+(3, 3, 'c.jpg', '2024-01-18 23:53:23', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -646,6 +678,7 @@ INSERT INTO `horarios` (`idhorario`, `apertura`, `cierre`, `dia`, `create_at`, `
 CREATE TABLE `negocios` (
   `idnegocio` int(11) NOT NULL,
   `iddistrito` int(11) NOT NULL,
+  `idgaleria` int(11) NOT NULL,
   `idpersona` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `idsubcategoria` int(11) NOT NULL,
@@ -671,12 +704,10 @@ CREATE TABLE `negocios` (
 -- Volcado de datos para la tabla `negocios`
 --
 
-INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idpersona`, `idusuario`, `idsubcategoria`, `idubicacion`, `nroruc`, `nombre`, `descripcion`, `direccion`, `telefono`, `correo`, `facebook`, `whatsapp`, `instagram`, `tiktok`, `logo`, `valoracion`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 1, 1, 1, 7, 1, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', NULL, NULL, NULL, NULL, NULL, 4, '2024-01-17 00:25:14', NULL, NULL),
-(2, 6, 2, 1, 8, 2, '98765432101', 'costumbres', 'comida italiana', 'Calle Secundaria 456', '987654322', 'info@modaelegante.com', NULL, NULL, NULL, NULL, NULL, 5, '2024-01-17 00:25:14', NULL, NULL),
-(3, 7, 1, 1, 9, 3, '11112222333', 'naoky', 'comida mexicana', 'Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', NULL, NULL, NULL, NULL, NULL, 3, '2024-01-17 00:25:14', NULL, NULL),
-(4, 1, 1, 1, 7, 4, '10721597364', 'boulevard325', 'campestre', 'Av.San Martín', '946989937', 'info@gmail.com', NULL, NULL, NULL, NULL, NULL, 5, '2024-01-17 14:15:06', NULL, NULL),
-(6, 1, 1, 1, 7, 4, '1111222233', 'boulevard', 'comida japonesa', 'Av. Deportiva 789', '980526013', 'info@deportesxtreme.com', NULL, NULL, NULL, NULL, NULL, 3, '2024-01-17 15:30:22', NULL, NULL);
+INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idgaleria`, `idpersona`, `idusuario`, `idsubcategoria`, `idubicacion`, `nroruc`, `nombre`, `descripcion`, `direccion`, `telefono`, `correo`, `facebook`, `whatsapp`, `instagram`, `tiktok`, `logo`, `valoracion`, `create_at`, `update_at`, `inactive_at`) VALUES
+(1, 1, 1, 1, 1, 7, 1, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', NULL, NULL, NULL, NULL, NULL, 4, '2024-01-18 23:52:05', NULL, NULL),
+(2, 6, 2, 2, 1, 8, 2, '98765432101', 'costumbres', 'comida italiana', 'Calle Secundaria 456', '987654322', 'info@modaelegante.com', NULL, NULL, NULL, NULL, NULL, 5, '2024-01-18 23:52:05', NULL, NULL),
+(3, 7, 3, 1, 1, 9, 3, '11112222333', 'naoky', 'comida mexicana', 'Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', NULL, NULL, NULL, NULL, NULL, 3, '2024-01-18 23:52:05', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -781,10 +812,9 @@ CREATE TABLE `ubicaciones` (
 --
 
 INSERT INTO `ubicaciones` (`idubicacion`, `idhorario`, `latitud`, `longitud`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 3, -13.4176253, -76.1345425, '2024-01-17 15:26:18', NULL, NULL),
-(2, 4, -13.4029212, -76.1600548, '2024-01-17 15:26:18', NULL, NULL),
-(3, 5, -13.4053329, -76.1272912, '2024-01-17 15:26:18', NULL, NULL),
-(4, 3, -13.4054328, -76.1275315, '2024-01-17 15:29:28', NULL, NULL);
+(1, 3, -13.4176195, -76.1320643, '2024-01-17 15:26:18', NULL, NULL),
+(2, 4, -13.4029989, -76.1576321, '2024-01-17 15:26:18', NULL, NULL),
+(3, 5, -13.4053329, -76.1272912, '2024-01-17 15:26:18', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -868,6 +898,7 @@ ALTER TABLE `negocios`
   ADD PRIMARY KEY (`idnegocio`),
   ADD UNIQUE KEY `uk_nroruc_neg` (`nroruc`),
   ADD KEY `fk_iddistrito_neg` (`iddistrito`),
+  ADD KEY `fk_idgaleria_gal` (`idgaleria`),
   ADD KEY `fk_idpersona_neg` (`idpersona`),
   ADD KEY `fk_idusuario_neg` (`idusuario`),
   ADD KEY `fk_idsubcategoria_neg` (`idsubcategoria`),
@@ -940,7 +971,7 @@ ALTER TABLE `distritos`
 -- AUTO_INCREMENT de la tabla `galerias`
 --
 ALTER TABLE `galerias`
-  MODIFY `idgaleria` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idgaleria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `horarios`
@@ -952,7 +983,7 @@ ALTER TABLE `horarios`
 -- AUTO_INCREMENT de la tabla `negocios`
 --
 ALTER TABLE `negocios`
-  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
@@ -1007,6 +1038,7 @@ ALTER TABLE `galerias`
 --
 ALTER TABLE `negocios`
   ADD CONSTRAINT `fk_iddistrito_neg` FOREIGN KEY (`iddistrito`) REFERENCES `distritos` (`iddistrito`),
+  ADD CONSTRAINT `fk_idgaleria_gal` FOREIGN KEY (`idgaleria`) REFERENCES `galerias` (`idgaleria`),
   ADD CONSTRAINT `fk_idpersona_neg` FOREIGN KEY (`idpersona`) REFERENCES `personas` (`idpersona`),
   ADD CONSTRAINT `fk_idsubcategoria_neg` FOREIGN KEY (`idsubcategoria`) REFERENCES `subcategorias` (`idsubcategoria`),
   ADD CONSTRAINT `fk_idubicacion_neg` FOREIGN KEY (`idubicacion`) REFERENCES `ubicaciones` (`idubicacion`),

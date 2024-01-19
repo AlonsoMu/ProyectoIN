@@ -75,6 +75,7 @@ INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, idubicac
  (1, 1, 1, 7, 4, '1111222233', 'boulevard', 'comida japonesa','Av. Deportiva 789', '980526013', 'info@deportesxtreme.com', 3);
 
 SELECT * FROM negocios;
+SELECT * FROM galerias;
 SELECT * FROM subcategorias;
 SELECT * FROM ubicaciones;
 INSERT INTO galerias (idnegocio, rutafoto)
