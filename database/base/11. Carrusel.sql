@@ -7,16 +7,19 @@ USE INNOVACION;
 
 DELIMITER $$
 CREATE PROCEDURE spu_carrusel_registrar(
-    IN _fotografia		VARCHAR(200)
+	IN _idusuario		INT,
+    IN _foto	VARCHAR(200)
 )
 BEGIN
 	INSERT INTO carrusel
-	(fotografia)
+	(idusuario, foto)
 	VALUES
-		(_fotografia);
+		(_idusuario, _foto);
 	SELECT @@last_insert_id 'idcarrusel';
 END $$
+
 select * from carrusel;
+
 
 -- ##########################################################################################################################
 
@@ -27,6 +30,16 @@ BEGIN
 		idcarrusel,
         foto
 	FROM carrusel
+    WHERE inactive_at IS NULL;
+END $$
+
+DELIMITER $$
+CREATE PROCEDURE spu_usuarios_listar()
+BEGIN
+	SELECT
+		idusuario,
+        nivelacceso
+	FROM usuarios
     WHERE inactive_at IS NULL;
 END $$
 

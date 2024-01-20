@@ -59,8 +59,13 @@ INSERT INTO ubicaciones (idhorario, latitud, longitud) VALUES
 (4, -13.4029212, -76.1600548),
 (5, -13.4053329, -76.1272912);
 
-INSERT INTO ubicaciones (idhorario, latitud, longitud) VALUES
-(3, -13.4054328, -76.1275315);
+INSERT INTO ubicaciones (idhorario, idnegocio, latitud, longitud) VALUES
+(3, 1, 13.4176253, -76.1345425),
+(4, 2, -13.4029212, -76.1600548),
+(5, 3, -13.4053329, -76.1272912),
+(6, 4, -13.4182674, -76.1349002);
+
+
 
 
 INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, nroruc, nombre,
@@ -108,17 +113,18 @@ SELECT * FROM negocios;
 
 INSERT INTO distritos (nomdistrito, latitud, longitud)
 VALUES
-	('chincha alta', -13.4255087, -76.1470108),
-    ('alto larán', -13.4367338, -76.0884531),
-    ('chavín', -13.4366365, -76.1245031),
-    ('chincha baja', -13.4949757, -76.192646),
-    ('el carmen', -13.4986644, -76.0630971),
-    ('grocio prado', -13.2903374, -76.3373479),
-    ('pueblo nuevo', -13.3193912, -76.1088001),
-    ('san juan de yanac', -13.2082954, -75.9906011),
-    ('san pedro de huacarpana', -13.0694787, -75.7914073),
-    ('sunampe', -13.4291925, -76.1821982),
-    ('tambo de mora', -13.4579713, -76.2041976);
+('chincha alta', -13.417583, -76.1325496),
+('alto larán', -13.4423161, -76.0828003),
+('chavín', -13.0770802, -75.9129889),
+('chincha baja', -13.4589572, -76.1615777),
+('el carmen', -13.5001422, -76.05755),
+('grocio prado', -13.3981459, -76.1561312),
+('pueblo nuevo', -13.4048376, -76.1263936),
+('san juan de yanac', -13.210744, -75.7861519),
+('san pedro de huacarpana', -13.0694787, -75.7914073),
+('sunampe', -13.4275167, -76.1643971),
+('tambo de mora', -13.4585105, -76.1826305);
+
 SELECT * FROM distritos;
 SELECT * FROM negocios;
 SELECT * FROM ubicaciones;

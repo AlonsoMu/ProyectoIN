@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-01-2024 a las 08:08:17
+-- Tiempo de generación: 20-01-2024 a las 08:29:38
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -348,7 +348,8 @@ INSERT INTO `carrusel` (`idcarrusel`, `idusuario`, `foto`, `create_at`, `update_
 (3, 1, '55a2b4bdb2b024298ff2888072ec4491f4822715.jpg', '2024-01-20 02:02:07', NULL, NULL),
 (4, 1, '99e8fc938cbb3615f8f8332971322cd13b8ce16e.jpg', '2024-01-20 02:02:16', NULL, NULL),
 (5, 1, 'd0576ad05a81539db9e75741c9585a69579c02d0.jpg', '2024-01-20 02:02:24', NULL, NULL),
-(6, 1, '625b8c3f7d5b0f6705ada0829f5e5d6b36d3e7c0.jpg', '2024-01-20 02:02:31', NULL, NULL);
+(6, 1, '625b8c3f7d5b0f6705ada0829f5e5d6b36d3e7c0.jpg', '2024-01-20 02:02:31', NULL, NULL),
+(7, 1, 'c3b5a5facea330276a51fa2c5e80833b232b4c79.jpg', '2024-01-20 02:13:25', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -422,17 +423,17 @@ CREATE TABLE `distritos` (
 --
 
 INSERT INTO `distritos` (`iddistrito`, `nomdistrito`, `latitud`, `longitud`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 'chincha alta', -13.4255087, -76.1470108, '2024-01-19 23:05:36', NULL, NULL),
-(2, 'alto larán', -13.4367338, -76.0884531, '2024-01-19 23:05:36', NULL, NULL),
-(3, 'chavín', -13.4366365, -76.1245031, '2024-01-19 23:05:36', NULL, NULL),
-(4, 'chincha baja', -13.4949757, -76.192646, '2024-01-19 23:05:36', NULL, NULL),
-(5, 'el carmen', -13.4986644, -76.0630971, '2024-01-19 23:05:36', NULL, NULL),
-(6, 'grocio prado', -13.2903374, -76.3373479, '2024-01-19 23:05:36', NULL, NULL),
-(7, 'pueblo nuevo', -13.3193912, -76.1088001, '2024-01-19 23:05:36', NULL, NULL),
-(8, 'san juan de yanac', -13.2082954, -75.9906011, '2024-01-19 23:05:36', NULL, NULL),
-(9, 'san pedro de huacarpana', -13.0694787, -75.7914073, '2024-01-19 23:05:36', NULL, NULL),
-(10, 'sunampe', -13.4291925, -76.1821982, '2024-01-19 23:05:36', NULL, NULL),
-(11, 'tambo de mora', -13.4579713, -76.2041976, '2024-01-19 23:05:36', NULL, NULL);
+(1, 'chincha alta', -13.417583, -76.1325496, '2024-01-20 02:28:22', NULL, NULL),
+(2, 'alto larán', -13.4423161, -76.0828003, '2024-01-20 02:28:22', NULL, NULL),
+(3, 'chavín', -13.0770802, -75.9129889, '2024-01-20 02:28:22', NULL, NULL),
+(4, 'chincha baja', -13.4589572, -76.1615777, '2024-01-20 02:28:22', NULL, NULL),
+(5, 'el carmen', -13.5001422, -76.05755, '2024-01-20 02:28:22', NULL, NULL),
+(6, 'grocio prado', -13.3981459, -76.1561312, '2024-01-20 02:28:22', NULL, NULL),
+(7, 'pueblo nuevo', -13.4048376, -76.1263936, '2024-01-20 02:28:22', NULL, NULL),
+(8, 'san juan de yanac', -13.210744, -75.7861519, '2024-01-20 02:28:22', NULL, NULL),
+(9, 'san pedro de huacarpana', -13.0694787, -75.7914073, '2024-01-20 02:28:22', NULL, NULL),
+(10, 'sunampe', -13.4275167, -76.1643971, '2024-01-20 02:28:22', NULL, NULL),
+(11, 'tambo de mora', -13.4585105, -76.1826305, '2024-01-20 02:28:22', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -621,7 +622,10 @@ CREATE TABLE `ubicaciones` (
 --
 
 INSERT INTO `ubicaciones` (`idubicacion`, `idhorario`, `idnegocio`, `latitud`, `longitud`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 1, 1, -13.4176195, -76.1320643, '2024-01-19 23:57:13', NULL, NULL);
+(1, 1, 1, 13.4176253, -76.1345425, '2024-01-19 23:57:13', NULL, NULL),
+(3, 4, 2, -13.4029212, -76.1600548, '2024-01-20 02:17:42', NULL, NULL),
+(4, 5, 3, -13.4053329, -76.1272912, '2024-01-20 02:17:42', NULL, NULL),
+(5, 6, 4, -13.4182674, -76.1349002, '2024-01-20 02:17:42', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -754,7 +758,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `carrusel`
 --
 ALTER TABLE `carrusel`
-  MODIFY `idcarrusel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idcarrusel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -814,7 +818,7 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de la tabla `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
-  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
