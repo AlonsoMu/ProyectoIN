@@ -48,7 +48,7 @@ if (isset($_POST['operacion'])) {
     case 'buscar':
       $formato = 'EEEE'; 
       $idioma = 'es';
-
+    
       $intlDateFormatter = new IntlDateFormatter(
         $idioma,
         IntlDateFormatter::FULL,
@@ -57,13 +57,45 @@ if (isset($_POST['operacion'])) {
         null,
         $formato
       );
-
+    
       $dia_actual = $intlDateFormatter->format(time());
-      $datosEnviar =[
-        "valor"  => $_POST["valor"],
-        'dia_actual' => $dia_actual
-      ];
-      enviarJson($negocio->buscar($datosEnviar));
+    
+      try {
+        // Verificar si el campo "valor" está vacío o nulo
+        if (isset($_POST["valor"]) && !empty($_POST["valor"])) {
+          $datosEnviar = [
+            "valor"  => $_POST["valor"],
+            'dia_actual' => $dia_actual
+          ];
+          $resultados = $negocio->buscar($datosEnviar);
+    
+          if (!empty($resultados)) {
+            // Si hay resultados, enviar el JSON normal
+            enviarJson($resultados);
+          } else {
+            // Si no hay resultados, enviar un JSON específico
+            $jsonRespuesta = [
+              'mensaje' => 'No se encontraron negocios.',
+              'error' => true
+            ];
+            echo json_encode($jsonRespuesta);
+          }
+        } else {
+          // Retornar un JSON indicando que no se proporcionó un valor para la búsqueda
+          $jsonRespuesta = [
+            'mensaje' => 'No se proporcionó un valor para la búsqueda.',
+            'error' => true
+          ];
+          echo json_encode($jsonRespuesta);
+        }
+      } catch (Exception $e) {
+        // Capturar cualquier excepción y devolver un JSON de error
+        $jsonError = [
+          'mensaje' => 'Error al procesar la búsqueda.',
+          'error' => true
+        ];
+        echo json_encode($jsonError);
+      }
     break;
   }
 }

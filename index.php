@@ -13,11 +13,14 @@
     <link rel="stylesheet" href="./css/owl.carousel.min.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/toast.css">
+
 
     <!-- Style -->
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/listado.css">
     <link rel="stylesheet" href="./css/window.css">
+
     
   </head>
 
@@ -253,81 +256,113 @@
     <script src="./js/jquery.sticky.js"></script>
     <script src="./js//owl.carousel.min.js"></script>
     <script src="./js//main.js"></script>
+    <!-- Toastr script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- Tu script actual -->
 
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
 
     <script>
-       document.addEventListener("DOMContentLoaded", () =>{
-        function $(id){
-          return document.querySelector(id);
-        }
+  document.addEventListener("DOMContentLoaded", () => {
+    function $(id) {
+      return document.querySelector(id);
+    }
 
-        function busqueda() {
-        // Limpiar marcadores antes de realizar una nueva búsqueda
-        clearMarkers();
+    function showToast(message, color) {
+  if (Notification.permission === "granted") {
+    const options = {
+      body: message,
+      icon: "./img/sting.svg", // Ruta a un icono opcional
+    };
 
-        const parametros = new FormData();
-        parametros.append("operacion", "buscar");
-        parametros.append("valor", $("#buscar").value);
+    if (color) {
+      options.data = { color: color };
+    }
 
-        fetch(`./controllers/negocio.controller.php`, {
-          method: "POST",
-          body: parametros
-        })
-        .then(respuesta => respuesta.json())
-        .then(datos => {
-          if (datos.length > 0) {
-            // Obtener la primera coincidencia (asumiendo que es la más relevante)
-            const primerResultado = datos[0];
-
-            // Obtener la latitud y longitud del resultado
-            const latitud = parseFloat(primerResultado.latitud);
-            const longitud = parseFloat(primerResultado.longitud);
-
-            // Centrar el mapa en la ubicación del negocio
-            map.setCenter({ lat: latitud, lng: longitud });
-            map.setZoom(16);
-
-            // Agregar un marcador en la ubicación del negocio
-            const marcadorNegocio = new google.maps.Marker({
-              position: { lat: latitud, lng: longitud },
-              map: map,
-              title: primerResultado.nombre
-            });
-
-            // Mostrar información del negocio al hacer clic en el marcador
-            marcadorNegocio.addListener('click', function () {
-              mostrarInfoWindow(primerResultado, marcadorNegocio);
-            });
-
-            // Almacenar el marcador en la lista de marcadores
-            markers.push(marcadorNegocio);
-
-            // Limpiar el campo de búsqueda después de una búsqueda exitosa
-            $("#buscar").value = "";
-          } else {
-            console.log("No se encontraron resultados para la búsqueda.");
-          }
-        })
-        .catch(e => {
-          console.error(e);
-        });
+    const notification = new Notification("Éxito", options);
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(permission => {
+      if (permission === "granted") {
+        showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
       }
+    });
+  }
+}
 
-      // EVENTOS
-      $("#buscar").addEventListener("keypress", (event) => {
-        if (event.keyCode == 13) {
-          busqueda();
-        }
-      });
-      // Agregar evento de clic al botón de búsqueda
-      $("#btnBuscar").addEventListener("click", () => {
+function busqueda() {
+  // Limpiar marcadores antes de realizar una nueva búsqueda
+  clearMarkers();
+
+  const parametros = new FormData();
+  parametros.append("operacion", "buscar");
+  parametros.append("valor", $("#buscar").value);
+
+  fetch(`./controllers/negocio.controller.php`, {
+    method: "POST",
+    body: parametros
+  })
+    .then(respuesta => {
+      if (respuesta.ok) {
+        return respuesta.json();
+      } else {
+        throw new Error("No se pudo obtener la información del servidor.");
+      }
+    })
+    .then(datos => {
+      if (datos.error) {
+        // Si el servidor devuelve un error, mostrar un toast con el mensaje de error
+        showToast(datos.mensaje, "#ff3333"); // Rojo
+      } else if (datos.length > 0) {
+        const primerResultado = datos[0];
+        const latitud = parseFloat(primerResultado.latitud);
+        const longitud = parseFloat(primerResultado.longitud);
+
+        map.setCenter({ lat: latitud, lng: longitud });
+        map.setZoom(16);
+
+        const marcadorNegocio = new google.maps.Marker({
+          position: { lat: latitud, lng: longitud },
+          map: map,
+          title: primerResultado.nombre
+        });
+
+        marcadorNegocio.addListener('click', function () {
+          mostrarInfoWindow(primerResultado, marcadorNegocio);
+        });
+
+        markers.push(marcadorNegocio);
+
+        $("#buscar").value = "";
+
+        // Mostrar el toast al encontrar un negocio
+        showToast(`Negocio encontrado: ${primerResultado.nombre}`);
+      } else {
+        console.log("No se encontraron resultados para la búsqueda.");
+        // Mostrar un toast o mensaje indicando que no se encontraron resultados
+        showToast("No se encontraron resultados para la búsqueda.", "#ff3333"); // Rojo
+      }
+    })
+    .catch(e => {
+      console.error(e);
+      // Mostrar un toast o mensaje de error
+      showToast("Ocurrió un error al realizar la búsqueda.", "#ff3333"); // Rojo
+    });
+}
+
+
+
+    $("#buscar").addEventListener("keypress", (event) => {
+      if (event.keyCode == 13) {
         busqueda();
-      });
+      }
+    });
 
-      });
-       
-    </script>
+    $("#btnBuscar").addEventListener("click", () => {
+      busqueda();
+    });
+  });
+</script>
     <script type="text/javascript">
       let map;
       document.addEventListener("DOMContentLoaded", () => {
