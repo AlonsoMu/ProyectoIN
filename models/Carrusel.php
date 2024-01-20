@@ -13,9 +13,10 @@ class Carrusel extends Conexion{
 
   public function registrarlogo($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spu_carrusel_registrar(?)");
+      $consulta = $this->conexion->prepare("CALL spu_carrusel_registrar(?,?)");
       $consulta->execute(
         array(
+          $datos['idusuario'],
           $datos['foto']
         )
       );

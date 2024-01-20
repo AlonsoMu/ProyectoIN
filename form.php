@@ -23,6 +23,12 @@
         </div>
         <div class="card-body">
           <div class="mb-3">
+            <label for="usuario" class="form-label">Usuario</label>
+            <select name="" id="usuario" class="form-select" required>
+              <option value="">Seleccione:</option>
+            </select>
+          </div>
+          <div class="mb-3">
             <label for="foto" class="form-label">Fotografía</label>
             <input type="file" class="form-control" id="foto" accept=".jpg">
           </div>
@@ -50,26 +56,59 @@
         return document.querySelector(id);
       }
 
-      function carrusel() {
+      function getUser(){
+        // Creando datos que enviaremos al controlador
         const parametros = new FormData();
-        parametros.append("operacion", "registrar");
-        parametros.append("foto", $("#foto").files[0]);
+        parametros.append("operacion", "listar");
 
-        fetch(`./controllers/carrusel.controller.php`, {
+        
+        fetch(`./controllers/usuario.controller.php`, {
           method: "POST",
           body: parametros
         })
         .then(respuesta => respuesta.json())
-        .then(datos => {
-          if (datos.idcarrusel > 0) {
+        .then(datos =>{
+          // Operaciones, proceso...
+          // Conexión, el valor obtenido, el proceso, el error (render option en <select>)
+          console.log(datos);
+          datos.forEach(element => {
+            const etiqueta = document.createElement("option");
+            etiqueta.value = element.idusuario;
+            etiqueta.innerText = element.nivelacceso;
+
+            $("#usuario").appendChild(etiqueta);
+          });
+          })
+          .catch(e => {
+            console.error(e)
+          });
+      }
+
+      function carrusel() {
+    const formData = new FormData();
+    formData.append("operacion", "registrar");
+    formData.append("idusuario", $("#usuario").value);
+    formData.append("foto", $("#foto").files[0]);
+
+    const options = {
+        method: "POST",
+        body: formData,
+        // No es necesario configurar Content-Type, se gestionará automáticamente
+    };
+
+    fetch(`./controllers/carrusel.controller.php`, options)
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+        if (datos.idcarrusel > 0) {
             alert(`Foto registrado con ID: ${datos.idcarrusel}`)
             $("#form-carrusel").reset();
-          }
-        })
-        .catch(e => {
-          console.error(e)
-        });
-      }
+        }
+    })
+    .catch(e => {
+        console.error(e);
+        alert("Ocurrió un error al procesar la solicitud.");
+    });
+}
 
       
       $("#form-carrusel").addEventListener("submit", (event) =>{
@@ -79,6 +118,8 @@
           carrusel();
         }
       });
+
+      getUser();
 
 
       

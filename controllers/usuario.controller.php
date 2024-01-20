@@ -9,6 +9,9 @@ if(isset($_POST['operacion'])){
   $usuario = new Usuario();
 
   switch ($_POST['operacion']) {
+      case 'listar':
+      enviarJson($usuario->listar());
+      break;
     case 'buscar':
       enviarJSON($usuario->login($_POST));
       break;
