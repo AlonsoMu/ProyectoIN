@@ -12,30 +12,31 @@ CREATE PROCEDURE spu_negocios_registrar(
     IN _idpersona			INT,
     IN _idusuario			INT,
     IN _idsubcategoria		INT,
-    IN _idubicacion 		INT,
     IN _nroruc				CHAR(15),
     IN _nombre				VARCHAR(200),
     IN _descripcion 		VARCHAR(200),
     IN _direccion			VARCHAR(100),
     IN _telefono			CHAR(11),
-    IN _correo				VARCHAR(100),
+    IN _correo				VARCHAR(200),
     IN _facebook			VARCHAR(200),
-    IN _whatsapp			VARCHAR(100),
-    IN _instagram			VARCHAR(100),
-    IN _tiktok				VARCHAR(100),
-    IN _logo				VARCHAR(100),
+    IN _whatsapp			VARCHAR(200),
+    IN _instagram			VARCHAR(200),
+    IN _tiktok				VARCHAR(200),
+    IN _pagweb 			VARCHAR(200),
+    IN _logo				VARCHAR(200),
 	IN _valoracion			INT
 )
 BEGIN
 	INSERT INTO negocios
-		(iddistrito, idpersona, idusuario, idsubcategoria, idubicacion, nroruc, nombre, descripcion, 
-		 direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, logo, valoracion)
+		(iddistrito, idpersona, idusuario, idsubcategoria, nroruc, nombre, descripcion, 
+		 direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, pagweb, logo, valoracion)
     VALUES
-		(_iddistrito, _idpersona, _idusuario, _idsubcategoria, _idubicacion, _nroruc, _nombre, _descripcion, 
-		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, NULLIF(_logo, ''), _valoracion);
+		(_iddistrito, _idpersona, _idusuario, _idsubcategoria, _nroruc, _nombre, _descripcion, 
+		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _pagweb, NULLIF(_logo, ''), _valoracion);
 	-- SELECT @@last_insert_id 'idnegocio';
 END $$
-CALL spu_negocios_registrar(7, 2, 2, 5, 5, 20481460159, 'novafarma', 'novafarma, cuidamos tu salud y tu economía.', '656 av. grocio prado', 953656344, 'novafarma@prueba.es', 'https://www.facebook.com/novafarmachinchaalta', 953656344, NULL, NULL, NULL, 2);
+CALL spu_negocios_registrar(7, 2, 2, 5, 20481460159, 'novafarma', 'novafarma, cuidamos tu salud y tu economía.', '656 av. grocio prado', 
+				953656344, 'novafarma@prueba.es', 'https://www.facebook.com/novafarmachinchaalta', 953656344, NULL, NULL, NULL, NULL,2);
 SELECT * FROM distritos;
 SELECt * FROM galerias;
 SELECt * FROM personas;
@@ -46,12 +47,13 @@ SELECT * FROM horarios;
 SELECT * FROM negocios;
 -- ##########################################################################################################################
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_obtener_negocios(IN _idsubcategoria INT)
 BEGIN
     SELECT 
         n.idnegocio,
         u.idubicacion,
+        h.idhorario,
         d.iddistrito,
         s.idsubcategoria,
         s.nomsubcategoria,
@@ -62,14 +64,16 @@ BEGIN
         d.nomdistrito,
         n.telefono
         FROM negocios n
-        INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+        INNER JOIN horarios h ON h.idhorario = n.idhorario
+        INNER JOIN ubicaciones u ON h.idubicacion = u.idubicacion
         INNER JOIN distritos d ON n.iddistrito = d.iddistrito
         INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
-        WHERE n.idsubcategoria = _idsubcategoria
+        WHERE n.idsubcategoria = 7
         AND n.inactive_at IS NULL; 
 END $$
-CALL spu_obtener_negocios(7);
+CALL spu_obtener_negocios(7);*/
 
+SELECT * FROM negocios;
 -- ##########################################################################################################################
 
 DELIMITER $$
@@ -127,7 +131,7 @@ CALL spu_negocios_buscar('naoky');
 
 -- ##########################################################################################################################
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_obtener_negocios_y_disponibilidad(
     IN _idsubcategoria INT,
     IN _dia_actual VARCHAR(20)
@@ -170,11 +174,11 @@ BEGIN
     AND n.inactive_at IS NULL; 
 END $$
 
-DELIMITER ;
+DELIMITER ;*/
 
 -- ##########################################################################################################################
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_obtener_negocios_subdis(
 	IN _idsubcategoria 		INT,
     IN _iddistrito 			INT 
@@ -195,7 +199,7 @@ BEGIN
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
     WHERE s.idsubcategoria = _idsubcategoria AND d.iddistrito = _iddistrito;
 END  $$
-CALL spu_obtener_negocios_subdis(8,6);
+CALL spu_obtener_negocios_subdis(8,6);*/
 
 -- ##########################################################################################################################
 
@@ -217,7 +221,7 @@ BEGIN
             WHEN EXISTS (
                 SELECT 1
                 FROM negocios n
-                INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+                INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
                 INNER JOIN horarios h ON u.idhorario = h.idhorario
                 WHERE n.idsubcategoria = _idsubcategoria
                   AND h.dia = _dia_actual
@@ -242,14 +246,18 @@ BEGIN
         n.telefono,
         estado AS 'Estado'
     FROM negocios n
-    INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+    INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     WHERE n.idsubcategoria = _idsubcategoria
       AND n.inactive_at IS NULL; 
 END $$
-CALL spu_obtener_nyh(7, 'miercole');
+CALL spu_obtener_nyh(7, 'viernes');
 
+
+SELECT * FROM ubicaciones;
+SELECT * FROM horarios;
+SELECT * FROM negocios;
 -- ##########################################################################################################################
 
 -- PROCEDIMIENTO BUSCAR POR PRIMERA LETRA DE NEGOCIO
@@ -295,7 +303,7 @@ BEGIN
             WHEN EXISTS (
                 SELECT 1
                 FROM negocios n
-                INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+                INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
                 INNER JOIN horarios h ON u.idhorario = h.idhorario
                 WHERE n.nombre LIKE CONCAT('%',_valor,'%')
                   AND h.dia = _dia_actual
@@ -317,17 +325,17 @@ BEGIN
         n.telefono,
         estado AS 'Estado'
     FROM negocios n
-    INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
+    INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
     WHERE n.nombre LIKE CONCAT('%',_valor,'%')
       AND n.inactive_at IS NULL; 
 END $$
 SELECT * FROM negocios;
-CALL spu_negocios_busqueda('naoky','jueves');
+CALL spu_negocios_busqueda('oishi','jueves');
 
 -- ##########################################################################################################################
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_obtener_negocios(IN _idsubcategoria INT)
 BEGIN
     SELECT 
@@ -342,7 +350,7 @@ BEGIN
 		WHERE n.idsubcategoria = _idsubcategoria
         AND n.inactive_at IS NULL; 
 END $$
-CALL spu_obtener_negocios(3);
+CALL spu_obtener_negocios(3);*/
 SELECT * FROM distritos;
 
 -- ##########################################################################################################################

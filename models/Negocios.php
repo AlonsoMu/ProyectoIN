@@ -9,7 +9,7 @@ class Negocio extends Conexion{
     $this->conexion = parent::getConexion();
   }
 
-  public function obtenerNegocio($datos = []){
+  /*public function obtenerNegocio($datos = []){
     try {
       $consulta = $this->conexion->prepare("CALL spu_obtener_negocios(?)");
       $consulta->execute(
@@ -21,7 +21,7 @@ class Negocio extends Conexion{
     } catch (Exception $e) {
       die($e->getMessage());
     }
-  }
+  }*/
 
   public function obtenerNyH($datos = []){
     try {
@@ -39,7 +39,7 @@ class Negocio extends Conexion{
     }
   }
   
-  public function obtenerSyD($datos = []){
+  /*public function obtenerSyD($datos = []){
     try {
       $consulta = $this->conexion->prepare("CALL spu_obtener_negocios_subdis(?,?)");
       $consulta->execute(
@@ -53,7 +53,7 @@ class Negocio extends Conexion{
       die($e->getMessage());
     }
   }
-
+*/
   public function buscar($datos = []){
     try {
       $consulta = $this->conexion->prepare("CALL spu_negocios_busqueda(?,?)");

@@ -41,7 +41,7 @@ BEGIN
 		FROM subcategorias sub
         INNER JOIN categorias cat ON cat.idcategoria = sub.idcategoria;
 END $$
-
+CALL spu_subcategorias_listartodo();
 -- ##########################################################################################################################
     
 /*DELIMITER $$

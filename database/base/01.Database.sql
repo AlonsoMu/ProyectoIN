@@ -35,10 +35,12 @@ CREATE TABLE usuarios(
     create_at				DATETIME		NOT NULL DEFAULT NOW(),
     update_at				DATETIME		NULL,
     inactive_at				DATETIME 		NULL,
+    token_estado			CHAR (1)		NULL,
     CONSTRAINT fk_idpersona_per 			FOREIGN KEY(idpersona) REFERENCES personas (idpersona),
     CONSTRAINT uk_correo_per 				UNIQUE(correo)
 )ENGINE = INNODB;
-
+ALTER TABLE usuarios MODIFY token_estado CHAR(1) NULL;
+ALTER TABLE usuarios ADD fechatoken DATETIME NULL;
 -- ------------------------------------------------------------------------------
 -- 		 							| TABLA PLANES |
 -- ------------------------------------------------------------------------------
@@ -94,12 +96,14 @@ CREATE TABLE horarios(
 CREATE TABLE ubicaciones(
 	idubicacion 			INT 			AUTO_INCREMENT	PRIMARY KEY,
     idhorario 				INT 			NOT NULL, -- FK
+    idnegocio				INT 			NOT NULL, -- FK
     latitud					DOUBLE 			NOT NULL,
 	longitud 				DOUBLE 			NOT NULL,
     create_at				DATETIME		NOT NULL DEFAULT NOW(),
     update_at				DATETIME		NULL,
     inactive_at				DATETIME 		NULL,
-    CONSTRAINT fk_idhorario_ubi				FOREIGN KEY (idhorario) REFERENCES horarios (idhorario)
+    CONSTRAINT fk_idhorario_ubi				FOREIGN KEY (idhorario) REFERENCES horarios (idhorario),
+    CONSTRAINT fk_idnegocio_ubi			FOREIGN KEY (idnegocio) REFERENCES negocios (idnegocio)
 )ENGINE = INNODB;
 SELECT * FROM galerias;
 -- -------------------------------------------------------------------------------------------------
@@ -111,7 +115,6 @@ CREATE TABLE negocios(
     idpersona 				INT 			NOT NULL, -- FK
     idusuario 				INT 			NOT NULL, -- FK
     idsubcategoria 			INT 			NOT NULL, -- FK
-    idubicacion 			INT 			NOT NULL, -- FK
     nroruc 					CHAR(15) 		NULL, -- UK
     nombre					VARCHAR(200)	NOT NULL,
     descripcion 			VARCHAR(200) 	NULL,
@@ -120,9 +123,10 @@ CREATE TABLE negocios(
     telefono				CHAR(11) 		NULL,
     correo 					VARCHAR(100) 	NULL,
     facebook				VARCHAR(200) 	NULL,
-    whatsapp				VARCHAR(100) 	NULL,
-    instagram				VARCHAR(100)	NULL,
-    tiktok					VARCHAR(100)	NULL,
+    whatsapp				VARCHAR(200) 	NULL,
+    instagram				VARCHAR(200)	NULL,
+    tiktok					VARCHAR(200)	NULL,
+    pagweb 					VARCHAR(200) 	NULL,
     logo 					VARCHAR(100) 	NULL,
     valoracion				INT 			NULL,
     create_at 				DATETIME		DEFAULT NOW(),
@@ -132,7 +136,6 @@ CREATE TABLE negocios(
     CONSTRAINT fk_idpersona_neg 			FOREIGN KEY (idpersona) REFERENCES personas (idpersona),
     CONSTRAINT fk_idusuario_neg 			FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario),
     CONSTRAINT fk_idsubcategoria_neg		FOREIGN KEY (idsubcategoria) REFERENCES subcategorias (idsubcategoria),
-    CONSTRAINT fk_idubicacion_neg 			FOREIGN KEY (idubicacion) REFERENCES ubicaciones (idubicacion),
     CONSTRAINT uk_nroruc_neg 				UNIQUE(nroruc)
 )ENGINE = INNODB;
 SELECT * FROM negocios;
@@ -188,10 +191,12 @@ CREATE TABLE distritos(
 -- TABLA DISTRITOS
 CREATE TABLE carrusel(
 	idcarrusel				INT 			AUTO_INCREMENT PRIMARY KEY,
-    fotografia				VARCHAR(200)	NULL,
+    idusuario				INT 			NOT NULL, -- FK
+    foto					VARCHAR(200)	NULL,
 	create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
-	inactive_at				DATETIME	 	NULL
+	inactive_at				DATETIME	 	NULL,
+    CONSTRAINT fk_idusuario_carr			FOREIGN KEY(idusuario) REFERENCES usuarios (idusuario)
 )ENGINE = INNODB;
 ALTER TABLE carrusel MODIFY foto VARCHAR(200) NULL;
 

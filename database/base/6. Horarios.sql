@@ -34,7 +34,7 @@ END $$
 
 -- ##########################################################################################################################
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_disponible_negocio(
     IN _dia_actual VARCHAR(20)
 )
@@ -56,11 +56,11 @@ BEGIN
 
     -- Mostrar el estado del negocio
     SELECT estado AS 'Estado';
-END $$
+END $$*/
 
 -- ##########################################################################################################################
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_disponible2_negocio(
     IN _dia_actual VARCHAR(20)
 )
@@ -78,7 +78,7 @@ BEGIN
 
     -- Mostrar el estado del negocio
     SELECT estado AS 'Estado';
-END $$
+END $$*/
 
 -- ##########################################################################################################################
 

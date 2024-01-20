@@ -25,6 +25,24 @@ END $$
 -- ##########################################################################################################################
 
 DELIMITER $$
+CREATE PROCEDURE spu_login(IN _correo VARCHAR(100))
+BEGIN
+    SELECT 
+        USU.idusuario,
+        USU.idpersona,
+        PER.apellidos,
+        PER.nombres,
+        USU.correo,
+        USU.claveacceso,
+        USU.nivelacceso
+    FROM usuarios USU 
+    INNER JOIN personas PER ON USU.idpersona = PER.idpersona
+    WHERE correo = _correo AND USU.inactive_at IS NULL;
+END $$
+
+-- ##########################################################################################################################
+
+DELIMITER $$
 CREATE PROCEDURE spu_buscar_correo(
 	IN _correo		VARCHAR(100)
 )

@@ -8,20 +8,22 @@ USE INNOVACION;
 DELIMITER $$
 CREATE PROCEDURE spu_ubicaciones_registrar(
 	IN _idhorario			INT,
+    IN _idnegocio 			INT,
     IN _latitud				DOUBLE,
     IN _longitud			DOUBLE
 )
 BEGIN
 	INSERT INTO ubicaciones
-		(idhorario, latitud, longitud)
+		(idhorario, idnegocio, latitud, longitud)
 	VALUES
-		(_idhorario, _latitud, _longitud);
+		(_idhorario, idnegocio, _latitud, _longitud);
 	-- SELECT @@last_insert_id 'idubicacion';
 END $$
 
+SELECT * FROM ubicaciones;
 -- ##########################################################################################################################
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_ubicaciones_listar()
 BEGIN
 	SELECT
@@ -37,7 +39,12 @@ BEGIN
 	INNER JOIN horarios h ON u.idubicacion = h.idhorario;
 END $$
 CALL spu_ubicaciones_listar();
-
+*/
 -- ##########################################################################################################################
 
+DELIMITER $$
+CREATE PROCEDURE spu_ubicaciones_listar()
+BEGIN
+	SELECT * FROM ubicaciones;
+END $$
 

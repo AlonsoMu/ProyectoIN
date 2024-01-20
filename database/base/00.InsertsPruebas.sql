@@ -4,13 +4,12 @@ use innovacion;
 
 INSERT INTO personas (apellidos, nombres, tipodoc, numerodoc) VALUES
 ('Muñoz','Alonso','DNI','74136969'),
-('Hernandez','Yorghet','DNI','72159736'),
-('Napa','Harold','DNI','78291819');
+('Hernandez','Yorghet','DNI','72159736');
 
 SELECT * FROM PERSONAS;
 
 INSERT INTO usuarios (idpersona,correo, claveacceso, celular, nivelacceso) VALUES
-(1,'alonsomunoz263@gmail.com','12345','970526015','ADM');
+(2,'yorghetyauri123@gmail.com','12345','946989937','ADM');
 
 
 
@@ -22,25 +21,25 @@ INSERT INTO planes (tipoplan, precio) VALUES
 
 
 INSERT INTO categorias (nomcategoria) VALUES
-('Hoteles'),
-('Farmacias'),
-('Restaurantes'),
-('Bodegas');
+('hoteles'),
+('farmacias'),
+('restaurantes'),
+('bodegas');
 
 
 INSERT INTO subcategorias (idcategoria, nomsubcategoria ) VALUES
-(1,'Playa'),
-(1,'Urbano'),
-(1,'Lujo'),
-(2,'Pediátrica'),
-(2,'Comercial'),
-(2,'Clínica'),
-(3,'Japones'),
-(3,'Italiano'),
-(3,'Mexicano'),
-(4,'Abarrotes'),
-(4,'Artesanal'),
-(4,'General');
+(1,'playa'),
+(1,'urbano'),
+(1,'lujo'),
+(2,'pediátrica'),
+(2,'comercial'),
+(2,'clínica'),
+(3,'japones'),
+(3,'italiano'),
+(3,'mexicano'),
+(4,'abarrotes'),
+(4,'artesanal'),
+(4,'general');
 
 
 INSERT INTO horarios (apertura, cierre, dia) VALUES
@@ -64,15 +63,15 @@ INSERT INTO ubicaciones (idhorario, latitud, longitud) VALUES
 (3, -13.4054328, -76.1275315);
 
 
-INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, idubicacion, nroruc, nombre,
+INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, nroruc, nombre,
  descripcion, direccion, telefono, correo, valoracion) VALUES
-(1, 1, 1, 7, 1, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', 4),
-(6, 2, 1, 8, 2, '98765432101', 'costumbres', 'comida italiana','Calle Secundaria 456', '987654322', 'info@modaelegante.com', 5),
-(7, 1, 1, 9, 3, '11112222333', 'naoky', 'comida mexicana','Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', 3);
+(1, 1, 1, 7, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', 4),
+(6, 2, 1, 8, '98765432101', 'costumbres', 'comida italiana','Calle Secundaria 456', '987654322', 'info@modaelegante.com', 5),
+(7, 1, 1, 9, '11112222333', 'naoky', 'comida mexicana','Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', 3);
 
-INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, idubicacion, nroruc, nombre,
- descripcion, direccion, telefono, correo, valoracion) VALUES
- (1, 1, 1, 7, 4, '1111222233', 'boulevard', 'comida japonesa','Av. Deportiva 789', '980526013', 'info@deportesxtreme.com', 3);
+-- CLAVE => 12345
+UPDATE usuarios
+	SET claveacceso = '$2y$10$4cRm3VvOaFVmAsetrnE5Y.hs8XexasbhwenpdZq.5kAegoJ7LZrTG';
 
 SELECT * FROM negocios;
 SELECT * FROM galerias;

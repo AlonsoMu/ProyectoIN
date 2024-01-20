@@ -677,6 +677,8 @@ function busqueda() {
         }
       });
 
+      
+
       function listarNegocios(idsubcategoria, iddistrito) {
         console.log("Ingresando a listarNegocios");
         // Limpiar marcadores existentes
