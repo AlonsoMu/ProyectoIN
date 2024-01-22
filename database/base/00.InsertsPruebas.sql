@@ -65,6 +65,9 @@ INSERT INTO ubicaciones (idhorario, idnegocio, latitud, longitud) VALUES
 (5, 3, -13.4053329, -76.1272912),
 (6, 4, -13.4182674, -76.1349002);
 
+INSERT INTO ubicaciones (idhorario, idnegocio, latitud, longitud) VALUES
+(3, 5, -13.4047002, -76.1582921);
+
 
 
 
@@ -74,11 +77,16 @@ INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, nroruc, 
 (6, 2, 1, 8, '98765432101', 'costumbres', 'comida italiana','Calle Secundaria 456', '987654322', 'info@modaelegante.com', 5),
 (7, 1, 1, 9, '11112222333', 'naoky', 'comida mexicana','Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', 3);
 
+INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, nroruc, nombre,
+ descripcion, direccion, telefono, correo, valoracion) VALUES
+(6, 1, 1, 9, '12345672901', 'olivar', 'comida xd', 'Av. Principal 123', '987654321', 'info@tiendatech.com', 2);
+
 -- CLAVE => 12345
 UPDATE usuarios
 	SET claveacceso = '$2y$10$4cRm3VvOaFVmAsetrnE5Y.hs8XexasbhwenpdZq.5kAegoJ7LZrTG';
 
 SELECT * FROM negocios;
+SELECT * FROM distritos;
 SELECT * FROM galerias;
 SELECT * FROM subcategorias;
 SELECT * FROM ubicaciones;
@@ -113,17 +121,17 @@ SELECT * FROM negocios;
 
 INSERT INTO distritos (nomdistrito, latitud, longitud)
 VALUES
-('chincha alta', -13.417583, -76.1325496),
-('alto larán', -13.4423161, -76.0828003),
+('chincha alta', -13.4177194, -76.1320961),
+('alto larán', -13.4423379, -76.082938),
 ('chavín', -13.0770802, -75.9129889),
-('chincha baja', -13.4589572, -76.1615777),
-('el carmen', -13.5001422, -76.05755),
-('grocio prado', -13.3981459, -76.1561312),
-('pueblo nuevo', -13.4048376, -76.1263936),
-('san juan de yanac', -13.210744, -75.7861519),
-('san pedro de huacarpana', -13.0694787, -75.7914073),
-('sunampe', -13.4275167, -76.1643971),
-('tambo de mora', -13.4585105, -76.1826305);
+('chincha baja', -13.4589023, -76.161858),
+('el carmen', -13.499493, -76.0574846),
+('grocio prado', -13.3981128, -76.1562338),
+('pueblo nuevo', -13.4046044, -76.1263104),
+('san juan de yanac', -13.2109521, -75.7868747),
+('san pedro de huacarpana', -13.122306, -75.792899),
+('sunampe', -13.4275754, -76.164317),
+('tambo de mora', -13.4584529, -76.1826597);
 
 SELECT * FROM distritos;
 SELECT * FROM negocios;

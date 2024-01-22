@@ -143,7 +143,7 @@
         </div>
         <div class="row pt-4 distritoc" style="max-width: 300px;">
           <label class="pr-3">Distrito: </label>
-          <select class="form-select" aria-label="Selecciona un distrito" id="distrito">
+          <select class="form-select" aria-label="Selecciona un distrito" id="selectDistritos">
             <option selected value="">Selecciona</option>
             <!-- Agrega más opciones según sea necesario -->
           </select>
@@ -270,25 +270,25 @@
     }
 
     function showToast(message, color) {
-  if (Notification.permission === "granted") {
-    const options = {
-      body: message,
-      icon: "./img/sting.svg", // Ruta a un icono opcional
-    };
+      if (Notification.permission === "granted") {
+        const options = {
+          body: message,
+          icon: "./img/sting.svg", // Ruta a un icono opcional
+        };
 
-    if (color) {
-      options.data = { color: color };
-    }
+        if (color) {
+          options.data = { color: color };
+        }
 
-    const notification = new Notification("Éxito", options);
-  } else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then(permission => {
-      if (permission === "granted") {
-        showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
+        const notification = new Notification("Éxito", options);
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
+          }
+        });
       }
-    });
-  }
-}
+  } 
 
 function busqueda() {
   // Limpiar marcadores antes de realizar una nueva búsqueda
@@ -453,76 +453,10 @@ function busqueda() {
           }
         });
 
-        function getDistrito(){
-          const parametros = new FormData();
-          parametros.append("operacion", "listar")
-      
-          fetch(`./controllers/distrito.controller.php`, {
-            method: "POST",
-            body: parametros
-          })
-          .then(respuesta => respuesta.json())
-          .then(datos =>{
-            //console.log(datos)
-            const distritoSelect = document.getElementById("distrito");
-            datos.forEach(element => {
-              const etiqueta = document.createElement("option");
-              etiqueta.value = element.iddistrito;
-              etiqueta.innerHTML = element.nomdistrito;
-              distritoSelect.appendChild(etiqueta);
-            });
-          })
-          .catch(e => {
-            console.error(e);
-          });
-        }
-      
-        function actualizarMapa() {
-          const distritoSelect = document.getElementById("distrito");
-          const selectedDistritoId = distritoSelect.value;
+        
 
-          //clearMarkers();
-          if (selectedDistritoId) {
-            // Realiza una llamada para obtener las coordenadas del distrito seleccionado
-            obtenerCoordenadasDistrito(selectedDistritoId)
-            .then(coordenadas => {
-              // Actualiza el mapa con las nuevas coordenadas
-              map.setCenter(coordenadas);
-              map.setZoom(16);
-
-              // Agrega un marcador en las nuevas coordenadas
-              const marcadorDistrito = agregarMarcadorDistrito(selectedDistritoId, coordenadas[0], coordenadas[1]);
-            })
-            .catch(error => {
-              console.error("Error al obtener coordenadas del distrito:", error);
-            });
-          }
-        }
-
-        document.addEventListener('change', function (event) {
-          if (event.target.id === 'distrito') {
-            actualizarMapa();
-          }
-        });
+        
       
-      
-        // Función para obtener las coordenadas del distrito desde el servidor
-        function obtenerCoordenadasDistrito(distritoId) {
-          const parametros = new FormData();
-          parametros.append("operacion", "obtener");
-          parametros.append("iddistrito", distritoId);
-  
-          return fetch(`./controllers/distrito.controller.php`, {
-            method: "POST",
-            body: parametros
-          })
-          .then(respuesta => respuesta.json())
-          .then(coordenadas => ({
-            lat: parseFloat(coordenadas.latitud),
-            lng: parseFloat(coordenadas.longitud)
-          }));
-        }
-
       
         function carrusel() {
           const parametros = new FormData();
@@ -630,7 +564,7 @@ function busqueda() {
         // Llamar a la función para obtener categorías al cargar la página
         getCategoria();
         cargarSubcategorias();
-        getDistrito();
+       
       }); //FIN DEL DOM
 
       // FUNCIONES PARA EL MAPA
@@ -650,50 +584,222 @@ function busqueda() {
       }
 
       // Declarar una variable global para almacenar los marcadores
+      // Declarar variables globales
       let markers = [];
       let infoWindow;
+      let selectedIdSubcategoria;
 
       function clearMarkers() {
-        markers.forEach(marker => {
-          marker.setMap(null);
-        });
-        markers = [];
-      } 
+          markers.forEach(marker => {
+              marker.setMap(null);
+          });
+          markers = [];
+      }
 
-      document.addEventListener('change', function (event) {
-        if (event.target.id === 'distrito') {
-          // Obtener el ID de la subcategoría seleccionada
-          console.log(document.querySelector('.nego_acti'));
-          const subcategoriaSeleccionada = document.querySelector('.nego_acti').getAttribute('data-idsubcategoria');
+      function getDistrito() {
+          const parametros = new FormData();
+          parametros.append("operacion", "listar");
 
-          // Obtener el ID del distrito seleccionado
-          const distritoSeleccionado = event.target.value;
+          fetch(`./controllers/distrito.controller.php`, {
+              method: "POST",
+              body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+              const distritoSelect = document.getElementById("selectDistritos");
+              datos.forEach(element => {
+                  const etiqueta = document.createElement("option");
+                  etiqueta.value = element.iddistrito;
+                  etiqueta.innerHTML = element.nomdistrito;
 
-          // Verificar si se seleccionó una subcategoría y un distrito
-          if (subcategoriaSeleccionada && distritoSeleccionado) {
-            // Llamar a la función para listar negocios
-            listarNegocios(subcategoriaSeleccionada, distritoSeleccionado);
+                  distritoSelect.appendChild(etiqueta);
+              });
+          })
+          .catch(e => {
+              console.error(e);
+          });
+      }
+
+      getDistrito();
+
+      document.addEventListener('DOMContentLoaded', function () {
+          const selectDistritos = document.getElementById('selectDistritos');
+
+          if (selectDistritos) {
+              selectDistritos.addEventListener('change', function (event) {
+                  const selectedDistrito = event.target.value;
+
+                  if (selectedDistrito !== null) {
+                      console.log("Distrito seleccionado:", selectedDistrito);
+                      listarNegociosPorDistrito(selectedIdSubcategoria, selectedDistrito);
+                  } else {
+                      console.error("No se ha seleccionado un distrito.");
+                  }
+              });
+          } else {
+              console.error("Elemento con ID 'selectDistritos' no encontrado.");
           }
-        }
       });
+
+      document.addEventListener('click', function (event) {
+          if (event.target.classList.contains('btn-light')) {
+              selectedIdSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
+              const selectDistritos = document.getElementById('selectDistritos');
+              const selectedDistrito = selectDistritos.value;
+
+              if (selectedIdSubcategoria !== null && selectedDistrito !== null) {
+                  console.log("ID de Subcategoría:", selectedIdSubcategoria);
+                  console.log("Distrito seleccionado:", selectedDistrito);
+                  listarNegociosPorDistrito(selectedIdSubcategoria, selectedDistrito);
+              } else {
+                  console.error("No se pudo obtener el ID de subcategoría o no se ha seleccionado un distrito.");
+              }
+          }
+      });
+
+      function showToast(message, color) {
+          if (Notification.permission === "granted") {
+              const options = {
+                  body: message,
+                  icon: "./img/sting.svg", // Ruta a un icono opcional
+              };
+
+              if (color) {
+                  options.data = { color: color };
+              }
+
+              const notification = new Notification("Éxito", options);
+          } else if (Notification.permission !== "denied") {
+              Notification.requestPermission().then(permission => {
+                  if (permission === "granted") {
+                      showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
+                  }
+              });
+          }
+      }
+            
+
+      function listarNegociosPorDistrito(idsubcategoria, iddistrito) {
+          console.log("Ingresando a listarNegociosPorDistrito");
+          // Limpiar marcadores existentes
+          clearMarkers();
+
+          if (!iddistrito) {
+              console.log("No se ha seleccionado un distrito.");
+              return;
+          }
+
+          const parametros = new FormData();
+          parametros.append("operacion", "obtenerdist");
+          parametros.append("idsubcategoria", idsubcategoria);
+          parametros.append("iddistrito", iddistrito);
+
+          fetch('./controllers/ubicacion.controller.php', {
+              method: "POST",
+              body: parametros
+          })
+          .then(respuesta => respuesta.text())
+          .then(datos => {
+              try {
+                  const jsonDatos = JSON.parse(datos);
+                  console.log(jsonDatos);
+
+                  if (jsonDatos.length > 0) {
+                      // Resto del código para agregar marcadores
+                      jsonDatos.forEach(element => {
+                          const point = new google.maps.LatLng(
+                              parseFloat(element.latitud),
+                              parseFloat(element.longitud)
+                          );
+
+                          const marker = new google.maps.Marker({
+                              map: map,
+                              position: point,
+                              title: element.nombre,
+                          });
+
+                          marker.addListener('click', function () {
+                              mostrarInfoWindow(element, marker);
+                          });
+
+                          markers.push(marker);
+                      });
+
+                      // Centrar y hacer zoom solo si hay marcadores
+                      if (markers.length > 0) {
+                          const bounds = new google.maps.LatLngBounds();
+                          markers.forEach(marker => {
+                              bounds.extend(marker.getPosition());
+                          });
+                          map.fitBounds(bounds);
+
+                          // Mostrar notificación con la cantidad de negocios encontrados
+                          const message = `Se encontraron ${jsonDatos.length} negocios en este distrito para la subcategoría dada`;
+                          showToast(message, "green");
+                      }
+                  } else {
+                      // No se encontraron negocios en este distrito para la subcategoría dada
+                      showToast("No se encontraron negocios en este distrito para la subcategoría dada", "red");
+
+                      // Obtener coordenadas predeterminadas del distrito
+                      obtenerCoordenadasDistrito(iddistrito)
+                          .then(coordenadas => {
+                              // Centrar el mapa en las coordenadas predeterminadas
+                              map.setCenter(new google.maps.LatLng(coordenadas.lat, coordenadas.lng));
+                              map.setZoom(16); // Puedes ajustar el nivel de zoom según tus necesidades
+                          })
+                          .catch(error => {
+                              console.error("Error al obtener coordenadas predeterminadas:", error);
+                          });
+                  
+                      
+                  }
+              } catch (error) {
+                  console.error("Error al parsear la respuesta como JSON:", error);
+              }
+          })
+          .catch(e => {
+              console.error(e);
+          })
+          .finally(() => {
+              // Agregar listener para cerrar la ventana de información al hacer clic en el mapa
+              map.addListener('click', function () {
+                  infoWindow.close();
+              });
+          });
+
+          const selectDistritos = document.getElementById('selectDistritos');
+          selectDistritos.value = ''; // Opcionalmente, puedes establecer el valor a null si no quieres seleccionar nada
+      }
+
+      function obtenerCoordenadasDistrito(iddistrito) {
+        const parametros = new FormData();
+        parametros.append("operacion", "obtener");
+        parametros.append("iddistrito", iddistrito);
+
+        return fetch(`./controllers/distrito.controller.php`, {
+          method: "POST",
+          body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(coordenadas => ({
+          lat: parseFloat(coordenadas.latitud),
+          lng: parseFloat(coordenadas.longitud)
+        }));
+      }
+        
 
       
 
-      function listarNegocios(idsubcategoria, iddistrito) {
+      function listarNegocios(idsubcategoria) {
         console.log("Ingresando a listarNegocios");
         // Limpiar marcadores existentes
         clearMarkers();
         // Limpiar el select de distritos
-        const distritoSelect = document.getElementById("distrito");
-        distritoSelect.selectedIndex = 0;
-
-        if (iddistrito === distritoSelect.value) {
-          return;
-        }
+        
         const parametros = new FormData();
         parametros.append("operacion", "obtenerNyH");
         parametros.append("idsubcategoria", idsubcategoria);
-        parametros.append("iddistrito", iddistrito);
 
         fetch('./controllers/negocio.controller.php', {
           method: "POST",
@@ -741,15 +847,9 @@ function busqueda() {
         });
       }
 
-      function agregarMarcadorDistrito(iddistrito, latitud, longitud) {
-        const marker = new google.maps.Marker({
-          position: new google.maps.LatLng(latitud, longitud),
-          map: map,
-          icon: "./img/ubicacion.svg"
-        });
-        return marker;
-      }
+      
 
+      
       // Evento de clic en los botones de subcategoría
       document.addEventListener('click', function (event) {
         if (event.target.classList.contains('btn-light')) {
@@ -760,24 +860,24 @@ function busqueda() {
           }
         }
       });
+
+      
     
       // Función para obtener el ID de subcategoría desde el botón
       function obtenerIdSubcategoriaDesdeBoton(boton) {
-        // Verificar si el atributo 'data-idsubcategoria' está presente
         if (boton && boton.getAttribute) {
-          // Obtener el valor del atributo 'data-idsubcategoria'
-          const idSubcategoria = parseInt(boton.getAttribute('data-idsubcategoria'));
-          if (!isNaN(idSubcategoria)) {
-            return idSubcategoria;
-          } else {
-            console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
-            return null;
-          }
+            const idSubcategoria = boton.getAttribute('data-idsubcategoria');
+            if (idSubcategoria !== null) {
+                return parseInt(idSubcategoria);
+            } else {
+                console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
+                return null;
+            }
         } else {
-          console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
-          return null;
+            console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
+            return null;
         }
-      }
+    }
 
       function mostrarInfoWindow(element, marker) {
         // Función para formatear el número de teléfono

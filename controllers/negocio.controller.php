@@ -10,12 +10,7 @@ if (isset($_POST['operacion'])) {
 
   switch ($_POST['operacion']) {
     
-    case 'obtenerNegocio':
-      $datos = [
-        'idsubcategoria' => $_POST['idsubcategoria']
-      ];
-      enviarJSON($negocio->obtenerNegocio($datos));
-    break;
+    
   
     case 'obtenerNyH':
       $formato = 'EEEE'; 
@@ -38,12 +33,7 @@ if (isset($_POST['operacion'])) {
       ];
       enviarJSON($negocio->obtenerNyH($datos));
     break;
-    case 'obtenerSyD':
-      $datos = [
-        'idsubcategoria' => $_POST['idsubcategoria'],
-        'iddistrito' => $_POST['iddistrito']
-      ];
-      enviarJSON($negocio->obtenerSyD($datos));
+    
     break;
     case 'buscar':
       $formato = 'EEEE'; 

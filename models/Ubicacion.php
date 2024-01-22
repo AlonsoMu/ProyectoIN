@@ -36,5 +36,24 @@ class Ubicacion extends Conexion{
   }
 
   
+
+  public function obtenerDistrito($datos = []){
+    try {
+      
+      $consulta = $this->conexion->prepare("CALL spu_obtener_dist(?,?,?)");
+      $consulta->execute(
+        array(
+          $datos['idsubcategoria'],
+          $datos['iddistrito'],
+          $datos['dia_actual']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  
   //------------------------------------------------------------------------------------
 }

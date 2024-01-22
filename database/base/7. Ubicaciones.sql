@@ -48,3 +48,16 @@ BEGIN
 	SELECT * FROM ubicaciones;
 END $$
 
+
+DELIMITER //
+CREATE PROCEDURE xd(IN p_idSubcategoria INT)
+BEGIN
+    SELECT d.iddistrito, d.nomdistrito, d.latitud, d.longitud
+    FROM distritos d
+    INNER JOIN negocios n ON d.iddistrito = n.iddistrito
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    WHERE s.idsubcategoria = p_idSubcategoria;
+END //
+DELIMITER ;
+
+call xd(9);

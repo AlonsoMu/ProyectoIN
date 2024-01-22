@@ -254,6 +254,60 @@ BEGIN
 END $$
 CALL spu_obtener_nyh(7, 'viernes');
 
+DELIMITER $$
+CREATE PROCEDURE spu_obtener_dist(
+    IN _idsubcategoria INT,
+    IN _iddistrito INT,
+    IN _dia_actual VARCHAR(20)
+)
+BEGIN
+    DECLARE _hora_actual TIME;
+    DECLARE estado VARCHAR(10);
+
+    -- Obtener la hora actual
+    SET _hora_actual = CURRENT_TIME();
+
+    -- Verificar el estado del negocio
+    SELECT
+        CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM negocios n
+                INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
+                INNER JOIN horarios h ON u.idhorario = h.idhorario
+                WHERE n.idsubcategoria = _idsubcategoria
+                  AND h.dia = _dia_actual
+                  AND _hora_actual BETWEEN h.apertura AND h.cierre
+            ) THEN 'Abierto'
+            ELSE 'Cerrado'
+        END INTO estado
+    FROM dual;
+
+    -- Mostrar la información de los negocios y su estado de disponibilidad
+    SELECT 
+        n.idnegocio,
+        u.idubicacion,
+        d.iddistrito,
+        s.idsubcategoria,
+        s.nomsubcategoria,
+        u.latitud,
+        u.longitud,
+        n.nombre,
+        n.direccion,
+        d.nomdistrito,
+        n.telefono,
+        estado AS 'Estado'
+    FROM negocios n
+    INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    WHERE n.idsubcategoria = _idsubcategoria
+      AND n.iddistrito = _iddistrito  -- Agregamos el filtro por distrito
+      AND n.inactive_at IS NULL; 
+END $$
+
+
+CALL spu_obtener_dist(5, 7, 'viernes');
 
 SELECT * FROM ubicaciones;
 SELECT * FROM horarios;
