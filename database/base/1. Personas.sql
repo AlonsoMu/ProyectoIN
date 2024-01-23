@@ -61,7 +61,7 @@ CREATE PROCEDURE spu_personas_buscar(
 BEGIN
     SELECT
         p.idpersona,
-        CONCAT(p.nombres, ' ', p.apellidos) AS 'Nombres y Apellidos',
+        CONCAT(p.nombres, ' ', p.apellidos) AS 'datos',
         p.numerodoc
     FROM personas p
     WHERE NOT EXISTS (
@@ -74,4 +74,4 @@ BEGIN
         CONCAT(p.nombres, ' ', p.apellidos) LIKE CONCAT('%', nombre_apellido, '%')
     );
 END $$
-CALL spu_personas_buscar('Harold Napa');
+CALL spu_personas_buscar('angel');

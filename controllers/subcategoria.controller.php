@@ -8,14 +8,11 @@ if (isset($_POST['operacion'])) {
 
   switch ($_POST['operacion']) {
 
-    /*case 'listar':
-      $datos = [
-        'idcategoria' => $_POST['idcategoria']
-      ];
-      enviarJSON($subcategoria->listar($datos));
+    case 'listar':
+      enviarJSON($subcategoria->listar());
       break;
 
-      case 'listarsub':
+      /*case 'listarsub':
         enviarJSON($subcategoria->listarsub());
         break;
 

@@ -16,5 +16,26 @@ if (isset($_POST['operacion'])) {
       ];
       enviarJSON($distrito->obtener($datos));
       break;
+    case 'obtenerNyH1':
+      $formato = 'EEEE'; 
+      $idioma = 'es';
+  
+      $intlDateFormatter = new IntlDateFormatter(
+        $idioma,
+        IntlDateFormatter::FULL,
+        IntlDateFormatter::NONE,
+        null,
+        null,
+        $formato
+      );
+  
+      $dia_actual = $intlDateFormatter->format(time());
+  
+      $datos = [
+        'idsubcategoria' => $_POST['idsubcategoria'],
+        'dia_actual' => $dia_actual
+      ];
+      enviarJSON($distrito->obtenerNyH($datos));
+      break;
   }
 }

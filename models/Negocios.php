@@ -69,6 +69,36 @@ class Negocio extends Conexion{
     }
   }
   
+
+  public function registrar($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_negocios_registrar(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $consulta->execute(
+        array(
+          $datos['iddistrito'],
+          $datos['idpersona'],
+          $datos['idusuario'],
+          $datos['idsubcategoria'],
+          $datos['nroruc'],
+          $datos['nombre'],
+          $datos['descripcion'],
+          $datos['direccion'],
+          $datos['telefono'],
+          $datos['correo'],
+          $datos['facebook'],
+          $datos['whatsapp'],
+          $datos['instagram'],
+          $datos['tiktok'],
+          $datos['pagweb'],
+          $datos['logo'],
+          $datos['valoracion']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
     
 
   

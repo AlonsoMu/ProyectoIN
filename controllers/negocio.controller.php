@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+date_default_timezone_set("America/Lima");
 require_once '../models/Negocios.php';
 require_once '../models/Funciones.php';
 
@@ -9,9 +11,6 @@ if (isset($_POST['operacion'])) {
   $negocio = new Negocio();
 
   switch ($_POST['operacion']) {
-    
-    
-  
     case 'obtenerNyH':
       $formato = 'EEEE'; 
       $idioma = 'es';
@@ -32,8 +31,6 @@ if (isset($_POST['operacion'])) {
         'dia_actual' => $dia_actual
       ];
       enviarJSON($negocio->obtenerNyH($datos));
-    break;
-    
     break;
     case 'buscar':
       $formato = 'EEEE'; 
@@ -86,6 +83,38 @@ if (isset($_POST['operacion'])) {
         ];
         echo json_encode($jsonError);
       }
+    break;
+    case 'registrar':
+      //Generar un nombre a partir del momento exacto
+      $ahora = date('dmYhis');
+      $nombreArchivo = sha1($ahora) . ".jpg";
+
+      $datosEnviar = [
+        'iddistrito'      => $_POST['iddistrito'],
+        'idpersona'       => $_POST['idpersona'],
+        'idusuario'       => $_SESSION['idusuario'],
+        'idsubcategoria'  => $_POST['idsubcategoria'],
+        'nroruc'          => $_POST['nroruc'],
+        'nombre'          => $_POST['nombre'],
+        'descripcion'     => $_POST['descripcion'],
+        'direccion'       => $_POST['direccion'],
+        'telefono'        => $_POST['telefono'],
+        'correo'          => $_POST['correo'],
+        'facebook'        => $_POST['facebook'],
+        'whatsapp'        => $_POST['whatsapp'],
+        'instagram'       => $_POST['instagram'],
+        'tiktok'          => $_POST['tiktok'],
+        'pagweb'          => $_POST['pagweb'],
+        'logo'            => '',
+        'valoracion'      => $_POST['valoracion']
+      ];
+      //Solo movemos la imagen, si esta existe (uploaded)
+      if (isset($_FILES['logo'])){
+        if (move_uploaded_file($_FILES['logo']['tmp_name'], "../imgLogos/" . $nombreArchivo)){
+          $datosEnviar["logo"] = $nombreArchivo;
+        }
+      }
+      enviarJSON($negocio->registrar($datosEnviar));
     break;
   }
 }

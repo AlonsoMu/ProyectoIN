@@ -63,3 +63,9 @@ SELECT * FROM categorias;
 SELECT * FROM subcategorias;
 
 -- ##########################################################################################################################
+DELIMITER $$
+CREATE PROCEDURE spu_subcategorias_listar()
+BEGIN
+	SELECT * FROM subcategorias;
+END $$
+CALL spu_subcategorias_listar();

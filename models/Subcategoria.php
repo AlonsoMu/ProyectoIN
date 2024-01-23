@@ -9,12 +9,10 @@ class Subcategoria extends Conexion{
     $this->conexion = parent::getConexion();
   }
 
-  /*public function listar($datos = []){
+  public function listar($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spu_subcategorias_listar(?)");
-      $consulta->execute(array(
-        $datos['idcategoria']
-      ));
+      $consulta = $this->conexion->prepare("CALL spu_subcategorias_listar()");
+      $consulta->execute();
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
     catch(Exception $e){
@@ -22,7 +20,7 @@ class Subcategoria extends Conexion{
     }
   }
 
-  public function listarsub(){
+  /*public function listarsub(){
     try {
       $consulta = $this->conexion->prepare("CALL spu_subcategorias_listartodo()");
       $consulta->execute();

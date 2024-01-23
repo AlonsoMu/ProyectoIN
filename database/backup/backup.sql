@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-01-2024 a las 06:43:34
+-- Tiempo de generación: 23-01-2024 a las 04:57:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -43,6 +43,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_buscar_token` (IN `_correo` VAR
 	SELECT *
     FROM usuarios
     WHERE correo = _correo AND token = _token;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_carrusel_listar` ()   BEGIN
+	SELECT
+		idcarrusel,
+        foto
+	FROM carrusel
+    WHERE inactive_at IS NULL;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_carrusel_registrar` (IN `_idusuario` INT, IN `_foto` VARCHAR(200))   BEGIN
+	INSERT INTO carrusel
+	(idusuario, foto)
+	VALUES
+		(_idusuario, _foto);
+	SELECT @@last_insert_id 'idcarrusel';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_categorias_listar` ()   BEGIN
@@ -203,6 +219,52 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_coordenadas` (IN `_iddi
         WHERE iddistrito = _iddistrito;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_dist` (IN `_idsubcategoria` INT, IN `_iddistrito` INT, IN `_dia_actual` VARCHAR(20))   BEGIN
+    DECLARE _hora_actual TIME;
+    DECLARE estado VARCHAR(10);
+
+    -- Obtener la hora actual
+    SET _hora_actual = CURRENT_TIME();
+
+    -- Verificar el estado del negocio
+    SELECT
+        CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM negocios n
+                INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
+                INNER JOIN horarios h ON u.idhorario = h.idhorario
+                WHERE n.idsubcategoria = _idsubcategoria
+                  AND h.dia = _dia_actual
+                  AND _hora_actual BETWEEN h.apertura AND h.cierre
+            ) THEN 'Abierto'
+            ELSE 'Cerrado'
+        END INTO estado
+    FROM dual;
+
+    -- Mostrar la información de los negocios y su estado de disponibilidad
+    SELECT 
+        n.idnegocio,
+        u.idubicacion,
+        d.iddistrito,
+        s.idsubcategoria,
+        s.nomsubcategoria,
+        u.latitud,
+        u.longitud,
+        n.nombre,
+        n.direccion,
+        d.nomdistrito,
+        n.telefono,
+        estado AS 'Estado'
+    FROM negocios n
+    INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    WHERE n.idsubcategoria = _idsubcategoria
+      AND n.iddistrito = _iddistrito  -- Agregamos el filtro por distrito
+      AND n.inactive_at IS NULL; 
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_nyh` (IN `_idsubcategoria` INT, IN `_dia_actual` VARCHAR(20))   BEGIN
     DECLARE _hora_actual TIME;
     DECLARE estado VARCHAR(10);
@@ -248,6 +310,23 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_nyh` (IN `_idsubcategor
       AND n.inactive_at IS NULL; 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_personas_buscar` (IN `nombre_apellido` VARCHAR(100))   BEGIN
+    SELECT
+        p.idpersona,
+        CONCAT(p.nombres, ' ', p.apellidos) AS 'datos',
+        p.numerodoc
+    FROM personas p
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM usuarios u
+        WHERE u.idpersona = p.idpersona
+        AND u.nivelacceso = 'ADM'
+    )
+    AND (
+        CONCAT(p.nombres, ' ', p.apellidos) LIKE CONCAT('%', nombre_apellido, '%')
+    );
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_planes_registrar` (IN `_tipoplan` CHAR(8), IN `_precio` DECIMAL(9,2))   BEGIN
 	INSERT INTO planes
 		(tipoplan, precio)
@@ -262,6 +341,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_registrar_token` (IN `_correo` 
 		token = _token,
 		fechatoken = NOW()
 		WHERE _correo = correo;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_subcategorias_listar` ()   BEGIN
+	SELECT * FROM subcategorias;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_subcategorias_listartodo` ()   BEGIN
@@ -289,12 +372,28 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_ubicaciones_registrar` (IN `_id
 	-- SELECT @@last_insert_id 'idubicacion';
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_usuarios_listar` ()   BEGIN
+	SELECT
+		idusuario,
+        nivelacceso
+	FROM usuarios
+    WHERE inactive_at IS NULL;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_usuarios_registrar` (IN `_idpersona` INT, IN `_avatar` VARCHAR(200), IN `_correo` VARCHAR(100), IN `_claveacceso` VARCHAR(100), IN `_celular` CHAR(11), IN `_nivelacceso` CHAR(3))   BEGIN
 	INSERT INTO usuarios
 		(idpersona, avatar, correo, claveacceso, celular, nivelacceso)
 	VALUES
 		(_idpersona, NULLIF(_avatar, ''), _correo, _claveacceso, _celular, _nivelacceso);
 	-- SELECT @@last_insert_id 'idusuario';
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `xd` (IN `p_idSubcategoria` INT)   BEGIN
+    SELECT d.iddistrito, d.nomdistrito, d.latitud, d.longitud
+    FROM distritos d
+    INNER JOIN negocios n ON d.iddistrito = n.iddistrito
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    WHERE s.idsubcategoria = p_idSubcategoria;
 END$$
 
 DELIMITER ;
@@ -313,6 +412,19 @@ CREATE TABLE `carrusel` (
   `update_at` datetime DEFAULT NULL,
   `inactive_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carrusel`
+--
+
+INSERT INTO `carrusel` (`idcarrusel`, `idusuario`, `foto`, `create_at`, `update_at`, `inactive_at`) VALUES
+(1, 1, '3fd5bded33e953c5709429ad6d5b0658c60e8754.jpg', '2024-01-20 02:01:36', NULL, NULL),
+(2, 1, '65152c00c46b1eac7a2d89a6b36e6258d787901d.jpg', '2024-01-20 02:01:43', NULL, NULL),
+(3, 1, '55a2b4bdb2b024298ff2888072ec4491f4822715.jpg', '2024-01-20 02:02:07', NULL, NULL),
+(4, 1, '99e8fc938cbb3615f8f8332971322cd13b8ce16e.jpg', '2024-01-20 02:02:16', NULL, NULL),
+(5, 1, 'd0576ad05a81539db9e75741c9585a69579c02d0.jpg', '2024-01-20 02:02:24', NULL, NULL),
+(6, 1, '625b8c3f7d5b0f6705ada0829f5e5d6b36d3e7c0.jpg', '2024-01-20 02:02:31', NULL, NULL),
+(7, 1, 'c3b5a5facea330276a51fa2c5e80833b232b4c79.jpg', '2024-01-20 02:13:25', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -354,7 +466,7 @@ CREATE TABLE `contratos` (
   `create_at` datetime DEFAULT current_timestamp(),
   `update_at` datetime DEFAULT NULL,
   `inactive_at` datetime DEFAULT NULL
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `contratos`
@@ -386,17 +498,17 @@ CREATE TABLE `distritos` (
 --
 
 INSERT INTO `distritos` (`iddistrito`, `nomdistrito`, `latitud`, `longitud`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 'chincha alta', -13.4255087, -76.1470108, '2024-01-19 23:05:36', NULL, NULL),
-(2, 'alto larán', -13.4367338, -76.0884531, '2024-01-19 23:05:36', NULL, NULL),
-(3, 'chavín', -13.4366365, -76.1245031, '2024-01-19 23:05:36', NULL, NULL),
-(4, 'chincha baja', -13.4949757, -76.192646, '2024-01-19 23:05:36', NULL, NULL),
-(5, 'el carmen', -13.4986644, -76.0630971, '2024-01-19 23:05:36', NULL, NULL),
-(6, 'grocio prado', -13.2903374, -76.3373479, '2024-01-19 23:05:36', NULL, NULL),
-(7, 'pueblo nuevo', -13.3193912, -76.1088001, '2024-01-19 23:05:36', NULL, NULL),
-(8, 'san juan de yanac', -13.2082954, -75.9906011, '2024-01-19 23:05:36', NULL, NULL),
-(9, 'san pedro de huacarpana', -13.0694787, -75.7914073, '2024-01-19 23:05:36', NULL, NULL),
-(10, 'sunampe', -13.4291925, -76.1821982, '2024-01-19 23:05:36', NULL, NULL),
-(11, 'tambo de mora', -13.4579713, -76.2041976, '2024-01-19 23:05:36', NULL, NULL);
+(1, 'chincha alta', -13.4177194, -76.1320961, '2024-01-22 16:57:11', NULL, NULL),
+(2, 'alto larán', -13.4423379, -76.082938, '2024-01-22 16:57:11', NULL, NULL),
+(3, 'chavín', -13.0770802, -75.9129889, '2024-01-22 16:57:11', NULL, NULL),
+(4, 'chincha baja', -13.4589023, -76.161858, '2024-01-22 16:57:11', NULL, NULL),
+(5, 'el carmen', -13.499493, -76.0574846, '2024-01-22 16:57:11', NULL, NULL),
+(6, 'grocio prado', -13.3981128, -76.1562338, '2024-01-22 16:57:11', NULL, NULL),
+(7, 'pueblo nuevo', -13.4046044, -76.1263104, '2024-01-22 16:57:11', NULL, NULL),
+(8, 'san juan de yanac', -13.2109521, -75.7868747, '2024-01-22 16:57:11', NULL, NULL),
+(9, 'san pedro de huacarpana', -13.122306, -75.792899, '2024-01-22 16:57:11', NULL, NULL),
+(10, 'sunampe', -13.4275754, -76.164317, '2024-01-22 16:57:11', NULL, NULL),
+(11, 'tambo de mora', -13.4584529, -76.1826597, '2024-01-22 16:57:11', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -480,7 +592,9 @@ INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idpersona`, `idusuario`, `id
 (1, 1, 1, 1, 7, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', NULL, NULL, NULL, NULL, NULL, NULL, 4, '2024-01-19 23:06:36', NULL, NULL),
 (2, 6, 2, 1, 8, '98765432101', 'costumbres', 'comida italiana', 'Calle Secundaria 456', '987654322', 'info@modaelegante.com', NULL, NULL, NULL, NULL, NULL, NULL, 5, '2024-01-19 23:06:36', NULL, NULL),
 (3, 7, 1, 1, 9, '11112222333', 'naoky', 'comida mexicana', 'Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', NULL, NULL, NULL, NULL, NULL, NULL, 3, '2024-01-19 23:06:36', NULL, NULL),
-(4, 7, 2, 2, 5, '20481460159', 'novafarma', 'novafarma, cuidamos tu salud y tu economía.', '656 av. grocio prado', '953656344', 'novafarma@prueba.es', 'https://www.facebook.com/novafarmachinchaalta', '953656344', NULL, NULL, NULL, NULL, 2, '2024-01-19 23:45:00', NULL, NULL);
+(4, 7, 2, 2, 5, '20481460159', 'novafarma', 'novafarma, cuidamos tu salud y tu economía.', '656 av. grocio prado', '953656344', 'novafarma@prueba.es', 'https://www.facebook.com/novafarmachinchaalta', '953656344', NULL, NULL, NULL, NULL, 2, '2024-01-19 23:45:00', NULL, NULL),
+(5, 6, 1, 1, 9, '12345672901', 'olivar', 'comida xd', 'Av. Principal 123', '987654321', 'info@tiendatech.com', NULL, NULL, NULL, NULL, NULL, NULL, 2, '2024-01-21 23:25:45', NULL, NULL),
+(6, 1, 3, 2, 7, '78787787877', 'holakmo', 'comida', 'av.centenerio', '784854199', 'hola@gmail.com', 'fab', 'what', 'kkk', 'lklk', 'hola.com', NULL, 1, '2024-01-22 22:39:29', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -505,7 +619,8 @@ CREATE TABLE `personas` (
 
 INSERT INTO `personas` (`idpersona`, `apellidos`, `nombres`, `tipodoc`, `numerodoc`, `create_at`, `update_at`, `inactive_at`) VALUES
 (1, 'Muñoz', 'Alonso', 'DNI', '74136969', '2024-01-19 22:59:53', NULL, NULL),
-(2, 'Hernandez', 'Yorghet', 'DNI', '72159736', '2024-01-19 22:59:53', NULL, NULL);
+(2, 'Hernandez', 'Yorghet', 'DNI', '72159736', '2024-01-19 22:59:53', NULL, NULL),
+(3, 'Francia', 'Jhon', 'DNI', '12345678', '2024-01-22 22:18:59', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -585,7 +700,11 @@ CREATE TABLE `ubicaciones` (
 --
 
 INSERT INTO `ubicaciones` (`idubicacion`, `idhorario`, `idnegocio`, `latitud`, `longitud`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 1, 1, -13.4176195, -76.1320643, '2024-01-19 23:57:13', NULL, NULL);
+(1, 1, 1, 13.4176253, -76.1345425, '2024-01-19 23:57:13', NULL, NULL),
+(3, 4, 2, -13.4029212, -76.1600548, '2024-01-20 02:17:42', NULL, NULL),
+(4, 5, 3, -13.4053329, -76.1272912, '2024-01-20 02:17:42', NULL, NULL),
+(5, 6, 4, -13.4182674, -76.1349002, '2024-01-20 02:17:42', NULL, NULL),
+(6, 3, 5, -13.4047002, -76.1582921, '2024-01-21 23:26:33', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -718,7 +837,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `carrusel`
 --
 ALTER TABLE `carrusel`
-  MODIFY `idcarrusel` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idcarrusel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -730,7 +849,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `idcontrato` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idcontrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `distritos`
@@ -754,13 +873,13 @@ ALTER TABLE `horarios`
 -- AUTO_INCREMENT de la tabla `negocios`
 --
 ALTER TABLE `negocios`
-  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `idpersona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idpersona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `planes`
@@ -778,7 +897,7 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de la tabla `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
-  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

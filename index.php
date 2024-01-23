@@ -20,10 +20,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/listado.css">
     <link rel="stylesheet" href="./css/window.css">
-
-    
   </head>
-
   <body>
     <div class="site-mobile-menu site-navbar-target">
       <div class="site-mobile-menu-header">
@@ -257,116 +254,116 @@
     <script src="./js//owl.carousel.min.js"></script>
     <script src="./js//main.js"></script>
     <!-- Toastr script -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<!-- Tu script actual -->
+    <!-- Tu script actual -->
 
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
 
     <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    function $(id) {
-      return document.querySelector(id);
-    }
-
-    function showToast(message, color) {
-      if (Notification.permission === "granted") {
-        const options = {
-          body: message,
-          icon: "./img/sting.svg", // Ruta a un icono opcional
-        };
-
-        if (color) {
-          options.data = { color: color };
+      document.addEventListener("DOMContentLoaded", () => {
+        function $(id) {
+          return document.querySelector(id);
         }
 
-        const notification = new Notification("Éxito", options);
-      } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(permission => {
-          if (permission === "granted") {
-            showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
+        function showToast(message, color) {
+          if (Notification.permission === "granted") {
+            const options = {
+              body: message,
+              icon: "./img/sting.svg", // Ruta a un icono opcional
+            };
+
+            if (color) {
+              options.data = { color: color };
+            }
+
+            const notification = new Notification("Éxito", options);
+          } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(permission => {
+              if (permission === "granted") {
+                showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
+              }
+            });
+          }
+        } 
+
+        function busqueda() {
+          // Limpiar marcadores antes de realizar una nueva búsqueda
+          clearMarkers();
+
+          const parametros = new FormData();
+          parametros.append("operacion", "buscar");
+          parametros.append("valor", $("#buscar").value);
+
+          fetch(`./controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => {
+            if (respuesta.ok) {
+              return respuesta.json();
+            } else {
+              throw new Error("No se pudo obtener la información del servidor.");
+            }
+          })
+          .then(datos => {
+            if (datos.error) {
+              // Si el servidor devuelve un error, mostrar un toast con el mensaje de error
+              showToast(datos.mensaje, "#ff3333"); // Rojo
+            } else if (datos.length > 0) {
+              const primerResultado = datos[0];
+              const latitud = parseFloat(primerResultado.latitud);
+              const longitud = parseFloat(primerResultado.longitud);
+
+              map.setCenter({ lat: latitud, lng: longitud });
+              map.setZoom(16);
+
+              const marcadorNegocio = new google.maps.Marker({
+                position: { lat: latitud, lng: longitud },
+                map: map,
+                title: primerResultado.nombre
+              });
+
+              marcadorNegocio.addListener('click', function () {
+                mostrarInfoWindow(primerResultado, marcadorNegocio);
+              });
+
+              markers.push(marcadorNegocio);
+
+              $("#buscar").value = "";
+
+              // Mostrar el toast al encontrar un negocio
+              showToast(`Negocio encontrado: ${primerResultado.nombre}`);
+            } else {
+              console.log("No se encontraron resultados para la búsqueda.");
+              // Mostrar un toast o mensaje indicando que no se encontraron resultados
+              showToast("No se encontraron resultados para la búsqueda.", "#ff3333"); // Rojo
+            }
+          })
+          .catch(e => {
+            console.error(e);
+            // Mostrar un toast o mensaje de error
+            showToast("Ocurrió un error al realizar la búsqueda.", "#ff3333"); // Rojo
+          });
+        }
+
+
+
+        $("#buscar").addEventListener("keypress", (event) => {
+          if (event.keyCode == 13) {
+            busqueda();
           }
         });
-      }
-  } 
 
-function busqueda() {
-  // Limpiar marcadores antes de realizar una nueva búsqueda
-  clearMarkers();
-
-  const parametros = new FormData();
-  parametros.append("operacion", "buscar");
-  parametros.append("valor", $("#buscar").value);
-
-  fetch(`./controllers/negocio.controller.php`, {
-    method: "POST",
-    body: parametros
-  })
-    .then(respuesta => {
-      if (respuesta.ok) {
-        return respuesta.json();
-      } else {
-        throw new Error("No se pudo obtener la información del servidor.");
-      }
-    })
-    .then(datos => {
-      if (datos.error) {
-        // Si el servidor devuelve un error, mostrar un toast con el mensaje de error
-        showToast(datos.mensaje, "#ff3333"); // Rojo
-      } else if (datos.length > 0) {
-        const primerResultado = datos[0];
-        const latitud = parseFloat(primerResultado.latitud);
-        const longitud = parseFloat(primerResultado.longitud);
-
-        map.setCenter({ lat: latitud, lng: longitud });
-        map.setZoom(16);
-
-        const marcadorNegocio = new google.maps.Marker({
-          position: { lat: latitud, lng: longitud },
-          map: map,
-          title: primerResultado.nombre
+        $("#btnBuscar").addEventListener("click", () => {
+          busqueda();
         });
-
-        marcadorNegocio.addListener('click', function () {
-          mostrarInfoWindow(primerResultado, marcadorNegocio);
-        });
-
-        markers.push(marcadorNegocio);
-
-        $("#buscar").value = "";
-
-        // Mostrar el toast al encontrar un negocio
-        showToast(`Negocio encontrado: ${primerResultado.nombre}`);
-      } else {
-        console.log("No se encontraron resultados para la búsqueda.");
-        // Mostrar un toast o mensaje indicando que no se encontraron resultados
-        showToast("No se encontraron resultados para la búsqueda.", "#ff3333"); // Rojo
-      }
-    })
-    .catch(e => {
-      console.error(e);
-      // Mostrar un toast o mensaje de error
-      showToast("Ocurrió un error al realizar la búsqueda.", "#ff3333"); // Rojo
-    });
-}
-
-
-
-    $("#buscar").addEventListener("keypress", (event) => {
-      if (event.keyCode == 13) {
-        busqueda();
-      }
-    });
-
-    $("#btnBuscar").addEventListener("click", () => {
-      busqueda();
-    });
-  });
-</script>
+      });
+    </script>
+    
     <script type="text/javascript">
       let map;
       document.addEventListener("DOMContentLoaded", () => {
-
         function getCategoria() {
           const parametros = new FormData();
           parametros.append("operacion", "listar");
@@ -453,11 +450,6 @@ function busqueda() {
           }
         });
 
-        
-
-        
-      
-      
         function carrusel() {
           const parametros = new FormData();
           parametros.append("operacion", "listar");
@@ -469,23 +461,18 @@ function busqueda() {
           .then(respuesta => respuesta.json())
           .then(datos => {
             const subcarruselDiv = document.getElementById("carrusel");
-
             // Limpiar el contenido existente
             subcarruselDiv.innerHTML = "";
-
             // Agregar estructura de Owl Carousel
             const owlCarousel = document.createElement("div");
             owlCarousel.className = "owl-carousel owl-2 owl-loaded owl-drag";
             owlCarousel.id = "carrusel";
-
             const owlStageOuter = document.createElement("div");
             owlStageOuter.className = "owl-stage-outer";
             owlStageOuter.style = "width: 100%; overflow: hidden;";  // Añadido overflow: hidden
-
             const owlStage = document.createElement("div");
             owlStage.className = "owl-stage";
             owlStage.style = "transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 10000%; overflow: hidden;";  //     Ajusta el valor de width según sea necesario
-
             datos.forEach(element => {
               const owlItem = document.createElement("div");
               owlItem.className = "owl-item";
@@ -590,186 +577,184 @@ function busqueda() {
       let selectedIdSubcategoria;
 
       function clearMarkers() {
-          markers.forEach(marker => {
-              marker.setMap(null);
-          });
-          markers = [];
+        markers.forEach(marker => {
+          marker.setMap(null);
+        });
+        markers = [];
       }
 
       function getDistrito() {
-          const parametros = new FormData();
-          parametros.append("operacion", "listar");
+        const parametros = new FormData();
+        parametros.append("operacion", "listar");
 
-          fetch(`./controllers/distrito.controller.php`, {
-              method: "POST",
-              body: parametros
-          })
-          .then(respuesta => respuesta.json())
-          .then(datos => {
-              const distritoSelect = document.getElementById("selectDistritos");
-              datos.forEach(element => {
-                  const etiqueta = document.createElement("option");
-                  etiqueta.value = element.iddistrito;
-                  etiqueta.innerHTML = element.nomdistrito;
+        fetch(`./controllers/distrito.controller.php`, {
+          method: "POST",
+          body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+          const distritoSelect = document.getElementById("selectDistritos");
+          datos.forEach(element => {
+            const etiqueta = document.createElement("option");
+            etiqueta.value = element.iddistrito;
+            etiqueta.innerHTML = element.nomdistrito;
 
-                  distritoSelect.appendChild(etiqueta);
-              });
-          })
-          .catch(e => {
-              console.error(e);
+            distritoSelect.appendChild(etiqueta);
           });
+        })
+        .catch(e => {
+          console.error(e);
+        });
       }
 
       getDistrito();
 
       document.addEventListener('DOMContentLoaded', function () {
-          const selectDistritos = document.getElementById('selectDistritos');
+        const selectDistritos = document.getElementById('selectDistritos');
 
-          if (selectDistritos) {
-              selectDistritos.addEventListener('change', function (event) {
-                  const selectedDistrito = event.target.value;
+        if (selectDistritos) {
+          selectDistritos.addEventListener('change', function (event) {
+            const selectedDistrito = event.target.value;
 
-                  if (selectedDistrito !== null) {
-                      console.log("Distrito seleccionado:", selectedDistrito);
-                      listarNegociosPorDistrito(selectedIdSubcategoria, selectedDistrito);
-                  } else {
-                      console.error("No se ha seleccionado un distrito.");
-                  }
-              });
-          } else {
-              console.error("Elemento con ID 'selectDistritos' no encontrado.");
-          }
+            if (selectedDistrito !== null) {
+              console.log("Distrito seleccionado:", selectedDistrito);
+              listarNegociosPorDistrito(selectedIdSubcategoria, selectedDistrito);
+            } else {
+              console.error("No se ha seleccionado un distrito.");
+            }
+          });
+        } else {
+          console.error("Elemento con ID 'selectDistritos' no encontrado.");
+        }
       });
 
       document.addEventListener('click', function (event) {
-          if (event.target.classList.contains('btn-light')) {
-              selectedIdSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
-              const selectDistritos = document.getElementById('selectDistritos');
-              const selectedDistrito = selectDistritos.value;
+        if (event.target.classList.contains('btn-light')) {
+          selectedIdSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
+          const selectDistritos = document.getElementById('selectDistritos');
+          const selectedDistrito = selectDistritos.value;
 
-              if (selectedIdSubcategoria !== null && selectedDistrito !== null) {
-                  console.log("ID de Subcategoría:", selectedIdSubcategoria);
-                  console.log("Distrito seleccionado:", selectedDistrito);
-                  listarNegociosPorDistrito(selectedIdSubcategoria, selectedDistrito);
-              } else {
-                  console.error("No se pudo obtener el ID de subcategoría o no se ha seleccionado un distrito.");
-              }
+          if (selectedIdSubcategoria !== null && selectedDistrito !== null) {
+            console.log("ID de Subcategoría:", selectedIdSubcategoria);
+            console.log("Distrito seleccionado:", selectedDistrito);
+            listarNegociosPorDistrito(selectedIdSubcategoria, selectedDistrito);
+          } else {
+            console.error("No se pudo obtener el ID de subcategoría o no se ha seleccionado un distrito.");
           }
+        }
       });
 
       function showToast(message, color) {
-          if (Notification.permission === "granted") {
-              const options = {
-                  body: message,
-                  icon: "./img/sting.svg", // Ruta a un icono opcional
-              };
+        if (Notification.permission === "granted") {
+          const options = {
+            body: message,
+            icon: "./img/sting.svg", // Ruta a un icono opcional
+          };
 
-              if (color) {
-                  options.data = { color: color };
-              }
-
-              const notification = new Notification("Éxito", options);
-          } else if (Notification.permission !== "denied") {
-              Notification.requestPermission().then(permission => {
-                  if (permission === "granted") {
-                      showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
-                  }
-              });
+          if (color) {
+            options.data = { color: color };
           }
-      }
+
+          const notification = new Notification("Éxito", options);
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+              showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
+            }
+          });
+        }
+      } 
             
 
       function listarNegociosPorDistrito(idsubcategoria, iddistrito) {
-          console.log("Ingresando a listarNegociosPorDistrito");
-          // Limpiar marcadores existentes
-          clearMarkers();
+        console.log("Ingresando a listarNegociosPorDistrito");
+        // Limpiar marcadores existentes
+        clearMarkers();
 
-          if (!iddistrito) {
-              console.log("No se ha seleccionado un distrito.");
-              return;
-          }
+        if (!iddistrito) {
+          console.log("No se ha seleccionado un distrito.");
+          return;
+        }
 
-          const parametros = new FormData();
-          parametros.append("operacion", "obtenerdist");
-          parametros.append("idsubcategoria", idsubcategoria);
-          parametros.append("iddistrito", iddistrito);
+        const parametros = new FormData();
+        parametros.append("operacion", "obtenerdist");
+        parametros.append("idsubcategoria", idsubcategoria);
+        parametros.append("iddistrito", iddistrito);
 
-          fetch('./controllers/ubicacion.controller.php', {
-              method: "POST",
-              body: parametros
-          })
-          .then(respuesta => respuesta.text())
-          .then(datos => {
-              try {
-                  const jsonDatos = JSON.parse(datos);
-                  console.log(jsonDatos);
+        fetch('./controllers/ubicacion.controller.php', {
+          method: "POST",
+          body: parametros
+        })
+        .then(respuesta => respuesta.text())
+        .then(datos => {
+          try {
+            const jsonDatos = JSON.parse(datos);
+            console.log(jsonDatos);
 
-                  if (jsonDatos.length > 0) {
-                      // Resto del código para agregar marcadores
-                      jsonDatos.forEach(element => {
-                          const point = new google.maps.LatLng(
-                              parseFloat(element.latitud),
-                              parseFloat(element.longitud)
-                          );
+            if (jsonDatos.length > 0) {
+              // Resto del código para agregar marcadores
+              jsonDatos.forEach(element => {
+                const point = new google.maps.LatLng(
+                  parseFloat(element.latitud),
+                  parseFloat(element.longitud)
+                );
 
-                          const marker = new google.maps.Marker({
-                              map: map,
-                              position: point,
-                              title: element.nombre,
-                          });
+                const marker = new google.maps.Marker({
+                  map: map,
+                  position: point,
+                  title: element.nombre,
+                });
 
-                          marker.addListener('click', function () {
-                              mostrarInfoWindow(element, marker);
-                          });
+                marker.addListener('click', function () {
+                  mostrarInfoWindow(element, marker);
+                });
 
-                          markers.push(marker);
-                      });
-
-                      // Centrar y hacer zoom solo si hay marcadores
-                      if (markers.length > 0) {
-                          const bounds = new google.maps.LatLngBounds();
-                          markers.forEach(marker => {
-                              bounds.extend(marker.getPosition());
-                          });
-                          map.fitBounds(bounds);
-
-                          // Mostrar notificación con la cantidad de negocios encontrados
-                          const message = `Se encontraron ${jsonDatos.length} negocios en este distrito para la subcategoría dada`;
-                          showToast(message, "green");
-                      }
-                  } else {
-                      // No se encontraron negocios en este distrito para la subcategoría dada
-                      showToast("No se encontraron negocios en este distrito para la subcategoría dada", "red");
-
-                      // Obtener coordenadas predeterminadas del distrito
-                      obtenerCoordenadasDistrito(iddistrito)
-                          .then(coordenadas => {
-                              // Centrar el mapa en las coordenadas predeterminadas
-                              map.setCenter(new google.maps.LatLng(coordenadas.lat, coordenadas.lng));
-                              map.setZoom(16); // Puedes ajustar el nivel de zoom según tus necesidades
-                          })
-                          .catch(error => {
-                              console.error("Error al obtener coordenadas predeterminadas:", error);
-                          });
-                  
-                      
-                  }
-              } catch (error) {
-                  console.error("Error al parsear la respuesta como JSON:", error);
-              }
-          })
-          .catch(e => {
-              console.error(e);
-          })
-          .finally(() => {
-              // Agregar listener para cerrar la ventana de información al hacer clic en el mapa
-              map.addListener('click', function () {
-                  infoWindow.close();
+                markers.push(marker);
               });
-          });
 
-          const selectDistritos = document.getElementById('selectDistritos');
-          selectDistritos.value = ''; // Opcionalmente, puedes establecer el valor a null si no quieres seleccionar nada
+              // Centrar y hacer zoom solo si hay marcadores
+              if (markers.length > 0) {
+                const bounds = new google.maps.LatLngBounds();
+                markers.forEach(marker => {
+                  bounds.extend(marker.getPosition());
+                });
+                map.fitBounds(bounds);
+
+                // Mostrar notificación con la cantidad de negocios encontrados
+                const message = `Se encontraron ${jsonDatos.length} negocios en este distrito para la subcategoría dada`;
+                showToast(message, "green");
+              }
+            } else {
+              // No se encontraron negocios en este distrito para la subcategoría dada
+              showToast("No se encontraron negocios en este distrito para la subcategoría dada", "red");
+
+              // Obtener coordenadas predeterminadas del distrito
+              obtenerCoordenadasDistrito(iddistrito)
+              .then(coordenadas => {
+                // Centrar el mapa en las coordenadas predeterminadas
+                map.setCenter(new google.maps.LatLng(coordenadas.lat, coordenadas.lng));
+                map.setZoom(16); // Puedes ajustar el nivel de zoom según tus necesidades
+              })
+              .catch(error => {
+                console.error("Error al obtener coordenadas predeterminadas:", error);
+              });      
+            }
+          } catch (error) {
+            console.error("Error al parsear la respuesta como JSON:", error);
+          }
+        })
+        .catch(e => {
+          console.error(e);
+        })
+        .finally(() => {
+            // Agregar listener para cerrar la ventana de información al hacer clic en el mapa
+            map.addListener('click', function () {
+              infoWindow.close();
+            });
+        });
+
+        const selectDistritos = document.getElementById('selectDistritos');
+        selectDistritos.value = ''; // Opcionalmente, puedes establecer el valor a null si no quieres seleccionar nada
       }
 
       function obtenerCoordenadasDistrito(iddistrito) {
@@ -787,9 +772,6 @@ function busqueda() {
           lng: parseFloat(coordenadas.longitud)
         }));
       }
-        
-
-      
 
       function listarNegocios(idsubcategoria) {
         console.log("Ingresando a listarNegocios");
@@ -846,9 +828,6 @@ function busqueda() {
           infoWindow.close();
         });
       }
-
-      
-
       
       // Evento de clic en los botones de subcategoría
       document.addEventListener('click', function (event) {
@@ -860,24 +839,22 @@ function busqueda() {
           }
         }
       });
-
-      
     
       // Función para obtener el ID de subcategoría desde el botón
       function obtenerIdSubcategoriaDesdeBoton(boton) {
         if (boton && boton.getAttribute) {
-            const idSubcategoria = boton.getAttribute('data-idsubcategoria');
-            if (idSubcategoria !== null) {
-                return parseInt(idSubcategoria);
-            } else {
-                console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
-                return null;
-            }
-        } else {
-            console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
+          const idSubcategoria = boton.getAttribute('data-idsubcategoria');
+          if (idSubcategoria !== null) {
+            return parseInt(idSubcategoria);
+          } else {
+            console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
             return null;
+          }
+        } else {
+          console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
+          return null;
         }
-    }
+      }
 
       function mostrarInfoWindow(element, marker) {
         // Función para formatear el número de teléfono
@@ -893,8 +870,6 @@ function busqueda() {
 
         // Formatear el número de teléfono antes de insertarlo en la cadena
         const telefono = formatearTelefono(element.telefono);
-
-        
 
         const contentString = `
           <div class="card-window">

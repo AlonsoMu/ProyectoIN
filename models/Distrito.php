@@ -35,6 +35,22 @@ class Distrito extends Conexion{
     }
   }
 
+
+  public function obtenerNyH($datos = []){
+    try {
+      
+      $consulta = $this->conexion->prepare("CALL spu_obtener_nyh(?,?)");
+      $consulta->execute(
+        array(
+          $datos['idsubcategoria'],
+          $datos['dia_actual'],
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
   
   //------------------------------------------------------------------------------------
 }
