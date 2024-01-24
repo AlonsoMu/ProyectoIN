@@ -14,10 +14,12 @@ BEGIN
 	INSERT INTO galerias
 		(idnegocio, rutafoto)
 	VALUES
-		(_idnegocio, _rutafoto);
+		(_idnegocio, NULLIF(_rutafoto, ''));
 	-- SELECT @@last_insert_id 'idgaleria';
 END $$
 
+CALL spu_galerias_registrar(1,'alo.jpg');
+SELECT * FROM galerias;
 -- ##########################################################################################################################
 
 DELIMITER $$

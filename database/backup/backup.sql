@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-01-2024 a las 05:12:31
+-- Tiempo de generación: 24-01-2024 a las 16:04:14
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -25,6 +25,10 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_negocios` (IN `negocio` VARCHAR(200))   BEGIN
+    SELECT idnegocio, nombre FROM negocios WHERE nombre LIKE CONCAT('%', negocio, '%');
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_actualizar_pass` (IN `_correo` VARCHAR(100), IN `_token` CHAR(6), IN `_claveacceso` VARCHAR(100))   BEGIN 
 	UPDATE usuarios SET
     claveacceso = _claveacceso,
@@ -85,6 +89,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_distritos_listar` ()   BEGIN
         longitud
 	FROM distritos
     WHERE inactive_at IS NULL;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_galerias_registrar` (IN `_idnegocio` INT, IN `_rutafoto` VARCHAR(100))   BEGIN
+	INSERT INTO galerias
+		(idnegocio, rutafoto)
+	VALUES
+		(_idnegocio, NULLIF(_rutafoto, ''));
+	-- SELECT @@last_insert_id 'idgaleria';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_horarios_listar` ()   BEGIN
@@ -468,15 +480,6 @@ CREATE TABLE `contratos` (
   `inactive_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `contratos`
---
-
-INSERT INTO `contratos` (`idcontrato`, `idplan`, `idnegocio`, `idusuario`, `fechainicio`, `fechafin`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 1, 1, 1, '2024-01-01', '2024-03-31', '2024-01-19 23:06:57', NULL, NULL),
-(2, 2, 2, 1, '2024-01-15', '2024-02-15', '2024-01-19 23:06:57', NULL, NULL),
-(3, 2, 3, 1, '2024-02-01', '2024-03-01', '2024-01-19 23:06:57', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -524,6 +527,14 @@ CREATE TABLE `galerias` (
   `update_at` datetime DEFAULT NULL,
   `inactive_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `galerias`
+--
+
+INSERT INTO `galerias` (`idgaleria`, `idnegocio`, `rutafoto`, `create_at`, `update_at`, `inactive_at`) VALUES
+(1, 1, 'alo.jpg', '2024-01-24 00:48:08', NULL, NULL),
+(2, 1, NULL, '2024-01-24 00:51:35', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -857,7 +868,7 @@ ALTER TABLE `distritos`
 -- AUTO_INCREMENT de la tabla `galerias`
 --
 ALTER TABLE `galerias`
-  MODIFY `idgaleria` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idgaleria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `horarios`

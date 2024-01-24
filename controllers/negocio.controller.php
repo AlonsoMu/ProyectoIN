@@ -115,5 +115,12 @@ if (isset($_POST['operacion'])) {
       }
       enviarJSON($negocio->registrar($datosEnviar));
     break;
+
+    case 'buscarNegocio':
+      $datos = [
+        'negocio' => $_POST['negocio']
+      ];
+      enviarJSON($negocio->buscarNegocio($datos));
+      break;
   }
 }

@@ -169,8 +169,8 @@ CREATE TABLE contratos(
     CONSTRAINT chk_fechafin_con 			CHECK (fechafin > fechainicio)
 )ENGINE = INNODB;
 
-DELETE FROM negocios;
-ALTER TABLE negocios AUTO_INCREMENT 1;
+DELETE FROM contratos;
+ALTER TABLE contratios AUTO_INCREMENT 1;
 -- Volver a activar la restricción de clave externa
 SET foreign_key_checks = 1;
 
@@ -197,6 +197,6 @@ CREATE TABLE carrusel(
 	inactive_at				DATETIME	 	NULL,
     CONSTRAINT fk_idusuario_carr			FOREIGN KEY(idusuario) REFERENCES usuarios (idusuario)
 )ENGINE = INNODB;
-ALTER TABLE carrusel MODIFY foto VARCHAR(200) NULL;
+
 
 SELECT * FROM CARRUSEL;

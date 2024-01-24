@@ -7,6 +7,14 @@ USE INNOVACION;
 -- -------------------------------------------------------------------------------------------------
 
 DELIMITER $$
+CREATE PROCEDURE buscar_negocios(IN negocio VARCHAR(200))
+BEGIN
+    SELECT idnegocio, nombre FROM negocios WHERE nombre LIKE CONCAT('%', negocio, '%');
+END $$
+
+CALL buscar_negocios('xd');
+
+DELIMITER $$
 CREATE PROCEDURE spu_negocios_registrar(
 	IN _iddistrito 			INT,
     IN _idpersona			INT,
@@ -44,6 +52,7 @@ SELECT * FROM subcategorias;
 SELECT * FROM ubicaciones;
 SELECT * FROM horarios;
 SELECT * FROM negocios;
+SELECT * FROM contratos;
 -- ##########################################################################################################################
 
 /*DELIMITER $$

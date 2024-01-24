@@ -98,6 +98,20 @@ class Negocio extends Conexion{
       die($e->getMessage());
     }
   }
+
+  public function buscarNegocio($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL buscar_negocios(?)");
+      $consulta->execute(
+        array(
+          $datos['negocio']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
     
 
   
