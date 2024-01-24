@@ -10,7 +10,6 @@ DELIMITER $$
 CREATE PROCEDURE spu_negocios_registrar(
 	IN _iddistrito 			INT,
     IN _idpersona			INT,
-    IN _idusuario			INT,
     IN _idsubcategoria		INT,
     IN _nroruc				CHAR(15),
     IN _nombre				VARCHAR(200),
@@ -28,15 +27,15 @@ CREATE PROCEDURE spu_negocios_registrar(
 )
 BEGIN
 	INSERT INTO negocios
-		(iddistrito, idpersona, idusuario, idsubcategoria, nroruc, nombre, descripcion, 
+		(iddistrito, idpersona, idsubcategoria, nroruc, nombre, descripcion, 
 		 direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, pagweb, logo, valoracion)
     VALUES
-		(_iddistrito, _idpersona, _idusuario, _idsubcategoria, _nroruc, _nombre, _descripcion, 
+		(_iddistrito, _idpersona, _idsubcategoria, _nroruc, _nombre, _descripcion, 
 		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _pagweb, NULLIF(_logo, ''), _valoracion);
-	-- SELECT @@last_insert_id 'idnegocio';
+	 SELECT @@last_insert_id 'idnegocio';
 END $$
-CALL spu_negocios_registrar(7, 2, 2, 5, 20481460159, 'novafarma', 'novafarma, cuidamos tu salud y tu economía.', '656 av. grocio prado', 
-				953656344, 'novafarma@prueba.es', 'https://www.facebook.com/novafarmachinchaalta', 953656344, NULL, NULL, NULL, NULL,2);
+CALL spu_negocios_registrar(6, 2, 5, 21481260159, 'vegas', 'vegas, cuidamos tu salud y tu economía.', '486 av. grocio prado', 
+				953656344, 'vega@prueba.es', 'https://www.facebook.com/novafarmachinchaalta', 953686344, NULL, NULL, NULL, NULL,3);
 SELECT * FROM distritos;
 SELECt * FROM galerias;
 SELECt * FROM personas;
@@ -312,6 +311,7 @@ CALL spu_obtener_dist(5, 7, 'viernes');
 SELECT * FROM ubicaciones;
 SELECT * FROM horarios;
 SELECT * FROM negocios;
+SELECT * FROM usuarios;
 -- ##########################################################################################################################
 
 -- PROCEDIMIENTO BUSCAR POR PRIMERA LETRA DE NEGOCIO

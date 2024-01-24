@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-01-2024 a las 04:57:37
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 24-01-2024 a las 05:12:31
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -203,14 +203,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listar` ()   BEGIN
 	INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_registrar` (IN `_iddistrito` INT, IN `_idpersona` INT, IN `_idusuario` INT, IN `_idsubcategoria` INT, IN `_nroruc` CHAR(15), IN `_nombre` VARCHAR(200), IN `_descripcion` VARCHAR(200), IN `_direccion` VARCHAR(100), IN `_telefono` CHAR(11), IN `_correo` VARCHAR(200), IN `_facebook` VARCHAR(200), IN `_whatsapp` VARCHAR(200), IN `_instagram` VARCHAR(200), IN `_tiktok` VARCHAR(200), IN `_pagweb` VARCHAR(200), IN `_logo` VARCHAR(200), IN `_valoracion` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_registrar` (IN `_iddistrito` INT, IN `_idpersona` INT, IN `_idsubcategoria` INT, IN `_nroruc` CHAR(15), IN `_nombre` VARCHAR(200), IN `_descripcion` VARCHAR(200), IN `_direccion` VARCHAR(100), IN `_telefono` CHAR(11), IN `_correo` VARCHAR(200), IN `_facebook` VARCHAR(200), IN `_whatsapp` VARCHAR(200), IN `_instagram` VARCHAR(200), IN `_tiktok` VARCHAR(200), IN `_pagweb` VARCHAR(200), IN `_logo` VARCHAR(200), IN `_valoracion` INT)   BEGIN
 	INSERT INTO negocios
-		(iddistrito, idpersona, idusuario, idsubcategoria, nroruc, nombre, descripcion, 
+		(iddistrito, idpersona, idsubcategoria, nroruc, nombre, descripcion, 
 		 direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, pagweb, logo, valoracion)
     VALUES
-		(_iddistrito, _idpersona, _idusuario, _idsubcategoria, _nroruc, _nombre, _descripcion, 
+		(_iddistrito, _idpersona, _idsubcategoria, _nroruc, _nombre, _descripcion, 
 		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _pagweb, NULLIF(_logo, ''), _valoracion);
-	-- SELECT @@last_insert_id 'idnegocio';
+	 SELECT @@last_insert_id 'idnegocio';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_coordenadas` (IN `_iddistrito` INT)   BEGIN
@@ -564,7 +564,6 @@ CREATE TABLE `negocios` (
   `idnegocio` int(11) NOT NULL,
   `iddistrito` int(11) NOT NULL,
   `idpersona` int(11) NOT NULL,
-  `idusuario` int(11) NOT NULL,
   `idsubcategoria` int(11) NOT NULL,
   `nroruc` char(15) DEFAULT NULL,
   `nombre` varchar(200) NOT NULL,
@@ -588,13 +587,11 @@ CREATE TABLE `negocios` (
 -- Volcado de datos para la tabla `negocios`
 --
 
-INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idpersona`, `idusuario`, `idsubcategoria`, `nroruc`, `nombre`, `descripcion`, `direccion`, `telefono`, `correo`, `facebook`, `whatsapp`, `instagram`, `tiktok`, `pagweb`, `logo`, `valoracion`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 1, 1, 1, 7, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', NULL, NULL, NULL, NULL, NULL, NULL, 4, '2024-01-19 23:06:36', NULL, NULL),
-(2, 6, 2, 1, 8, '98765432101', 'costumbres', 'comida italiana', 'Calle Secundaria 456', '987654322', 'info@modaelegante.com', NULL, NULL, NULL, NULL, NULL, NULL, 5, '2024-01-19 23:06:36', NULL, NULL),
-(3, 7, 1, 1, 9, '11112222333', 'naoky', 'comida mexicana', 'Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', NULL, NULL, NULL, NULL, NULL, NULL, 3, '2024-01-19 23:06:36', NULL, NULL),
-(4, 7, 2, 2, 5, '20481460159', 'novafarma', 'novafarma, cuidamos tu salud y tu economía.', '656 av. grocio prado', '953656344', 'novafarma@prueba.es', 'https://www.facebook.com/novafarmachinchaalta', '953656344', NULL, NULL, NULL, NULL, 2, '2024-01-19 23:45:00', NULL, NULL),
-(5, 6, 1, 1, 9, '12345672901', 'olivar', 'comida xd', 'Av. Principal 123', '987654321', 'info@tiendatech.com', NULL, NULL, NULL, NULL, NULL, NULL, 2, '2024-01-21 23:25:45', NULL, NULL),
-(6, 1, 3, 2, 7, '78787787877', 'holakmo', 'comida', 'av.centenerio', '784854199', 'hola@gmail.com', 'fab', 'what', 'kkk', 'lklk', 'hola.com', NULL, 1, '2024-01-22 22:39:29', NULL, NULL);
+INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idpersona`, `idsubcategoria`, `nroruc`, `nombre`, `descripcion`, `direccion`, `telefono`, `correo`, `facebook`, `whatsapp`, `instagram`, `tiktok`, `pagweb`, `logo`, `valoracion`, `create_at`, `update_at`, `inactive_at`) VALUES
+(1, 1, 3, 1, '98765432112', 'xd', 'xd', 'xd', '987654321', 'xd@gmail.com', 'asdasd', '987654321', 'asd', 'asd', 'xd.com', '617001e13c7702b16ad5769e4a52f95a5fba4e82.jpg', 5, '2024-01-23 22:42:08', NULL, NULL),
+(4, 1, 3, 5, '987654321', 'asdasdasd', 'asd', 'asdasd', '96454631', 'asdasd@gmail.com', 'asdasd', '96454631', 'asdasd', 'asdasd', 'asdasd', 'f36a4bdf122a7bbdf454dde2188fc4b6f24c6021.jpg', 1, '2024-01-23 22:49:07', NULL, NULL),
+(8, 4, 1, 7, '45612345678', 'Alonso', 'Alonsito', 'alonsio av', '987654321', 'alonso@gmail.com', 'asda oficial', '987654321', 'asdasd', 'asdasd', 'asdasd.com', NULL, 5, '2024-01-23 23:01:02', NULL, NULL),
+(9, 1, 3, 7, '45678912345', 'asdasd', 'asd', 'asd', '685478951', 'alop@gmail.com', 'asd', '685478951', 'asdasd', 'asdasd', 'asd.com', '63849e20118f973fc8dc622744436c98730f043f.jpg', 0, '2024-01-23 23:06:04', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -790,7 +787,6 @@ ALTER TABLE `negocios`
   ADD UNIQUE KEY `uk_nroruc_neg` (`nroruc`),
   ADD KEY `fk_iddistrito_neg` (`iddistrito`),
   ADD KEY `fk_idpersona_neg` (`idpersona`),
-  ADD KEY `fk_idusuario_neg` (`idusuario`),
   ADD KEY `fk_idsubcategoria_neg` (`idsubcategoria`);
 
 --
@@ -935,8 +931,7 @@ ALTER TABLE `galerias`
 ALTER TABLE `negocios`
   ADD CONSTRAINT `fk_iddistrito_neg` FOREIGN KEY (`iddistrito`) REFERENCES `distritos` (`iddistrito`),
   ADD CONSTRAINT `fk_idpersona_neg` FOREIGN KEY (`idpersona`) REFERENCES `personas` (`idpersona`),
-  ADD CONSTRAINT `fk_idsubcategoria_neg` FOREIGN KEY (`idsubcategoria`) REFERENCES `subcategorias` (`idsubcategoria`),
-  ADD CONSTRAINT `fk_idusuario_neg` FOREIGN KEY (`idusuario`) REFERENCES `usuarios` (`idusuario`);
+  ADD CONSTRAINT `fk_idsubcategoria_neg` FOREIGN KEY (`idsubcategoria`) REFERENCES `subcategorias` (`idsubcategoria`);
 
 --
 -- Filtros para la tabla `subcategorias`

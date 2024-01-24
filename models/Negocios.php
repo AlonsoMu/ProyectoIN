@@ -72,12 +72,11 @@ class Negocio extends Conexion{
 
   public function registrar($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spu_negocios_registrar(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->conexion->prepare("CALL spu_negocios_registrar(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $consulta->execute(
         array(
           $datos['iddistrito'],
           $datos['idpersona'],
-          $datos['idusuario'],
           $datos['idsubcategoria'],
           $datos['nroruc'],
           $datos['nombre'],
@@ -94,7 +93,7 @@ class Negocio extends Conexion{
           $datos['valoracion']
         )
       );
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+      return $consulta->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
       die($e->getMessage());
     }

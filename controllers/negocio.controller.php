@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+
 date_default_timezone_set("America/Lima");
 require_once '../models/Negocios.php';
 require_once '../models/Funciones.php';
@@ -92,7 +92,6 @@ if (isset($_POST['operacion'])) {
       $datosEnviar = [
         'iddistrito'      => $_POST['iddistrito'],
         'idpersona'       => $_POST['idpersona'],
-        'idusuario'       => $_SESSION['idusuario'],
         'idsubcategoria'  => $_POST['idsubcategoria'],
         'nroruc'          => $_POST['nroruc'],
         'nombre'          => $_POST['nombre'],

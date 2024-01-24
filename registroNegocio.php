@@ -18,7 +18,7 @@
       <!----===== Iconscout CSS ===== -->
       <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-      <script script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
       <title>Registro Negocio</title> 
     </head>
@@ -92,18 +92,17 @@
       </div>
     </nav>
     
-    <!-- AQUI SE COLOCA EL CONTENIDO DEL DASHBOARD -->
     <section class="dashboard">
-      <div class="top">
-        <i class="uil uil-bars sidebar-toggle"></i>
-        <div class="search-box">
-          <i class="uil uil-search"></i>
-          <input type="text" placeholder="Search here...">
-        </div>      
-        <img src="./img/2.svg" alt="">
-      </div>
-      <div class="dash-content">
-        <div class="container mt-3">
+  <div class="top">
+    <i class="uil uil-bars sidebar-toggle"></i>
+    <div class="search-box">
+      <i class="uil uil-search"></i>
+      <input type="text" placeholder="Search here...">
+    </div>      
+    <img src="./img/2.svg" alt="">
+  </div>
+  <div class="dash-content">
+  <div class="container mt-3">
           <form action="" autocomplete="off" id="form-negocio">
             <div class="card">
               <div class="card-header">
@@ -252,8 +251,8 @@
             <br>
           </form> <!-- FIN DEL FORMULARIO-->
         </div> <!-- FIN DEL CONTAINER -->
-      </div>      
-    </section>
+  </div>      
+</section>
 
     <script src="./js/sidebar/script.js"></script>
     <!-- Bootstrap JavaScript Libraries -->
@@ -265,54 +264,54 @@
     <script src="./js//main.js"></script>
 
     <script>
-      document.addEventListener("DOMContentLoaded", () =>{
-        function $(id){
+      document.addEventListener("DOMContentLoaded", () => {
+        function $(id) {
           return document.querySelector(id);
         }
 
-        function getSubcategoria(){
-          const parametros = new FormData();
-          parametros.append("operacion", "listar")
-          
-          fetch(`./controllers/subcategoria.controller.php`,{
-            method:"POST",
-            body:parametros
-          })
-          .then(respuesta => respuesta.json())
-          .then(datos =>{
-            //console.log(datos)
-            datos.forEach(element => {
-              const etiqueta = document.createElement("option");
-              etiqueta.value = element.idsubcategoria;
-              etiqueta.innerHTML = element.nomsubcategoria
+        
 
-              $("#idsubcategoria").appendChild(etiqueta);
-            });
-          })
-          .catch(e =>{
-            console.error(e)
-          });
-        }
-
-        function getDistritos(){
+        function getSubcategoria() {
           const parametros = new FormData();
           parametros.append("operacion", "listar");
 
-          fetch(`./controllers/distrito.controller.php`,{
-            method:"POST",
+          fetch(`./controllers/subcategoria.controller.php`, {
+            method: "POST",
             body: parametros
           })
           .then(respuesta => respuesta.json())
-          .then(datos =>{
+          .then(datos => {
+            datos.forEach(element => {
+              const etiqueta = document.createElement("option");
+              etiqueta.value = element.idsubcategoria;
+              etiqueta.innerHTML = element.nomsubcategoria;
+              $("#idsubcategoria").appendChild(etiqueta);
+            });
+          })
+          .catch(e => {
+            console.error(e);
+          });
+        }
+
+        function getDistritos() {
+          const parametros = new FormData();
+          parametros.append("operacion", "listar");
+
+          fetch(`./controllers/distrito.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
             datos.forEach(element => {
               const etiqueta = document.createElement("option");
               etiqueta.value = element.iddistrito;
               etiqueta.innerHTML = element.nomdistrito;
-              $("#iddistrito").appendChild(etiqueta)
+              $("#iddistrito").appendChild(etiqueta);
             });
           })
-          .catch(e =>{
-            console.error(e)
+          .catch(e => {
+            console.error(e);
           });
         }
 
@@ -321,67 +320,83 @@
           parametros.append("operacion", "buscar");
           parametros.append("nombre_apellido", $("#nombre_apellido").value);
 
-        fetch(`./controllers/persona.controller.php`, {
-          method: "POST",
-          body: parametros
-        })
-        .then(respuesta => respuesta.json())
-        .then(datos => {
-          console.log(datos)
-          // Modificar el valor del nuevo input con el resultado
-          const resultadoInput = $("#resultado");
-          resultadoInput.value = datos.idpersona;
-          resultadoInput.value = datos.datos; // Asegúrate de reemplazar 'datos.resultado' con el campo correcto
+          fetch(`./controllers/persona.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            console.log("Respuesta de búsqueda:", datos);
+            const resultadoInput = $("#resultado");
+            resultadoInput.value = datos.idpersona + '' + datos.datos;
+            //resultadoInput.value = datos.datos;
 
-          // Mostrar el div de resultadoBusqueda
-          $("#resultadoBusqueda").style.display = "block";
-        })
-        .catch(e => {
-          console.error(e);
+            $("#resultadoBusqueda").style.display = "block";
+          })
+          .catch(e => {
+            console.error("Error en la búsqueda:", e);
+          });
+        }
+
+        function registrar() {
+          const parametros = new FormData();
+          parametros.append("operacion", "registrar");
+          parametros.append("iddistrito",  $("#iddistrito").value);
+          parametros.append("idpersona",  $("#resultado").value);
+          parametros.append("idsubcategoria",  $("#idsubcategoria").value);
+          parametros.append("nroruc", $("#nroruc").value);
+          parametros.append("nombre", $("#nombre").value);
+          parametros.append("descripcion", $("#descripcion").value);
+          parametros.append("direccion", $("#direccion").value);
+          parametros.append("telefono", $("#telefono").value);
+          parametros.append("correo", $("#correo").value);
+          parametros.append("facebook", $("#facebook").value);
+          parametros.append("whatsapp", $("#whatsapp").value);
+          parametros.append("instagram", $("#instagram").value);
+          parametros.append("tiktok", $("#tiktok").value);
+          parametros.append("pagweb", $("#pagweb").value);
+          parametros.append("logo", $("#logo").files[0]);
+          parametros.append("valoracion", $("#valoracion").value);
+
+          fetch(`./controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            if (datos.idnegocio > 0) {
+              alert(`Usuario registrado con el ID: ${datos.idnegocio}`)
+              $("#form-negocio").reset();
+            }
+          })
+          .catch(e => {
+            console.error(e);
+          });
+        }
+
+        $("#buscar").addEventListener("click", busqueda);
+        //$("#guardar").addEventListener("click", registrar);
+
+        $("#form-negocio").addEventListener("submit", (event) =>{
+          event.preventDefault(); // Stop al evento
+          
+          if(confirm("¿Está seguro de guardar?")){
+            registrar();
+          }
         });
-      }
 
-      function registrar(){
-        const parametros = new FormData();
-        parametros.append("operacion", "registrar");
-        parametros.append("iddistrito", $("#iddistrito").value);
-        parametros.append("idpersona", $("#nombre_apellido").value);
-        parametros.append("idsubcategoria", $("#idsubcategoria").value);
-        parametros.append("nroruc", $("#nroruc").value);
-        parametros.append("nombre", $("#nombre").value);
-        parametros.append("descripcion", $("#descripcion").value);
-        parametros.append("direccion", $("#direccion").value);
-        parametros.append("telefono", $("#telefono").value);
-        parametros.append("correo", $("#correo").value);
-        parametros.append("facebook", $("#facebook").value);
-        parametros.append("whatsapp", $("#whatsapp").value);
-        parametros.append("instagram", $("#instagram").value);
-        parametros.append("tiktok", $("#tiktok").value);
-        parametros.append("pagweb", $("#pagweb").value);
-        parametros.append("logo", $("#logo").files[0]);
-        parametros.append("valoracion", $("#valoracion").value);
+        
+        getSubcategoria();
+        getDistritos();
+      });
 
-        fetch(`./controllers/negocio.controller.php`,{
-          method:"POST",
-          body:parametros
-        })
-        .then(respuesta => respuesta.json())
-        .then(datos =>{
-          $("#form-negocio").reset();
-        })
-        .catch(e =>{
-          console.error(e)
-        });
-      }
-
-      $("#buscar").addEventListener("click", () =>{
-        busqueda();
-      })
-
-      $("#guardar").addEventListener("click", registrar);
-      getSubcategoria();
-      getDistritos();
-    })
+      /*
+      if (datos.idusuario > 0) {
+              alert(`Usuario registrado con el ID: ${datos.idusuario}`)
+              $("#form-negocio").reset();
+            } else {
+              console.error("Respuesta del servidor:", datos);
+            }*/
     </script>
 </body>
 </html>

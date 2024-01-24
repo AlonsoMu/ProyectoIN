@@ -2,7 +2,7 @@ CREATE DATABASE innovacion;
 
 USE innovacion;
 
--- TABLAS NO CREADAS!!!!!!!!!
+-- TABLAS SI CREADAS!!!!!!!!!
 
 -- -------------------------------------------------------------------------
 -- 									| TABLA PERSONAS |
@@ -36,6 +36,7 @@ CREATE TABLE usuarios(
     update_at				DATETIME		NULL,
     inactive_at				DATETIME 		NULL,
     token_estado			CHAR (1)		NULL,
+    fechatoken				DATETIME 		NULL,
     CONSTRAINT fk_idpersona_per 			FOREIGN KEY(idpersona) REFERENCES personas (idpersona),
     CONSTRAINT uk_correo_per 				UNIQUE(correo)
 )ENGINE = INNODB;
@@ -113,12 +114,10 @@ CREATE TABLE negocios(
 	idnegocio 				INT 			AUTO_INCREMENT 	PRIMARY KEY,
     iddistrito				INT 			NOT NULL, -- FK | campo agregado
     idpersona 				INT 			NOT NULL, -- FK
-    idusuario 				INT 			NOT NULL, -- FK
     idsubcategoria 			INT 			NOT NULL, -- FK
     nroruc 					CHAR(15) 		NULL, -- UK
     nombre					VARCHAR(200)	NOT NULL,
     descripcion 			VARCHAR(200) 	NULL,
-    -- distrito 				VARCHAR(60) 	NOT NULL,
     direccion 				VARCHAR(100) 	NOT NULL,
     telefono				CHAR(11) 		NULL,
     correo 					VARCHAR(100) 	NULL,
@@ -134,7 +133,6 @@ CREATE TABLE negocios(
 	inactive_at				DATETIME	 	NULL,
     CONSTRAINT fk_iddistrito_neg			FOREIGN KEY (iddistrito) REFERENCES distritos (iddistrito),
     CONSTRAINT fk_idpersona_neg 			FOREIGN KEY (idpersona) REFERENCES personas (idpersona),
-    CONSTRAINT fk_idusuario_neg 			FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario),
     CONSTRAINT fk_idsubcategoria_neg		FOREIGN KEY (idsubcategoria) REFERENCES subcategorias (idsubcategoria),
     CONSTRAINT uk_nroruc_neg 				UNIQUE(nroruc)
 )ENGINE = INNODB;
@@ -170,8 +168,9 @@ CREATE TABLE contratos(
     CONSTRAINT fk_idusuario_con 			FOREIGN KEY (idusuario) REFERENCES usuarios (idusuario),
     CONSTRAINT chk_fechafin_con 			CHECK (fechafin > fechainicio)
 )ENGINE = INNODB;
-DELETE FROM distritos;
-ALTER TABLE distritos AUTO_INCREMENT 1;
+
+DELETE FROM negocios;
+ALTER TABLE negocios AUTO_INCREMENT 1;
 -- Volver a activar la restricción de clave externa
 SET foreign_key_checks = 1;
 
