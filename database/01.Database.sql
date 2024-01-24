@@ -110,9 +110,7 @@ CREATE TABLE negocios(
     iddistrito				INT 			NOT NULL, -- FK | campo agregado
     idgaleria 				INT 			NOT NULL, -- FK
     idpersona 				INT 			NOT NULL, -- FK
-    idusuario 				INT 			NOT NULL, -- FK
     idsubcategoria 			INT 			NOT NULL, -- FK
-    idubicacion 			INT 			NOT NULL, -- FK
     nroruc 					CHAR(15) 		NULL, -- UK
     nombre					VARCHAR(200)	NOT NULL,
     descripcion 			VARCHAR(200) 	NULL,

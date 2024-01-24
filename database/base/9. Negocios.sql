@@ -11,7 +11,6 @@ CREATE PROCEDURE buscar_negocios(IN negocio VARCHAR(200))
 BEGIN
     SELECT idnegocio, nombre FROM negocios WHERE nombre LIKE CONCAT('%', negocio, '%');
 END $$
-
 CALL buscar_negocios('xd');
 
 DELIMITER $$
