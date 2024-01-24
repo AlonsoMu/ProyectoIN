@@ -1,31 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="html">
 <head>
+  <title>How to Upload Files with JavaScript</title>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
-  <title>Subir Imágenes con upload-js</title>
-  <!-- Incluye la librería upload-js -->
- 
+  <link rel="stylesheet" type="text/css" href="./subir.css">
+  <link rel="icon" href="../img/arrow_down.png" type="image/png">
 </head>
+
 <body>
+<div id="app">
+  <h1>Awesome JavaScript File Uploader 🦄</h1>
+  <div id="dropArea">
+    <form>
+      <p>
+        Drop files here<br><br><span class="bold">or</span>
+      </p>
+      <input name="file" multiple type="file" accept="image/webp, image/jpeg, image/png">
+      <span class="bold">and</span>
+      <button type="submit" disabled>Upload</button>
+    </form>
+  </div>
 
+  <progress value="0" max="100"></progress>
 
+  <p>
+    <strong>Uploading status:</strong>
+    <span id="statusMessage">🤷‍♂ Nothing's uploaded</span>
+  </p>
 
-<input type="file" />
+  <p>
+    <strong>Uploaded files:</strong>
+    <span id="fileNum">0</span>
+  </p>
 
-
-<!-- include FilePond library -->
-<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-
-<script>
-    // Get a reference to the file input element
-    const inputElement = document.querySelector('input[type="file"]');
-    
-    // Create a FilePond instance
-    const pond = FilePond.create(inputElement);
-</script>
-
-
+  <ul id="fileListMetadata"></ul>
+</div>
+<script src="./subir.js"></script>
 </body>
 </html>
