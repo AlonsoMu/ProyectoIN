@@ -169,8 +169,8 @@ CREATE TABLE contratos(
     CONSTRAINT chk_fechafin_con 			CHECK (fechafin > fechainicio)
 )ENGINE = INNODB;
 
-DELETE FROM contratos;
-ALTER TABLE contratios AUTO_INCREMENT 1;
+DELETE FROM galerias;
+ALTER TABLE galerias AUTO_INCREMENT 1;
 -- Volver a activar la restricción de clave externa
 SET foreign_key_checks = 1;
 

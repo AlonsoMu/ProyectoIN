@@ -4,6 +4,35 @@ USE INNOVACION;
 -- ------------------------------------------------------------------------------------------------
 -- 									| GALERIAS |
 -- ------------------------------------------------------------------------------------------------
+delimiter $$
+create procedure spu_galeria_registrar
+(
+    in _idnegocio        int,
+    in _rutafoto        varchar(250)
+)
+begin 
+    declare count_foto int;
+
+    select count(*) into count_foto
+    from galerias
+    where 
+        idnegocio = _idnegocio;
+
+    if count_foto <= 11 then
+
+    insert into galerias
+        (idnegocio,rutafoto)
+        values
+        (_idnegocio,_rutafoto);
+
+    else
+
+    signal     sqlstate '45000'
+    set message_text = 'solo se puede ingresar 2 fotos';
+
+    end if;
+end $$
+delimiter ;
 
 DELIMITER $$
 CREATE PROCEDURE spu_galerias_registrar(
@@ -18,8 +47,9 @@ BEGIN
 	 SELECT @@last_insert_id 'idgaleria';
 END $$
 
-CALL spu_galerias_registrar(1,'alo.jpg');
+CALL spu_galerias_registrar(8,'alo.jpg');
 SELECT * FROM galerias;
+SELECT * FROM negocios;
 -- ##########################################################################################################################
 
 DELIMITER $$

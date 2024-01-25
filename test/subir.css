@@ -1,134 +1,103 @@
-html {
-    padding: 50px 0;
-  }
-  
-  html,
-  body {
-    height: 100%;
-  }
-  
-  body {
-    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-    background: radial-gradient(
-        100% 400% at 100% 50%,
-        #ddd 0%,
-        rgb(126, 0, 170) 50%,
-        rgb(0, 35, 162) 100%
-    ) right 0% / 400% 100% no-repeat;
-  }
-  
-  ul {
-    list-style-type: none;
-    width: 500px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  ul li {
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    line-height: 1.4em;
-    margin: 15px 0;
-    gap: 20px;
-  }
-  
-  ul li p {
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  ul li::before {
-    content: "📁";
-    position: absolute;
-    left: -21px;
-    top: 1px;
-  }
-  
-  progress {
-    width: 300px;
-    margin: 20px 0 0;
-  }
-  
-  #dropArea.highlight {
-    border-color: #007aff;
-  }
-  
-  #app {
-    background: radial-gradient(
-        100% 400% at 100% 50%,
-        rgb(255, 199, 0) 0%,
-        rgb(255, 237, 171) 30%,
-        rgb(255, 237, 171) 50%
-    ) right 0% / 400% 100% no-repeat;
-    padding: 20px 30px;
-    border-radius: 15px;
-    width: 620px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  
-  #dropArea {
-    margin: 0 auto;
-  
-    border: 2px dashed transparent;
-    background: #fff;
-    border-radius: 15px;
-    width: 500px;
-    padding: 20px 20px 30px;
-  
-    background: radial-gradient(
-        100% 400% at 100% 50%,
-        #fff 0%,
-        rgb(233, 171, 255) 40%,
-        rgb(150, 173, 255) 80%
-    ) right 0% / 400% 100% no-repeat;
-  }
-  
-  input[type="file"]::file-selector-button {
-    margin: 0 20px 10px 0;
-  }
-  
-  input[type="file"] {
-    color: #999;
-    width: 250px;
-  }
-  
-  button,
-  input[type="file"] {
-    display: block;
-    margin: 20px auto;
-    font-size: 16px;
-  }
-  
-  .bold {
+/* Estilos para el área de carga de imágenes */
+.image-upload-container {
+  width: 800px; /* Ancho del contenedor */
+  height: 300px;
+  margin: auto; /* Centrar el contenedor */
+  border: 3px dashed #D9D9D9;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 80px;
+  text-align: center;
+  float: left;
+  margin-bottom: 20px;
+}
+
+.image-upload-progress {
+  display: none;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  height: 20px;
+  background-color: #28a745;
+}
+
+.file-input-label {
+  margin-top: 70px;
+  font-size: 16px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.file-input {
+  width: auto;
+  margin-bottom: 10px;
+  margin-top: 5px
+}
+
+.text-muted {
+  font-size: 12px;
+}
+
+.formulario{
+    border-radius: 8px;
+}
+
+.botones-container {
+    padding: 10px;
+    margin-bottom: 30px;
+    border-radius:50px;
+    margin-right: 80px;
     font-weight: bold;
-    text-transform: uppercase;
+    width: 250px;
+    
+
+}
+.separar{
+    padding-left: 20px;
+}
+
+.p{
+  font-weight: bold;
+  text-align: center;
+}
+
+
+
+.rounded-button {
+  border-top-right-radius: 22px;
+  border-bottom-right-radius: 22px;
+}
+
+.rounded-input {
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  border-bottom-right-radius: 22px;
+  border-bottom-left-radius: 22px;
+}
+
+.rounded-form {
+  border-radius: 25px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);;
+  overflow: hidden;
+}
+.rounded-form-inner {
+  border: 1px solid #ced4da; /* Ajusta el color del borde según tu preferencia */
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.transparent-background{
+  background-color: rgba(255, 255, 255, 0.7); 
+  border: 2px dashed #ccc;
+}
+
+@media only screen and (max-width: 767px){
+  .image-upload-container {width:355px; height:305px; font-size:12px; flex-direction:column;}
+  .botones-container{width:120px; margin-bottom: 30px; font-size:12px; margin-right: 30px;  margin-top: -20px;}
+  .separar{
+    padding-left: 55px;
   }
-  
-  button:disabled,
-  button:disabled:hover {
-    background: #ddd;
-    border-color: #777;
-    color: #313131;
-    cursor: auto;
-  }
-  
-  button,
-  input[type="file"]::file-selector-button {
-    padding: 8px 16px;
-    background: #000;
-    cursor: pointer;
-    border-radius: 5px;
-    border: 1px solid #000;
-    color: #fff;
-  }
-  
-  button:hover,
-  input[type="file"]::file-selector-button:hover {
-    background: #313131;
-    transition: all 0.2s ease;
-  }
+  .file-input{font-size:10px;}
+  .file-input-label{font-size:15px;}
+}

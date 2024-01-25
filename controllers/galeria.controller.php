@@ -63,9 +63,7 @@ if(isset($_POST['operacion'])){
 
             
 
-            /*if(move_uploaded_file($_FILES['rutafoto']['tmp_name'], "../images/" . $nombreArchivo)){
-                $datosEnviar['rutafoto'] = $nombreArchivo;
-            }*/
+            
 
             break;
 
