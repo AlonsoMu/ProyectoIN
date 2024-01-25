@@ -420,13 +420,19 @@
               subcategoriaDiv.innerHTML += nuevaFilaCategoria;
 
               // Mostrar subcategorías
+              // Mostrar subcategorías
               const subcategoriaContainer = document.getElementById(`subcategoria-${element.categoria}`);
               element.subcategorias.forEach(subcategoria => {
-                const nuevaFilaSubcategoria = `
-                  <div class="col-sm"><button type="button" class="btn btn-light col-11" data-idsubcategoria="${subcategoria.idsubcategoria}">${subcategoria.nomsubcategoria}</button></div>
-                `;
-                subcategoriaContainer.innerHTML += nuevaFilaSubcategoria;
+                  const nuevaFilaSubcategoria = `
+                      <div class="col-4 mt-4"> <!-- Cambiado de col-sm a col-4 y agregado mb-2 para agregar espacio entre botones -->
+                          <button type="button" class="btn btn-light col-11" data-idsubcategoria="${subcategoria.idsubcategoria}">
+                              ${subcategoria.nomsubcategoria}
+                          </button>
+                      </div>
+                  `;
+                  subcategoriaContainer.innerHTML += nuevaFilaSubcategoria;
               });
+
             });
           })
           .catch(e => {
