@@ -56,7 +56,7 @@
     </head>
   <body>
     <div class="container mt-3">
-      <form action="" autocomplete="off" id="form-negocio">
+      <form action="" autocomplete="off" id="form-galeria">
         <div class="card">
           <div class="card-body">          
             <div class="row">
@@ -79,9 +79,8 @@
                 </div>
               </div>            
             </div>
-            <!-- Área de carga de imágenes -->
             <div class="image-upload-container">
-              <label class="file-input-label" for="fileInput">Cargar Imágenes</label>
+              <label class="file-input-label" for="fileInput">Cargar Imágenes</label> 
               <input type="file" class="file-input" id="fileInput" multiple>
               <div id="imageUploadProgress" class="image-upload-progress">
                 <div class="progress">
@@ -117,16 +116,16 @@
     <script src="../js//main.js"></script>
 
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        function $(id) {
+      document.addEventListener("DOMContentLoaded",() => {
+        function $(id){
           return document.querySelector(id);
         }
-
+  
         function busqueda() {
           const parametros = new FormData();
           parametros.append("operacion", "buscarNegocio");
           parametros.append("negocio", $("#negocio").value);
-
+  
           fetch(`../controllers/negocio.controller.php`, {
             method: "POST",
             body: parametros
@@ -134,7 +133,7 @@
           .then(respuesta => respuesta.json())
           .then(datos => {
             console.log("Respuesta de búsqueda completa:", datos);
-
+  
             if (datos.length > 0 && datos[0].idnegocio !== undefined && datos[0].nombre !== undefined) {
               const resultadoInput = $("#resultado");
               resultadoInput.value = datos[0].idnegocio + '. ' + datos[0].nombre;
@@ -148,7 +147,7 @@
           });
         }
 
-
+  
         $("#buscar").addEventListener("click", busqueda);
 
         // Function to handle image upload
@@ -161,19 +160,19 @@
 
           const files = fileInput.files;
           const maxImageCount = 12; // Set the maximum image count
-
+  
           if (files.length === 0) {
             alert("Selecciona al menos una imagen para cargar.");
             return;
           }
-
+  
           if (files.length > maxImageCount) {
             alert(`Solo puedes subir hasta ${maxImageCount} imágenes.`);
             // Clear the file input
             $("#fileInput").value = "";
             return;
           }
-
+  
           // Show progress bar
           $("#imageUploadProgress").style.display = "block";
 
@@ -182,12 +181,12 @@
           const interval = setInterval(() => {
             progress += 10;
             progressBar.style.width = `${progress}%`;
-
+  
             if (progress >= 100) {
               clearInterval(interval);
               uploadStatus.innerHTML = "¡Éxito! Las imágenes se han cargado correctamente.";
               uploadSuccess.style.display = "block";
-
+  
               // Display uploaded file names
               const fileNames = Array.from(files).map(file => file.name);
               uploadedFilesContainer.innerHTML = `Archivos subidos: ${fileNames.join(", ")}`;
@@ -195,16 +194,16 @@
             }
           }, 200);
         }
-
-
+  
+  
         // Attach the handleImageUpload function to the file input change event
         $("#fileInput").addEventListener("change", handleImageUpload);
-
+  
         // Button click event for Cancel
         $("#cancelar").addEventListener("click", () => {
           // Reset the file input
           $("#fileInput").value = "";
-
+  
           // Hide the progress bar and uploaded files display
           $("#imageUploadProgress").style.display = "none";
           $("#uploadedFiles").style.display = "none";
@@ -213,50 +212,53 @@
           $("#uploadSuccess").innerHTML = "";
           $("#uploadSuccess").style.display = "none";
         });
-
-        // // Button click event for Guardar (Save)
-        // $("#guardar").addEventListener("click", () => {
-        //   // Your save logic goes here
-
-        //   // Reset the form
-        //   $("#fileInput").value = "";
-        //   $("#imageUploadProgress").style.display = "none";
-        //   $("#uploadedFiles").style.display = "none";
-        //   $("#uploadSuccess").innerHTML = "";
-        //   $("#uploadSuccess").style.display = "none";
-        //   $("#form-negocio").reset(); // Reset the entire form
-        // });
-
-
-        function registrar(){
+        
+  
+        function validarFotos(){
+  
+          const fotos = $("#fileInput")
+  
+          if(fotos.files.length > 10){
+  
+            alert("Solo puedes elegir 10 fotos");
+  
+          }else{
+            insertGaleria();
+          }
+        }
+  
+        function insertGaleria(){
+  
           const parametros = new FormData();
-          parametros.append("operacion", "registrar");
-          parametros.append("idnegocio", $("#resultado").value);
-          parametros.append("rutafoto", $("#fileInput").files[0]);
-
+          parametros.append("operacion","registrar");
+          parametros.append("idnegocio",$("#resultado").value);
+          console.log($("#resultado").value);
+          const inputFotografia = $("#fileInput");
+  
+          const fotosSeleccionadas = inputFotografia.files;
+  
+          for(let i = 0; i < Math.min(10, fotosSeleccionadas.length); ++i){
+            parametros.append("rutafoto[]",fotosSeleccionadas[i])
+          }
+  
           fetch(`../controllers/galeria.controller.php`,{
             method:"POST",
             body: parametros
           })
-          .then(respuesta => respuesta.json())
-          .then(datos =>{
-            if(datos.idgaleria > 0){
-              alert(`Galería registrado con ID: ${datos.idgaleria}`);
-              $("#form-negocio").reset();
-            }
-          })
-          .catch(e =>{
-            console.error(e)
-          });
+            .then(result => result.json())
+            .then(data =>{
+              alert("Se registrò correctamente");
+            })
+            .catch(e => {
+              console.error(e);
+            });
+  
         }
-
-        $("#form-negocio").addEventListener("submit", (event) =>{
-    event.preventDefault();
-
-    if(confirm("¿Está seguro de guardar?")){
-      registrar();
-    }
-  });
+  
+        $("#form-galeria").addEventListener("submit", (event) => {
+          event.preventDefault();
+          validarFotos()
+        });
       });
     </script>
   </body>
