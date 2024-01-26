@@ -95,11 +95,8 @@
             </div>
             <div class="row pt-4 distritoc" style="max-width: 300px;">
                 <label class="pr-3">Distrito: </label>
-                <select class="form-select" aria-label="Selecciona un distrito">
-                    <option selected>Selecciona</option>
-                    <option value="distrito1">Distrito 1</option>
-                    <option value="distrito2">Distrito 2</option>
-                    <option value="distrito3">Distrito 3</option>
+                <select class="form-select" aria-label="Selecciona un distrito" id="selectDistritos">
+                    <option selected value ="">Selecciona</option>
                     <!-- Agrega más opciones según sea necesario -->
                 </select>
             </div>
@@ -107,8 +104,8 @@
         </div>
 
         <!-- Tarjetas con información -->
-        <div class="container mt-5">
-            <div class="card custom-card2">
+        <div class="container mt-5" id="tarjetas">
+            <!-- <div class="card custom-card2">
                 <div class="card-body d-flex align-items-center">
                     <img src="./img/negocio.svg" alt="Imagen de la tarjeta">
                     <div>
@@ -158,7 +155,7 @@
                         <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
         </div>
@@ -251,9 +248,179 @@
         <script src="./js/jquery.sticky.js"></script>
         <script src="./js/owl.carousel.min.js"></script>
         <script src="./js/main.js"></script>
-        <script src="./js/subycat/cate.js"></script>
+        <!-- <script src="./js/subycat/cate.js"></script> -->
         <script src="./js/carrusel/carrusel.js"></script>
 
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+    function getCategoria() {
+      const parametros = new FormData();
+      parametros.append("operacion", "listar");
+
+      fetch(`./controllers/categoria.controller.php`, {
+        method: "POST",
+        body: parametros
+      })
+      .then(respuesta => respuesta.json())
+      .then(datos => {
+        const categoriaDiv = document.getElementById("categoria");
+
+        datos.forEach(element => {
+          const enlace = document.createElement("a");
+          enlace.className = "nav-link corrector_nav tabs";
+          enlace.setAttribute("data-bs-toggle", "collapse");
+          enlace.setAttribute("onclick", `kiosco(event, '${element.nomcategoria}')`);
+
+          const icono = document.createElement("i");
+          icono.className = "bi bi-chevron-down";
+
+          enlace.innerHTML = `${element.nomcategoria} `;
+          enlace.appendChild(icono);
+
+          categoriaDiv.appendChild(enlace);
+        });
+      })
+      .catch(e => {
+        console.error(e);
+      });
+    }
+
+    function cargarSubcategorias() {
+      const parametros = new FormData();
+      parametros.append("operacion", "listarsub");
+
+      fetch(`./controllers/subcategoria.controller.php`, {
+        method: "POST",
+        body: parametros
+      })
+      .then(respuesta => respuesta.json())
+      .then(datos => {
+        console.log(datos);
+        const subcategoriaDiv = document.getElementById("subcategoria");
+        datos.forEach(element => {
+          // Mostrar categoría
+          const nuevaFilaCategoria = `
+            <div id="${element.categoria}" class="pb-5 w-820 text-center nego_acti" style="display:none;" data-id="${element.categoria}">
+              <span class="topright">&times;</span>
+
+              <div class="row pb-4 hyundai"  id="subcategoria-${element.categoria}"></div>
+            </div>
+          `;
+          subcategoriaDiv.innerHTML += nuevaFilaCategoria;
+
+          // Mostrar subcategorías
+          // Mostrar subcategorías
+          const subcategoriaContainer = document.getElementById(`subcategoria-${element.categoria}`);
+          element.subcategorias.forEach(subcategoria => {
+              const nuevaFilaSubcategoria = `
+                  <div class="col-4 mt-4"> <!-- Cambiado de col-sm a col-4 y agregado mb-2 para agregar espacio entre botones -->
+                      <button type="button" class="btn btn-light col-11" data-idsubcategoria="${subcategoria.idsubcategoria}">
+                          ${subcategoria.nomsubcategoria}
+                      </button>
+                  </div>
+              `;
+              subcategoriaContainer.innerHTML += nuevaFilaSubcategoria;
+          });
+
+        });
+      })
+      .catch(e => {
+          console.error(e);
+      });
+    }
+
+    document.addEventListener('click', function (event) {
+      if (event.target.classList.contains('topright')) {
+        // Buscar el contenedor padre del elemento clicado
+        const subcategoriaContainer = event.target.closest('.nego_acti');
+        const categoriaContainer = event.target.classList.contains('tabs');
+          
+        // Verificar si se encontró un contenedor y cerrarlo
+        if (subcategoriaContainer) {
+          subcategoriaContainer.style.display = 'none';
+        }
+        if (categoriaContainer) {
+          categoriaContainer.style.display  = 'none';   
+        }
+      }
+    });
+    getCategoria();
+    cargarSubcategorias();
+});
+        </script>
+        <script>
+            function getDistrito() {
+        const parametros = new FormData();
+        parametros.append("operacion", "listar");
+
+        fetch(`./controllers/distrito.controller.php`, {
+          method: "POST",
+          body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+          const distritoSelect = document.getElementById("selectDistritos");
+          datos.forEach(element => {
+            const etiqueta = document.createElement("option");
+            etiqueta.value = element.iddistrito;
+            etiqueta.innerHTML = element.nomdistrito;
+
+            distritoSelect.appendChild(etiqueta);
+          });
+        })
+        .catch(e => {
+          console.error(e);
+        });
+      }
+
+      function getCard() {
+  const parametros = new FormData();
+  parametros.append("operacion", "listar");
+
+  fetch(`./controllers/negocio.controller.php`, {
+    method: "POST",
+    body: parametros
+  })
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+      const tarjetasContainer = document.getElementById("tarjetas");
+
+      // Limpiar el contenedor antes de agregar nuevas tarjetas
+      tarjetasContainer.innerHTML = '';
+
+      datos.forEach(element => {
+        const cardHTML = `
+          <div class="card custom-card2">
+            <div class="card-body d-flex align-items-center">
+              <img src="./imgLogos/${element.logo}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
+              <div>
+                <h5 class="card-title">${element.NombreComercial}</h5>
+                <p class="card-text">
+                  <span>Distrito:</span> ${element.nomdistrito}<br>
+                  <span>Ubicación:</span> ${element.direccion}<br>
+                  <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
+                </p>
+                <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>`;
+
+        // Agregar la tarjeta al contenedor
+        tarjetasContainer.innerHTML += cardHTML;
+      });
+    })
+    .catch(e => {
+      console.error(e);
+    });
+}
+
+// Llamar a la función para obtener y mostrar las tarjetas
+getCard();
+
+
+      getDistrito();
+      getCard();
+        </script>
        
     </body>
 </html>

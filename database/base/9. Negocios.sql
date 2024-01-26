@@ -83,30 +83,22 @@ CALL spu_obtener_negocios(7);*/
 SELECT * FROM negocios;
 -- ##########################################################################################################################
 
+
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_listar()
 BEGIN
 	SELECT
     n.idnegocio,
-    s.idsubcategoria,
-    p.idpersona,
+    d.iddistrito,
     n.nombre AS NombreComercial,
-    s.nomsubcategoria,
-    CONCAT(p.apellidos, ', ', p.nombres) AS Cliente,
-    n.nroruc,
+    d.nomdistrito,
+    n.direccion,
     n.telefono,
-    n.whatsapp,
-    n.facebook,
-    n.instagram,
-    n.tiktok,
-    n.descripcion
+    n.logo
 	FROM negocios n
-	INNER JOIN personas p ON n.idpersona = p.idpersona
-	INNER JOIN usuarios u ON n.idusuario = u.idusuario
-	INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria;
+	INNER JOIN distritos d ON n.iddistrito = d.iddistrito;
 END $$
 CALL spu_negocios_listar();
-
 -- ##########################################################################################################################
 
 DELIMITER $$

@@ -112,6 +112,16 @@ class Negocio extends Conexion{
       die($e->getMessage());
     }
   }
+
+  public function listar(){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_negocios_listar()");
+      $consulta->execute();
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
     
 
   

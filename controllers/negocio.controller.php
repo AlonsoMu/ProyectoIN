@@ -122,5 +122,8 @@ if (isset($_POST['operacion'])) {
       ];
       enviarJSON($negocio->buscarNegocio($datos));
       break;
+    case 'listar':
+      enviarJSON($negocio->listar());
+      break;
   }
 }
