@@ -160,7 +160,14 @@
 
         </div>
 
-
+<!-- Agregar controles de paginación -->
+<div class="container mt-5">
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center" id="paginacion">
+      <!-- Aquí se generarán los elementos de paginación -->
+    </ul>
+  </nav>
+</div>
 
     
         <div class="w-100 p-3 background_cote mt-5">
@@ -175,6 +182,7 @@
         </div>
         </section>
         </div>
+        
 
 
     <a href="https://wa.me/1234567890?text=hello+123" target=”_blank” class="whatsapp-btn">
@@ -349,77 +357,95 @@
 });
         </script>
         <script>
-            function getDistrito() {
+          document.addEventListener('DOMContentLoaded', () => {
+    const elementosPorPagina = 4;
+    let paginaActual = 1;
+
+    function getCard(pagina) {
         const parametros = new FormData();
         parametros.append("operacion", "listar");
+        parametros.append("pagina", pagina);
+        parametros.append("elementosPorPagina", elementosPorPagina);
 
-        fetch(`./controllers/distrito.controller.php`, {
-          method: "POST",
-          body: parametros
+        fetch(`./controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
         })
         .then(respuesta => respuesta.json())
         .then(datos => {
-          const distritoSelect = document.getElementById("selectDistritos");
-          datos.forEach(element => {
-            const etiqueta = document.createElement("option");
-            etiqueta.value = element.iddistrito;
-            etiqueta.innerHTML = element.nomdistrito;
+            const tarjetasContainer = document.getElementById("tarjetas");
+            tarjetasContainer.innerHTML = '';
 
-            distritoSelect.appendChild(etiqueta);
-          });
+            datos.forEach((element, index) => {
+                // Solo mostrar las tarjetas según la página actual
+                if (index >= (pagina - 1) * elementosPorPagina && index < pagina * elementosPorPagina) {
+                    const cardHTML = `
+                        <div class="card custom-card2">
+                            <div class="card-body d-flex align-items-center">
+                                <img src="./imgLogos/${element.logo}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
+                                <div>
+                                    <h5 class="card-title">${element.NombreComercial}</h5>
+                                    <p class="card-text">
+                                        <span>Distrito:</span> ${element.nomdistrito}<br>
+                                        <span>Ubicación:</span> ${element.direccion}<br>
+                                        <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
+                                    </p>
+                                    <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>`;
+                    tarjetasContainer.innerHTML += cardHTML;
+                }
+            });
+
+            // Llamar a la función para generar la paginación
+            generarPaginacion(pagina);
         })
         .catch(e => {
-          console.error(e);
+            console.error(e);
         });
-      }
+    }
 
-      function getCard() {
-  const parametros = new FormData();
-  parametros.append("operacion", "listar");
+    function generarPaginacion(pagina) {
+        const paginacionContainer = document.getElementById("paginacion");
+        paginacionContainer.innerHTML = '';
 
-  fetch(`./controllers/negocio.controller.php`, {
-    method: "POST",
-    body: parametros
-  })
-    .then(respuesta => respuesta.json())
-    .then(datos => {
-      const tarjetasContainer = document.getElementById("tarjetas");
+        // Calcular el número total de páginas
+        const totalPaginas = calcularTotalPaginas();
 
-      // Limpiar el contenedor antes de agregar nuevas tarjetas
-      tarjetasContainer.innerHTML = '';
+        for (let i = 1; i <= totalPaginas; i++) {
+            const li = document.createElement("li");
+            li.className = `page-item ${i === pagina ? "active" : ""}`;
 
-      datos.forEach(element => {
-        const cardHTML = `
-          <div class="card custom-card2">
-            <div class="card-body d-flex align-items-center">
-              <img src="./imgLogos/${element.logo}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
-              <div>
-                <h5 class="card-title">${element.NombreComercial}</h5>
-                <p class="card-text">
-                  <span>Distrito:</span> ${element.nomdistrito}<br>
-                  <span>Ubicación:</span> ${element.direccion}<br>
-                  <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
-                </p>
-                <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
-              </div>
-            </div>
-          </div>`;
+            const enlace = document.createElement("a");
+            enlace.className = "page-link";
+            enlace.href = "#";
+            enlace.innerText = i;
 
-        // Agregar la tarjeta al contenedor
-        tarjetasContainer.innerHTML += cardHTML;
-      });
-    })
-    .catch(e => {
-      console.error(e);
-    });
-}
+            // Manejar clic en el enlace de paginación
+            enlace.addEventListener("click", () => {
+                paginaActual = i;
+                getCard(paginaActual);
+            });
 
-// Llamar a la función para obtener y mostrar las tarjetas
-getCard();
+            li.appendChild(enlace);
+            paginacionContainer.appendChild(li);
+        }
+    }
 
+    function calcularTotalPaginas() {
+        // Debes calcular el total de páginas según el total de elementos y elementos por página
+        // Aquí puedes hacer una llamada al servidor para obtener el total de elementos
+        // o simplemente calcularlo si ya lo tienes en el cliente
+        // Para este ejemplo, supongamos que ya sabemos el total de elementos
+        const totalElementos = 12; // Cambiar según tus necesidades
+        return Math.ceil(totalElementos / elementosPorPagina);
+    }
 
-      getDistrito();
-      getCard();
+    // Llamar a la función inicial para cargar la primera página
+    getCard(paginaActual);
+});
+
         </script>
        
     </body>
