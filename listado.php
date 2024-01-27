@@ -380,8 +380,11 @@
                 tarjetasContainer.innerHTML += cardHTML;
               }
             });
+            
+            // Obtén la cantidad total de elementos
             const totalElementos = datos.length;
-            // Llamar a la función para generar la paginación
+
+            // Llama a la función para generar la paginación con la nueva información
             generarPaginacion(pagina, totalElementos);
           })
           .catch(e => {
@@ -526,6 +529,12 @@
         .then(datos => {
           console.log(datos);
           mostrarNegociosEnCards(datos);
+
+          // Obtén la cantidad de elementos en la subcategoría seleccionada
+          const totalElementos = datos.length;
+
+          // Llama a la función para generar la paginación con la nueva información
+          generarPaginacion(paginaActual, totalElementos);
         })
         .catch(e => {
           console.error(e);
