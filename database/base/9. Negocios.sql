@@ -102,6 +102,27 @@ CALL spu_negocios_listar();
 -- ##########################################################################################################################
 
 DELIMITER $$
+CREATE PROCEDURE spu_negocios_listaSub(IN _idsubcategoria INT)
+BEGIN
+	SELECT
+		n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        d.nomdistrito,
+        n.direccion,
+        n.telefono,
+        n.logo
+        FROM negocios n
+        INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+        INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+        WHERE n.idsubcategoria = _idsubcategoria;
+END $$
+CALL spu_negocios_listaSub(1);
+-- ##########################################################################################################################
+
+DELIMITER $$
 CREATE PROCEDURE spu_negocios_buscar(
     IN nombre_comercial VARCHAR(200)
 )
