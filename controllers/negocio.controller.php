@@ -125,12 +125,12 @@ if (isset($_POST['operacion'])) {
     case 'listar':
       enviarJSON($negocio->listar());
       break;
-    case 'listarSub':
+    case 'listarSubyDis':
       $datosEnviar = [
         'idsubcategoria' => $_POST['idsubcategoria'],
         'iddistrito' => $_POST['iddistrito']
       ];
-      enviarJSON($negocio->listarSub($datosEnviar));
+      enviarJSON($negocio->listarSubyDis($datosEnviar));
       break;
     case 'listarCardSub':
       $datosEnviar = [

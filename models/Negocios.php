@@ -123,9 +123,9 @@ class Negocio extends Conexion{
     }
   }
 
-  public function listarSub($datos = []){
+  public function listarSubyDis($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spu_negocios_listaSub(?,?)");
+      $consulta = $this->conexion->prepare("CALL spu_negocios_listarSubyDis(?,?)");
       $consulta->execute(
         array(
           $datos['idsubcategoria'],

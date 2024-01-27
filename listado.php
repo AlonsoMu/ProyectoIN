@@ -553,6 +553,48 @@
           }
         }
       });
+
+      document.getElementById("selectDistritos").addEventListener("change", function() {
+    // Obtener el valor seleccionado del distrito
+    const idDistrito = this.value;
+
+    // Llamar a la función para cargar los negocios según la subcategoría y distrito seleccionados
+    cargarNegociosPorSubyDist(selectedIdSubcategoria, idDistrito);
+});
+function cargarNegociosPorSubyDist(idsubcategoria, iddistrito) {
+    const parametros = new FormData();
+    parametros.append("operacion", "listarSubyDis");
+    parametros.append("idsubcategoria", idsubcategoria);
+    parametros.append("iddistrito", iddistrito);
+
+    fetch(`./controllers/negocio.controller.php`, {
+        method: "POST",
+        body: parametros
+    })
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+        console.log(datos);
+
+        if (datos.length > 0) {
+            // Hay resultados, mostrar en las tarjetas
+            mostrarNegociosEnCards(datos);
+
+            // Obtén la cantidad de elementos en la búsqueda realizada
+            const totalElementos = datos.length;
+
+            // Llama a la función para generar la paginación con la nueva información
+            generarPaginacion(paginaActual, totalElementos);
+        } else {
+            // No hay resultados, mostrar un mensaje o realizar alguna acción de manejo
+            console.log("No se encontraron negocios para la subcategoría y distrito seleccionados");
+            // Puedes mostrar un mensaje o realizar alguna otra acción aquí
+        }
+    })
+    .catch(e => {
+        console.error(e);
+    });
+}
+
        
       });
     </script>   
