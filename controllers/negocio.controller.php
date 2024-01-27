@@ -130,7 +130,15 @@ if (isset($_POST['operacion'])) {
         'idsubcategoria' => $_POST['idsubcategoria'],
         'iddistrito' => $_POST['iddistrito']
       ];
-      enviarJSON($negocio->listarSubyDis($datosEnviar));
+      $resultados = $negocio->listarSubyDis($datosEnviar);
+
+      if (empty($resultados)) {
+          $mensaje = "No se encontraron negocios para la subcategoría y el distrito especificados.";
+          enviarJSON(['mensaje' => $mensaje]);
+      } else {
+          enviarJSON($resultados);
+      }
+      
       break;
     case 'listarCardSub':
       $datosEnviar = [

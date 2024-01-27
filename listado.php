@@ -64,7 +64,7 @@
     <div class="container mt-5 text-center">
       <h1 class="nav_titulo mb-5 lineabajo">¿Qué lugar deseas encontrar?</h1>
       <div class="d-flex justify-content-center mt-4 valor_c" id="categoria">
-        <a class="nav-link corrector_nav1" data-bs-toggle="collapse" href="./views/index.php">Todos los negocios</a>
+        <a class="nav-link corrector_nav1" data-bs-toggle="collapse" href="index.php">Ir al mapa</a>
         <span class="text-muted mx-3 m-division"> | </span>        
       </div>
     </div>
@@ -561,7 +561,31 @@
     // Llamar a la función para cargar los negocios según la subcategoría y distrito seleccionados
     cargarNegociosPorSubyDist(selectedIdSubcategoria, idDistrito);
 });
-function cargarNegociosPorSubyDist(idsubcategoria, iddistrito) {
+
+
+    function showToast(message, color) {
+      if (Notification.permission === "granted") {
+        const options = {
+          body: message,
+          icon: "./img/sting.svg", // Ruta a un icono opcional
+        };
+
+        if (color) {
+          options.data = { color: color };
+        }
+
+        const notification = new Notification("Éxito", options);
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
+          }
+        });
+      }
+    } 
+
+
+    function cargarNegociosPorSubyDist(idsubcategoria, iddistrito) {
     const parametros = new FormData();
     parametros.append("operacion", "listarSubyDis");
     parametros.append("idsubcategoria", idsubcategoria);
@@ -582,13 +606,21 @@ function cargarNegociosPorSubyDist(idsubcategoria, iddistrito) {
             // Obtén la cantidad de elementos en la búsqueda realizada
             const totalElementos = datos.length;
 
+            // Muestra un mensaje de éxito con la cantidad de negocios encontrados
+            const mensajeExito = `Se encontraron ${totalElementos} negocios en este distrito`;
+            showToast(mensajeExito, 'green'); // Puedes ajustar el color según tu preferencia
+
             // Llama a la función para generar la paginación con la nueva información
             generarPaginacion(paginaActual, totalElementos);
         } else {
             // No hay resultados, mostrar un mensaje o realizar alguna acción de manejo
-            console.log("No se encontraron negocios para la subcategoría y distrito seleccionados");
+            const mensajeError = "No se encontraron negocios para el distrito seleccionado";
+            showToast(mensajeError, 'red');
             // Puedes mostrar un mensaje o realizar alguna otra acción aquí
         }
+
+        const selectDistritos = document.getElementById('selectDistritos');
+        selectDistritos.value = ''; // Opcionalmente, puedes establecer el valor a null si no quieres seleccionar nada
     })
     .catch(e => {
         console.error(e);
