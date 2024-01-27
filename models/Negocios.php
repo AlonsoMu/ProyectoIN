@@ -125,7 +125,22 @@ class Negocio extends Conexion{
 
   public function listarSub($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spu_negocios_listaSub(?)");
+      $consulta = $this->conexion->prepare("CALL spu_negocios_listaSub(?,?)");
+      $consulta->execute(
+        array(
+          $datos['idsubcategoria'],
+          $datos['iddistrito']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function listarPorSub($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_negocios_listaCardsSub(?)");
       $consulta->execute(
         array(
           $datos['idsubcategoria']

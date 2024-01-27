@@ -127,9 +127,16 @@ if (isset($_POST['operacion'])) {
       break;
     case 'listarSub':
       $datosEnviar = [
-        'idsubcategoria' => $_POST['idsubcategoria']
+        'idsubcategoria' => $_POST['idsubcategoria'],
+        'iddistrito' => $_POST['iddistrito']
       ];
       enviarJSON($negocio->listarSub($datosEnviar));
+      break;
+    case 'listarCardSub':
+      $datosEnviar = [
+        'idsubcategoria' => $_POST['idsubcategoria']
+      ];
+      enviarJSON($negocio->listarPorSub($datosEnviar));
       break;
   }
 }

@@ -469,6 +469,81 @@
         // Llamar a la función inicial para cargar la primera página
         getCard(paginaActual);
         getDistrito();
+
+        function obtenerIdSubcategoriaDesdeBoton(boton) {
+        if (boton && boton.getAttribute) {
+          const idSubcategoria = boton.getAttribute('data-idsubcategoria');
+          if (idSubcategoria !== null) {
+            return parseInt(idSubcategoria);
+          } else {
+            console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
+            return null;
+          }
+        } else {
+          console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
+          return null;
+        }
+      }
+
+        
+
+
+      function mostrarNegociosEnCards(datos) {
+        const tarjetasContainer = document.getElementById("tarjetas");
+        tarjetasContainer.innerHTML = '';
+
+        datos.forEach(element => {
+          const cardHTML = `
+            <div class="card custom-card2">
+              <div class="card-body d-flex align-items-center">
+                <img src="./imgLogos/${element.logo}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
+                <div>
+                  <h5 class="card-title">${element.NombreComercial}</h5>
+                  <p class="card-text">
+                    <span>Distrito:</span> ${element.nomdistrito}<br>
+                    <span>Ubicación:</span> ${element.direccion}<br>
+                    <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
+                  </p>
+                  <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
+                </div>
+              </div>
+            </div>`;
+
+          tarjetasContainer.innerHTML += cardHTML;
+        });
+      }
+
+      function subNegocios(idsubcategoria) {
+        const parametros = new FormData();
+        parametros.append("operacion", "listarCardSub");
+        parametros.append("idsubcategoria", idsubcategoria);
+
+        fetch(`./controllers/negocio.controller.php`, {
+          method: "POST",
+          body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+          console.log(datos);
+          mostrarNegociosEnCards(datos);
+        })
+        .catch(e => {
+          console.error(e);
+        });
+      }
+
+      document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('btn-light')) {
+          selectedIdSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
+
+          if (selectedIdSubcategoria !== null) {
+            console.log("ID de Subcategoría:", selectedIdSubcategoria);
+            subNegocios(selectedIdSubcategoria);
+          } else {
+            console.error("No se pudo obtener el ID de subcategoría");
+          }
+        }
+      });
        
       });
     </script>   
