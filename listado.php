@@ -467,36 +467,31 @@
           });
         }
 
-        
-
         // Llamar a la función inicial para cargar la primera página
         getCard(paginaActual);
         getDistrito();
 
         function obtenerIdSubcategoriaDesdeBoton(boton) {
-        if (boton && boton.getAttribute) {
-          const idSubcategoria = boton.getAttribute('data-idsubcategoria');
-          if (idSubcategoria !== null) {
-            return parseInt(idSubcategoria);
+          if (boton && boton.getAttribute) {
+            const idSubcategoria = boton.getAttribute('data-idsubcategoria');
+            if (idSubcategoria !== null) {
+              return parseInt(idSubcategoria);
+            } else {
+              console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
+              return null;
+            }
           } else {
-            console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
+            console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
             return null;
           }
-        } else {
-          console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
-          return null;
         }
-      }
 
-        
+        function mostrarNegociosEnCards(datos) {
+          const tarjetasContainer = document.getElementById("tarjetas");
+          tarjetasContainer.innerHTML = '';
 
-
-      function mostrarNegociosEnCards(datos) {
-        const tarjetasContainer = document.getElementById("tarjetas");
-        tarjetasContainer.innerHTML = '';
-
-        datos.forEach(element => {
-          const cardHTML = `
+          datos.forEach(element => {
+            const cardHTML = `
             <div class="card custom-card2">
               <div class="card-body d-flex align-items-center">
                 <img src="./imgLogos/${element.logo}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
@@ -511,123 +506,123 @@
                 </div>
               </div>
             </div>`;
-
-          tarjetasContainer.innerHTML += cardHTML;
-        });
-      }
-
-      function subNegocios(idsubcategoria) {
-        const parametros = new FormData();
-        parametros.append("operacion", "listarCardSub");
-        parametros.append("idsubcategoria", idsubcategoria);
-
-        fetch(`./controllers/negocio.controller.php`, {
-          method: "POST",
-          body: parametros
-        })
-        .then(respuesta => respuesta.json())
-        .then(datos => {
-          console.log(datos);
-          mostrarNegociosEnCards(datos);
-
-          // Obtén la cantidad de elementos en la subcategoría seleccionada
-          const totalElementos = datos.length;
-
-          // Llama a la función para generar la paginación con la nueva información
-          generarPaginacion(paginaActual, totalElementos);
-        })
-        .catch(e => {
-          console.error(e);
-        });
-      }
-
-      document.addEventListener('click', function (event) {
-        if (event.target.classList.contains('btn-light')) {
-          selectedIdSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
-
-          if (selectedIdSubcategoria !== null) {
-            console.log("ID de Subcategoría:", selectedIdSubcategoria);
-            subNegocios(selectedIdSubcategoria);
-          } else {
-            console.error("No se pudo obtener el ID de subcategoría");
-          }
-        }
-      });
-
-      document.getElementById("selectDistritos").addEventListener("change", function() {
-    // Obtener el valor seleccionado del distrito
-    const idDistrito = this.value;
-
-    // Llamar a la función para cargar los negocios según la subcategoría y distrito seleccionados
-    cargarNegociosPorSubyDist(selectedIdSubcategoria, idDistrito);
-});
-
-
-    function showToast(message, color) {
-      if (Notification.permission === "granted") {
-        const options = {
-          body: message,
-          icon: "./img/sting.svg", // Ruta a un icono opcional
-        };
-
-        if (color) {
-          options.data = { color: color };
+            tarjetasContainer.innerHTML += cardHTML;
+          });
         }
 
-        const notification = new Notification("Éxito", options);
-      } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(permission => {
-          if (permission === "granted") {
-            showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
-          }
-        });
-      }
-    } 
+        function subNegocios(idsubcategoria) {
+          const parametros = new FormData();
+          parametros.append("operacion", "listarCardSub");
+          parametros.append("idsubcategoria", idsubcategoria);
 
-
-    function cargarNegociosPorSubyDist(idsubcategoria, iddistrito) {
-    const parametros = new FormData();
-    parametros.append("operacion", "listarSubyDis");
-    parametros.append("idsubcategoria", idsubcategoria);
-    parametros.append("iddistrito", iddistrito);
-
-    fetch(`./controllers/negocio.controller.php`, {
-        method: "POST",
-        body: parametros
-    })
-    .then(respuesta => respuesta.json())
-    .then(datos => {
-        console.log(datos);
-
-        if (datos.length > 0) {
-            // Hay resultados, mostrar en las tarjetas
+          fetch(`./controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            console.log(datos);
             mostrarNegociosEnCards(datos);
 
-            // Obtén la cantidad de elementos en la búsqueda realizada
+            // Obtén la cantidad de elementos en la subcategoría seleccionada
             const totalElementos = datos.length;
-
-            // Muestra un mensaje de éxito con la cantidad de negocios encontrados
-            const mensajeExito = `Se encontraron ${totalElementos} negocios en este distrito`;
-            showToast(mensajeExito, 'green'); // Puedes ajustar el color según tu preferencia
 
             // Llama a la función para generar la paginación con la nueva información
             generarPaginacion(paginaActual, totalElementos);
-        } else {
-            // No hay resultados, mostrar un mensaje o realizar alguna acción de manejo
-            const mensajeError = "No se encontraron negocios para el distrito seleccionado";
-            showToast(mensajeError, 'red');
-            // Puedes mostrar un mensaje o realizar alguna otra acción aquí
+          })
+          .catch(e => {
+            console.error(e);
+          });
         }
 
-        const selectDistritos = document.getElementById('selectDistritos');
-        selectDistritos.value = ''; // Opcionalmente, puedes establecer el valor a null si no quieres seleccionar nada
-    })
-    .catch(e => {
-        console.error(e);
-    });
-}
+        document.addEventListener('click', function (event) {
+          if (event.target.classList.contains('btn-light')) {
+            selectedIdSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
 
-       
+            if (selectedIdSubcategoria !== null) {
+              console.log("ID de Subcategoría:", selectedIdSubcategoria);
+              subNegocios(selectedIdSubcategoria);
+            } else {
+              console.error("No se pudo obtener el ID de subcategoría");
+            }
+          }
+        });
+
+        document.getElementById("selectDistritos").addEventListener("change", function() {
+          // Obtener el valor seleccionado del distrito
+          const idDistrito = this.value;
+
+          // Llamar a la función para cargar los negocios según la subcategoría y distrito seleccionados
+          cargarNegociosPorSubyDist(selectedIdSubcategoria, idDistrito);
+        });
+
+
+        function showToast(message, color) {
+          if (Notification.permission === "granted") {
+            const options = {
+              body: message,
+              icon: "./img/sting.svg", // Ruta a un icono opcional
+            };
+
+            if (color) {
+              options.data = { color: color };
+            }
+
+            const notification = new Notification("Éxito", options);
+          } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(permission => {
+              if (permission === "granted") {
+                showToast(message, color); // Llamar nuevamente a showToast después de obtener el permiso
+              }
+            });
+          }
+        } 
+
+
+        function cargarNegociosPorSubyDist(idsubcategoria, iddistrito) {
+          const parametros = new FormData();
+          parametros.append("operacion", "listarSubyDis");
+          parametros.append("idsubcategoria", idsubcategoria);
+          parametros.append("iddistrito", iddistrito);
+
+          fetch(`./controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            console.log(datos);
+
+            const tarjetasContainer = document.getElementById("tarjetas");
+            tarjetasContainer.innerHTML = ''; // Limpiar el contenido actual
+
+            if (datos.length > 0) {
+              // Hay resultados, mostrar en las tarjetas
+              mostrarNegociosEnCards(datos);
+
+              // Obtén la cantidad de elementos en la búsqueda realizada
+              const totalElementos = datos.length;
+
+              // Muestra un mensaje de éxito con la cantidad de negocios encontrados
+              const mensajeExito = `Se encontraron ${totalElementos} negocios en este distrito`;
+              showToast(mensajeExito, 'green'); // Puedes ajustar el color según tu preferencia
+
+              // Llama a la función para generar la paginación con la nueva información
+              generarPaginacion(paginaActual, totalElementos);
+            } else {
+              // No hay resultados, mostrar un mensaje o realizar alguna acción de manejo
+              const mensajeError = "No se encontraron negocios para la subcategoría y el distrito especificados.";
+              showToast(mensajeError, 'red');
+              // Puedes mostrar un mensaje o realizar alguna otra acción aquí
+            }
+
+            const selectDistritos = document.getElementById('selectDistritos');
+            selectDistritos.value = ''; // Opcionalmente, puedes establecer el valor a null si no quieres seleccionar nada
+          })
+          .catch(e => {
+            console.error(e);
+          });
+        }
       });
     </script>   
   </body>
