@@ -232,6 +232,7 @@
     </footer>
 
      <!-- Bootstrap JavaScript Libraries -->
+     
      <script src="./js/jquery-3.3.1.min.js"></script>
     <script src="./js/popper.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
@@ -240,8 +241,13 @@
     <script src="./js/main.js"></script>
     <!-- <script src="./js/subycat/cate.js"></script> -->
     <script src="./js/carrusel/carrusel.js"></script>
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/sweetalert.js"></script>
+    
     
     <script>
+      let selectedIdSubcategoria = null;
       document.addEventListener('DOMContentLoaded', () => {
         const elementosPorPagina = 4;
         let paginaActual = 1;
@@ -449,22 +455,34 @@
           });
         }
 
-        function subNegocios(){
-          const parametros = new FormData();
-          parametros.append("operacion", "listarSub");
-          parametros.append("idsubcategoria", $("#subcategoria").value)
+        function subNegocios(idsubcategoria) {
+          if (selectedIdSubcategoria !== null) {
+            const parametros = new FormData();
+            parametros.append("operacion", "listarCardSub");
+            parametros.append("idsubcategoria", idsubcategoria);
 
-          fetch(`./controllers/negocio.controller.php`,{
-            method:"POST",
-            body: parametros
-          })
-          .then(respuesta => respuesta.json())
-          .then(datos =>{
-            console.log(datos)
-          })
-          .catch(e =>{
-            console.error(e)
-          });
+            fetch(`./controllers/negocio.controller.php`, {
+              method: "POST",
+              body: parametros
+            })
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+              console.log(datos);
+              mostrarNegociosEnCards(datos);
+
+              // Obtén la cantidad de elementos en la subcategoría seleccionada
+              const totalElementos = datos.length;
+
+              // Llama a la función para generar la paginación con la nueva información
+              generarPaginacion(paginaActual, totalElementos);
+            })
+            .catch(e => {
+              console.error(e);
+            });
+          } else {
+            // Mostrar notificación de error si no hay una subcategoría seleccionada
+            notificar('error', 'Error', 'Por favor, selecciona una subcategoría antes de listar los negocios.', 3);
+          }
         }
 
         // Llamar a la función inicial para cargar la primera página
@@ -549,11 +567,19 @@
         });
 
         document.getElementById("selectDistritos").addEventListener("change", function() {
-          // Obtener el valor seleccionado del distrito
-          const idDistrito = this.value;
+          if (selectedIdSubcategoria !== null) {
+            // Obtener el valor seleccionado del distrito
+            const idDistrito = this.value;
 
-          // Llamar a la función para cargar los negocios según la subcategoría y distrito seleccionados
-          cargarNegociosPorSubyDist(selectedIdSubcategoria, idDistrito);
+            // Llamar a la función para cargar los negocios según la subcategoría y distrito seleccionados
+            cargarNegociosPorSubyDist(selectedIdSubcategoria, idDistrito);
+          } else {
+            // Mostrar notificación de error si no hay una subcategoría seleccionada
+            notificar('error', 'Error', 'Por favor, selecciona una subcategoría antes de elegir un distrito.', 3);
+
+            // Resetear el valor del select
+            selectDistritos.value = '';  // Puedes cambiar esto por el valor predeterminado que desees
+          }
         });
 
 
@@ -660,85 +686,6 @@
             paginacionContainer.appendChild(imagenError);
           }
         }
-        
-function mostrarNegociosDistritos(datos) {
-          const tarjetasContainer = document.getElementById("tarjetas");
-          tarjetasContainer.innerHTML = '';
-
-          datos.forEach(element => {
-            const cardHTML = `
-            <div class="card custom-card2">
-              <div class="card-body d-flex align-items-center">
-                <img src="./imgLogos/${element.logo}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
-                <div>
-                  <h5 class="card-title">${element.NombreComercial}</h5>
-                  <p class="card-text">
-                    <span>Distrito:</span> ${element.nomdistrito}<br>
-                    <span>Ubicación:</span> ${element.direccion}<br>
-                    <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
-                  </p>
-                  <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
-                </div>
-              </div>
-            </div>`;
-            tarjetasContainer.innerHTML += cardHTML;
-          });
-        }
-
-        function cargarNegociosPorDistrito(iddistrito) {
-  const parametros = new FormData();
-  parametros.append("operacion", "listarPorDistrito");
-  parametros.append("iddistrito", iddistrito);
-
-  fetch(`./controllers/negocio.controller.php`, {
-    method: "POST",
-    body: parametros
-  })
-  .then(respuesta => respuesta.json())
-  .then(datos => {
-    console.log(datos);
-
-    const tarjetasContainer = document.getElementById("tarjetas");
-    tarjetasContainer.innerHTML = ''; // Limpiar el contenido actual
-
-    const paginacionContainer = document.getElementById("paginacion");
-    paginacionContainer.innerHTML = ''; // Limpiar la paginación actual
-
-    if (datos.length > 0) {
-      // Hay resultados, mostrar en las tarjetas
-      mostrarNegociosDistritos(datos);
-
-      // Obtén la cantidad de elementos en la búsqueda realizada
-      const totalElementos = datos.length;
-
-      // Muestra un mensaje de éxito con la cantidad de negocios encontrados
-      const mensajeExito = `Se encontraron ${totalElementos} negocios en este distrito`;
-      showToast(mensajeExito, 'green'); // Puedes ajustar el color según tu preferencia
-
-      // Llama a la función para generar la paginación con la nueva información
-      generarPaginacion(paginaActual, totalElementos);
-    } else {
-      // No hay resultados, mostrar una imagen o mensaje de error
-      const mensajeError = document.createElement("p");
-      mensajeError.innerText = "No se encontraron negocios para el distrito seleccionado.";
-      paginacionContainer.appendChild(mensajeError);
-    }
-
-    const selectDistritos = document.getElementById('selectDistritos');
-    selectDistritos.value = ''; // Opcionalmente, puedes establecer el valor a null si no quieres seleccionar nada
-  })
-  .catch(e => {
-    console.error(e);
-  });
-}
-document.getElementById("selectDistritos").addEventListener("change", function() {
-  // Obtener el valor seleccionado del distrito
-  const idDistrito = this.value;
-
-  // Llamar a la función para cargar los negocios por distrito
-  cargarNegociosPorDistrito(idDistrito);
-});
-
 
       });
     </script>   

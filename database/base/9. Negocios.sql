@@ -14,6 +14,25 @@ END $$
 CALL buscar_negocios('xd');
 
 DELIMITER $$
+CREATE PROCEDURE spu_negocios_listaCardsDistrito(IN _iddistrito INT)
+BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        d.nomdistrito,
+        n.direccion,
+        n.telefono,
+        n.logo
+    FROM negocios n
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE n.iddistrito = _iddistrito;
+END $$
+
+DELIMITER $$
 CREATE PROCEDURE spu_negocios_registrar(
 	IN _iddistrito 			INT,
     IN _idpersona			INT,
