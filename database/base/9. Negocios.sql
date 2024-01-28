@@ -493,3 +493,24 @@ CALL spu_obtener_negocios(3);*/
 SELECT * FROM distritos;
 
 -- ##########################################################################################################################
+DELIMITER $$
+CREATE PROCEDURE spu_negocios_busquedaCard(
+    IN nombre_comercial VARCHAR(200)
+)
+BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        d.nomdistrito,
+        n.direccion,
+        n.telefono,
+        n.logo
+    FROM negocios n
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%');
+END $$
+CALL spu_negocios_busquedaCard('xd');

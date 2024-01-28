@@ -152,5 +152,11 @@ if (isset($_POST['operacion'])) {
       ];
       enviarJSON($negocio->listarPorDis($datosEnviar));
       break;
+    case 'busquedaCard':
+      $datosEnviar = [
+        'nombre_comercial' => $_POST['nombre_comercial']
+      ];
+      enviarJSON($negocio->busquedaCard($datosEnviar));
+      break;
   }
 }

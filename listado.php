@@ -687,6 +687,42 @@
           }
         }
 
+        function busquedaCard() {
+  const parametros = new FormData();
+  parametros.append("operacion", "busquedaCard");
+  parametros.append("nombre_comercial", $("#buscar").value);
+
+  fetch(`./controllers/negocio.controller.php`, {
+    method: "POST",
+    body: parametros
+  })
+  .then(respuesta => respuesta.json())
+  .then(datos => {
+    // Actualiza las tarjetas con los resultados de la búsqueda
+    mostrarNegociosEnCards(datos);
+
+    // Obtén la cantidad de elementos en la búsqueda realizada
+    const totalElementos = datos.length;
+
+    // Llama a la función para generar la paginación con la nueva información
+    generarPaginacion(paginaActual, totalElementos);
+  })
+  .catch(e => {
+    console.error(e);
+  });
+}
+// Agregar un evento al botón de búsqueda
+document.getElementById("btnBuscar").addEventListener("click", function() {
+  busquedaCard();
+});
+
+// O agregar un evento al input de búsqueda para realizar la búsqueda al presionar Enter
+document.getElementById("buscar").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    busquedaCard();
+  }
+});
+
       });
     </script>   
   </body>
