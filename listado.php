@@ -392,32 +392,32 @@
           });
         }
 
-        function generarPaginacion(pagina, totalElementos) {
-          const paginacionContainer = document.getElementById("paginacion");
-          paginacionContainer.innerHTML = '';
+        // function generarPaginacion(pagina, totalElementos) {
+        //   const paginacionContainer = document.getElementById("paginacion");
+        //   paginacionContainer.innerHTML = '';
 
-          // Calcular el número total de páginas utilizando el total de elementos
-          const totalPaginas = calcularTotalPaginas(totalElementos);
+        //   // Calcular el número total de páginas utilizando el total de elementos
+        //   const totalPaginas = calcularTotalPaginas(totalElementos);
 
-          for (let i = 1; i <= totalPaginas; i++) {
-            const li = document.createElement("li");
-            li.className = `page-item ${i === pagina ? "active" : ""}`;
+        //   for (let i = 1; i <= totalPaginas; i++) {
+        //     const li = document.createElement("li");
+        //     li.className = `page-item ${i === pagina ? "active" : ""}`;
 
-            const enlace = document.createElement("a");
-            enlace.className = "page-link";
-            enlace.href = "#";
-            enlace.innerText = i;
+        //     const enlace = document.createElement("a");
+        //     enlace.className = "page-link";
+        //     enlace.href = "#";
+        //     enlace.innerText = i;
 
-            // Manejar clic en el enlace de paginación
-            enlace.addEventListener("click", () => {
-                paginaActual = i;
-                getCard(paginaActual);
-            });
+        //     // Manejar clic en el enlace de paginación
+        //     enlace.addEventListener("click", () => {
+        //         paginaActual = i;
+        //         getCard(paginaActual);
+        //     });
 
-            li.appendChild(enlace);
-            paginacionContainer.appendChild(li);
-          }
-        }
+        //     li.appendChild(enlace);
+        //     paginacionContainer.appendChild(li);
+        //   }
+        // }
 
         function calcularTotalPaginas(totalElementos) {
           // Calcular el total de páginas según el total de elementos y elementos por página
@@ -596,6 +596,9 @@
             const tarjetasContainer = document.getElementById("tarjetas");
             tarjetasContainer.innerHTML = ''; // Limpiar el contenido actual
 
+            const paginacionContainer = document.getElementById("paginacion");
+            paginacionContainer.innerHTML = ''; // Limpiar la paginación actual
+
             if (datos.length > 0) {
               // Hay resultados, mostrar en las tarjetas
               mostrarNegociosEnCards(datos);
@@ -610,10 +613,10 @@
               // Llama a la función para generar la paginación con la nueva información
               generarPaginacion(paginaActual, totalElementos);
             } else {
-              // No hay resultados, mostrar un mensaje o realizar alguna acción de manejo
-              const mensajeError = "No se encontraron negocios para la subcategoría y el distrito especificados.";
-              showToast(mensajeError, 'red');
-              // Puedes mostrar un mensaje o realizar alguna otra acción aquí
+              // No hay resultados, mostrar una imagen o mensaje de error
+              const mensajeError = document.createElement("p");
+              mensajeError.innerText = "No se encontraron negocios para el distrito seleccionado.";
+              paginacionContainer.appendChild(mensajeError);
             }
 
             const selectDistritos = document.getElementById('selectDistritos');
@@ -623,6 +626,41 @@
             console.error(e);
           });
         }
+
+        function generarPaginacion(pagina, totalElementos) {
+          const paginacionContainer = document.getElementById("paginacion");
+          paginacionContainer.innerHTML = '';
+
+          // Calcular el número total de páginas utilizando el total de elementos
+          const totalPaginas = calcularTotalPaginas(totalElementos);
+
+          if (totalElementos > 0) {
+            for (let i = 1; i <= totalPaginas; i++) {
+              const li = document.createElement("li");
+              li.className = `page-item ${i === pagina ? "active" : ""}`;
+
+              const enlace = document.createElement("a");
+              enlace.className = "page-link";
+              enlace.href = "#";
+              enlace.innerText = i;
+
+              // Manejar clic en el enlace de paginación
+              enlace.addEventListener("click", () => {
+                paginaActual = i;
+                getCard(paginaActual);
+              });
+
+              li.appendChild(enlace);
+              paginacionContainer.appendChild(li);
+            }
+          } else {
+            // No hay resultados, puedes mostrar una imagen de error o un mensaje
+            const imagenError = document.createElement("img");
+            imagenError.src = "./img/1.svg"; // Cambia la ruta según la ubicación de tu imagen
+            paginacionContainer.appendChild(imagenError);
+          }
+        }
+
       });
     </script>   
   </body>
