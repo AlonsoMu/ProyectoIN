@@ -373,7 +373,7 @@
               }
             } else {
               // No se encontraron negocios en este distrito para la subcategoría dada
-              showToast("No se encontraron negocios en este distrito para la subcategoría dada", "red");
+              showToast("Debe de seleccionar primero una subcategoría", "red");
 
               // Obtener coordenadas predeterminadas del distrito
               obtenerCoordenadasDistrito(iddistrito)

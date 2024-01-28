@@ -246,6 +246,7 @@
     <script src="js/sweetalert.js"></script>
     
     
+    
     <script>
       let selectedIdSubcategoria = null;
       document.addEventListener('DOMContentLoaded', () => {
@@ -687,10 +688,19 @@
           }
         }
 
-        function busquedaCard() {
+        let notificacionMostrada = false; // Variable de control
+
+function busquedaCard() {
+  const nombreComercial = $("#buscar").value;
+
+  if (!nombreComercial) {
+    // No realizar la búsqueda si el campo de búsqueda está vacío
+    return;
+  }
+
   const parametros = new FormData();
   parametros.append("operacion", "busquedaCard");
-  parametros.append("nombre_comercial", $("#buscar").value);
+  parametros.append("nombre_comercial", nombreComercial);
 
   fetch(`./controllers/negocio.controller.php`, {
     method: "POST",
@@ -698,14 +708,33 @@
   })
   .then(respuesta => respuesta.json())
   .then(datos => {
-    // Actualiza las tarjetas con los resultados de la búsqueda
-    mostrarNegociosEnCards(datos);
-
     // Obtén la cantidad de elementos en la búsqueda realizada
-    const totalElementos = datos.length;
+    const totalElementos = datos.resultados.length;
+
+    // Actualiza las tarjetas con los resultados de la búsqueda
+    mostrarNegociosEnCards(datos.resultados);
 
     // Llama a la función para generar la paginación con la nueva información
     generarPaginacion(paginaActual, totalElementos);
+
+    if (totalElementos > 0) {
+      // Si se encuentra al menos un resultado y la notificación no se ha mostrado antes, resetea el campo de búsqueda
+      $("#buscar").value = "";
+
+      // Muestra una notificación de negocio encontrado
+      showToast(datos.mensaje, "green");
+
+      // Establece la variable de control para que no se muestre la notificación de "no encontrado" después de una búsqueda exitosa
+      notificacionMostrada = true;
+    } else {
+      // Si no se encuentra ningún resultado y la notificación de "no encontrado" no se ha mostrado, muestra la notificación
+      if (!notificacionMostrada) {
+        showToast(datos.mensaje, "red");
+
+        // Establece la variable de control para que no se muestre la notificación de "no encontrado" nuevamente
+        notificacionMostrada = true;
+      }
+    }
   })
   .catch(e => {
     console.error(e);

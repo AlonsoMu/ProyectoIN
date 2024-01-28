@@ -152,11 +152,29 @@ if (isset($_POST['operacion'])) {
       ];
       enviarJSON($negocio->listarPorDis($datosEnviar));
       break;
-    case 'busquedaCard':
-      $datosEnviar = [
-        'nombre_comercial' => $_POST['nombre_comercial']
-      ];
-      enviarJSON($negocio->busquedaCard($datosEnviar));
-      break;
+      
+      case 'busquedaCard':
+        $nombreComercial = $_POST['nombre_comercial'];
+        $datosEnviar = [
+            'nombre_comercial' => $nombreComercial
+        ];
+        $resultados = $negocio->busquedaCard($datosEnviar);
+    
+        if (empty($resultados)) {
+            // Si no hay resultados, enviar un mensaje indicando que no se encontró el negocio
+            $respuesta = [
+                'mensaje' => 'No se encontró el negocio',
+                'resultados' => []
+            ];
+        } else {
+            // Si hay resultados, enviar los resultados
+            $respuesta = [
+                'mensaje' => 'Negocio encontrado',
+                'resultados' => $resultados
+            ];
+        }
+    
+        enviarJSON($respuesta);
+        break;
   }
 }
