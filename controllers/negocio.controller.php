@@ -146,5 +146,11 @@ if (isset($_POST['operacion'])) {
       ];
       enviarJSON($negocio->listarPorSub($datosEnviar));
       break;
+    case 'listarPorDis':
+      $datosEnviar = [
+        'iddistrito' => $_POST['iddistrito']
+      ];
+      enviarJSON($negocio->listarPorDis($datosEnviar));
+      break;
   }
 }

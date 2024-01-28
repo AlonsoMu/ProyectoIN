@@ -151,6 +151,20 @@ class Negocio extends Conexion{
       die($e->getMessage());
     }
   }
+
+  public function listarPorDis($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_negocios_listaCardsDistrito(?)");
+      $consulta->execute(
+        array(
+          $datos['iddistrito']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
     
 
   
