@@ -380,7 +380,7 @@
                         <span>Ubicación:</span> ${element.direccion}<br>
                         <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
                       </p>
-                      <a href="./views/menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
+                      <a href="views/menu.php?id=${element.idnegocio}" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
                     </div>
                   </div>
                 </div>`;
@@ -521,7 +521,7 @@
                     <span>Ubicación:</span> ${element.direccion}<br>
                     <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
                   </p>
-                  <a href="menu.php" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
+                  <a href="views/menu.php?id=${element.idnegocio}" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
                 </div>
               </div>
             </div>`;

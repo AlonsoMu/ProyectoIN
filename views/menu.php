@@ -1,3 +1,14 @@
+<?php
+if(isset($_GET['id'])){
+  $idnegocio = $_GET['id'];
+
+  echo "
+    <script>
+    const  idnegocio = ".json_encode($idnegocio) .";
+    </script>
+  ";
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
