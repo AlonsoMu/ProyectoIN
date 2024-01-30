@@ -49,19 +49,20 @@ CREATE PROCEDURE spu_negocios_registrar(
     IN _tiktok				VARCHAR(200),
     IN _pagweb 			VARCHAR(200),
     IN _logo				VARCHAR(200),
-	IN _valoracion			INT
+	IN _valoracion			INT,
+    IN _portada 			VARCHAR(200)
 )
 BEGIN
 	INSERT INTO negocios
 		(iddistrito, idpersona, idsubcategoria, nroruc, nombre, descripcion, 
-		 direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, pagweb, logo, valoracion)
+		 direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, pagweb, logo, valoracion, portada)
     VALUES
 		(_iddistrito, _idpersona, _idsubcategoria, _nroruc, _nombre, _descripcion, 
-		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _pagweb, NULLIF(_logo, ''), _valoracion);
+		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _pagweb, NULLIF(_logo, ''), _valoracion, _portada);
 	 SELECT @@last_insert_id 'idnegocio';
 END $$
 CALL spu_negocios_registrar(6, 2, 5, 21481260159, 'vegas', 'vegas, cuidamos tu salud y tu economía.', '486 av. grocio prado', 
-				953656344, 'vega@prueba.es', 'https://www.facebook.com/novafarmachinchaalta', 953686344, NULL, NULL, NULL, NULL,3);
+				953656344, 'vega@prueba.es', 'https://www.facebook.com/novafarmachinchaalta', 953686344, NULL, NULL, NULL, NULL,3, 'hola.jpg');
 SELECT * FROM distritos;
 SELECt * FROM galerias;
 SELECt * FROM personas;
@@ -393,6 +394,7 @@ END $$
 
 CALL spu_obtener_dist(5, 7, 'viernes');
 
+SELECT * FROM galerias;
 SELECT * FROM ubicaciones;
 SELECT * FROM horarios;
 SELECT * FROM negocios;

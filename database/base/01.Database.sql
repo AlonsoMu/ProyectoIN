@@ -131,11 +131,15 @@ CREATE TABLE negocios(
     create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL,
+    portada					VARCHAR(200) 	NULL,
     CONSTRAINT fk_iddistrito_neg			FOREIGN KEY (iddistrito) REFERENCES distritos (iddistrito),
     CONSTRAINT fk_idpersona_neg 			FOREIGN KEY (idpersona) REFERENCES personas (idpersona),
     CONSTRAINT fk_idsubcategoria_neg		FOREIGN KEY (idsubcategoria) REFERENCES subcategorias (idsubcategoria),
     CONSTRAINT uk_nroruc_neg 				UNIQUE(nroruc)
 )ENGINE = INNODB;
+ALTER TABLE negocios ADD COLUMN portada VARCHAR(200) NULL;
+
+SELECT * FROM negocios;
 SELECT * FROM negocios;
 -- ------------------------------------------------------------------------------------------------
 -- 									| TABLA GALERIAS |

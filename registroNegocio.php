@@ -238,6 +238,14 @@
                   </div>
                   <div class="col md-6">
                     <div class="mb-3">
+                      <label for="portada" class="form-label">Portada negocio</label>
+                      <input type="file" id="portada" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                  <div class="mb-3">
                       <label for="valoracion" class="form-label">Valoración</label>
                       <input type="number" id="valoracion" class="form-control">
                     </div>
@@ -356,6 +364,7 @@
           parametros.append("tiktok", $("#tiktok").value);
           parametros.append("pagweb", $("#pagweb").value);
           parametros.append("logo", $("#logo").files[0]);
+          parametros.append("portada", $("#portada").files[0]);
           parametros.append("valoracion", $("#valoracion").value);
 
           fetch(`./controllers/negocio.controller.php`, {

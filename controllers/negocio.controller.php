@@ -105,12 +105,18 @@ if (isset($_POST['operacion'])) {
         'tiktok'          => $_POST['tiktok'],
         'pagweb'          => $_POST['pagweb'],
         'logo'            => '',
-        'valoracion'      => $_POST['valoracion']
+        'valoracion'      => $_POST['valoracion'],
+        'portada'         => ''
       ];
       //Solo movemos la imagen, si esta existe (uploaded)
       if (isset($_FILES['logo'])){
         if (move_uploaded_file($_FILES['logo']['tmp_name'], "../imgLogos/" . $nombreArchivo)){
           $datosEnviar["logo"] = $nombreArchivo;
+        }
+      }
+      if (isset($_FILES['portada'])){
+        if (move_uploaded_file($_FILES['portada']['tmp_name'], "../imgPortada/" . $nombreArchivo)){
+          $datosEnviar["portada"] = $nombreArchivo;
         }
       }
       enviarJSON($negocio->registrar($datosEnviar));
