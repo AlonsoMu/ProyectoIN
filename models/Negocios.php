@@ -181,6 +181,34 @@ class Negocio extends Conexion{
     }
   }
 
+  public function obtenerid($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_obtener_id(?,?)");
+      $consulta->execute(
+        array(
+          $datos['idnegocio'],
+          $datos['dia_actual']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function obtenerMapa($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL negocioMap(?)");
+      $consulta->execute(
+        array(
+          $datos['idnegocio']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
     
 
   

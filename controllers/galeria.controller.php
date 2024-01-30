@@ -66,7 +66,10 @@ if(isset($_POST['operacion'])){
             
 
             break;
-
+            case 'listar':
+                $datosEnviar = ["idnegocio" => $_POST["idnegocio"]];
+                echo json_encode($galeria->listar($datosEnviar));
+                break;
     }
 }
 ?>

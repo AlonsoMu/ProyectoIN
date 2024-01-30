@@ -182,5 +182,35 @@ if (isset($_POST['operacion'])) {
     
         enviarJSON($respuesta);
         break;
+
+
+        case 'obtenerid':
+          $formato = 'EEEE'; 
+          $idioma = 'es';
+    
+          $intlDateFormatter = new IntlDateFormatter(
+            $idioma,
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::NONE,
+            null,
+            null,
+            $formato
+          );
+    
+          $dia_actual = $intlDateFormatter->format(time());
+    
+          $datos = [
+            'idnegocio' => $_POST['idnegocio'],
+            'dia_actual' => $dia_actual
+          ];
+          enviarJSON($negocio->obtenerid($datos));
+        break;
+
+      case 'obtenerMap':
+        $datosEnviar = [
+          'idnegocio' => $_POST['idnegocio']
+        ];
+        enviarJSON($negocio->obtenerMapa($datosEnviar));
+        break;
   }
 }

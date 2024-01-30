@@ -41,6 +41,21 @@ class Galeria extends Conexion{
     }
   }
 
+  public function listar($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_galerias_listar(?)");
+      $consulta->execute(
+        array(
+          $datos['idnegocio']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+      die($e->getMessage()); 
+    }
+  }
+
 
 
 

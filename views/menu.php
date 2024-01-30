@@ -5,10 +5,12 @@ if(isset($_GET['id'])){
   echo "
     <script>
     const  idnegocio = ".json_encode($idnegocio) .";
+    console.log('ID del Negocio:', idnegocio);
     </script>
   ";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -77,12 +79,13 @@ if(isset($_GET['id'])){
       </div>
     </header>
 
-    <section class="portada" style="background-image: url('../img/portada.jpg');">
+    
+    <section class="portada"  id="portadaSection">
         <div class="cuadro-encima2">
             <i class="bi bi-clock icon-sting"></i>
-            <p class="text-sting">Hoy Abierto</p>
+            <p class="text-sting"></p>
         </div>
-        <div class="cuadro-encima">
+        <div class="cuadro-encima" >
             <!-- Contenido del cuadro encima de la portada -->
             <div class="container mt-4">
                 <div class="card custom-card">
@@ -90,38 +93,37 @@ if(isset($_GET['id'])){
                         <div class="row">
                             <div class="col-md-4">
                                 <!-- Primera sección con el título -->
-                                <h3 class="card-title text-sting">Chifa Oriental</h3>
+                                <h3 class="card-title text-sting"></h3>
                             </div>
                             <div class="col-md-4">
                                 <!-- Segunda sección con estrellas de valoración -->
                                 <div class="stars estrella-sting">
-                                    <!-- Estrellas de valoración -->
+                                    <!-- <i class="bi bi-star-fill"></i>
                                     <i class="bi bi-star-fill"></i>
                                     <i class="bi bi-star-fill"></i>
                                     <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
-                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i> -->
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-4">
+                        <div class="row mt-4" >
                             <div class="col-md-4 limitador spacing1">
                                 <!-- Sección de imagen -->
-                                <img src="../img/oriental.jpg" class="img-fluid" alt="Imagen">
+                                <img id="logoNegocio"  class="img-fluid" alt="Imagen">
                             </div>
                             <div class="col-md-4 limitador spacing2 demimv">
                                 <!-- Sección con lista de redes sociales -->
-                                <div class="social-list">
-                                    <p><i class="bi bi-facebook font14 icon-sting"></i> Facebook</p>
+                                <div class="social-list" id="redesSociales" >
+                                    <!-- <p><i class="bi bi-facebook font14 icon-sting"></i> Facebook</p>
                                     <p><i class="bi bi-whatsapp font14 icon-sting"></i> WhatsApp</p>
                                     <p><i class="bi bi-instagram font14 icon-sting"></i> Instagram</p>
-                                    <p><i class="bi bi-tiktok font14 icon-sting"></i> TikTok</p>
+                                    <p><i class="bi bi-tiktok font14 icon-sting"></i> TikTok</p> -->
                                 </div>
                             </div>
                             <div class="col-md-4 limitador spacing2 demimv">
-                                <div class="social-list">
-                                    <p><i class="bi bi-geo-alt font14 icon-sting"></i>Paseo la Breña N° 274-Huancayo</p>
-                                    <p><i class="bi bi-browser-chrome font14 icon-sting"></i>www.chifaoriental.com</p>
+                                <div class="social-list" id="redesSociales2">
+                                    <!-- <p><i class="bi bi-geo-alt font14 icon-sting"></i>Paseo la Breña N° 274-Huancayo</p>
+                                    <p><i class="bi bi-browser-chrome font14 icon-sting"></i>www.chifaoriental.com</p> -->
                                 </div>
                             </div>
                         </div>
@@ -135,10 +137,10 @@ if(isset($_GET['id'])){
     <section class="width100">
         <div class="container mt-l">
             <!-- TEXT -->
-            <h1 class="font24 text-sting">Acerca de...</h1>
+            <h1 class="font24 text-sting">Acerca </h1>
             
             <!-- CONTENIDO -->
-            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit ad mattis, varius phasellus hendrerit metus cum faucibus nec gravida cras sagittis, vivamus sociosqu curabitur sapien velit dictum fringilla sodales. Venenatis aenean auctor facilisi litora accumsan quis dui. Aptent cursus  nostra a eu elementum fermentum donec dui. Aptent cursus congue mus interdum mauris risus.</p>
+            <p></p> 
         </div>
     </section>
 
@@ -150,8 +152,8 @@ if(isset($_GET['id'])){
             
             <!-- IMAGENES -->
             <div class="owl-2-style">
-                <div class="owl-carousel owl-2">
-                  <div class="media-29101">
+                <div class="owl-carousel owl-2" id="galeria-carousel">
+                  <!-- <div class="media-29101">
                     <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
                   </div>
                   <div class="media-29101">
@@ -168,7 +170,7 @@ if(isset($_GET['id'])){
                   </div>
                   <div class="media-29101">
                     <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
-                  </div>
+                  </div> -->
                 </div>
             </div>
 
@@ -303,6 +305,8 @@ if(isset($_GET['id'])){
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
 
   <script>
+
+    
     let map;
 
     function initMap() {
@@ -313,12 +317,40 @@ if(isset($_GET['id'])){
       };
 
       map = new google.maps.Map(mapDiv, mapOptions);
-
+      
       // Puedes agregar marcadores u otras configuraciones aquí
     }
+
+    function mostrarMarcador() {
+        const parametros = new FormData();
+        parametros.append("operacion", "obtenerMap");
+        parametros.append("idnegocio", idnegocio);
+
+        fetch(`../controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+            const latitud = parseFloat(datos.latitud_obtenida);
+            const longitud = parseFloat(datos.longitud_obtenida);
+
+            // Verifica las coordenadas en la consola
+            console.log("Latitud:", latitud, "Longitud:", longitud);
+
+            // Resto del código...
+        })
+        .catch(e => {
+            console.error(e);
+        });
+    }
+
+    mostrarMarcador();
+
+    
   </script>
   <!-- Idiomas -->
-<script>
+<!-- <script>
     function cambiarIdioma(idioma) {
         // Traducciones
         const traducciones = {
@@ -361,6 +393,225 @@ if(isset($_GET['id'])){
             }
         });
     }
+</script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        function getInfo() {
+            const parametros = new FormData();
+            parametros.append("operacion", "obtenerid");
+            parametros.append("idnegocio", idnegocio);
+
+            fetch(`../controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+            })
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+            // Actualizar el contenido dinámicamente con los datos obtenidos
+            const negocio = datos[0]; // Suponiendo que obtienes un solo negocio
+
+            // Actualizar la portada
+            const portadaSection = document.getElementById('portadaSection');
+            portadaSection.style.backgroundImage = `url('../imgPortada/${negocio.portada}')`;
+
+            const logoImg = document.getElementById('logoNegocio');
+            // Concatenar la ruta de la carpeta con el nombre del archivo del logo
+            logoImg.src = `../imgLogos/${negocio.logo}`;
+
+            // Portada
+            document.querySelector('.cuadro-encima2 .text-sting').textContent =  `Hoy ${negocio.Estado}`;
+            document.querySelector('.cuadro-encima .card-title').textContent = negocio.nombre;
+
+            // Estrellas de Valoración
+            const estrellasContainer = document.querySelector('.estrella-sting');
+            estrellasContainer.innerHTML = ''; // Limpiar contenido existente
+
+            const valoracion = negocio.valoracion || 0; // Valoración por defecto si no hay datos
+
+            for (let i = 0; i < 5; i++) {
+                const estrella = document.createElement('i');
+                estrella.classList.add('bi', 'bi-star-fill');
+
+                // Pintar solo las estrellas necesarias
+                if (i < valoracion) {
+                    estrellasContainer.appendChild(estrella);
+                } else {
+                    // Agregar estrellas vacías o negras
+                    estrella.classList.remove('bi-star-fill');
+                    estrella.classList.add('bi-star');
+                    estrellasContainer.appendChild(estrella);
+                }
+            }
+
+            // Redes Sociales
+            const redesSociales = document.getElementById('redesSociales');
+            redesSociales.innerHTML = ''; // Limpiar contenido existente
+
+            if (negocio.facebook) {
+                const parrafoFacebook = document.createElement('p');
+                parrafoFacebook.innerHTML = `<i class="bi bi-facebook font14 icon-sting"></i> ${negocio.facebook}`;
+                redesSociales.appendChild(parrafoFacebook);
+            }
+
+            if (negocio.whatsapp) {
+                const parrafoWhatsapp = document.createElement('p');
+                parrafoWhatsapp.innerHTML = `<i class="bi bi-whatsapp font14 icon-sting"></i> ${negocio.whatsapp}`;
+                redesSociales.appendChild(parrafoWhatsapp);
+            }
+
+            if (negocio.instagram) {
+                const parrafoInstagram = document.createElement('p');
+                parrafoInstagram.innerHTML = `<i class="bi bi-instagram font14 icon-sting"></i> ${negocio.instagram}`;
+                redesSociales.appendChild(parrafoInstagram);
+            }
+
+            if (negocio.tiktok) {
+                const parrafoTikTok = document.createElement('p');
+                parrafoTikTok.innerHTML = `<i class="bi bi-tiktok font14 icon-sting"></i> ${negocio.tiktok}`;
+                redesSociales.appendChild(parrafoTikTok);
+            }
+
+            const redesSociales2 = document.getElementById('redesSociales2');
+            redesSociales2.innerHTML = ''; // Limpiar contenido existente
+
+            const direccionParrafo = document.createElement('p');
+            direccionParrafo.innerHTML = `<i class="bi bi-geo-alt font14 icon-sting"></i> ${negocio.direccion}`;
+            redesSociales2.appendChild(direccionParrafo);
+
+            const paginaWebParrafo = document.createElement('p');
+            paginaWebParrafo.innerHTML = `<i class="bi bi-browser-chrome font14 icon-sting"></i> ${negocio.pagweb}`;
+            redesSociales2.appendChild(paginaWebParrafo);
+
+            
+
+            // Otros elementos según sea necesario
+
+            // Acerca de
+            document.querySelector('.width100 h1').textContent = 'Acerca de ' + negocio.nombre;
+            document.querySelector('.width100 p').textContent = negocio.descripcion;
+
+            
+            })
+            .catch(e => {
+            console.error(e);
+            });
+        }
+
+        // Llama a la función para obtener la información al cargar la página
+        getInfo();
+
+
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+function carrusel() {
+    const parametros = new FormData();
+    parametros.append("operacion", "listar");
+    parametros.append("idnegocio", idnegocio);
+
+    fetch(`../controllers/galeria.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+      const subcarruselDiv = document.getElementById("galeria-carousel");
+      // Limpiar el contenido existente
+      subcarruselDiv.innerHTML = "";
+      // Agregar estructura de Owl Carousel
+      const owlCarousel = document.createElement("div");
+      owlCarousel.className = "owl-carousel owl-2 owl-loaded owl-drag";
+      owlCarousel.id = "galeria-carousel";
+      const owlStageOuter = document.createElement("div");
+      owlStageOuter.className = "owl-stage-outer";
+      owlStageOuter.style = "width: 100%; overflow: hidden;";  // Añadido overflow: hidden
+      const owlStage = document.createElement("div");
+      owlStage.className = "owl-stage";
+      owlStage.style = "transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 10000%; overflow: hidden;";  //     Ajusta el valor de width según sea necesario
+      datos.forEach(element => {
+        const owlItem = document.createElement("div");
+        owlItem.className = "owl-item";
+        owlItem.style = "width: 283.333px; margin-right: 20px;";
+
+        const media29101 = document.createElement("div");
+        media29101.className = "media-29101";
+
+        const imgLink = document.createElement("a");
+        imgLink.href = "#";
+
+        const imgElement = document.createElement("img");
+        imgElement.src = `../imgGaleria/${element.rutafoto}`;
+        imgElement.alt = "Image";
+        imgElement.className = "img-fluid";
+        imgElement.style = "width: 300px; height: 200px; object-fit: cover;"; // Ajuste del tamaño de la imagen
+
+        imgLink.appendChild(imgElement);
+        media29101.appendChild(imgLink);
+        owlItem.appendChild(media29101);
+        owlStage.appendChild(owlItem);
+      });
+
+      owlStageOuter.appendChild(owlStage);
+      owlCarousel.appendChild(owlStageOuter);
+
+      subcarruselDiv.appendChild(owlCarousel);
+
+      // Inicializar Owl Carousel después de cargar las imágenes
+      if ($('.owl-2').length > 0) {
+        $('.owl-2').owlCarousel({
+          center: false,
+          items: 1,
+          loop: true,
+          stagePadding: 0,
+          margin: 20,
+          smartSpeed: 1000,
+          autoplay: true,
+          nav: true,
+          dots: true,
+          pauseOnHover: false,
+          responsive: {
+            600: {
+              margin: 20,
+              nav: true,
+              items: 2
+            },
+            1000: {
+              margin: 20,
+              stagePadding: 0,
+              nav: true,
+              items: 3
+            }
+          }
+        });
+      }
+
+      // Agregar controles y paginación al DOM
+      const owlNav = document.createElement("div");
+      owlNav.className = "owl-nav";
+      owlNav.innerHTML = '<button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button>' +
+      '<button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button>';
+
+      const owlDots = document.createElement("div");
+      owlDots.className = "owl-dots";
+      // Agregar más botones de paginación según la cantidad de elementos en el carrusel
+
+      subcarruselDiv.appendChild(owlNav);
+      subcarruselDiv.appendChild(owlDots);
+    })
+    .catch(e => {
+      console.error(e);
+    });
+  }
+
+  carrusel();
+  // Llamar a la función para obtener categorías al cargar la página
+  
+ 
+});
 </script>
 
 </body>

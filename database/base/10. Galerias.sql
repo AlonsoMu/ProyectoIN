@@ -4,6 +4,19 @@ USE INNOVACION;
 -- ------------------------------------------------------------------------------------------------
 -- 									| GALERIAS |
 -- ------------------------------------------------------------------------------------------------
+
+DELIMITER $$
+CREATE PROCEDURE spu_galerias_listar(IN _idnegocio INT)
+BEGIN
+    SELECT
+        g.idgaleria,
+        n.idnegocio,
+        g.rutafoto
+        FROM galerias g
+        INNER JOIN negocios n ON n.idnegocio = g.idnegocio
+        WHERE g.idnegocio = _idnegocio;
+END $$
+
 delimiter $$
 create procedure spu_galeria_registrar
 (
