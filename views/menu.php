@@ -331,15 +331,28 @@ if(isset($_GET['id'])){
             body: parametros
         })
         .then(respuesta => respuesta.json())
-        .then(datos => {
-            const latitud = parseFloat(datos.latitud_obtenida);
-            const longitud = parseFloat(datos.longitud_obtenida);
+.then(datos => {
+    // Verifica todos los datos recibidos en la consola
+    console.log("Datos recibidos:", datos);
 
-            // Verifica las coordenadas en la consola
-            console.log("Latitud:", latitud, "Longitud:", longitud);
+    // Verifica si hay al menos un elemento en el array
+    if (Array.isArray(datos) && datos.length > 0) {
+        // Accede al primer elemento del array
+        const primerElemento = datos[0];
 
-            // Resto del código...
-        })
+        // Obtén las coordenadas del primer elemento
+        const latitud = parseFloat(primerElemento.latitud_obtenida);
+        const longitud = parseFloat(primerElemento.longitud_obtenida);
+
+        // Verifica las coordenadas en la consola
+        console.log("Latitud:", latitud, "Longitud:", longitud);
+
+        // Resto del código...
+    } else {
+        console.error("Datos no válidos o vacíos");
+    }
+})
+
         .catch(e => {
             console.error(e);
         });

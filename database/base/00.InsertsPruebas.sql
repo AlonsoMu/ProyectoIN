@@ -1,6 +1,6 @@
 use innovacion;
 
-
+SELECT * FROM ubicaciones;
 
 INSERT INTO personas (apellidos, nombres, tipodoc, numerodoc) VALUES
 ('Muñoz','Alonso','DNI','74136969'),

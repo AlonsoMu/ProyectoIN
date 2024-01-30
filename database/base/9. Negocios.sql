@@ -552,6 +552,15 @@ BEGIN
         n.idnegocio,
         n.descripcion,
         n.portada,
+        n.nombre,
+        n.facebook,
+        n.whatsapp,
+        n.instagram,
+        n.tiktok,
+        n.direccion,
+        n.pagweb,
+        n.logo,
+        n.valoracion,
         estado AS 'Estado'
     FROM negocios n
     WHERE n.idnegocio = _idnegocio
@@ -559,3 +568,23 @@ BEGIN
 END $$
 
 CALL spu_obtener_id(1, 'viernes');
+
+
+DELIMITER $$
+CREATE PROCEDURE negocioMap(
+    IN _idnegocio INT
+)
+BEGIN
+    DECLARE _latitud DOUBLE;
+    DECLARE _longitud DOUBLE;
+
+    SELECT latitud, longitud
+    INTO _latitud, _longitud
+    FROM ubicaciones
+    WHERE idnegocio = _idnegocio
+    AND inactive_at IS NULL;
+
+    -- Mostrar los resultados
+    SELECT _latitud AS latitud_obtenida, _longitud AS longitud_obtenida;
+END $$
+	
