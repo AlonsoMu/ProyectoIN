@@ -682,75 +682,72 @@
             }
           } else {
             // No hay resultados, puedes mostrar una imagen de error o un mensaje
-            const imagenError = document.createElement("img");
-            imagenError.src = "./img/1.svg"; // Cambia la ruta según la ubicación de tu imagen
-            paginacionContainer.appendChild(imagenError);
+            // const imagenError = document.createElement("img");
+            // imagenError.src = "./img/1.svg"; // Cambia la ruta según la ubicación de tu imagen
+            // paginacionContainer.appendChild(imagenError);
           }
         }
 
-        let notificacionMostrada = false; // Variable de control
+        let notificacionMostrada = false;
 
-function busquedaCard() {
-  const nombreComercial = $("#buscar").value;
+        function busquedaCard() {
+          const nombreComercial = $("#buscar").value;
 
-  if (!nombreComercial) {
-    // No realizar la búsqueda si el campo de búsqueda está vacío
-    return;
-  }
+          if (!nombreComercial) {
+            // Mostrar un mensaje indicando que se debe escribir el nombre de un negocio
+            showToast("Por favor, escribe el nombre de un negocio", "red");
+            return;
+          }
 
-  const parametros = new FormData();
-  parametros.append("operacion", "busquedaCard");
-  parametros.append("nombre_comercial", nombreComercial);
+          const parametros = new FormData();
+          parametros.append("operacion", "busquedaCard");
+          parametros.append("nombre_comercial", nombreComercial);
 
-  fetch(`./controllers/negocio.controller.php`, {
-    method: "POST",
-    body: parametros
-  })
-  .then(respuesta => respuesta.json())
-  .then(datos => {
-    // Obtén la cantidad de elementos en la búsqueda realizada
-    const totalElementos = datos.resultados.length;
+          fetch(`./controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            // Obtén la cantidad de elementos en la búsqueda realizada
+            const totalElementos = datos.resultados.length;
 
-    // Actualiza las tarjetas con los resultados de la búsqueda
-    mostrarNegociosEnCards(datos.resultados);
+            // Actualiza las tarjetas con los resultados de la búsqueda
+            mostrarNegociosEnCards(datos.resultados);
 
-    // Llama a la función para generar la paginación con la nueva información
-    generarPaginacion(paginaActual, totalElementos);
+            // Llama a la función para generar la paginación con la nueva información
+            generarPaginacion(paginaActual, totalElementos);
 
-    if (totalElementos > 0) {
-      // Si se encuentra al menos un resultado y la notificación no se ha mostrado antes, resetea el campo de búsqueda
-      $("#buscar").value = "";
+            if (totalElementos > 0) {
+              // Si se encuentra al menos un resultado y la notificación no se ha mostrado antes, resetea el campo de búsqueda
+              $("#buscar").value = "";
 
-      // Muestra una notificación de negocio encontrado
-      showToast(datos.mensaje, "green");
+              // Muestra una notificación de negocio encontrado
+              showToast(datos.mensaje, "green");
 
-      // Establece la variable de control para que no se muestre la notificación de "no encontrado" después de una búsqueda exitosa
-      notificacionMostrada = true;
-    } else {
-      // Si no se encuentra ningún resultado y la notificación de "no encontrado" no se ha mostrado, muestra la notificación
-      if (!notificacionMostrada) {
-        showToast(datos.mensaje, "red");
+              // Establece la variable de control para que no se muestre la notificación de "no encontrado" después de una búsqueda exitosa
+              notificacionMostrada = true;
+            } else {
+              // Si no se encuentra ningún resultado, muestra la notificación de "no encontrado"
+              showToast("No se encontraron negocios", "red");
+            }
+          })
+          .catch(e => {
+            console.error(e);
+          });
+        }
 
-        // Establece la variable de control para que no se muestre la notificación de "no encontrado" nuevamente
-        notificacionMostrada = true;
-      }
-    }
-  })
-  .catch(e => {
-    console.error(e);
-  });
-}
-// Agregar un evento al botón de búsqueda
-document.getElementById("btnBuscar").addEventListener("click", function() {
-  busquedaCard();
-});
+        // Agregar un evento al botón de búsqueda
+        document.getElementById("btnBuscar").addEventListener("click", function() {
+          busquedaCard();
+        });
 
-// O agregar un evento al input de búsqueda para realizar la búsqueda al presionar Enter
-document.getElementById("buscar").addEventListener("keypress", function(event) {
-  if (event.key === "Enter") {
-    busquedaCard();
-  }
-});
+        // O agregar un evento al input de búsqueda para realizar la búsqueda al presionar Enter
+        document.getElementById("buscar").addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+            busquedaCard();
+          }
+        });
 
       });
     </script>   
