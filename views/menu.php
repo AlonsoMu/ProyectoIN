@@ -322,41 +322,52 @@ if(isset($_GET['id'])){
     }
 
     function mostrarMarcador() {
-        const parametros = new FormData();
-        parametros.append("operacion", "obtenerMap");
-        parametros.append("idnegocio", idnegocio);
+    const parametros = new FormData();
+    parametros.append("operacion", "obtenerMap");
+    parametros.append("idnegocio", idnegocio);
 
-        fetch(`../controllers/negocio.controller.php`, {
-            method: "POST",
-            body: parametros
-        })
-        .then(respuesta => respuesta.json())
-.then(datos => {
-    // Verifica todos los datos recibidos en la consola
-    console.log("Datos recibidos:", datos);
+    fetch(`../controllers/negocio.controller.php`, {
+        method: "POST",
+        body: parametros
+    })
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+        // Verifica todos los datos recibidos en la consola
+        console.log("Datos recibidos:", datos);
 
-    // Verifica si hay al menos un elemento en el array
-    if (Array.isArray(datos) && datos.length > 0) {
-        // Accede al primer elemento del array
-        const primerElemento = datos[0];
+        // Verifica si hay al menos un elemento en el array
+        if (Array.isArray(datos) && datos.length > 0) {
+            // Accede al primer elemento del array
+            const primerElemento = datos[0];
 
-        // Obtén las coordenadas del primer elemento
-        const latitud = parseFloat(primerElemento.latitud_obtenida);
-        const longitud = parseFloat(primerElemento.longitud_obtenida);
+            // Obtén las coordenadas del primer elemento
+            const latitud = parseFloat(primerElemento.latitud_obtenida);
+            const longitud = parseFloat(primerElemento.longitud_obtenida);
 
-        // Verifica las coordenadas en la consola
-        console.log("Latitud:", latitud, "Longitud:", longitud);
+            // Verifica las coordenadas en la consola
+            console.log("Latitud:", latitud, "Longitud:", longitud);
 
-        // Resto del código...
-    } else {
-        console.error("Datos no válidos o vacíos");
-    }
-})
+            // Crea un objeto LatLng con las coordenadas
+            const ubicacion = new google.maps.LatLng(latitud, longitud);
 
-        .catch(e => {
-            console.error(e);
-        });
-    }
+            // Crea un marcador en el mapa
+            const marker = new google.maps.Marker({
+                position: ubicacion,
+                map: map,  // Asocia el marcador con la instancia del mapa
+                icon: "../img/ubicacion.svg",
+                title: 'Negocio'
+            });
+
+            // Centra el mapa en la ubicación del marcador
+            map.setCenter(ubicacion);
+        } else {
+            console.error("Datos no válidos o vacíos");
+        }
+    })
+    .catch(e => {
+        console.error(e);
+    });
+}
 
     mostrarMarcador();
 
