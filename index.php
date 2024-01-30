@@ -312,11 +312,22 @@
         }
       } 
             
-
       function listarNegociosPorDistrito(idsubcategoria, iddistrito) {
         console.log("Ingresando a listarNegociosPorDistrito");
+
         // Limpiar marcadores existentes
         clearMarkers();
+
+        if (!idsubcategoria) {
+          console.log("No se ha seleccionado una subcategoría.");
+          showToast("Debe seleccionar una subcategoría antes de buscar en un distrito.", "red");
+
+          // Limpiar el selector de distritos
+          const selectDistritos = document.getElementById('selectDistritos');
+          selectDistritos.value = '';
+
+          return;
+        }
 
         if (!iddistrito) {
           console.log("No se ha seleccionado un distrito.");
@@ -338,7 +349,7 @@
             const jsonDatos = JSON.parse(datos);
             console.log(jsonDatos);
 
-            if (jsonDatos.length > 0) {
+            if (jsonDatos !== null && jsonDatos.length > 0) {
               // Resto del código para agregar marcadores
               jsonDatos.forEach(element => {
                 const point = new google.maps.LatLng(
@@ -373,7 +384,7 @@
               }
             } else {
               // No se encontraron negocios en este distrito para la subcategoría dada
-              showToast("Debe de seleccionar primero una subcategoría", "red");
+              showToast(`No se encontraron negocios para la subcategoría en el distrito seleccionado`, "red");
 
               // Obtener coordenadas predeterminadas del distrito
               obtenerCoordenadasDistrito(iddistrito)
@@ -384,183 +395,181 @@
               })
               .catch(error => {
                 console.error("Error al obtener coordenadas predeterminadas:", error);
-              });      
+              });    
             }
-          } catch (error) {
-            console.error("Error al parsear la respuesta como JSON:", error);
-          }
-        })
-        .catch(e => {
-          console.error(e);
-        })
-        .finally(() => {
+            } catch (error) {
+              console.error("Error al parsear la respuesta como JSON:", error);
+            }
+          })
+          .catch(e => {
+            console.error(e);
+          })
+          .finally(() => {
             // Agregar listener para cerrar la ventana de información al hacer clic en el mapa
             map.addListener('click', function () {
               infoWindow.close();
             });
-        });
+          });
+        }
 
-        const selectDistritos = document.getElementById('selectDistritos');
-        selectDistritos.value = ''; // Opcionalmente, puedes establecer el valor a null si no quieres seleccionar nada
-      }
 
-      function obtenerCoordenadasDistrito(iddistrito) {
-        const parametros = new FormData();
-        parametros.append("operacion", "obtener");
-        parametros.append("iddistrito", iddistrito);
+        function obtenerCoordenadasDistrito(iddistrito) {
+          const parametros = new FormData();
+          parametros.append("operacion", "obtener");
+          parametros.append("iddistrito", iddistrito);
 
-        return fetch(`./controllers/distrito.controller.php`, {
-          method: "POST",
-          body: parametros
-        })
-        .then(respuesta => respuesta.json())
-        .then(coordenadas => ({
-          lat: parseFloat(coordenadas.latitud),
-          lng: parseFloat(coordenadas.longitud)
-        }));
-      }
+          return fetch(`./controllers/distrito.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(coordenadas => ({
+            lat: parseFloat(coordenadas.latitud),
+            lng: parseFloat(coordenadas.longitud)
+          }));
+        }
 
-      function listarNegocios(idsubcategoria) {
-        console.log("Ingresando a listarNegocios");
-        // Limpiar marcadores existentes
-        clearMarkers();
-        // Limpiar el select de distritos
-        
-        const parametros = new FormData();
-        parametros.append("operacion", "obtenerNyH");
-        parametros.append("idsubcategoria", idsubcategoria);
+        function listarNegocios(idsubcategoria) {
+          console.log("Ingresando a listarNegocios");
+          // Limpiar marcadores existentes
+          clearMarkers();
+          // Limpiar el select de distritos
+          
+          const parametros = new FormData();
+          parametros.append("operacion", "obtenerNyH");
+          parametros.append("idsubcategoria", idsubcategoria);
 
-        fetch('./controllers/negocio.controller.php', {
-          method: "POST",
-          body: parametros
-        })
-        .then(respuesta => respuesta.json())
-        .then(datos => {
-          console.log(datos);
-          if (datos.length > 0) {
-            // Crear un bucle para recorrer todos los elementos y agregar marcadores
-            datos.forEach(element => {
-              const point = new google.maps.LatLng(
-                parseFloat(element.latitud),
-                parseFloat(element.longitud)
-              );
-              // Agregar un marcador para cada elemento
-              const marker = new google.maps.Marker({
-                map: map, // Asumo que "map" es tu objeto google.maps.Map
-                position: point,
-                title: element.nombre,
+          fetch('./controllers/negocio.controller.php', {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            console.log(datos);
+            if (datos.length > 0) {
+              // Crear un bucle para recorrer todos los elementos y agregar marcadores
+              datos.forEach(element => {
+                const point = new google.maps.LatLng(
+                  parseFloat(element.latitud),
+                  parseFloat(element.longitud)
+                );
+                // Agregar un marcador para cada elemento
+                const marker = new google.maps.Marker({
+                  map: map, // Asumo que "map" es tu objeto google.maps.Map
+                  position: point,
+                  title: element.nombre,
+                });
+                // Cambiar 'mouseover' a 'click' para el evento del marcador
+                marker.addListener('click', function () {
+                  mostrarInfoWindow(element, marker);
+                });
+
+                markers.push(marker);
               });
-              // Cambiar 'mouseover' a 'click' para el evento del marcador
-              marker.addListener('click', function () {
-                mostrarInfoWindow(element, marker);
-              });
-
-              markers.push(marker);
-            });
-            // Centrar y hacer zoom solo si hay marcadores
-            if (markers.length > 0) {
-              const bounds = new google.maps.LatLngBounds();
-              markers.forEach(marker => {
-                bounds.extend(marker.getPosition());
-              });
-              map.fitBounds(bounds);
+              // Centrar y hacer zoom solo si hay marcadores
+              if (markers.length > 0) {
+                const bounds = new google.maps.LatLngBounds();
+                markers.forEach(marker => {
+                  bounds.extend(marker.getPosition());
+                });
+                map.fitBounds(bounds);
+              }
+            }
+          })
+          .catch(e => {
+            console.error(e);
+          });
+          // Agregar listener para cerrar la ventana de información al hacer clic en el mapa
+          map.addListener('click', function () {
+            infoWindow.close();
+          });
+        }
+      
+        // Evento de clic en los botones de subcategoría
+        document.addEventListener('click', function (event) {
+          if (event.target.classList.contains('btn-light')) {
+            const idSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
+            if (idSubcategoria !== null) {
+              console.log("ID de Subcategoría:", idSubcategoria);
+              listarNegocios(idSubcategoria);
             }
           }
-        })
-        .catch(e => {
-          console.error(e);
         });
-        // Agregar listener para cerrar la ventana de información al hacer clic en el mapa
-        map.addListener('click', function () {
-          infoWindow.close();
-        });
-      }
-      
-      // Evento de clic en los botones de subcategoría
-      document.addEventListener('click', function (event) {
-        if (event.target.classList.contains('btn-light')) {
-          const idSubcategoria = obtenerIdSubcategoriaDesdeBoton(event.target);
-          if (idSubcategoria !== null) {
-            console.log("ID de Subcategoría:", idSubcategoria);
-            listarNegocios(idSubcategoria);
-          }
-        }
-      });
     
-      // Función para obtener el ID de subcategoría desde el botón
-      function obtenerIdSubcategoriaDesdeBoton(boton) {
-        if (boton && boton.getAttribute) {
-          const idSubcategoria = boton.getAttribute('data-idsubcategoria');
-          if (idSubcategoria !== null) {
-            return parseInt(idSubcategoria);
+        // Función para obtener el ID de subcategoría desde el botón
+        function obtenerIdSubcategoriaDesdeBoton(boton) {
+          if (boton && boton.getAttribute) {
+            const idSubcategoria = boton.getAttribute('data-idsubcategoria');
+            if (idSubcategoria !== null) {
+              return parseInt(idSubcategoria);
+            } else {
+              console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
+              return null;
+            }
           } else {
-            console.error("El botón no tiene un valor válido para 'data-idsubcategoria'.");
+            console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
             return null;
           }
-        } else {
-          console.error("El botón no tiene el atributo 'data-idsubcategoria' definido.");
-          return null;
-        }
-      }
-
-      function mostrarInfoWindow(element, marker) {
-        // Función para formatear el número de teléfono
-        function formatearTelefono(telefono) {
-          // Eliminar espacios en blanco existentes y cualquier otro carácter no numérico
-          const numeroLimpiado = telefono.replace(/\D/g, '');
-
-          // Dividir el número en bloques de tres dígitos y unirlos con un espacio
-          const numeroFormateado = numeroLimpiado.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
-
-          return numeroFormateado;
         }
 
-        // Formatear el número de teléfono antes de insertarlo en la cadena
-        const telefono = formatearTelefono(element.telefono);
+        function mostrarInfoWindow(element, marker) {
+          // Función para formatear el número de teléfono
+          function formatearTelefono(telefono) {
+            // Eliminar espacios en blanco existentes y cualquier otro carácter no numérico
+            const numeroLimpiado = telefono.replace(/\D/g, '');
 
-        const contentString = `
-          <div class="card-window">
-            <div class="logo-window">
-              <img src="./img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="Logo de la chifa oriental" class="imag">
-            </div>
-            <div class="info-window">
-              <h6 class="nombre">Nombre</h6>
-              <h1 class="name-window">${element.nombre}</h1>
-              <p class="distrito-window">Distrito: ${element.nomdistrito}</>
-              <p class="title-window"> <img src="./img/abierto.svg"> ${element.Estado}</p>
-              <p class="phone-window" style="color:#5B4AFF; font-weight:600;"><img src="./img/icon_whatsapp.svg"> ${telefono}</p>
-            </div>
-          </div>`;
-          // VERIFICAR | ARREGLAR ESTADO
-        infoWindow.setContent(contentString);
-        infoWindow.open(map, marker);
-      }
+            // Dividir el número en bloques de tres dígitos y unirlos con un espacio
+            const numeroFormateado = numeroLimpiado.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+
+            return numeroFormateado;
+          }
+
+          // Formatear el número de teléfono antes de insertarlo en la cadena
+          const telefono = formatearTelefono(element.telefono);
+
+          const contentString = `
+            <div class="card-window">
+              <div class="logo-window">
+                <img src="./img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="Logo de la chifa oriental" class="imag">
+              </div>
+              <div class="info-window">
+                <h6 class="nombre">Nombre</h6>
+                <h1 class="name-window">${element.nombre}</h1>
+                <p class="distrito-window">Distrito: ${element.nomdistrito}</>
+                <p class="title-window"> <img src="./img/abierto.svg"> ${element.Estado}</p>
+                <p class="phone-window" style="color:#5B4AFF; font-weight:600;"><img src="./img/icon_whatsapp.svg"> ${telefono}</p>
+              </div>
+            </div>`;
+            // VERIFICAR | ARREGLAR ESTADO
+          infoWindow.setContent(contentString);
+          infoWindow.open(map, marker);
+        }
     
-      function getYourLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const coords = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-              };
-              map.setCenter(coords);
-              map.setZoom(16);
+        function getYourLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const coords = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+                };
+                map.setCenter(coords);
+                map.setZoom(16);
 
-              new google.maps.Marker({
-                position: coords,
-                map: map,
-                icon: "./img/ubicacion.svg"
-              });
-            },
-            () => {
-              alert("Tu navegador está bien, pero ocurrió un error al obtener tu ubicación");
-            }
-          );
-        } else {
-          alert("Tu navegador no cuenta con geolocalización");
-        }
-      } 
+                new google.maps.Marker({
+                  position: coords,
+                  map: map,
+                  icon: "./img/ubicacion.svg"
+                });
+              },
+              () => {
+                alert("Tu navegador está bien, pero ocurrió un error al obtener tu ubicación");
+              }
+            );
+          } else {
+            alert("Tu navegador no cuenta con geolocalización");
+          }
+        } 
     </script>
   </body>
 </html>
