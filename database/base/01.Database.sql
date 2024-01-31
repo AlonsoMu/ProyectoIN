@@ -90,7 +90,7 @@ CREATE TABLE horarios(
     update_at				DATETIME		NULL,
     inactive_at				DATETIME 		NULL
 )ENGINE = INNODB;
-
+SELECT * FROM ubicaciones;
 -- ------------------------------------------------------------------------
 -- 								| TABLA UBICACIONES |
 -- ------------------------------------------------------------------------

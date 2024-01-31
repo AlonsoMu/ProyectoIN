@@ -82,3 +82,14 @@ END $$*/
 
 -- ##########################################################################################################################
 
+DELIMITER $$
+CREATE PROCEDURE spu_horarios_negocios(IN _idnegocio INT)
+BEGIN
+    SELECT h.*
+    FROM horarios h
+    JOIN ubicaciones u ON h.idhorario = u.idhorario
+    JOIN negocios n ON u.idnegocio = n.idnegocio
+    WHERE n.idnegocio = _idnegocio
+    ORDER BY h.idhorario ASC;
+END $$
+CALL spu_horarios_negocios(1)

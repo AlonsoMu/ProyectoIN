@@ -70,7 +70,7 @@ INSERT INTO ubicaciones (idhorario, idnegocio, latitud, longitud) VALUES
 
 
 
-
+SELECT * FROM ubicaciones;
 INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, nroruc, nombre,
  descripcion, direccion, telefono, correo, valoracion) VALUES
 (1, 1, 1, 7, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', 4),

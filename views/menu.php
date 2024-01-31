@@ -307,67 +307,67 @@ if(isset($_GET['id'])){
   <script>
 
     
-    let map;
+        let map;
 
-    function initMap() {
-      const mapDiv = document.getElementById('map');
-      const mapOptions = {
-        center: { lat: -13.4098500, lng: -76.1323500 }, // Coordenadas de ejemplo
-        zoom: 15,
-      };
+        function initMap() {
+        const mapDiv = document.getElementById('map');
+        const mapOptions = {
+            center: { lat: -13.4098500, lng: -76.1323500 }, // Coordenadas de ejemplo
+            zoom: 15,
+        };
 
-      map = new google.maps.Map(mapDiv, mapOptions);
-      
-      // Puedes agregar marcadores u otras configuraciones aquí
-    }
-
-    function mostrarMarcador() {
-    const parametros = new FormData();
-    parametros.append("operacion", "obtenerMap");
-    parametros.append("idnegocio", idnegocio);
-
-    fetch(`../controllers/negocio.controller.php`, {
-        method: "POST",
-        body: parametros
-    })
-    .then(respuesta => respuesta.json())
-    .then(datos => {
-        // Verifica todos los datos recibidos en la consola
-        console.log("Datos recibidos:", datos);
-
-        // Verifica si hay al menos un elemento en el array
-        if (Array.isArray(datos) && datos.length > 0) {
-            // Accede al primer elemento del array
-            const primerElemento = datos[0];
-
-            // Obtén las coordenadas del primer elemento
-            const latitud = parseFloat(primerElemento.latitud_obtenida);
-            const longitud = parseFloat(primerElemento.longitud_obtenida);
-
-            // Verifica las coordenadas en la consola
-            console.log("Latitud:", latitud, "Longitud:", longitud);
-
-            // Crea un objeto LatLng con las coordenadas
-            const ubicacion = new google.maps.LatLng(latitud, longitud);
-
-            // Crea un marcador en el mapa
-            const marker = new google.maps.Marker({
-                position: ubicacion,
-                map: map,  // Asocia el marcador con la instancia del mapa
-                icon: "../img/ubicacion.svg",
-                title: 'Negocio'
-            });
-
-            // Centra el mapa en la ubicación del marcador
-            map.setCenter(ubicacion);
-        } else {
-            console.error("Datos no válidos o vacíos");
+        map = new google.maps.Map(mapDiv, mapOptions);
+        
+        // Puedes agregar marcadores u otras configuraciones aquí
         }
-    })
-    .catch(e => {
-        console.error(e);
-    });
-}
+
+        function mostrarMarcador() {
+        const parametros = new FormData();
+        parametros.append("operacion", "obtenerMap");
+        parametros.append("idnegocio", idnegocio);
+
+        fetch(`../controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+            // Verifica todos los datos recibidos en la consola
+            console.log("Datos recibidos:", datos);
+
+            // Verifica si hay al menos un elemento en el array
+            if (Array.isArray(datos) && datos.length > 0) {
+                // Accede al primer elemento del array
+                const primerElemento = datos[0];
+
+                // Obtén las coordenadas del primer elemento
+                const latitud = parseFloat(primerElemento.latitud_obtenida);
+                const longitud = parseFloat(primerElemento.longitud_obtenida);
+
+                // Verifica las coordenadas en la consola
+                console.log("Latitud:", latitud, "Longitud:", longitud);
+
+                // Crea un objeto LatLng con las coordenadas
+                const ubicacion = new google.maps.LatLng(latitud, longitud);
+
+                // Crea un marcador en el mapa
+                const marker = new google.maps.Marker({
+                    position: ubicacion,
+                    map: map,  // Asocia el marcador con la instancia del mapa
+                    icon: "../img/ubicacion.svg",
+                    title: 'Negocio'
+                });
+
+                // Centra el mapa en la ubicación del marcador
+                map.setCenter(ubicacion);
+            } else {
+                console.error("Datos no válidos o vacíos");
+            }
+        })
+        .catch(e => {
+            console.error(e);
+        });
+    }
 
     mostrarMarcador();
 
@@ -532,112 +532,166 @@ if(isset($_GET['id'])){
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-function carrusel() {
+    function carrusel() {
+        const parametros = new FormData();
+        parametros.append("operacion", "listar");
+        parametros.append("idnegocio", idnegocio);
+
+        fetch(`../controllers/galeria.controller.php`, {
+        method: "POST",
+        body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+        const subcarruselDiv = document.getElementById("galeria-carousel");
+        // Limpiar el contenido existente
+        subcarruselDiv.innerHTML = "";
+        // Agregar estructura de Owl Carousel
+        const owlCarousel = document.createElement("div");
+        owlCarousel.className = "owl-carousel owl-2 owl-loaded owl-drag";
+        owlCarousel.id = "galeria-carousel";
+        const owlStageOuter = document.createElement("div");
+        owlStageOuter.className = "owl-stage-outer";
+        owlStageOuter.style = "width: 100%; overflow: hidden;";  // Añadido overflow: hidden
+        const owlStage = document.createElement("div");
+        owlStage.className = "owl-stage";
+        owlStage.style = "transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 10000%; overflow: hidden;";  //     Ajusta el valor de width según sea necesario
+        datos.forEach(element => {
+            const owlItem = document.createElement("div");
+            owlItem.className = "owl-item";
+            owlItem.style = "width: 283.333px; margin-right: 20px;";
+
+            const media29101 = document.createElement("div");
+            media29101.className = "media-29101";
+
+            const imgLink = document.createElement("a");
+            imgLink.href = "#";
+
+            const imgElement = document.createElement("img");
+            imgElement.src = `../imgGaleria/${element.rutafoto}`;
+            imgElement.alt = "Image";
+            imgElement.className = "img-fluid";
+            imgElement.style = "width: 300px; height: 200px; object-fit: cover;"; // Ajuste del tamaño de la imagen
+
+            imgLink.appendChild(imgElement);
+            media29101.appendChild(imgLink);
+            owlItem.appendChild(media29101);
+            owlStage.appendChild(owlItem);
+        });
+
+        owlStageOuter.appendChild(owlStage);
+        owlCarousel.appendChild(owlStageOuter);
+
+        subcarruselDiv.appendChild(owlCarousel);
+
+        // Inicializar Owl Carousel después de cargar las imágenes
+        if ($('.owl-2').length > 0) {
+            $('.owl-2').owlCarousel({
+            center: false,
+            items: 1,
+            loop: true,
+            stagePadding: 0,
+            margin: 20,
+            smartSpeed: 1000,
+            autoplay: true,
+            nav: true,
+            dots: true,
+            pauseOnHover: false,
+            responsive: {
+                600: {
+                margin: 20,
+                nav: true,
+                items: 2
+                },
+                1000: {
+                margin: 20,
+                stagePadding: 0,
+                nav: true,
+                items: 3
+                }
+            }
+            });
+        }
+
+        // Agregar controles y paginación al DOM
+        const owlNav = document.createElement("div");
+        owlNav.className = "owl-nav";
+        owlNav.innerHTML = '<button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button>' +
+        '<button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button>';
+
+        const owlDots = document.createElement("div");
+        owlDots.className = "owl-dots";
+        // Agregar más botones de paginación según la cantidad de elementos en el carrusel
+
+        subcarruselDiv.appendChild(owlNav);
+        subcarruselDiv.appendChild(owlDots);
+        })
+        .catch(e => {
+        console.error(e);
+        });
+    }
+
+    carrusel();
+    // Llamar a la función para obtener categorías al cargar la página
+    
+    
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+  function horarios() {
     const parametros = new FormData();
-    parametros.append("operacion", "listar");
+    parametros.append("operacion", "obtenerHorarios");
     parametros.append("idnegocio", idnegocio);
 
-    fetch(`../controllers/galeria.controller.php`, {
+    fetch(`../controllers/horario.controller.php`, {
       method: "POST",
       body: parametros
     })
-    .then(respuesta => respuesta.json())
-    .then(datos => {
-      const subcarruselDiv = document.getElementById("galeria-carousel");
-      // Limpiar el contenido existente
-      subcarruselDiv.innerHTML = "";
-      // Agregar estructura de Owl Carousel
-      const owlCarousel = document.createElement("div");
-      owlCarousel.className = "owl-carousel owl-2 owl-loaded owl-drag";
-      owlCarousel.id = "galeria-carousel";
-      const owlStageOuter = document.createElement("div");
-      owlStageOuter.className = "owl-stage-outer";
-      owlStageOuter.style = "width: 100%; overflow: hidden;";  // Añadido overflow: hidden
-      const owlStage = document.createElement("div");
-      owlStage.className = "owl-stage";
-      owlStage.style = "transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 10000%; overflow: hidden;";  //     Ajusta el valor de width según sea necesario
-      datos.forEach(element => {
-        const owlItem = document.createElement("div");
-        owlItem.className = "owl-item";
-        owlItem.style = "width: 283.333px; margin-right: 20px;";
-
-        const media29101 = document.createElement("div");
-        media29101.className = "media-29101";
-
-        const imgLink = document.createElement("a");
-        imgLink.href = "#";
-
-        const imgElement = document.createElement("img");
-        imgElement.src = `../imgGaleria/${element.rutafoto}`;
-        imgElement.alt = "Image";
-        imgElement.className = "img-fluid";
-        imgElement.style = "width: 300px; height: 200px; object-fit: cover;"; // Ajuste del tamaño de la imagen
-
-        imgLink.appendChild(imgElement);
-        media29101.appendChild(imgLink);
-        owlItem.appendChild(media29101);
-        owlStage.appendChild(owlItem);
+      .then(respuesta => respuesta.json())
+      .then(datos => {
+        console.log(datos);
+        renderizarHorarios(datos);
+      })
+      .catch(e => {
+        console.error(e);
       });
-
-      owlStageOuter.appendChild(owlStage);
-      owlCarousel.appendChild(owlStageOuter);
-
-      subcarruselDiv.appendChild(owlCarousel);
-
-      // Inicializar Owl Carousel después de cargar las imágenes
-      if ($('.owl-2').length > 0) {
-        $('.owl-2').owlCarousel({
-          center: false,
-          items: 1,
-          loop: true,
-          stagePadding: 0,
-          margin: 20,
-          smartSpeed: 1000,
-          autoplay: true,
-          nav: true,
-          dots: true,
-          pauseOnHover: false,
-          responsive: {
-            600: {
-              margin: 20,
-              nav: true,
-              items: 2
-            },
-            1000: {
-              margin: 20,
-              stagePadding: 0,
-              nav: true,
-              items: 3
-            }
-          }
-        });
-      }
-
-      // Agregar controles y paginación al DOM
-      const owlNav = document.createElement("div");
-      owlNav.className = "owl-nav";
-      owlNav.innerHTML = '<button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button>' +
-      '<button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button>';
-
-      const owlDots = document.createElement("div");
-      owlDots.className = "owl-dots";
-      // Agregar más botones de paginación según la cantidad de elementos en el carrusel
-
-      subcarruselDiv.appendChild(owlNav);
-      subcarruselDiv.appendChild(owlDots);
-    })
-    .catch(e => {
-      console.error(e);
-    });
   }
 
-  carrusel();
-  // Llamar a la función para obtener categorías al cargar la página
-  
- 
-});
-</script>
+  function renderizarHorarios(horarios) {
+  const dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
+  // Obtener el día actual
+  const diaActual = new Date().getDay() - 1; // Domingo es 0, Lunes es 1, ..., Sábado es 6
+
+  const container = document.querySelector(".utils");
+  container.innerHTML = ""; // Limpiar el contenido existente
+
+  const formatoHora = { hour: "numeric", minute: "numeric" }; // Formato de hora
+
+  horarios.forEach((horario, index) => {
+    const dia = dias[index];
+    const activo = index === diaActual ? "dia_activo" : "dia_noactivo";
+
+    // Formatear hora de apertura y cierre
+    const apertura = new Date(`2000-01-01T${horario.apertura}`).toLocaleTimeString("en-US", formatoHora);
+    const cierre = new Date(`2000-01-01T${horario.cierre}`).toLocaleTimeString("en-US", formatoHora);
+
+    const html = `
+      <span class="border ${activo}">
+        <h3 class="font20 font-weight-bold mt-4 text-sting">${dia}</h3>
+        <p class="font12 font-weight-bold">${apertura} - ${cierre}</p>
+      </span>
+    `;
+
+    container.insertAdjacentHTML("beforeend", html);
+  });
+}
+
+  horarios();
+});
+
+</script>
 </body>
 
 </html>

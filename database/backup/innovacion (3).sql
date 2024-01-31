@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-01-2024 a las 05:03:45
+-- Tiempo de generación: 31-01-2024 a las 07:09:01
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -27,6 +27,49 @@ DELIMITER $$
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `buscar_negocios` (IN `negocio` VARCHAR(200))   BEGIN
     SELECT idnegocio, nombre FROM negocios WHERE nombre LIKE CONCAT('%', negocio, '%');
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `negocioMap` (IN `_idnegocio` INT)   BEGIN
+    DECLARE _latitud DOUBLE;
+    DECLARE _longitud DOUBLE;
+
+    SELECT latitud, longitud
+	INTO _latitud, _longitud
+	FROM ubicaciones
+	WHERE idnegocio = _idnegocio
+	AND inactive_at IS NULL
+	LIMIT 1;
+
+
+    -- Mostrar los resultados
+    SELECT _latitud AS latitud_obtenida, _longitud AS longitud_obtenida;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ObtenerPortadaYEstado` (IN `_idnegocio` INT)   BEGIN
+    DECLARE _portada VARCHAR(255);
+    DECLARE _estado VARCHAR(10);
+
+    -- Obtener la portada por el idnegocio
+    SELECT portada INTO _portada
+    FROM negocios
+    WHERE idnegocio = _idnegocio;
+
+    -- Verificar el estado del negocio
+    SELECT
+        CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM negocios n
+                INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
+                INNER JOIN horarios h ON u.idhorario = h.idhorario
+                WHERE n.idnegocio = _idnegocio
+                  AND _hora_actual BETWEEN h.apertura AND h.cierre
+            ) THEN 'Abierto'
+            ELSE 'Cerrado'
+        END INTO _estado;
+
+    -- Devolver los resultados
+    SELECT _portada AS portada, _estado AS estado;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_actualizar_pass` (IN `_correo` VARCHAR(100), IN `_token` CHAR(6), IN `_claveacceso` VARCHAR(100))   BEGIN 
@@ -91,6 +134,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_distritos_listar` ()   BEGIN
     WHERE inactive_at IS NULL;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_galerias_listar` (IN `_idnegocio` INT)   BEGIN
+    SELECT
+        g.idgaleria,
+        n.idnegocio,
+        g.rutafoto
+        FROM galerias g
+        INNER JOIN negocios n ON n.idnegocio = g.idnegocio
+        WHERE g.idnegocio = _idnegocio;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_galerias_registrar` (IN `_idnegocio` INT, IN `_rutafoto` VARCHAR(100))   BEGIN
 	INSERT INTO galerias
 		(idnegocio, rutafoto)
@@ -100,25 +153,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_galerias_registrar` (IN `_idneg
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_galeria_registrar` (IN `_idnegocio` INT, IN `_rutafoto` VARCHAR(250))   begin 
-	declare count_foto int;
-    
+    declare count_foto int;
+
     select count(*) into count_foto
     from galerias
     where 
-		idnegocio = _idnegocio;
-	
+        idnegocio = _idnegocio;
+
     if count_foto <= 11 then
-    
-	insert into galerias
-		(idnegocio,rutafoto)
+
+    insert into galerias
+        (idnegocio,rutafoto)
         values
         (_idnegocio,_rutafoto);
-        
-	else
-    
-    signal 	sqlstate '45000'
+
+    else
+
+    signal     sqlstate '45000'
     set message_text = 'solo se puede ingresar 2 fotos';
-    
+
     end if;
 end$$
 
@@ -130,6 +183,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_horarios_listar` ()   BEGIN
         dia
 	FROM horarios
     WHERE inactive_at IS NULL;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_horarios_negocios` (IN `_idnegocio` INT)   BEGIN
+    SELECT h.*
+    FROM horarios h
+    JOIN ubicaciones u ON h.idhorario = u.idhorario
+    JOIN negocios n ON u.idnegocio = n.idnegocio
+    WHERE n.idnegocio = _idnegocio
+    ORDER BY h.idhorario ASC;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_horarios_registrar` (IN `_apertura` TIME, IN `_cierre` TIME, IN `_dia` VARCHAR(20))   BEGIN
@@ -217,35 +279,109 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_busqueda` (IN `_valor`
       AND n.inactive_at IS NULL; 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listar` ()   BEGIN
-	SELECT
-    n.idnegocio,
-    s.idsubcategoria,
-    p.idpersona,
-    n.nombre AS NombreComercial,
-    s.nomsubcategoria,
-    CONCAT(p.apellidos, ', ', p.nombres) AS Cliente,
-    n.nroruc,
-    n.telefono,
-    n.whatsapp,
-    n.facebook,
-    n.instagram,
-    n.tiktok,
-    n.descripcion
-	FROM negocios n
-	INNER JOIN personas p ON n.idpersona = p.idpersona
-	INNER JOIN usuarios u ON n.idusuario = u.idusuario
-	INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_busquedaCard` (IN `nombre_comercial` VARCHAR(200))   BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        d.nomdistrito,
+        n.direccion,
+        n.telefono,
+        n.logo
+    FROM negocios n
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%');
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_registrar` (IN `_iddistrito` INT, IN `_idpersona` INT, IN `_idsubcategoria` INT, IN `_nroruc` CHAR(15), IN `_nombre` VARCHAR(200), IN `_descripcion` VARCHAR(200), IN `_direccion` VARCHAR(100), IN `_telefono` CHAR(11), IN `_correo` VARCHAR(200), IN `_facebook` VARCHAR(200), IN `_whatsapp` VARCHAR(200), IN `_instagram` VARCHAR(200), IN `_tiktok` VARCHAR(200), IN `_pagweb` VARCHAR(200), IN `_logo` VARCHAR(200), IN `_valoracion` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listaCardsDistrito` (IN `_iddistrito` INT)   BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        d.nomdistrito,
+        n.direccion,
+        n.telefono,
+        n.logo
+    FROM negocios n
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE n.iddistrito = _iddistrito;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listaCardsSub` (IN `_idsubcategoria` INT)   BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        d.nomdistrito,
+        n.direccion,
+        n.telefono,
+        n.logo
+        FROM negocios n
+        INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+        INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+        WHERE n.idsubcategoria = _idsubcategoria;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listar` ()   BEGIN
+    SELECT
+    n.idnegocio,
+    d.iddistrito,
+    n.nombre AS NombreComercial,
+    d.nomdistrito,
+    n.direccion,
+    n.telefono,
+    n.logo
+    FROM negocios n
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listarSubyDis` (IN `_idsubcategoria` INT, IN `_iddistrito` INT)   BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        d.nomdistrito,
+        n.direccion,
+        n.telefono,
+        n.logo
+        FROM negocios n
+        INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+        INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+        WHERE n.idsubcategoria = _idsubcategoria
+        AND n.iddistrito = _iddistrito;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_registrar` (IN `_iddistrito` INT, IN `_idpersona` INT, IN `_idsubcategoria` INT, IN `_nroruc` CHAR(15), IN `_nombre` VARCHAR(200), IN `_descripcion` VARCHAR(200), IN `_direccion` VARCHAR(100), IN `_telefono` CHAR(11), IN `_correo` VARCHAR(200), IN `_facebook` VARCHAR(200), IN `_whatsapp` VARCHAR(200), IN `_instagram` VARCHAR(200), IN `_tiktok` VARCHAR(200), IN `_pagweb` VARCHAR(200), IN `_logo` VARCHAR(200), IN `_valoracion` INT, IN `_portada` VARCHAR(200))   BEGIN
 	INSERT INTO negocios
 		(iddistrito, idpersona, idsubcategoria, nroruc, nombre, descripcion, 
-		 direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, pagweb, logo, valoracion)
+		 direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, pagweb, logo, valoracion, portada)
     VALUES
 		(_iddistrito, _idpersona, _idsubcategoria, _nroruc, _nombre, _descripcion, 
-		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _pagweb, NULLIF(_logo, ''), _valoracion);
+		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _pagweb, NULLIF(_logo, ''), _valoracion, _portada);
 	 SELECT @@last_insert_id 'idnegocio';
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_total` ()   BEGIN
+	SELECT
+    N.idnegocio,
+    D.iddistrito,
+    D.nomdistrito,
+    N.nombre,
+    N.direccion,
+    N.logo,
+    N.telefono
+    FROM negocios N
+    INNER JOIN distritos D On N.iddistrito = D.iddistrito;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_coordenadas` (IN `_iddistrito` INT)   BEGIN
@@ -297,6 +433,49 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_dist` (IN `_idsubcatego
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     WHERE n.idsubcategoria = _idsubcategoria
       AND n.iddistrito = _iddistrito  -- Agregamos el filtro por distrito
+      AND n.inactive_at IS NULL; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_id` (IN `_idnegocio` INT, IN `_dia_actual` VARCHAR(20))   BEGIN
+    DECLARE _hora_actual TIME;
+    DECLARE estado VARCHAR(10);
+
+    -- Obtener la hora actual
+    SET _hora_actual = CURRENT_TIME();
+
+    -- Verificar el estado del negocio
+    SELECT
+        CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM negocios n
+                INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
+                INNER JOIN horarios h ON u.idhorario = h.idhorario
+                WHERE n.idnegocio = _idnegocio
+                  AND h.dia = _dia_actual
+                  AND _hora_actual BETWEEN h.apertura AND h.cierre
+            ) THEN 'Abierto'
+            ELSE 'Cerrado'
+        END INTO estado
+    FROM dual;
+
+    -- Mostrar la información simplificada del negocio
+    SELECT 
+        n.idnegocio,
+        n.descripcion,
+        n.portada,
+        n.nombre,
+        n.facebook,
+        n.whatsapp,
+        n.instagram,
+        n.tiktok,
+        n.direccion,
+        n.pagweb,
+        n.logo,
+        n.valoracion,
+        estado AS 'Estado'
+    FROM negocios n
+    WHERE n.idnegocio = _idnegocio
       AND n.inactive_at IS NULL; 
 END$$
 
@@ -556,23 +735,81 @@ CREATE TABLE `galerias` (
 --
 
 INSERT INTO `galerias` (`idgaleria`, `idnegocio`, `rutafoto`, `create_at`, `update_at`, `inactive_at`) VALUES
-(82, 1, 'e44a3414fe5e37dc626421815334b447ceeeb741.jpg', '2024-01-24 22:34:42', NULL, NULL),
-(83, 1, '408ee2fcc882fea1ede58e20169984436773e128.jpg', '2024-01-24 22:34:42', NULL, NULL),
-(84, 1, '3d30bf9bbc0c2622fc64a5384d00e70b8de1490a.jpg', '2024-01-24 22:34:42', NULL, NULL),
-(85, 8, '6f3c4df39132b95137901edf4a723532d98902d3.jpg', '2024-01-24 22:35:59', NULL, NULL),
-(86, 8, 'f3be5ffcd4a4230753396db3d0afce93079c0066.jpg', '2024-01-24 22:35:59', NULL, NULL),
-(87, 8, '2913748f08803b21148ba20ea45eb9eb43312f0a.jpg', '2024-01-24 22:35:59', NULL, NULL),
-(88, 8, 'e1d60bbd7681997c8b8211b9656e3dceb20b301b.jpg', '2024-01-24 22:37:48', NULL, NULL),
-(89, 8, 'cb09f600bd1c9fa602b9dc764df8585a2fecaa6e.jpg', '2024-01-24 22:37:48', NULL, NULL),
-(90, 8, 'f7767af81881d726117df3d8baf55fc6722d2951.jpg', '2024-01-24 22:38:37', NULL, NULL),
-(91, 8, 'b8bd63c0f30dd90167325d148e460407e8510093.jpg', '2024-01-24 22:42:30', NULL, NULL),
-(92, 8, '5c3cce9a29bfcf671e841023c1bad81b4bed8e70.jpg', '2024-01-24 22:42:30', NULL, NULL),
-(93, 8, '9f6c26de1214c7b6abbe115302e4cd491f111083.jpg', '2024-01-24 22:42:30', NULL, NULL),
-(94, 8, '853ceb8489d1eca3932d5b14acf47678c56e53da.jpg', '2024-01-24 22:42:30', NULL, NULL),
-(95, 1, 'ced953d36e62df9257d4d6989c81030b97159ad0.jpg', '2024-01-24 22:45:05', NULL, NULL),
-(96, 1, '1c74b88fd8305c4cb3d59d733d9eaee7375a3696.jpg', '2024-01-24 22:45:32', NULL, NULL),
-(97, 10, 'df4caf29be04963f9ffbf2a955fb2c0bcfd72b1c.jpg', '2024-01-24 23:00:18', NULL, NULL),
-(98, 10, '317da71beeb55c9340c4071607411f4c292f0239.jpg', '2024-01-24 23:00:18', NULL, NULL);
+(1, 8, '0dbe4d5e8341d9e36ba82fefba1c8538ad0ec5df.jpg', '2024-01-25 00:08:09', NULL, NULL),
+(2, 8, '64d84c5173c451058ba79036f66363d03baec3ca.jpg', '2024-01-25 00:08:09', NULL, NULL),
+(3, 8, 'a721bac8617922085f893e864411795f4d314e65.jpg', '2024-01-25 00:09:13', NULL, NULL),
+(4, 8, '4dc7e179377199ae05a39dd7d71d1d5ae714b04c.jpg', '2024-01-25 00:09:13', NULL, NULL),
+(5, 8, 'bcab9c72943b657a6ff18f28b8b61776bcbf51eb.jpg', '2024-01-25 00:09:13', NULL, NULL),
+(6, 8, '7b9cedb8dd55f8e70c247fda3d79aa03ad325314.jpg', '2024-01-25 00:09:49', NULL, NULL),
+(7, 8, 'db0d4dc421328514fa0c8e889464583c1bf4e605.jpg', '2024-01-25 00:12:32', NULL, NULL),
+(8, 8, '2e78766e32002cf8e37266b8a39837013cd8a96e.jpg', '2024-01-25 00:12:49', NULL, NULL),
+(9, 8, 'f1bba2ef26bbd3758e285cdfdd5598cbb483f715.jpg', '2024-01-25 00:13:23', NULL, NULL),
+(10, 1, '7e6f57c66d5862393290bc4c42e3aff12e21c702.jpg', '2024-01-25 00:13:54', NULL, NULL),
+(11, 1, 'f89dfae97bac1998bb8cde0fd919cc2d227006ed.jpg', '2024-01-25 00:13:54', NULL, NULL),
+(12, 1, 'a2adb86900c28a3232ec2da4f10e1a3b07c307d1.jpg', '2024-01-25 00:14:26', NULL, NULL),
+(13, 1, 'a7215135914b66865965d395a174823eb71c15ae.jpg', '2024-01-25 00:14:26', NULL, NULL),
+(14, 1, '9cf1d0b5a8e1c5b929eae1bf006a22602afc7c18.jpg', '2024-01-25 00:14:26', NULL, NULL),
+(15, 1, '818e65c66cca02c752972723e97b4f3706ffeecc.jpg', '2024-01-25 00:15:07', NULL, NULL),
+(16, 1, '18d0d98dde11d56d6ec56a86051f8b2811aca78a.jpg', '2024-01-25 00:15:07', NULL, NULL),
+(17, 1, 'd7cb93cfc49396736996c3f6eca29bd128bb5e27.jpg', '2024-01-25 00:19:52', NULL, NULL),
+(18, 1, '7273e903d3266d6a64180378e8cad11a7e459dad.jpg', '2024-01-25 00:20:56', NULL, NULL),
+(19, 1, '98e69697dc12e5817c5d2912ab7cb4525d4b506c.jpg', '2024-01-25 00:20:56', NULL, NULL),
+(20, 8, '79eaded254d6c1e66efb6e1cada53c59fef25f08.jpg', '2024-01-25 01:03:31', NULL, NULL),
+(21, 8, 'cce893506084b08e095143824d9d67d31f35eba7.jpg', '2024-01-25 01:20:43', NULL, NULL),
+(22, 4, '4a9449e9a719217af151bc072f4a105976d6366f.jpg', '2024-01-25 01:25:51', NULL, NULL),
+(23, 4, '51b79dae7188a4e947a9a49b27f7728a7cc9dd10.jpg', '2024-01-25 01:27:10', NULL, NULL),
+(24, 4, '119b035f8740587293b6f618336842f5871e5f10.jpg', '2024-01-25 01:27:10', NULL, NULL),
+(25, 4, '01b6980d3d29f3d04dfda8ab41a59f000863067b.jpg', '2024-01-25 01:27:10', NULL, NULL),
+(26, 4, 'f537c6d66b451942f32317b2973e12d3317e9b09.jpg', '2024-01-25 01:27:10', NULL, NULL),
+(27, 8, '6f1fb8b0cdd07c487067fb905d9b8672be1bb790.jpg', '2024-01-25 01:52:06', NULL, NULL),
+(28, 4, 'e55eb15f97bf83d3f19799f11fc1c327a4540d4d.jpg', '2024-01-25 01:54:14', NULL, NULL),
+(29, 8, 'alo.jpg', '2024-01-25 01:55:44', NULL, NULL),
+(30, 8, 'alo.jpg', '2024-01-25 01:55:49', NULL, NULL),
+(31, 8, 'alo.jpg', '2024-01-25 01:55:51', NULL, NULL),
+(32, 8, 'alo.jpg', '2024-01-25 01:55:52', NULL, NULL),
+(33, 8, 'alo.jpg', '2024-01-25 01:55:52', NULL, NULL),
+(34, 8, 'alo.jpg', '2024-01-25 01:55:53', NULL, NULL),
+(35, 8, 'alo.jpg', '2024-01-25 01:55:54', NULL, NULL),
+(36, 8, 'alo.jpg', '2024-01-25 01:55:54', NULL, NULL),
+(37, 8, 'alo.jpg', '2024-01-25 01:55:54', NULL, NULL),
+(38, 8, 'alo.jpg', '2024-01-25 01:55:54', NULL, NULL),
+(39, 8, 'alo.jpg', '2024-01-25 01:55:55', NULL, NULL),
+(40, 8, 'alo.jpg', '2024-01-25 01:55:55', NULL, NULL),
+(41, 8, 'alo.jpg', '2024-01-25 01:55:55', NULL, NULL),
+(42, 8, 'alo.jpg', '2024-01-25 01:55:55', NULL, NULL),
+(43, 8, 'alo.jpg', '2024-01-25 01:55:55', NULL, NULL),
+(44, 8, 'alo.jpg', '2024-01-25 01:55:55', NULL, NULL),
+(45, 8, 'alo.jpg', '2024-01-25 01:56:10', NULL, NULL),
+(46, 8, 'alo.jpg', '2024-01-25 01:56:10', NULL, NULL),
+(47, 8, 'alo.jpg', '2024-01-25 01:56:10', NULL, NULL),
+(48, 8, 'alo.jpg', '2024-01-25 01:56:10', NULL, NULL),
+(49, 8, 'alo.jpg', '2024-01-25 01:56:11', NULL, NULL),
+(50, 8, 'alo.jpg', '2024-01-25 01:56:11', NULL, NULL),
+(51, 8, 'alo.jpg', '2024-01-25 01:56:11', NULL, NULL),
+(52, 8, 'alo.jpg', '2024-01-25 01:56:11', NULL, NULL),
+(53, 8, 'alo.jpg', '2024-01-25 01:56:11', NULL, NULL),
+(54, 8, 'alo.jpg', '2024-01-25 01:56:12', NULL, NULL),
+(55, 8, 'alo.jpg', '2024-01-25 01:56:12', NULL, NULL),
+(56, 8, 'alo.jpg', '2024-01-25 01:56:12', NULL, NULL),
+(57, 8, 'alo.jpg', '2024-01-25 01:56:13', NULL, NULL),
+(58, 8, 'alo.jpg', '2024-01-25 01:56:13', NULL, NULL),
+(59, 8, 'alo.jpg', '2024-01-25 01:56:13', NULL, NULL),
+(60, 8, 'alo.jpg', '2024-01-25 01:56:13', NULL, NULL),
+(61, 8, 'alo.jpg', '2024-01-25 01:56:13', NULL, NULL),
+(62, 8, 'alo.jpg', '2024-01-25 01:56:14', NULL, NULL),
+(63, 8, 'alo.jpg', '2024-01-25 01:56:14', NULL, NULL),
+(64, 8, 'alo.jpg', '2024-01-25 01:56:14', NULL, NULL),
+(65, 8, 'alo.jpg', '2024-01-25 01:56:15', NULL, NULL),
+(66, 8, 'alo.jpg', '2024-01-25 01:56:15', NULL, NULL),
+(67, 8, 'alo.jpg', '2024-01-25 01:56:15', NULL, NULL),
+(68, 8, 'alo.jpg', '2024-01-25 01:56:15', NULL, NULL),
+(69, 8, 'alo.jpg', '2024-01-25 01:56:16', NULL, NULL),
+(70, 8, 'alo.jpg', '2024-01-25 01:56:16', NULL, NULL),
+(71, 8, 'alo.jpg', '2024-01-25 01:56:16', NULL, NULL),
+(72, 8, 'alo.jpg', '2024-01-25 01:56:16', NULL, NULL),
+(73, 4, 'e33a99e8ff10d15cff2804148be10a1c6e9f4ee5.jpg', '2024-01-25 01:59:48', NULL, NULL),
+(74, 4, 'cb9beceded52184c07d7c5a9bc6fe63b6c7dca08.jpg', '2024-01-25 02:00:18', NULL, NULL),
+(75, 11, 'ad9f5b15f7d99c1bc0231eafa8ba15f9e73964ec.jpg', '2024-01-26 00:44:53', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -595,13 +832,13 @@ CREATE TABLE `horarios` (
 --
 
 INSERT INTO `horarios` (`idhorario`, `apertura`, `cierre`, `dia`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, '10:00:00', '16:00:00', 'lunes', '2024-01-19 23:04:01', NULL, NULL),
-(2, '07:45:00', '16:45:00', 'martes', '2024-01-19 23:04:01', NULL, NULL),
-(3, '11:00:00', '15:30:00', 'miercoles', '2024-01-19 23:04:01', NULL, NULL),
-(4, '09:00:00', '16:00:00', 'jueves', '2024-01-19 23:04:01', NULL, NULL),
-(5, '11:30:00', '16:00:00', 'Viernes', '2024-01-19 23:04:01', NULL, NULL),
-(6, '07:45:00', '16:45:00', 'Sábado', '2024-01-19 23:04:01', NULL, NULL),
-(7, '08:30:00', '15:30:00', 'Domingo', '2024-01-19 23:04:01', NULL, NULL);
+(1, '10:00:00', '16:00:00', 'lunes', '2024-01-31 00:37:38', NULL, NULL),
+(2, '07:45:00', '16:45:00', 'martes', '2024-01-31 00:37:38', NULL, NULL),
+(3, '11:00:00', '15:30:00', 'miercoles', '2024-01-31 00:37:38', NULL, NULL),
+(4, '09:00:00', '16:00:00', 'jueves', '2024-01-31 00:37:38', NULL, NULL),
+(5, '11:30:00', '16:00:00', 'Viernes', '2024-01-31 00:37:38', NULL, NULL),
+(6, '07:45:00', '16:45:00', 'Sábado', '2024-01-31 00:37:38', NULL, NULL),
+(7, '08:30:00', '15:30:00', 'Domingo', '2024-01-31 00:37:38', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -629,19 +866,26 @@ CREATE TABLE `negocios` (
   `valoracion` int(11) DEFAULT NULL,
   `create_at` datetime DEFAULT current_timestamp(),
   `update_at` datetime DEFAULT NULL,
-  `inactive_at` datetime DEFAULT NULL
+  `inactive_at` datetime DEFAULT NULL,
+  `portada` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `negocios`
 --
 
-INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idpersona`, `idsubcategoria`, `nroruc`, `nombre`, `descripcion`, `direccion`, `telefono`, `correo`, `facebook`, `whatsapp`, `instagram`, `tiktok`, `pagweb`, `logo`, `valoracion`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 1, 3, 1, '98765432112', 'xd', 'xd', 'xd', '987654321', 'xd@gmail.com', 'asdasd', '987654321', 'asd', 'asd', 'xd.com', '617001e13c7702b16ad5769e4a52f95a5fba4e82.jpg', 5, '2024-01-23 22:42:08', NULL, NULL),
-(4, 1, 3, 5, '987654321', 'asdasdasd', 'asd', 'asdasd', '96454631', 'asdasd@gmail.com', 'asdasd', '96454631', 'asdasd', 'asdasd', 'asdasd', 'f36a4bdf122a7bbdf454dde2188fc4b6f24c6021.jpg', 1, '2024-01-23 22:49:07', NULL, NULL),
-(8, 4, 1, 7, '45612345678', 'Alonso', 'Alonsito', 'alonsio av', '987654321', 'alonso@gmail.com', 'asda oficial', '987654321', 'asdasd', 'asdasd', 'asdasd.com', NULL, 5, '2024-01-23 23:01:02', NULL, NULL),
-(9, 1, 3, 7, '45678912345', 'asdasd', 'asd', 'asd', '685478951', 'alop@gmail.com', 'asd', '685478951', 'asdasd', 'asdasd', 'asd.com', '63849e20118f973fc8dc622744436c98730f043f.jpg', 0, '2024-01-23 23:06:04', NULL, NULL),
-(10, 1, 3, 2, '174544545454', 'helou', 'helou', 'heluo', '946989938', '946989938@gmail.com', '946989938', '946989938', '946989938', '946989938', '946989938.com', '4c4db88f726a4762efcc96db9b6970ca3b8c8cb9.jpg', 4, '2024-01-24 10:08:41', NULL, NULL);
+INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idpersona`, `idsubcategoria`, `nroruc`, `nombre`, `descripcion`, `direccion`, `telefono`, `correo`, `facebook`, `whatsapp`, `instagram`, `tiktok`, `pagweb`, `logo`, `valoracion`, `create_at`, `update_at`, `inactive_at`, `portada`) VALUES
+(1, 1, 3, 1, '98765432112', 'xd', 'xd', 'xd', '987654321', 'xd@gmail.com', 'asdasd', '987654321', 'asd', 'asd', 'xd.com', '617001e13c7702b16ad5769e4a52f95a5fba4e82.jpg', 5, '2024-01-23 22:42:08', NULL, NULL, NULL),
+(4, 1, 3, 5, '987654321', 'asdasdasd', 'asd', 'asdasd', '96454631', 'asdasd@gmail.com', 'asdasd', '96454631', 'asdasd', 'asdasd', 'asdasd', 'f36a4bdf122a7bbdf454dde2188fc4b6f24c6021.jpg', 1, '2024-01-23 22:49:07', NULL, NULL, NULL),
+(8, 4, 1, 7, '45612345678', 'Alonso', 'Alonsito', 'alonsio av', '987654321', 'alonso@gmail.com', 'asda oficial', '987654321', 'asdasd', 'asdasd', 'asdasd.com', NULL, 5, '2024-01-23 23:01:02', NULL, NULL, NULL),
+(9, 1, 3, 7, '45678912345', 'asdasd', 'asd', 'asd', '685478951', 'alop@gmail.com', 'asd', '685478951', 'asdasd', 'asdasd', 'asd.com', '63849e20118f973fc8dc622744436c98730f043f.jpg', 0, '2024-01-23 23:06:04', NULL, NULL, NULL),
+(10, 1, 3, 2, '174544545454', 'helou', 'helou', 'heluo', '946989938', '946989938@gmail.com', '946989938', '946989938', '946989938', '946989938', '946989938.com', '4c4db88f726a4762efcc96db9b6970ca3b8c8cb9.jpg', 4, '2024-01-24 10:08:41', NULL, NULL, NULL),
+(11, 7, 1, 9, '12345662901', 'raton', 'comida xd', 'Av. Principal 122', '947654321', 'onfo@tiendatech.com', NULL, NULL, NULL, NULL, NULL, NULL, 2, '2024-01-26 00:44:12', NULL, NULL, NULL),
+(12, 7, 3, 9, '96458454654', 'chiquitin', 'asd', 'hola', '964587213', 'asdasd@gmail.com', 'asd', '964587213', 'asdas', 'asdasd', 'asdasd.com', '50feac573577629b9066c8811c7ba79980cfcfd3.jpg', 2, '2024-01-26 00:46:53', NULL, NULL, NULL),
+(13, 2, 3, 5, '11111', 'pipipi', 'asdxd', 'xd', '8', 'a@gmail.com', 'asd', '9', 'asd', 's', 'asd', '212da58332722654332510401ac9b8719e4f97fd.jpg', 4, '2024-01-27 00:32:00', NULL, NULL, NULL),
+(14, 1, 3, 5, '77777777777', 'asxx', 'asd', 'asdasd', '77777777777', 'asda@gmail.com', 'asdasd', '77777777777', 'asdasd', 'asd', 'asd.com', '20129974a0f6944d2dfa06c41ed7d065c919e7cb.jpg', 0, '2024-01-29 22:42:26', NULL, NULL, NULL),
+(15, 1, 3, 1, '98765402355', 'www', 'jijiji', 'asdas', '985647132', 'asdsd@gmail.com', 'asdasd', '985647132', 'xdd', 'xdd', 'asdsa.com', '6e1441eeb796fa8a3c069f156fee5dc1acdeb1ce.jpg', 4, '2024-01-29 22:44:40', NULL, NULL, '6e1441eeb796fa8a3c069f156fee5dc1acdeb1ce.jpg'),
+(16, 1, 3, 9, '12345678912', 'Jizui', 'Negocio escalable a partir de comida japonesa y para lo más rico del Perú, aprovecha nuestras promociones de fin de semana.', 'asdas', '954785632', 'jizui@gmail.com', 'dsdsd', '954785632', 'asdasd', 'asdasd', 'asdasd', '8e93b3438a035a59469177c182942c35a9e2a58c.jpg', 5, '2024-01-29 23:30:58', NULL, NULL, '8e93b3438a035a59469177c182942c35a9e2a58c.jpg');
 
 -- --------------------------------------------------------
 
@@ -755,7 +999,14 @@ INSERT INTO `ubicaciones` (`idubicacion`, `idhorario`, `idnegocio`, `latitud`, `
 (3, 4, 2, -13.4029212, -76.1600548, '2024-01-20 02:17:42', NULL, NULL),
 (4, 5, 3, -13.4053329, -76.1272912, '2024-01-20 02:17:42', NULL, NULL),
 (5, 6, 4, -13.4182674, -76.1349002, '2024-01-20 02:17:42', NULL, NULL),
-(6, 3, 5, -13.4047002, -76.1582921, '2024-01-21 23:26:33', NULL, NULL);
+(6, 3, 5, -13.4047002, -76.1582921, '2024-01-21 23:26:33', NULL, NULL),
+(7, 1, 16, -13.4176253, -76.1345425, '2024-01-30 00:56:23', NULL, NULL),
+(15, 2, 1, -13.4176253, -76.1345425, '2024-01-31 00:40:13', NULL, NULL),
+(16, 3, 1, -13.4176253, -76.1345425, '2024-01-31 00:46:06', NULL, NULL),
+(17, 4, 1, -13.4176253, -76.1345425, '2024-01-31 00:46:51', NULL, NULL),
+(18, 5, 1, -13.4176253, -76.1345425, '2024-01-31 00:50:56', NULL, NULL),
+(19, 6, 1, -13.4176253, -76.1345425, '2024-01-31 00:50:56', NULL, NULL),
+(20, 7, 1, -13.4176253, -76.1345425, '2024-01-31 00:50:56', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -911,7 +1162,7 @@ ALTER TABLE `distritos`
 -- AUTO_INCREMENT de la tabla `galerias`
 --
 ALTER TABLE `galerias`
-  MODIFY `idgaleria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `idgaleria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT de la tabla `horarios`
@@ -923,7 +1174,7 @@ ALTER TABLE `horarios`
 -- AUTO_INCREMENT de la tabla `negocios`
 --
 ALTER TABLE `negocios`
-  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
@@ -947,7 +1198,7 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de la tabla `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
-  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

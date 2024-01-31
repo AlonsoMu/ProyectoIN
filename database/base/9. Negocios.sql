@@ -579,12 +579,15 @@ BEGIN
     DECLARE _longitud DOUBLE;
 
     SELECT latitud, longitud
-    INTO _latitud, _longitud
-    FROM ubicaciones
-    WHERE idnegocio = _idnegocio
-    AND inactive_at IS NULL;
+	INTO _latitud, _longitud
+	FROM ubicaciones
+	WHERE idnegocio = _idnegocio
+	AND inactive_at IS NULL
+	LIMIT 1;
+
 
     -- Mostrar los resultados
     SELECT _latitud AS latitud_obtenida, _longitud AS longitud_obtenida;
 END $$
+CALL negocioMap(1);
 	
