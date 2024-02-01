@@ -296,6 +296,7 @@ if(isset($_GET['id'])){
     </script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
+        const imagenPortadaAlterna = '../img/notFound.jpg'; // Ruta de la imagen alternativa
 
         function getInfo() {
           const parametros = new FormData();
@@ -313,11 +314,22 @@ if(isset($_GET['id'])){
 
             // Actualizar la portada
             const portadaSection = document.getElementById('portadaSection');
-            portadaSection.style.backgroundImage = `url('../imgPortada/${negocio.portada}')`;
+
+            if (negocio.portada) {
+              portadaSection.style.backgroundImage = `url('../imgPortada/${negocio.portada}')`;
+            } else {
+              portadaSection.style.backgroundImage = `url(${imagenPortadaAlterna})`;
+            }
 
             const logoImg = document.getElementById('logoNegocio');
             // Concatenar la ruta de la carpeta con el nombre del archivo del logo
-            logoImg.src = `../imgLogos/${negocio.logo}`;
+            if (negocio.logo) {
+              // Si hay una imagen de logo, utiliza esa
+              logoImg.src = `../imgLogos/${negocio.logo}`;
+            } else {
+              // Si no hay una imagen de logo, utiliza la imagen por defecto para logos
+              logoImg.src = `../galeria/image.svg`;
+            }
 
             // Portada
             document.querySelector('.cuadro-encima2 .text-sting').textContent =  `Hoy ${negocio.Estado}`;
@@ -400,111 +412,149 @@ if(isset($_GET['id'])){
       });
     </script>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        function carrusel() {
-          const parametros = new FormData();
-          parametros.append("operacion", "listar");
-          parametros.append("idnegocio", idnegocio);
+<script>
 
-          fetch(`../controllers/galeria.controller.php`, {
-            method: "POST",
-            body: parametros
-          })
-          .then(respuesta => respuesta.json())
-          .then(datos => {
-            const subcarruselDiv = document.getElementById("galeria-carousel");
-            // Limpiar el contenido existente
-            subcarruselDiv.innerHTML = "";
-            // Agregar estructura de Owl Carousel
-            const owlCarousel = document.createElement("div");
-            owlCarousel.className = "owl-carousel owl-2 owl-loaded owl-drag";
-            owlCarousel.id = "galeria-carousel";
-            const owlStageOuter = document.createElement("div");
-            owlStageOuter.className = "owl-stage-outer";
-            owlStageOuter.style = "width: 100%; overflow: hidden;";  // Añadido overflow: hidden
-            const owlStage = document.createElement("div");
-            owlStage.className = "owl-stage";
-            owlStage.style = "transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 10000%; overflow: hidden;";  //     Ajusta el valor de width según sea necesario
-            datos.forEach(element => {
-              const owlItem = document.createElement("div");
-              owlItem.className = "owl-item";
-              owlItem.style = "width: 283.333px; margin-right: 20px;";
+document.addEventListener("DOMContentLoaded", () => {
 
-              const media29101 = document.createElement("div");
-              media29101.className = "media-29101";
+  function carrusel() {
 
-              const imgLink = document.createElement("a");
-              imgLink.href = "#";
+    const parametros = new FormData();
 
-              const imgElement = document.createElement("img");
-              imgElement.src = `../imgGaleria/${element.rutafoto}`;
-              imgElement.alt = "Image";
-              imgElement.className = "img-fluid";
-              imgElement.style = "width: 300px; height: 200px; object-fit: cover;"; // Ajuste del tamaño de la imagen
+    parametros.append("operacion", "listar");
 
-              imgLink.appendChild(imgElement);
-              media29101.appendChild(imgLink);
-              owlItem.appendChild(media29101);
-              owlStage.appendChild(owlItem);
-            });
+    parametros.append("idnegocio", idnegocio);
 
-            owlStageOuter.appendChild(owlStage);
-            owlCarousel.appendChild(owlStageOuter);
+    fetch(`../controllers/galeria.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+    .then(respuesta => respuesta.json())
+    .then(datos => {
 
-            subcarruselDiv.appendChild(owlCarousel);
+      const subcarruselDiv = document.getElementById("galeria-carousel");
 
-            // Inicializar Owl Carousel después de cargar las imágenes
-            if ($('.owl-2').length > 0) {
-              $('.owl-2').owlCarousel({
-                center: false,
-                items: 1,
-                loop: true,
-                stagePadding: 0,
-                margin: 20,
-                smartSpeed: 1000,
-                autoplay: true,
-                nav: true,
-                dots: true,
-                pauseOnHover: false,
-                responsive: {
-                  600: {
-                    margin: 20,
-                    nav: true,
-                    items: 2
-                  },
-                  1000: {
-                    margin: 20,
-                    stagePadding: 0,
-                    nav: true,
-                    items: 3
-                  }
-                }
-              });
-            }
+      // Limpiar el contenido existente
+      subcarruselDiv.innerHTML = "";
 
-            // Agregar controles y paginación al DOM
-            const owlNav = document.createElement("div");
-            owlNav.className = "owl-nav";
-            owlNav.innerHTML = '<button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button>' +
-            '<button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button>';
+      // Agregar estructura de Owl Carousel
+      const owlCarousel = document.createElement("div");
+      owlCarousel.className = "owl-carousel owl-2 owl-loaded owl-drag";
+      owlCarousel.id = "galeria-carousel";
 
-            const owlDots = document.createElement("div");
-            owlDots.className = "owl-dots";
-            // Agregar más botones de paginación según la cantidad de elementos en el carrusel
+      const owlStageOuter = document.createElement("div");
+      owlStageOuter.className = "owl-stage-outer";
+      owlStageOuter.style = "width: 100%; overflow: hidden;";
 
-            subcarruselDiv.appendChild(owlNav);
-            subcarruselDiv.appendChild(owlDots);
-          })
-          .catch(e => {
-            console.error(e);
-          });
+      const owlStage = document.createElement("div");
+      owlStage.className = "owl-stage";
+      owlStage.style = "transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 10000%; overflow: hidden;";
+
+      if (datos.length === 0) {
+        // Agregar imagen alternativa tres veces si no hay imágenes
+        for (let i = 0; i < 3; i++) {
+          const owlItem = document.createElement("div");
+          owlItem.className = "owl-item";
+          owlItem.style = "width: 283.333px; margin-right: 20px;";
+
+          const media29101 = document.createElement("div");
+          media29101.className = "media-29101";
+
+          const imgLink = document.createElement("a");
+          imgLink.href = "#";
+
+          const imgElement = document.createElement("img");
+          imgElement.src = "../galeria/image.svg"; // Ruta de la imagen alternativa
+          imgElement.alt = "Image";
+          imgElement.className = "img-fluid";
+          imgElement.style = "width: 300px; height: 200px; object-fit: cover;";
+
+          imgLink.appendChild(imgElement);
+          media29101.appendChild(imgLink);
+          owlItem.appendChild(media29101);
+          owlStage.appendChild(owlItem);
         }
+      } else {
+        datos.forEach(element => {
+          const owlItem = document.createElement("div");
+          owlItem.className = "owl-item";
+          owlItem.style = "width: 283.333px; margin-right: 20px;";
 
-        carrusel();
-        // Llamar a la función para obtener categorías al cargar la página
-      });
-    </script>
+          const media29101 = document.createElement("div");
+          media29101.className = "media-29101";
+
+          const imgLink = document.createElement("a");
+          imgLink.href = "#";
+
+          const imgElement = document.createElement("img");
+          imgElement.src = `../imgGaleria/${element.rutafoto}`;
+          imgElement.alt = "Image";
+          imgElement.className = "img-fluid";
+          imgElement.style = "width: 300px; height: 200px; object-fit: cover;";
+
+          imgLink.appendChild(imgElement);
+          media29101.appendChild(imgLink);
+          owlItem.appendChild(media29101);
+          owlStage.appendChild(owlItem);
+        });
+      }
+
+      owlStageOuter.appendChild(owlStage);
+      owlCarousel.appendChild(owlStageOuter);
+      subcarruselDiv.appendChild(owlCarousel);
+
+      // Inicializar Owl Carousel después de cargar las imágenes
+      if ($('.owl-2').length > 0) {
+        $('.owl-2').owlCarousel({
+          center: false,
+          items: 1,
+          loop: true,
+          stagePadding: 0,
+          margin: 20,
+          smartSpeed: 1000,
+          autoplay: true,
+          nav: true,
+          dots: true,
+          pauseOnHover: false,
+          responsive: {
+            600: {
+              margin: 20,
+              nav: true,
+              items: 2
+            },
+            1000: {
+              margin: 20,
+              stagePadding: 0,
+              nav: true,
+              items: 3
+            }
+          }
+        });
+      }
+
+      // Agregar controles y paginación al DOM
+      const owlNav = document.createElement("div");
+      owlNav.className = "owl-nav";
+      owlNav.innerHTML = '<button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button>' +
+        '<button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button>';
+
+      const owlDots = document.createElement("div");
+      owlDots.className = "owl-dots";
+      // Agregar más botones de paginación según la cantidad de elementos en el carrusel
+      subcarruselDiv.appendChild(owlNav);
+      subcarruselDiv.appendChild(owlDots);
+
+    })
+    .catch(e => {
+      console.error(e);
+    });
+  }
+
+  carrusel();
+
+});
+
+</script>
+
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
