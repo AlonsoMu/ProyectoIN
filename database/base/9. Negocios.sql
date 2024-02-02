@@ -329,15 +329,17 @@ BEGIN
         n.direccion,
         d.nomdistrito,
         n.telefono,
+        n.logo,
         estado AS 'Estado'
     FROM negocios n
     INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     WHERE n.idsubcategoria = _idsubcategoria
-      AND n.inactive_at IS NULL; 
+      AND n.inactive_at IS NULL
+      ; 
 END $$
-CALL spu_obtener_nyh(7, 'viernes');
+CALL spu_obtener_nyh(1, 'viernes');
 
 DELIMITER $$
 CREATE PROCEDURE spu_obtener_dist(
@@ -381,6 +383,7 @@ BEGIN
         n.direccion,
         d.nomdistrito,
         n.telefono,
+        n.logo,
         estado AS 'Estado'
     FROM negocios n
     INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
@@ -388,11 +391,12 @@ BEGIN
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     WHERE n.idsubcategoria = _idsubcategoria
       AND n.iddistrito = _iddistrito  -- Agregamos el filtro por distrito
-      AND n.inactive_at IS NULL; 
+      AND n.inactive_at IS NULL
+	  LIMIT 1; 
 END $$
 
 
-CALL spu_obtener_dist(5, 7, 'viernes');
+CALL spu_obtener_dist(1, 1, 'viernes');
 
 SELECT * FROM galerias;
 SELECT * FROM ubicaciones;
@@ -464,6 +468,7 @@ BEGIN
         u.latitud,
         u.longitud,
         n.telefono,
+        n.logo,
         estado AS 'Estado'
     FROM negocios n
     INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio

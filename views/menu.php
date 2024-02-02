@@ -412,149 +412,144 @@ if(isset($_GET['id'])){
       });
     </script>
 
-<script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener("DOMContentLoaded", () => {
+        function carrusel() {
 
-  function carrusel() {
+          const parametros = new FormData();
+          parametros.append("operacion", "listar");
+          parametros.append("idnegocio", idnegocio);
 
-    const parametros = new FormData();
+          fetch(`../controllers/galeria.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
 
-    parametros.append("operacion", "listar");
+            const subcarruselDiv = document.getElementById("galeria-carousel");
 
-    parametros.append("idnegocio", idnegocio);
+            // Limpiar el contenido existente
+            subcarruselDiv.innerHTML = "";
 
-    fetch(`../controllers/galeria.controller.php`, {
-      method: "POST",
-      body: parametros
-    })
-    .then(respuesta => respuesta.json())
-    .then(datos => {
+            // Agregar estructura de Owl Carousel
+            const owlCarousel = document.createElement("div");
+            owlCarousel.className = "owl-carousel owl-2 owl-loaded owl-drag";
+            owlCarousel.id = "galeria-carousel";
 
-      const subcarruselDiv = document.getElementById("galeria-carousel");
+            const owlStageOuter = document.createElement("div");
+            owlStageOuter.className = "owl-stage-outer";
+            owlStageOuter.style = "width: 100%; overflow: hidden;";
 
-      // Limpiar el contenido existente
-      subcarruselDiv.innerHTML = "";
+            const owlStage = document.createElement("div");
+            owlStage.className = "owl-stage";
+            owlStage.style = "transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 10000%; overflow: hidden;";
 
-      // Agregar estructura de Owl Carousel
-      const owlCarousel = document.createElement("div");
-      owlCarousel.className = "owl-carousel owl-2 owl-loaded owl-drag";
-      owlCarousel.id = "galeria-carousel";
+            if (datos.length === 0) {
+              // Agregar imagen alternativa tres veces si no hay imágenes
+              for (let i = 0; i < 3; i++) {
+                const owlItem = document.createElement("div");
+                owlItem.className = "owl-item";
+                owlItem.style = "width: 283.333px; margin-right: 20px;";
 
-      const owlStageOuter = document.createElement("div");
-      owlStageOuter.className = "owl-stage-outer";
-      owlStageOuter.style = "width: 100%; overflow: hidden;";
+                const media29101 = document.createElement("div");
+                media29101.className = "media-29101";
 
-      const owlStage = document.createElement("div");
-      owlStage.className = "owl-stage";
-      owlStage.style = "transform: translate3d(0px, 0px, 0px); transition: all 1s ease 0s; width: 10000%; overflow: hidden;";
+                const imgLink = document.createElement("a");
+                imgLink.href = "#";
 
-      if (datos.length === 0) {
-        // Agregar imagen alternativa tres veces si no hay imágenes
-        for (let i = 0; i < 3; i++) {
-          const owlItem = document.createElement("div");
-          owlItem.className = "owl-item";
-          owlItem.style = "width: 283.333px; margin-right: 20px;";
+                const imgElement = document.createElement("img");
+                imgElement.src = "../galeria/image.svg"; // Ruta de la imagen alternativa
+                imgElement.alt = "Image";
+                imgElement.className = "img-fluid";
+                imgElement.style = "width: 300px; height: 200px; object-fit: cover;";
 
-          const media29101 = document.createElement("div");
-          media29101.className = "media-29101";
+                imgLink.appendChild(imgElement);
+                media29101.appendChild(imgLink);
+                owlItem.appendChild(media29101);
+                owlStage.appendChild(owlItem);
+              }
+            } else {
+              datos.forEach(element => {
+                const owlItem = document.createElement("div");
+                owlItem.className = "owl-item";
+                owlItem.style = "width: 283.333px; margin-right: 20px;";
 
-          const imgLink = document.createElement("a");
-          imgLink.href = "#";
+                const media29101 = document.createElement("div");
+                media29101.className = "media-29101";
 
-          const imgElement = document.createElement("img");
-          imgElement.src = "../galeria/image.svg"; // Ruta de la imagen alternativa
-          imgElement.alt = "Image";
-          imgElement.className = "img-fluid";
-          imgElement.style = "width: 300px; height: 200px; object-fit: cover;";
+                const imgLink = document.createElement("a");
+                imgLink.href = "#";
 
-          imgLink.appendChild(imgElement);
-          media29101.appendChild(imgLink);
-          owlItem.appendChild(media29101);
-          owlStage.appendChild(owlItem);
-        }
-      } else {
-        datos.forEach(element => {
-          const owlItem = document.createElement("div");
-          owlItem.className = "owl-item";
-          owlItem.style = "width: 283.333px; margin-right: 20px;";
+                const imgElement = document.createElement("img");
+                imgElement.src = `../imgGaleria/${element.rutafoto}`;
+                imgElement.alt = "Image";
+                imgElement.className = "img-fluid";
+                imgElement.style = "width: 300px; height: 200px; object-fit: cover;";
 
-          const media29101 = document.createElement("div");
-          media29101.className = "media-29101";
-
-          const imgLink = document.createElement("a");
-          imgLink.href = "#";
-
-          const imgElement = document.createElement("img");
-          imgElement.src = `../imgGaleria/${element.rutafoto}`;
-          imgElement.alt = "Image";
-          imgElement.className = "img-fluid";
-          imgElement.style = "width: 300px; height: 200px; object-fit: cover;";
-
-          imgLink.appendChild(imgElement);
-          media29101.appendChild(imgLink);
-          owlItem.appendChild(media29101);
-          owlStage.appendChild(owlItem);
-        });
-      }
-
-      owlStageOuter.appendChild(owlStage);
-      owlCarousel.appendChild(owlStageOuter);
-      subcarruselDiv.appendChild(owlCarousel);
-
-      // Inicializar Owl Carousel después de cargar las imágenes
-      if ($('.owl-2').length > 0) {
-        $('.owl-2').owlCarousel({
-          center: false,
-          items: 1,
-          loop: true,
-          stagePadding: 0,
-          margin: 20,
-          smartSpeed: 1000,
-          autoplay: true,
-          nav: true,
-          dots: true,
-          pauseOnHover: false,
-          responsive: {
-            600: {
-              margin: 20,
-              nav: true,
-              items: 2
-            },
-            1000: {
-              margin: 20,
-              stagePadding: 0,
-              nav: true,
-              items: 3
+                imgLink.appendChild(imgElement);
+                media29101.appendChild(imgLink);
+                owlItem.appendChild(media29101);
+                owlStage.appendChild(owlItem);
+              });
             }
-          }
-        });
-      }
 
-      // Agregar controles y paginación al DOM
-      const owlNav = document.createElement("div");
-      owlNav.className = "owl-nav";
-      owlNav.innerHTML = '<button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button>' +
-        '<button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button>';
+            owlStageOuter.appendChild(owlStage);
+            owlCarousel.appendChild(owlStageOuter);
+            subcarruselDiv.appendChild(owlCarousel);
 
-      const owlDots = document.createElement("div");
-      owlDots.className = "owl-dots";
-      // Agregar más botones de paginación según la cantidad de elementos en el carrusel
-      subcarruselDiv.appendChild(owlNav);
-      subcarruselDiv.appendChild(owlDots);
+            // Inicializar Owl Carousel después de cargar las imágenes
+            if ($('.owl-2').length > 0) {
+              $('.owl-2').owlCarousel({
+                center: false,
+                items: 1,
+                loop: true,
+                stagePadding: 0,
+                margin: 20,
+                smartSpeed: 1000,
+                autoplay: true,
+                nav: true,
+                dots: true,
+                pauseOnHover: false,
+                responsive: {
+                  600: {
+                    margin: 20,
+                    nav: true,
+                    items: 2
+                  },
+                  1000: {
+                    margin: 20,
+                    stagePadding: 0,
+                    nav: true,
+                    items: 3
+                  }
+                }
+              });
+            }
 
-    })
-    .catch(e => {
-      console.error(e);
-    });
-  }
+            // Agregar controles y paginación al DOM
+            const owlNav = document.createElement("div");
+            owlNav.className = "owl-nav";
+            owlNav.innerHTML = '<button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button>' +
+              '<button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button>';
 
-  carrusel();
+            const owlDots = document.createElement("div");
+            owlDots.className = "owl-dots";
+            // Agregar más botones de paginación según la cantidad de elementos en el carrusel
+            subcarruselDiv.appendChild(owlNav);
+            subcarruselDiv.appendChild(owlDots);
 
-});
+          })
+          .catch(e => {
+            console.error(e);
+          });
+        }
 
-</script>
+        carrusel();
 
+      });
+    </script>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {

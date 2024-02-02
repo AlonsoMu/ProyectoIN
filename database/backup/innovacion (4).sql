@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-01-2024 a las 07:09:01
+-- Tiempo de generación: 02-02-2024 a las 04:53:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -271,6 +271,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_busqueda` (IN `_valor`
         u.latitud,
         u.longitud,
         n.telefono,
+        n.logo,
         estado AS 'Estado'
     FROM negocios n
     INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
@@ -426,6 +427,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_dist` (IN `_idsubcatego
         n.direccion,
         d.nomdistrito,
         n.telefono,
+        n.logo,
         estado AS 'Estado'
     FROM negocios n
     INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
@@ -433,7 +435,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_dist` (IN `_idsubcatego
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     WHERE n.idsubcategoria = _idsubcategoria
       AND n.iddistrito = _iddistrito  -- Agregamos el filtro por distrito
-      AND n.inactive_at IS NULL; 
+      AND n.inactive_at IS NULL
+	  LIMIT 1; 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_id` (IN `_idnegocio` INT, IN `_dia_actual` VARCHAR(20))   BEGIN
@@ -515,13 +518,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_obtener_nyh` (IN `_idsubcategor
         n.direccion,
         d.nomdistrito,
         n.telefono,
+        n.logo,
         estado AS 'Estado'
     FROM negocios n
     INNER JOIN ubicaciones u ON n.idnegocio = u.idnegocio
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     WHERE n.idsubcategoria = _idsubcategoria
-      AND n.inactive_at IS NULL; 
+      AND n.inactive_at IS NULL
+      ; 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_personas_buscar` (IN `nombre_apellido` VARCHAR(100))   BEGIN
@@ -875,7 +880,7 @@ CREATE TABLE `negocios` (
 --
 
 INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idpersona`, `idsubcategoria`, `nroruc`, `nombre`, `descripcion`, `direccion`, `telefono`, `correo`, `facebook`, `whatsapp`, `instagram`, `tiktok`, `pagweb`, `logo`, `valoracion`, `create_at`, `update_at`, `inactive_at`, `portada`) VALUES
-(1, 1, 3, 1, '98765432112', 'xd', 'xd', 'xd', '987654321', 'xd@gmail.com', 'asdasd', '987654321', 'asd', 'asd', 'xd.com', '617001e13c7702b16ad5769e4a52f95a5fba4e82.jpg', 5, '2024-01-23 22:42:08', NULL, NULL, NULL),
+(1, 1, 3, 1, '98765432112', 'xd', 'xd', 'xd', '987654321', 'xd@gmail.com', 'asdasd', '987654321', 'asd', 'asd', 'xd.com', '19b23f0e72ddde495dceeb06a436d897efe0a2db.jpg', 5, '2024-01-23 22:42:08', NULL, NULL, NULL),
 (4, 1, 3, 5, '987654321', 'asdasdasd', 'asd', 'asdasd', '96454631', 'asdasd@gmail.com', 'asdasd', '96454631', 'asdasd', 'asdasd', 'asdasd', 'f36a4bdf122a7bbdf454dde2188fc4b6f24c6021.jpg', 1, '2024-01-23 22:49:07', NULL, NULL, NULL),
 (8, 4, 1, 7, '45612345678', 'Alonso', 'Alonsito', 'alonsio av', '987654321', 'alonso@gmail.com', 'asda oficial', '987654321', 'asdasd', 'asdasd', 'asdasd.com', NULL, 5, '2024-01-23 23:01:02', NULL, NULL, NULL),
 (9, 1, 3, 7, '45678912345', 'asdasd', 'asd', 'asd', '685478951', 'alop@gmail.com', 'asd', '685478951', 'asdasd', 'asdasd', 'asd.com', '63849e20118f973fc8dc622744436c98730f043f.jpg', 0, '2024-01-23 23:06:04', NULL, NULL, NULL),
@@ -1006,7 +1011,9 @@ INSERT INTO `ubicaciones` (`idubicacion`, `idhorario`, `idnegocio`, `latitud`, `
 (17, 4, 1, -13.4176253, -76.1345425, '2024-01-31 00:46:51', NULL, NULL),
 (18, 5, 1, -13.4176253, -76.1345425, '2024-01-31 00:50:56', NULL, NULL),
 (19, 6, 1, -13.4176253, -76.1345425, '2024-01-31 00:50:56', NULL, NULL),
-(20, 7, 1, -13.4176253, -76.1345425, '2024-01-31 00:50:56', NULL, NULL);
+(20, 7, 1, -13.4176253, -76.1345425, '2024-01-31 00:50:56', NULL, NULL),
+(21, 2, 9, -13.4176256, -76.1345428, '2024-02-01 21:55:03', NULL, NULL),
+(22, 1, 8, -13.4639408, -76.1741061, '2024-02-01 21:55:03', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1198,7 +1205,7 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de la tabla `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
-  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

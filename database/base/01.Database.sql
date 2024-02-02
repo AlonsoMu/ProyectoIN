@@ -139,7 +139,7 @@ CREATE TABLE negocios(
 )ENGINE = INNODB;
 ALTER TABLE negocios ADD COLUMN portada VARCHAR(200) NULL;
 
-SELECT * FROM negocios;
+SELECT * FROM ubicaciones;
 SELECT * FROM negocios;
 -- ------------------------------------------------------------------------------------------------
 -- 									| TABLA GALERIAS |

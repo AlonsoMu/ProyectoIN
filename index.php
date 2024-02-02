@@ -36,7 +36,7 @@
         <div class="container">
           <div class="row align-items-center">
             <div class="col-2">
-              <h1 class="my-0 site-logo"><a href="index.html"><img src="./img/sting.svg" alt="" height="40" /></a></h1>
+              <h1 class="my-0 site-logo"><a href="./index.php"><img src="./img/sting.svg" alt="" height="40" /></a></h1>
             </div>
             <div class="col-10">
               <nav class="site-navigation text-right" role="navigation">
@@ -116,7 +116,7 @@
     <div id="mapDiv" class="mt-5"></div>
 
     <!-- FOOTER CARRUSEL -->
-    <div class="w-100 p-3 background_cote mt-5">
+    <div class="w-100 p-3 background_cote mt-4">
       <section class="container-920">
         <div class="container text-center my-3">
           <!-- IMAGENES -->
@@ -527,24 +527,38 @@
           // Formatear el número de teléfono antes de insertarlo en la cadena
           const telefono = formatearTelefono(element.telefono);
 
+          // Verificar si element.logo está definido
+          const logoPath = element.logo ? `./imgLogos/${element.logo}` : './galeria/image.svg'; // Ruta de la imagen alternativa
+
           const contentString = `
             <div class="card-window">
               <div class="logo-window">
-                <img src="./img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="Logo de la chifa oriental" class="imag">
+                <a href="./views/menu.php?id=${element.idnegocio}">
+                  <img src="${logoPath}" alt="Logo de la chifa oriental" class="imag">
+                </a>
               </div>
               <div class="info-window">
                 <h6 class="nombre">Nombre</h6>
                 <h1 class="name-window">${element.nombre}</h1>
-                <p class="distrito-window">Distrito: ${element.nomdistrito}</>
+                <p class="distrito-window">Distrito: ${element.nomdistrito}</p>
                 <p class="title-window"> <img src="./img/abierto.svg"> ${element.Estado}</p>
                 <p class="phone-window" style="color:#5B4AFF; font-weight:600;"><img src="./img/icon_whatsapp.svg"> ${telefono}</p>
               </div>
-            </div>`;
-            // VERIFICAR | ARREGLAR ESTADO
+            </div>
+          `;
+
           infoWindow.setContent(contentString);
           infoWindow.open(map, marker);
+
+          // Agregar evento para cerrar el card cuando el mouse sale del card
+          infoWindow.addListener('domready', function () {
+            const cardWindow = document.querySelector('.card-window');
+            cardWindow.addEventListener('mouseleave', function () {
+              infoWindow.close();
+            });
+          });
         }
-    
+        
         function getYourLocation() {
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(

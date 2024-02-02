@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="./css/owl.carousel.min.css">
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Style -->
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/listado.css">
@@ -73,12 +73,16 @@
 
     <!-- BUSCADOR -->
     <div class="container mt-4 d-flex justify-content-center">
+      <div class="row"></div>
       <div class="input-group" style="max-width: 700px;">
         <input type="search" id="buscar" class="form-control" />
         <button type="button" id="btnBuscar" class="bus btn btn-primary">
           <i class="bi bi-search"></i>
         </button>
       </div>
+      <a href="listado.php">
+        <button type="button" id="btnHola" class="btn btn-secondary" style="margin-left: 10px;"><i class="fa-solid fa-arrows-rotate"></i></button>
+      </a>
     </div>
 
     <div class="container mt-5">
@@ -248,6 +252,14 @@
     
     
     <script>
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          document.title = '¡Vuelve! 💔';
+        } else {
+          document.title = 'Listado'; // Cambia esto al título que desees cuando la página está visible
+        }
+      });
+
       let selectedIdSubcategoria = null;
       document.addEventListener('DOMContentLoaded', () => {
         const elementosPorPagina = 4;
@@ -369,25 +381,28 @@
             datos.forEach((element, index) => {
               // Solo mostrar las tarjetas según la página actual
               if (index >= (pagina - 1) * elementosPorPagina && index < pagina * elementosPorPagina) {
+                // Verificar si element.logo está definido
+                const logoPath = element.logo ? `./imgLogos/${element.logo}` : './galeria/image.svg'; // Ruta de la imagen alternativa
+
                 const cardHTML = `
-                <div class="card custom-card2">
-                  <div class="card-body d-flex align-items-center">
-                    <img src="./imgLogos/${element.logo}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
-                    <div>
-                      <h5 class="card-title">${element.NombreComercial}</h5>
-                      <p class="card-text">
-                        <span>Distrito:</span> ${element.nomdistrito}<br>
-                        <span>Ubicación:</span> ${element.direccion}<br>
-                        <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
-                      </p>
-                      <a href="views/menu.php?id=${element.idnegocio}" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
+                  <div class="card custom-card2">
+                    <div class="card-body d-flex align-items-center">
+                      <img src="${logoPath}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
+                      <div>
+                        <h5 class="card-title">${element.NombreComercial}</h5>
+                        <p class="card-text">
+                          <span>Distrito:</span> ${element.nomdistrito}<br>
+                          <span>Ubicación:</span> ${element.direccion}<br>
+                          <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
+                        </p>
+                        <a href="views/menu.php?id=${element.idnegocio}" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
+                      </div>
                     </div>
-                  </div>
-                </div>`;
+                  </div>`;
                 tarjetasContainer.innerHTML += cardHTML;
               }
             });
-            
+    
             // Obtén la cantidad total de elementos
             const totalElementos = datos.length;
 
@@ -398,6 +413,7 @@
             console.error(e);
           });
         }
+
 
         // function generarPaginacion(pagina, totalElementos) {
         //   const paginacionContainer = document.getElementById("paginacion");
@@ -510,24 +526,28 @@
           tarjetasContainer.innerHTML = '';
 
           datos.forEach(element => {
+            // Verificar si element.logo está definido
+            const logoPath = element.logo ? `./imgLogos/${element.logo}` : './galeria/image.svg'; // Ruta de la imagen alternativa
+
             const cardHTML = `
-            <div class="card custom-card2">
-              <div class="card-body d-flex align-items-center">
-                <img src="./imgLogos/${element.logo}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
-                <div>
-                  <h5 class="card-title">${element.NombreComercial}</h5>
-                  <p class="card-text">
-                    <span>Distrito:</span> ${element.nomdistrito}<br>
-                    <span>Ubicación:</span> ${element.direccion}<br>
-                    <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
-                  </p>
-                  <a href="views/menu.php?id=${element.idnegocio}" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
+              <div class="card custom-card2">
+                <div class="card-body d-flex align-items-center">
+                  <img src="${logoPath}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
+                  <div>
+                    <h5 class="card-title">${element.NombreComercial}</h5>
+                    <p class="card-text">
+                      <span>Distrito:</span> ${element.nomdistrito}<br>
+                      <span>Ubicación:</span> ${element.direccion}<br>
+                      <img src="./img/whatsapp_10.svg" class="wsp" /> ${element.telefono}
+                    </p>
+                    <a href="views/menu.php?id=${element.idnegocio}" class="btn btn-primary vermas">Ver más <i class="bi bi-arrow-right"></i></a>
+                  </div>
                 </div>
-              </div>
-            </div>`;
+              </div>`;
             tarjetasContainer.innerHTML += cardHTML;
           });
         }
+
 
         function subNegocios(idsubcategoria) {
           const parametros = new FormData();
