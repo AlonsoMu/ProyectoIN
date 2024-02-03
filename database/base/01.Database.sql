@@ -90,7 +90,7 @@ CREATE TABLE horarios(
     update_at				DATETIME		NULL,
     inactive_at				DATETIME 		NULL
 )ENGINE = INNODB;
-SELECT * FROM ubicaciones;
+
 -- ------------------------------------------------------------------------
 -- 								| TABLA UBICACIONES |
 -- ------------------------------------------------------------------------
@@ -139,8 +139,11 @@ CREATE TABLE negocios(
 )ENGINE = INNODB;
 ALTER TABLE negocios ADD COLUMN portada VARCHAR(200) NULL;
 
-SELECT * FROM ubicaciones;
 SELECT * FROM negocios;
+SELECT * FROM negocios;
+SELECT * FROM galerias;
+
+
 -- ------------------------------------------------------------------------------------------------
 -- 									| TABLA GALERIAS |
 -- ------------------------------------------------------------------------------------------------
@@ -177,9 +180,11 @@ DELETE FROM galerias;
 ALTER TABLE galerias AUTO_INCREMENT 1;
 -- Volver a activar la restricción de clave externa
 SET foreign_key_checks = 1;
+SELECT * FROM horarios;
 
 SELECT * FROM ubicaciones;
-
+SELECT * FROM negocios;
+SELECT * FROM horarios;
 -- TABLA DISTRITOS
 CREATE TABLE distritos(
 	iddistrito					INT 			AUTO_INCREMENT PRIMARY KEY,

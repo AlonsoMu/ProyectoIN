@@ -212,5 +212,62 @@ if (isset($_POST['operacion'])) {
         ];
         enviarJSON($negocio->obtenerMapa($datosEnviar));
         break;
+
+      case 'listarAdm':
+        enviarJSON($negocio->listarAdm());
+        break;
+
+      case 'inactive':
+        $datosEnviar = [
+          'idnegocio' => $_POST['idnegocio']
+        ];
+        enviarJSON($negocio->inactive($datosEnviar));
+        break;
+
+      case 'editar':
+        //Generar un nombre a partir del momento exacto
+        $ahora = date('dmYhis');
+        $nombreArchivo = sha1($ahora) . ".jpg";
+  
+        $datosEnviar = [
+          'idnegocio'       => $_POST['idnegocio'],
+          'iddistrito'      => $_POST['iddistrito'],
+          'idpersona'       => $_POST['idpersona'],
+          'idsubcategoria'  => $_POST['idsubcategoria'],
+          'nroruc'          => $_POST['nroruc'],
+          'nombre'          => $_POST['nombre'],
+          'descripcion'     => $_POST['descripcion'],
+          'direccion'       => $_POST['direccion'],
+          'telefono'        => $_POST['telefono'],
+          'correo'          => $_POST['correo'],
+          'facebook'        => $_POST['facebook'],
+          'whatsapp'        => $_POST['whatsapp'],
+          'instagram'       => $_POST['instagram'],
+          'tiktok'          => $_POST['tiktok'],
+          'pagweb'          => $_POST['pagweb'],
+          'logo'            => '',
+          'portada'         => '',
+          'valoracion'      => $_POST['valoracion']
+        ];
+        //Solo movemos la imagen, si esta existe (uploaded)
+        if (isset($_FILES['logo'])){
+          if (move_uploaded_file($_FILES['logo']['tmp_name'], "../imgLogos/" . $nombreArchivo)){
+            $datosEnviar["logo"] = $nombreArchivo;
+          }
+        }
+        if (isset($_FILES['portada'])){
+          if (move_uploaded_file($_FILES['portada']['tmp_name'], "../imgPortada/" . $nombreArchivo)){
+            $datosEnviar["portada"] = $nombreArchivo;
+          }
+        }
+        enviarJSON($negocio->editar($datosEnviar));
+      break;
+
+      case 'obtenerDatos':
+        $datosEnviar = [
+          'idnegocio' => $_POST['idnegocio']
+        ];
+        enviarJSON($negocio->obtenerDatos($datosEnviar));
+        break;
   }
 }

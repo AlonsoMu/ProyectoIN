@@ -164,29 +164,11 @@ END $$
 CALL spu_ubicaciones_listar();
 -- ##########################################################################################################################
 
-DELIMITER $$
-CREATE PROCEDURE spu_negocios_listar()
-BEGIN
-	SELECT
-    n.idnegocio,
-    s.idsubcategoria,
-    p.idpersona,
-    n.nombre AS NombreComercial,
-    s.nomsubcategoria,
-    CONCAT(p.apellidos, ', ', p.nombres) AS Cliente,
-    n.nroruc,
-    n.telefono,
-    n.whatsapp,
-    n.facebook,
-    n.instagram,
-    n.tiktok,
-    n.descripcion
-	FROM negocios n
-	INNER JOIN personas p ON n.idpersona = p.idpersona
-	INNER JOIN usuarios u ON n.idusuario = u.idusuario
-	INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria;
-END $$
-CALL spu_negocios_listar();
+
+
+CALL spu_eliminar_negocio(8);
+
+SELECT * FROM negocios;
 -- ##########################################################################################################################
 
 DELIMITER $$

@@ -209,6 +209,75 @@ class Negocio extends Conexion{
       die($e->getMessage());
     }
   }
+
+  public function listarAdm(){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_negocios_listar_adm()");
+      $consulta->execute();
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function inactive($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_eliminar_negocio(?)");
+      $consulta->execute(
+        array(
+          $datos['idnegocio']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function editar($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_editar_negocio(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+      $consulta->execute(
+        array(
+          $datos['idnegocio'],
+          $datos['iddistrito'],
+          $datos['idpersona'],
+          $datos['idsubcategoria'],
+          $datos['nroruc'],
+          $datos['nombre'],
+          $datos['descripcion'],
+          $datos['direccion'],
+          $datos['telefono'],
+          $datos['correo'],
+          $datos['facebook'],
+          $datos['whatsapp'],
+          $datos['instagram'],
+          $datos['tiktok'],
+          $datos['pagweb'],
+          $datos['logo'],
+          $datos['portada'],
+          $datos['valoracion']
+        )
+      );
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function obtenerDatos($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_negocios_listar_obt(?)");
+      $consulta->execute(
+        array(
+          $datos['idnegocio']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
     
 
   

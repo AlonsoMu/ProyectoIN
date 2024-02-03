@@ -7,6 +7,154 @@ USE INNOVACION;
 -- -------------------------------------------------------------------------------------------------
 
 DELIMITER $$
+CREATE PROCEDURE spu_editar_negocio(
+    IN _idnegocio INT,
+    IN _iddistrito INT,
+    IN _idpersona INT,
+    IN _idsubcategoria INT,
+    IN _nroruc CHAR(15),
+    IN _nombre VARCHAR(200),
+    IN _descripcion VARCHAR(200),
+    IN _direccion VARCHAR(100),
+    IN _telefono CHAR(11),
+    IN _correo VARCHAR(100),
+    IN _facebook VARCHAR(200),
+    IN _whatsapp VARCHAR(200),
+    IN _instagram VARCHAR(200),
+    IN _tiktok VARCHAR(200),
+    IN _pagweb VARCHAR(200),
+    IN _logo VARCHAR(100),
+    IN _portada VARCHAR(200),
+    IN _valoracion INT
+)
+BEGIN
+    -- Actualizar los datos del negocio
+    UPDATE negocios
+    SET 
+        iddistrito = _iddistrito,
+        idpersona = _idpersona,
+        idsubcategoria = _idsubcategoria,
+        nroruc = _nroruc,
+        nombre = _nombre,
+        descripcion = _descripcion,
+        direccion = _direccion,
+        telefono = _telefono,
+        correo = _correo,
+        facebook = _facebook,
+        whatsapp = _whatsapp,
+        instagram = _instagram,
+        tiktok = _tiktok,
+        pagweb = _pagweb,
+        logo = _logo,
+        portada = _portada,
+        valoracion = _valoracion,
+        update_at = NOW()
+    WHERE idnegocio = _idnegocio;
+END $$
+
+CALL spu_editar_negocio(
+    1,            -- _idnegocio
+    3,            -- _iddistrito
+    3,            -- _idpersona
+    5,            -- _idsubcategoria
+    '123456789',  -- _nroruc
+    'Nuevo Nombre Comercial',    -- _nombre
+    'Nueva Descripción',         -- _descripcion
+    'Nueva Dirección',           -- _direccion
+    '12345678901',               -- _telefono
+    'correo@ejemplo.com',        -- _correo
+    'Nuevo Facebook',            -- _facebook
+    'Nuevo WhatsApp',            -- _whatsapp
+    'Nuevo Instagram',           -- _instagram
+    'Nuevo TikTok',               -- _tiktok
+    'www.nuevapagweb.com',       -- _pagweb
+    'nuevologo.jpg',             -- _logo
+    'nuevaportada.jpg',          -- _portada
+    2             -- _valoracion
+);
+
+SELECT * FROM negocios;
+
+DELIMITER $$
+CREATE PROCEDURE spu_negocios_listar_adm()
+BEGIN
+	SELECT
+    n.idnegocio,
+    s.idsubcategoria,
+     d.iddistrito,
+    n.nombre AS NombreComercial,
+    s.nomsubcategoria,
+    p.idpersona,
+    CONCAT(p.apellidos, ', ', p.nombres) AS Cliente,
+    n.nroruc,
+    d.nomdistrito,
+    n.direccion,
+    n.correo,
+    n.whatsapp,
+    n.telefono,
+    n.facebook,
+    n.instagram,
+    n.tiktok,
+    n.descripcion,
+    n.pagweb,
+    n.logo,
+    n.portada,
+    n.valoracion
+	FROM negocios n
+	INNER JOIN personas p ON n.idpersona = p.idpersona
+	INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE n.inactive_at IS NULL;
+END $$
+CALL spu_negocios_listar_adm();
+
+DELIMITER $$
+CREATE PROCEDURE spu_negocios_listar_obt(IN p_idnegocio INT)
+BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+		d.iddistrito,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        p.idpersona,
+        CONCAT(p.apellidos, ', ', p.nombres) AS Cliente,
+        n.nroruc,
+        d.nomdistrito,
+        n.direccion,
+        n.correo,
+        n.whatsapp,
+        n.telefono,
+        n.facebook,
+        n.instagram,
+        n.tiktok,
+        n.descripcion,
+        n.pagweb,
+        n.logo,
+        n.portada,
+        n.valoracion
+    FROM
+        negocios n
+    INNER JOIN personas p ON n.idpersona = p.idpersona
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE
+        n.inactive_at IS NULL AND n.idnegocio = p_idnegocio;
+END $$
+
+CALL spu_negocios_listar_obt(1);
+
+DELIMITER $$
+CREATE PROCEDURE spu_eliminar_negocio(
+IN _idnegocio	INT
+)
+BEGIN
+	UPDATE negocios
+    SET inactive_at = NOW()
+    WHERE idnegocio = _idnegocio;
+END $$
+
+DELIMITER $$
 CREATE PROCEDURE buscar_negocios(IN negocio VARCHAR(200))
 BEGIN
     SELECT idnegocio, nombre FROM negocios WHERE nombre LIKE CONCAT('%', negocio, '%');
@@ -31,6 +179,8 @@ BEGIN
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
     WHERE n.iddistrito = _iddistrito;
 END $$
+
+SELECT * FROM negocios;
 
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_registrar(
