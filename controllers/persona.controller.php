@@ -22,5 +22,23 @@ if (isset($_POST['operacion'])) {
       ];
       enviarJSON($persona->buscar($datos));
       break;
+    case 'listaCliente':
+      enviarJSON($persona->listaCliente());
+      break;
+    case 'editar':
+      $datos = [
+        'idpersona' => $_POST['idpersona'],
+        'apellidos' => $_POST['apellidos'],
+        'nombres' => $_POST['nombres'],
+        'numerodoc' => $_POST['numerodoc']
+      ];
+      enviarJSON($persona->editar($datos));
+    break;
+    case 'obtener':
+      $datos = [
+        'idpersona' => $_POST['idpersona']
+      ];
+      enviarJSON($persona->obtener($datos));
+      break;
   }
-}
+  }

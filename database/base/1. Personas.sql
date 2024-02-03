@@ -75,3 +75,57 @@ BEGIN
     );
 END $$
 CALL spu_personas_buscar('angel');
+
+-- ##########################################################################################################################
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_clientes_listar()
+BEGIN
+	SELECT
+		p.idpersona,
+		CONCAT(p.nombres, ' ', p.apellidos) AS 'datos',
+        p.numerodoc,
+		COUNT(n.idnegocio) AS cantidad
+		FROM
+			personas p
+		LEFT JOIN
+			negocios n ON p.idpersona = n.idpersona
+		WHERE NOT EXISTS (
+			SELECT 1
+				FROM usuarios u
+				WHERE u.idpersona = p.idpersona
+				AND u.nivelacceso = 'ADM'
+		)
+		GROUP BY
+		p.idpersona, datos;
+END $$	
+CALL spu_clientes_listar();
+
+DELIMITER $$
+CREATE PROCEDURE spu_cliente_actualizar
+(
+	_idpersona			INT,
+	_apellidos	 		VARCHAR(100),
+	_nombres 			VARCHAR(100),
+	_numerodoc 			CHAR(15)
+)
+BEGIN
+	UPDATE personas SET
+		apellidos = _apellidos,
+		nombres = _nombres,
+		numerodoc = _numerodoc,
+		update_at = NOW()
+	WHERE idpersona = _idpersona;
+END $$
+CALL spu_cliente_actualizar(3, 'Francia Minaya', 'Jhon', 12345678);
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_clientes_obtener(IN _idpersona INT)
+BEGIN
+	SELECT *
+		FROM personas
+		WHERE idpersona = _idpersona;
+END $$
+CALL spu_clientes_obtener(3);
