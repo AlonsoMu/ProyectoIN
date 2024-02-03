@@ -59,9 +59,10 @@ class Persona extends Conexion{
           $datos['apellidos'],
           $datos['nombres'],
           $datos['numerodoc']
-      )); 
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
+        )
+      ); 
+    } 
+    catch (Exception $e) {
       die($e->getMessage());
     }
   }

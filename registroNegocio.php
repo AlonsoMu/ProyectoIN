@@ -93,16 +93,16 @@
     </nav>
     
     <section class="dashboard">
-  <div class="top">
-    <i class="uil uil-bars sidebar-toggle"></i>
-    <div class="search-box">
-      <i class="uil uil-search"></i>
-      <input type="text" placeholder="Search here...">
-    </div>      
-    <img src="./img/2.svg" alt="">
-  </div>
-  <div class="dash-content">
-  <div class="container mt-3">
+      <div class="top">
+        <i class="uil uil-bars sidebar-toggle"></i>
+        <div class="search-box">
+          <i class="uil uil-search"></i>
+          <input type="text" placeholder="Search here...">
+        </div>      
+        <img src="./img/2.svg" alt="">
+      </div>
+      <div class="dash-content">
+        <div class="container mt-3">
           <form action="" autocomplete="off" id="form-negocio">
             <div class="card">
               <div class="card-header">
@@ -259,8 +259,8 @@
             <br>
           </form> <!-- FIN DEL FORMULARIO-->
         </div> <!-- FIN DEL CONTAINER -->
-  </div>      
-</section>
+      </div>      
+    </section>
 
     <script src="./js/sidebar/script.js"></script>
     <!-- Bootstrap JavaScript Libraries -->

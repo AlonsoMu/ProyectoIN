@@ -32,7 +32,7 @@ if (isset($_POST['operacion'])) {
         'nombres' => $_POST['nombres'],
         'numerodoc' => $_POST['numerodoc']
       ];
-      enviarJSON($persona->editar($datos));
+      $persona->editar($datos);
     break;
     case 'obtener':
       $datos = [
