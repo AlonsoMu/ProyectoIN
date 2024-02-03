@@ -73,7 +73,7 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-primary" id="guardarDatos">Save</button>
           </div>
         </div>
       </div>
@@ -96,93 +96,135 @@
     <script>
     // VanillaJS (JS Puro)
     document.addEventListener("DOMContentLoaded", () => {
-      const myModal = new bootstrap.Modal(document.getElementById("modalId"));
-      let sonDatosNuevos = true;
-      let idpersona = -1;
+    const myModal = new bootstrap.Modal(document.getElementById("modalId"));
+    let idpersona = -1;
 
-      const tabla = document.querySelector("#tabla-clientes tbody");
-      function $(id){
+    const tabla = document.querySelector("#tabla-clientes tbody");
+
+    function $(id) {
         return document.querySelector(id);
-      }
-      
-      function listar(){
-        // Preparar los parametros a enviar
+    }
+
+    function listar() {
         const parametros = new FormData();
-        parametros.append("operacion", "listaCliente")
+        parametros.append("operacion", "listaCliente");
 
         fetch(`./controllers/persona.controller.php`, {
-          method: 'POST', 
-          body: parametros
+            method: 'POST',
+            body: parametros
         })
-          .then(respuesta => respuesta.json())
-          .then(datosRecibidos => {
-            // Recorrer cada fila del arreglo
+        .then(respuesta => respuesta.json())
+        .then(datosRecibidos => {
             let numFila = 1;
             $("#tabla-clientes tbody").innerHTML = '';
             datosRecibidos.forEach(registro => {
-              let nuevafila = ``;
-              // Enviar los valores obtenidos en celdas <td></td>
-              nuevafila = `
-              <tr>
-                <td>${numFila}</td>
-                <td>${registro.datos}</td>
-                <td>${registro.numerodoc}</td>
-                <td>${registro.cantidad}</td>
-                <td>
-                  <button data-idpersona="${registro.idpersona}" class='btn btn-danger btn-sm eliminar' type='button'>Eliminar</button>
-                  <button data-idpersona="${registro.idpersona}" class='btn btn-warning btn-sm editar' type='button'>Editar</button>
-                </td>
-              </tr>
-              `;
-              $("#tabla-clientes tbody").innerHTML += nuevafila;
-              numFila++;
+                let nuevafila = `
+                    <tr>
+                        <td>${numFila}</td>
+                        <td>${registro.datos}</td>
+                        <td>${registro.numerodoc}</td>
+                        <td>${registro.cantidad}</td>
+                        <td>
+                            <button data-idpersona="${registro.idpersona}" class='btn btn-danger btn-sm eliminar' type='button'>Eliminar</button>
+                            <button data-idpersona="${registro.idpersona}" class='btn btn-warning btn-sm editar' type='button'>Editar</button>
+                        </td>
+                    </tr>`;
+                $("#tabla-clientes tbody").innerHTML += nuevafila;
+                numFila++;
             });
-          })
-          .catch(e => {
+        })
+        .catch(e => {
             console.error(e)
-          })
-      }
-
-      tabla.addEventListener("click", function (event) {
-        idpersona = parseInt(event.target.dataset.idpersona);
-
-        if (event.target.classList.contains('editar')) {
-            // Abre el modal de edición
-           myModal.show();
-            // Puedes realizar otras acciones aquí, como cargar datos en el modal según el idpersona
-            // Obtener los datos del cliente mediante una llamada asíncrona
-          obtenerDatosCliente(idpersona);
-        }
-
-        // ...
-    });
-        // Función para obtener los datos del cliente
-    function obtenerDatosCliente(id) {
-      const parametros = new FormData();
-      parametros.append("operacion", "obtener");
-      parametros.append("idpersona", id);
-
-      fetch(`./controllers/persona.controller.php`, {
-        method: 'POST',
-        body: parametros
-      })
-      .then(respuesta => respuesta.json())
-      .then(datosRecibidos => {
-        // Llenar los campos del formulario con los datos del cliente
-        if (datosRecibidos.length > 0) {
-          const cliente = datosRecibidos[0];
-          document.getElementById("apellidos").value = cliente.apellidos;
-          document.getElementById("nombres").value = cliente.nombres;
-          document.getElementById("numerodoc").value = cliente.numerodoc;
-        }
-      })
-      .catch(e => {
-        console.error(e);
-      });
+        })
     }
-    listar();
 
-  });
+    function obtenerDatosCliente(id) {
+        const parametros = new FormData();
+        parametros.append("operacion", "obtener");
+        parametros.append("idpersona", id);
+
+        fetch(`./controllers/persona.controller.php`, {
+            method: 'POST',
+            body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datosRecibidos => {
+            if (datosRecibidos.length > 0) {
+                const cliente = datosRecibidos[0];
+                document.getElementById("apellidos").value = cliente.apellidos;
+                document.getElementById("nombres").value = cliente.nombres;
+                document.getElementById("numerodoc").value = cliente.numerodoc;
+            }
+        })
+        .catch(e => {
+            console.error(e);
+        });
+    }
+
+    function guardarEdicion() {
+        const apellidos = document.getElementById("apellidos").value;
+        const nombres = document.getElementById("nombres").value;
+        const numerodoc = document.getElementById("numerodoc").value;
+
+        if (!apellidos || !nombres || !numerodoc) {
+            alert("Por favor, complete todos los campos.");
+            return;
+        }
+
+        const datosEditar = {
+            idpersona: idpersona,
+            apellidos: apellidos,
+            nombres: nombres,
+            numerodoc: numerodoc
+        };
+
+        const parametros = new FormData();
+        parametros.append("operacion", "editar");
+        parametros.append("idpersona", datosEditar.idpersona);
+        parametros.append("apellidos", datosEditar.apellidos);
+        parametros.append("nombres", datosEditar.nombres);
+        parametros.append("numerodoc", datosEditar.numerodoc);
+
+        fetch(`./controllers/persona.controller.php`, {
+    method: 'POST',
+    body: parametros
+})
+.then(respuesta => respuesta.json())
+.then(resultado => {
+    console.log(resultado);  // Imprime la respuesta en la consola
+    if (resultado.success) {
+        myModal.hide();
+        listar();
+    } else {
+        alert("Error al editar. Por favor, inténtelo de nuevo.");
+    }
+})
+.catch(e => {
+    console.error(e);
+});
+
+    }
+
+
+    tabla.addEventListener("click", function (event) {
+    idpersona = parseInt(event.target.dataset.idpersona);
+
+    if (event.target.classList.contains('editar')) {
+        obtenerDatosCliente(idpersona);
+        myModal.show(); // Agrega esta línea para mostrar el modal al hacer clic en "Editar"
+    }
+});
+
+// ...
+
+const saveButton = document.querySelector("#modalId .modal-footer .btn-primary");
+saveButton.addEventListener("click", guardarEdicion);
+
+// ...
+
+    listar();
+});
+
   </script>
   </body>
 </html>
