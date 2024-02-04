@@ -260,7 +260,8 @@ if (isset($_POST['operacion'])) {
             $datosEnviar["portada"] = $nombreArchivo;
           }
         }
-        enviarJSON($negocio->editar($datosEnviar));
+        //enviarJSON($negocio->editar($datosEnviar));
+        $negocio->editar($datosEnviar);
       break;
 
       case 'obtenerDatos':

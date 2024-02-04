@@ -108,6 +108,7 @@ BEGIN
 END $$
 CALL spu_negocios_listar_adm();
 
+SELECT * FROM negocios;
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_listar_obt(IN p_idnegocio INT)
 BEGIN

@@ -253,7 +253,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary"modalVisor data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="guardar">Guardar</button>
+            <button type="button" class="btn btn-primary" id="guardarDatos">Guardar</button>
           </div>
         </div>
       </div>
@@ -305,6 +305,23 @@
         const myModalPortada = new bootstrap.Modal(document.getElementById('modal-portada'));
         let sonDatosNuevos = true;
         let idnegocio = -1;
+        const iddistritoInput = document.getElementById("iddistrito");
+        const idpersonaInput = document.getElementById("resultado");
+        const idsubcategoriaInput = document.getElementById("idsubcategoria");
+        const nrorucInput = document.getElementById("nroruc");
+        const nombreComercialInput = document.getElementById("nombre");
+        const descripcionInput = document.getElementById("descripcion");
+        const direccionInput = document.getElementById("direccion");
+        const telefonoInput = document.getElementById("telefono");
+        const correoInput = document.getElementById("correo");
+        const facebookInput = document.getElementById("facebook");
+        const whatsappInput = document.getElementById("whatsapp");
+        const instagramInput = document.getElementById("instagram");
+        const tiktokInput = document.getElementById("tiktok");
+        const pagwebInput = document.getElementById("pagweb");
+        const logoInput = document.getElementById("logo");
+        const portadaInput = document.getElementById("portada");
+        const valoracionInput = document.getElementById("valoracion");
 
         const tabla = document.querySelector("#tabla-negocios tbody");
 
@@ -508,24 +525,26 @@
             .then(datosRecibidos => {
               console.log(datosRecibidos)
               // Asumiendo que solo hay un elemento en el array
-              const negocio = datosRecibidos[0];
-              document.getElementById("nombre").value = negocio.NombreComercial;
-              document.getElementById("idsubcategoria").value = negocio.idsubcategoria;
-              document.getElementById("nombre_apellido").value = negocio.Cliente;
-              document.getElementById("nroruc").value = negocio.nroruc;
-              document.getElementById("descripcion").value = negocio.descripcion;
-              document.getElementById("iddistrito").value = negocio.iddistrito;
-              document.getElementById("direccion").value = negocio.direccion;
-              document.getElementById("telefono").value = negocio.telefono;
-              document.getElementById("correo").value = negocio.correo;
-              document.getElementById("pagweb").value = negocio.pagweb;
-              document.getElementById("facebook").value = negocio.facebook;
-              document.getElementById("whatsapp").value = negocio.whatsapp;
-              document.getElementById("instagram").value = negocio.instagram;
-              document.getElementById("tiktok").value = negocio.tiktok;
-              document.getElementById("nombreLogo").textContent = negocio.logo;
-              document.getElementById("nombrePortada").textContent = negocio.portada;
-              document.getElementById("valoracion").value = negocio.valoracion;
+              const primerElemento = datosRecibidos[0];
+
+              // Llenar el formulario con los datos obtenidos
+              iddistritoInput.value = primerElemento.iddistrito || '';
+              idpersonaInput.value = primerElemento.Cliente || '';
+              idsubcategoriaInput.value = primerElemento.idsubcategoria || '';
+              nrorucInput.value = primerElemento.nroruc || '';
+              nombreComercialInput.value = primerElemento.NombreComercial || '';
+              descripcionInput.value = primerElemento.descripcion || '';
+              direccionInput.value = primerElemento.direccion || '';
+              telefonoInput.value = primerElemento.telefono || '';
+              correoInput.value = primerElemento.correo || '';
+              facebookInput.value = primerElemento.facebook || '';
+              whatsappInput.value = primerElemento.whatsapp || '';
+              instagramInput.value = primerElemento.instagram || '';
+              tiktokInput.value = primerElemento.tiktok || '';
+              pagwebInput.value = primerElemento.pagweb || '';
+              logoInput.value = '';
+              portadaInput.value = '';
+              valoracionInput.value = primerElemento.valoracion || '';
 
               // Abrir el modal
               myModal.show();
@@ -536,22 +555,75 @@
           }
         });
 
+        // Agregar evento de clic para el botón "Save"
+        document.getElementById("guardarDatos").addEventListener('click', () => {
+          // Obtener los nuevos valores del formulario
+          const nuevosDatos = {
+            idnegocio: idnegocio,
+            iddistrito: iddistritoInput.value,
+            idpersona: idpersonaInput.value,
+            idsubcategoria: idsubcategoriaInput.value,
+            nroruc:nrorucInput.value,
+            nombre:nombreComercialInput.value,
+            descripcion:descripcionInput.value,
+            direccion:direccionInput.value,
+            telefono:telefonoInput.value,
+            correo:correoInput.value,
+            facebook:facebookInput.value,
+            whatsapp:whatsappInput.value,
+            instagram:instagramInput.value,
+            tiktok:tiktokInput.value,
+            pagweb:pagwebInput.value,
+            logo: logoInput.files[0],  // Obtener el primer archivo seleccionado para el logo
+            portada: portadaInput.files[0],
+            valoracion:valoracionInput.value
+          };
+
+          // Enviar los nuevos datos para la actualización
+          const parametrosActualizar = new FormData();
+          parametrosActualizar.append("operacion", "editar");
+          parametrosActualizar.append("idnegocio", nuevosDatos.idnegocio);
+          parametrosActualizar.append("iddistrito", nuevosDatos.iddistrito);
+          parametrosActualizar.append("idpersona", nuevosDatos.idpersona);
+          parametrosActualizar.append("idsubcategoria", nuevosDatos.idsubcategoria);
+          parametrosActualizar.append("nroruc", nuevosDatos.nroruc);
+          parametrosActualizar.append("nombre", nuevosDatos.nombre);
+          parametrosActualizar.append("descripcion", nuevosDatos.descripcion);
+          parametrosActualizar.append("direccion", nuevosDatos.direccion);
+          parametrosActualizar.append("telefono", nuevosDatos.telefono);
+          parametrosActualizar.append("correo", nuevosDatos.correo);
+          parametrosActualizar.append("facebook", nuevosDatos.facebook);
+          parametrosActualizar.append("whatsapp", nuevosDatos.whatsapp);
+          parametrosActualizar.append("instagram", nuevosDatos.instagram);
+          parametrosActualizar.append("tiktok", nuevosDatos.tiktok);
+          parametrosActualizar.append("pagweb", nuevosDatos.pagweb);
+          parametrosActualizar.append("logo", nuevosDatos.logo);
+          parametrosActualizar.append("portada", nuevosDatos.portada);
+          parametrosActualizar.append("valoracion", nuevosDatos.valoracion );
+
+          fetch(`./controllers/negocio.controller.php`, {
+            method: 'POST',
+            body: parametrosActualizar
+          })
+          .then(respuesta => respuesta.text())
+          .then(resultado => {
+            // Aquí puedes manejar la respuesta si es necesario
+            console.log(resultado);
+            // Cerrar el modal después de actualizar
+            myModal.hide();
+            // Volver a listar los clientes
+            listarNegocios();
+          })
+          .catch(e => {
+            console.error(e);
+          });
+        });
 
 
         $("#buscar").addEventListener("click", busqueda);
         //$("#guardar").addEventListener("click", registrar);
 
-        $("#guardar").addEventListener("click", (event) => {
-          event.preventDefault(); // Evitar que el formulario se envíe automáticamente
-          const operacion = $("#guardar").dataset.operacion;
-
-          if (operacion === "registrar") {
-            registrar();
-          } else if (operacion === "editar") {
-            const idnegocio = $("#guardar").dataset.idnegocio;
-            editar(idnegocio);
-          }
-        });
+        
 
         listarNegocios();
         getSubcategoria();

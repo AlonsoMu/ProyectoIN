@@ -35,7 +35,7 @@ END $$*/
 
 -- ##########################################################################################################################
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_personas_listar()
 BEGIN
     SELECT 
@@ -50,7 +50,7 @@ BEGIN
             FROM usuarios
         );
 END $$
-CALL spu_personas_listar();
+CALL spu_personas_listar();*/
 
 -- ##########################################################################################################################
 
@@ -100,7 +100,7 @@ BEGIN
 		GROUP BY
 		p.idpersona, datos;
 END $$	
-CALL spu_clientes_listar();
+CALL spu_clientes_listar();	
 
 DELIMITER $$
 CREATE PROCEDURE spu_cliente_actualizar
