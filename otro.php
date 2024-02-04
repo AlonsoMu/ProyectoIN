@@ -394,7 +394,7 @@
           });
         }
 
-        function registrar() {
+        /*function registrar() {
           const parametros = new FormData();
           parametros.append("operacion", "registrar");
           parametros.append("iddistrito",  $("#iddistrito").value);
@@ -430,7 +430,7 @@
           .catch(e => {
             console.error(e);
           });
-        }      
+        }    */  
         // Comunicación Controlador
         // Renderizar los datos en la Tabla > tbody
         function listarNegocios() {

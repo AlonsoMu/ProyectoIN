@@ -143,6 +143,7 @@ BEGIN
         n.inactive_at IS NULL AND n.idnegocio = p_idnegocio;
 END $$
 
+SELECT * FROM negocios;
 CALL spu_negocios_listar_obt(1);
 
 DELIMITER $$
