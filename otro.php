@@ -329,6 +329,62 @@
           return document.querySelector(id);
         }
 
+        function listarNegocios() {
+          // Preparar los parametros a enviar
+          const parametros = new FormData();
+          parametros.append("operacion", "listarAdm")
+
+          fetch(`./controllers/negocio.controller.php`, {
+            method: 'POST',
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datosRecibidos => {
+            // Recorrer cada fila del arreglo
+            let numFila = 1;
+            $("#tabla-negocios tbody").innerHTML = '';
+            datosRecibidos.forEach(registro => {
+              let nuevafila = ``;
+              // Enviar los valores obtenidos en celdas <td></td>
+              nuevafila = `
+              <tr>
+                <td>${numFila}</td>
+                <td>${registro.NombreComercial}</td>
+                <td>${registro.nomsubcategoria}</td>
+                <td>${registro.Cliente}</td>
+                <td>${registro.nroruc}</td>
+                <td>${registro.nomdistrito}</td>
+                <td>${registro.direccion}</td>
+                <td>${registro.correo}</td>
+                <td>${registro.whatsapp}</td>
+                <td>${registro.telefono}</td>
+                <td>${registro.facebook}</td>
+                <td>${registro.instagram}</td>
+                <td>${registro.tiktok}</td>
+                <td class="max-width-ellipsis">${registro.descripcion}</td>
+                <td>
+                  <a href='#' class='view' data-idnegocio='${registro.logo}'>Ver imagen</a>
+                </td>
+                <td>
+                  <a href='#' class='view-portada' data-idnegocio='${registro.portada}'>Ver portada</a>
+                </td>
+                <td>${registro.pagweb}</td>
+                <td>${registro.valoracion}</td>
+                <td>
+                  <button data-idnegocio="${registro.idnegocio}" class='btn btn-danger btn-sm eliminar' type='button'>Eliminar</button>
+                  <button data-idnegocio="${registro.idnegocio}" class='btn btn-warning btn-sm editar' type='button'>Editar</button>
+                </td>
+              </tr>              
+              `;
+              $("#tabla-negocios tbody").innerHTML += nuevafila;
+              numFila++;
+            });
+          })
+          .catch(e => {
+            console.error(e)
+          })
+        } 
+
         function getSubcategoria() {
           const parametros = new FormData();
           parametros.append("operacion", "listar");
@@ -394,7 +450,7 @@
           });
         }
 
-        /*function registrar() {
+        function registrar() {
           const parametros = new FormData();
           parametros.append("operacion", "registrar");
           parametros.append("iddistrito",  $("#iddistrito").value);
@@ -419,75 +475,34 @@
             method: "POST",
             body: parametros
           })
-          .then(respuesta => respuesta.json())
+          .then(respuesta => respuesta.text())
           .then(datos => {
-            if (datos.idnegocio > 0) {
-              alert(`Usuario registrado con el ID: ${datos.idnegocio}`)
-              $("#form-negocio").reset();
-              listarNegocios();
-            }
+            console.log('Respuesta del servidor:', datos);
+            try {
+        // Intentar analizar la respuesta como JSON
+        const datosJSON = JSON.parse(datos);
+
+        if (datosJSON.success) {
+            alert(`Negocio editado con éxito: ${datosJSON.message}`);
+            listarNegocios();
+        } else {
+            // Mostrar mensaje de error específico
+            alert(`Error al editar negocio: ${datosJSON.message}`);
+        }
+    } catch (error) {
+        // Si hay un error al analizar la respuesta, mostrar detalles del error en la consola
+        console.error("Error al analizar la respuesta JSON:", error);
+        alert("Ocurrió un error al procesar la respuesta del servidor. Por favor, intenta nuevamente.");
+    }
           })
           .catch(e => {
-            console.error(e);
+            console.error("Error en la solicitud:", e);
+    alert("Ocurrió un error al realizar la solicitud. Por favor, intenta nuevamente.");
           });
-        }    */  
+        }    
         // Comunicación Controlador
         // Renderizar los datos en la Tabla > tbody
-        function listarNegocios() {
-          // Preparar los parametros a enviar
-          const parametros = new FormData();
-          parametros.append("operacion", "listarAdm")
-
-          fetch(`./controllers/negocio.controller.php`, {
-            method: 'POST',
-            body: parametros
-          })
-          .then(respuesta => respuesta.json())
-          .then(datosRecibidos => {
-            // Recorrer cada fila del arreglo
-            let numFila = 1;
-            $("#tabla-negocios tbody").innerHTML = '';
-            datosRecibidos.forEach(registro => {
-              let nuevafila = ``;
-              // Enviar los valores obtenidos en celdas <td></td>
-              nuevafila = `
-              <tr>
-                <td>${numFila}</td>
-                <td>${registro.NombreComercial}</td>
-                <td>${registro.nomsubcategoria}</td>
-                <td>${registro.Cliente}</td>
-                <td>${registro.nroruc}</td>
-                <td>${registro.nomdistrito}</td>
-                <td>${registro.direccion}</td>
-                <td>${registro.correo}</td>
-                <td>${registro.whatsapp}</td>
-                <td>${registro.telefono}</td>
-                <td>${registro.facebook}</td>
-                <td>${registro.instagram}</td>
-                <td>${registro.tiktok}</td>
-                <td class="max-width-ellipsis">${registro.descripcion}</td>
-                <td>
-                  <a href='#' class='view' data-idnegocio='${registro.logo}'>Ver imagen</a>
-                </td>
-                <td>
-                  <a href='#' class='view-portada' data-idnegocio='${registro.portada}'>Ver portada</a>
-                </td>
-                <td>${registro.pagweb}</td>
-                <td>${registro.valoracion}</td>
-                <td>
-                  <button data-idnegocio="${registro.idnegocio}" class='btn btn-danger btn-sm eliminar' type='button'>Eliminar</button>
-                  <button data-idnegocio="${registro.idnegocio}" class='btn btn-warning btn-sm editar' type='button'>Editar</button>
-                </td>
-              </tr>              
-              `;
-              $("#tabla-negocios tbody").innerHTML += nuevafila;
-              numFila++;
-            });
-          })
-          .catch(e => {
-            console.error(e)
-          })
-        }      
+             
         // DETECTANDO click sobre un elemento asíncrono
         // Creado en tiempo de ejecución (ELIMINAR - EDITAR)
         tabla.addEventListener("click", function (event) {
@@ -526,6 +541,7 @@
               console.log(datosRecibidos)
               // Asumiendo que solo hay un elemento en el array
               const primerElemento = datosRecibidos[0];
+              sonDatosNuevos = false;
 
               // Llenar el formulario con los datos obtenidos
               iddistritoInput.value = primerElemento.iddistrito || '';
@@ -555,8 +571,82 @@
           }
         });
 
+
+        function editarNegocioExistente() {
+          const nuevosDatos = {
+              idnegocio: idnegocio,
+              iddistrito: iddistritoInput.value,
+              idpersona: idpersonaInput.value,
+              idsubcategoria: idsubcategoriaInput.value,
+              nroruc: nrorucInput.value,
+              nombre: nombreComercialInput.value,
+              descripcion: descripcionInput.value,
+              direccion: direccionInput.value,
+              telefono: telefonoInput.value,
+              correo: correoInput.value,
+              facebook: facebookInput.value,
+              whatsapp: whatsappInput.value,
+              instagram: instagramInput.value,
+              tiktok: tiktokInput.value,
+              pagweb: pagwebInput.value,
+              logo: logoInput.files[0],  
+              portada: portadaInput.files[0],
+              valoracion: valoracionInput.value
+          };
+
+          // Enviar los nuevos datos para la actualización
+          const parametrosActualizar = new FormData();
+          parametrosActualizar.append("operacion", "editar");
+          parametrosActualizar.append("idnegocio", nuevosDatos.idnegocio);
+          parametrosActualizar.append("iddistrito", nuevosDatos.iddistrito);
+          parametrosActualizar.append("idpersona", nuevosDatos.idpersona);
+          parametrosActualizar.append("idsubcategoria", nuevosDatos.idsubcategoria);
+          parametrosActualizar.append("nroruc", nuevosDatos.nroruc);
+          parametrosActualizar.append("nombre", nuevosDatos.nombre);
+          parametrosActualizar.append("descripcion", nuevosDatos.descripcion);
+          parametrosActualizar.append("direccion", nuevosDatos.direccion);
+          parametrosActualizar.append("telefono", nuevosDatos.telefono);
+          parametrosActualizar.append("correo", nuevosDatos.correo);
+          parametrosActualizar.append("facebook", nuevosDatos.facebook);
+          parametrosActualizar.append("whatsapp", nuevosDatos.whatsapp);
+          parametrosActualizar.append("instagram", nuevosDatos.instagram);
+          parametrosActualizar.append("tiktok", nuevosDatos.tiktok);
+          parametrosActualizar.append("pagweb", nuevosDatos.pagweb);
+          parametrosActualizar.append("logo", nuevosDatos.logo);
+          parametrosActualizar.append("portada", nuevosDatos.portada);
+          parametrosActualizar.append("valoracion", nuevosDatos.valoracion);
+
+          fetch(`./controllers/negocio.controller.php`, {
+              method: 'POST',
+              body: parametrosActualizar
+          })
+          .then(respuesta => respuesta.text())
+          .then(resultado => {
+              console.log(resultado);
+              try {
+                  const datosJSON = JSON.parse(resultado);
+
+                  if (datosJSON.success) {
+                      alert(`Negocio editado con éxito: ${datosJSON.message}`);
+                      myModal.hide();
+                      listarNegocios();
+                  } else {
+                      alert(`Error al editar negocio: ${datosJSON.message}`);
+                  }
+              } catch (error) {
+                  console.error("Error al analizar la respuesta JSON:", error);
+                  alert("Ocurrió un error al procesar la respuesta del servidor. Por favor, intenta nuevamente.");
+              }
+          })
+          .catch(e => {
+              console.error('Error en la solicitud:', e);
+              alert('Ocurrió un error al realizar la solicitud. Por favor, intenta nuevamente.');
+          });
+      }
+
+
         // Agregar evento de clic para el botón "Save"
-        document.getElementById("guardarDatos").addEventListener('click', () => {
+        /*document.getElementById("guardarDatos").addEventListener('click', () => {
           // Obtener los nuevos valores del formulario
           const nuevosDatos = {
             idnegocio: idnegocio,
@@ -607,21 +697,32 @@
           })
           .then(respuesta => respuesta.text())
           .then(resultado => {
-            // Aquí puedes manejar la respuesta si es necesario
-            console.log(resultado);
-            // Cerrar el modal después de actualizar
+            console.log(resultado); 
+            if (resultado.success) {
+            alert(`Negocio editado con éxito: ${resultado.message}`);
             myModal.hide();
-            // Volver a listar los clientes
             listarNegocios();
+        } else {
+            alert(`Error al editar negocio: ${resultado.message}`);
+        }
           })
           .catch(e => {
-            console.error(e);
+            console.error('Error en la solicitud:', error);
+        alert('Ocurrió un error al realizar la solicitud. Por favor, intenta nuevamente.');
           });
-        });
+        });*/
 
+
+        
 
         $("#buscar").addEventListener("click", busqueda);
-        //$("#guardar").addEventListener("click", registrar);
+        document.getElementById("guardarDatos").addEventListener('click', () => {
+          if (sonDatosNuevos) {
+              registrar();
+          } else {
+              editarNegocioExistente();
+          }
+      });
 
         
 

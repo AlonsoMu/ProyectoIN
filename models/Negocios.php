@@ -259,7 +259,7 @@ class Negocio extends Conexion{
           $datos['valoracion']
         )
       );
-      //return $consulta->fetch(PDO::FETCH_ASSOC);
+      return $consulta->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
       die($e->getMessage());
     }
