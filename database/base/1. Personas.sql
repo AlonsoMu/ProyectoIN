@@ -74,7 +74,7 @@ BEGIN
         CONCAT(p.nombres, ' ', p.apellidos) LIKE CONCAT('%', nombre_apellido, '%')
     );
 END $$
-CALL spu_personas_buscar('angel');
+CALL spu_personas_buscar('xd');
 
 -- ##########################################################################################################################
 
