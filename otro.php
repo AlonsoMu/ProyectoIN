@@ -235,6 +235,7 @@
                     <label for="logo" class="form-label">Logo negocio</label>
                     <input type="file" id="logo" class="form-control">
                     <span id="nombreLogo" class="file-name"></span>
+                    <img class="img-thumbnail" id="img-preview">
                   </div>
                 </div>
                 <div class="col md-6">
@@ -242,6 +243,7 @@
                     <label for="portada" class="form-label">Portada negocio</label>
                     <input type="file" id="portada" class="form-control">
                     <span id="nombrePortada" class="file-name"></span>
+                    <img class="img-thumbnail" id="img-preview">
                   </div>
                 </div>
               </div>
@@ -724,16 +726,20 @@
           parametrosActualizar.append("instagram", nuevosDatos.instagram);
           parametrosActualizar.append("tiktok", nuevosDatos.tiktok);
           parametrosActualizar.append("pagweb", nuevosDatos.pagweb);
-          if (nuevosDatos.logo) {
-        parametrosActualizar.append("logo", nuevosDatos.logo);
-    } else {
-        parametrosActualizar.append("logo_existente", true);
-    }
-    if (nuevosDatos.portada) {
-        parametrosActualizar.append("portada", nuevosDatos.portada);
-    } else {
-        parametrosActualizar.append("portada_existente", true);
-    }
+          if (logoInput.files.length > 0) {
+            parametrosActualizar.append("logo", logoInput.files[0]);
+          } else {
+            // Indicar que no se seleccionó una nueva imagen de logo
+            parametrosActualizar.append("logo_existente", true);
+          }
+
+          // Verificar si se seleccionó una nueva imagen de portada
+          if (portadaInput.files.length > 0) {
+            parametrosActualizar.append("portada", portadaInput.files[0]);
+          } else {
+            // Indicar que no se seleccionó una nueva imagen de portada
+            parametrosActualizar.append("portada_existente", true);
+          }
           parametrosActualizar.append("valoracion", nuevosDatos.valoracion);
 
           fetch(`./controllers/negocio.controller.php`, {

@@ -45,8 +45,8 @@ BEGIN
         instagram = _instagram,
         tiktok = _tiktok,
         pagweb = _pagweb,
-        logo = _logo,
-        portada = _portada,
+        logo = IFNULL(_logo, logo),
+        portada = IFNULL(_portada, portada),
         valoracion = _valoracion,
         update_at = NOW()
     WHERE idnegocio = _idnegocio;

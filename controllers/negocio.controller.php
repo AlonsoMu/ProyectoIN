@@ -224,61 +224,71 @@ if (isset($_POST['operacion'])) {
         enviarJSON($negocio->inactive($datosEnviar));
         break;
 
-      case 'editar':
-        try {
-            //Generar un nombre a partir del momento exacto
-            $ahora = date('dmYhis');
-            $nombreArchivo = sha1($ahora) . ".jpg";
-
-            $datosEnviar = [
-              'idnegocio'       => $_POST['idnegocio'],
-              'iddistrito'      => $_POST['iddistrito'],
-              'idpersona'       => $_POST['idpersona'],
-              'idsubcategoria'  => $_POST['idsubcategoria'],
-              'nombre'          => $_POST['nombre'],
-              'descripcion'     => $_POST['descripcion'],
-              'direccion'       => $_POST['direccion'],
-              'telefono'        => $_POST['telefono'],
-              'correo'          => $_POST['correo'],
-              'facebook'        => $_POST['facebook'],
-              'whatsapp'        => $_POST['whatsapp'],
-              'instagram'       => $_POST['instagram'],
-              'tiktok'          => $_POST['tiktok'],
-              'pagweb'          => $_POST['pagweb'],
-              'logo'            => '',
-              'portada'         => '',
-              'valoracion'      => $_POST['valoracion']
-            ];
-
-            if (isset($_POST['nroruc'])) {
-              $datosEnviar['nroruc'] = $_POST['nroruc'];
-          }
-
-            //Solo movemos la imagen, si esta existe (uploaded)
-            if (isset($_FILES['logo']) && $_FILES['logo']['size'] > 0) {
-              // Si se selecciona una nueva imagen de logo, mover y actualizar el nombre
-              if (move_uploaded_file($_FILES['logo']['tmp_name'], "../imgLogos/" . $nombreArchivo)){
-                  $datosEnviar["logo"] = $nombreArchivo;
+        case 'editar':
+          try {
+              //Generar un nombre a partir del momento exacto
+              $ahora = date('dmYhis');
+              $nombreArchivo = sha1($ahora) . ".jpg";
+      
+              $datosEnviar = [
+                  'idnegocio'       => $_POST['idnegocio'],
+                  'iddistrito'      => $_POST['iddistrito'],
+                  'idpersona'       => $_POST['idpersona'],
+                  'idsubcategoria'  => $_POST['idsubcategoria'],
+                  'nombre'          => $_POST['nombre'],
+                  'descripcion'     => $_POST['descripcion'],
+                  'direccion'       => $_POST['direccion'],
+                  'telefono'        => $_POST['telefono'],
+                  'correo'          => $_POST['correo'],
+                  'facebook'        => $_POST['facebook'],
+                  'whatsapp'        => $_POST['whatsapp'],
+                  'instagram'       => $_POST['instagram'],
+                  'tiktok'          => $_POST['tiktok'],
+                  'pagweb'          => $_POST['pagweb'],
+                  'valoracion'      => $_POST['valoracion']
+              ];
+      
+              if (isset($_POST['nroruc'])) {
+                  $datosEnviar['nroruc'] = $_POST['nroruc'];
               }
-            }
-            
-            if (isset($_FILES['portada']) && $_FILES['portada']['size'] > 0) {
-                // Si se selecciona una nueva imagen de portada, mover y actualizar el nombre
-                if (move_uploaded_file($_FILES['portada']['tmp_name'], "../imgPortada/" . $nombreArchivo)){
-                    $datosEnviar["portada"] = $nombreArchivo;
-                }
-            }
-
-            // Lógica para editar el negocio
-            $negocio->editar($datosEnviar);
-
-            // Respuesta exitosa
-            echo json_encode(['success' => true, 'message' => 'Negocio actualizado correctamente']);
-        } catch (Exception $e) {
-            // En caso de error durante la edición
-            echo json_encode(['success' => false, 'message' => 'Error al actualizar el negocio: ' . $e->getMessage()]);
-        }
-        break;
+      
+              // Verificar si se seleccionó una nueva imagen de logo
+              if (isset($_FILES['logo']) && $_FILES['logo']['size'] > 0) {
+                  if (move_uploaded_file($_FILES['logo']['tmp_name'], "../imgLogos/" . $nombreArchivo)){
+                      $datosEnviar["logo"] = $nombreArchivo;
+                  } else {
+                      throw new Exception('Error al mover la imagen de logo.');
+                  }
+              } else {
+                  // Si no se selecciona una nueva imagen de logo, mantener la imagen actual
+                  $datosNegocio = $negocio->obtenerDatos(['idnegocio' => $datosEnviar['idnegocio']]);
+                  $datosEnviar["logo"] = $datosNegocio['logo'] ?? null;
+              }
+      
+              // Verificar si se seleccionó una nueva imagen de portada
+              if (isset($_FILES['portada']) && $_FILES['portada']['size'] > 0) {
+                  if (move_uploaded_file($_FILES['portada']['tmp_name'], "../imgPortada/" . $nombreArchivo)){
+                      $datosEnviar["portada"] = $nombreArchivo;
+                  } else {
+                      throw new Exception('Error al mover la imagen de portada.');
+                  }
+              } else {
+                  // Si no se selecciona una nueva imagen de portada, mantener la imagen actual
+                  $datosNegocio = $negocio->obtenerDatos(['idnegocio' => $datosEnviar['idnegocio']]);
+                  $datosEnviar["portada"] = $datosNegocio['portada'] ?? null;
+              }
+      
+              // Lógica para editar el negocio
+              $negocio->editar($datosEnviar);
+      
+              // Respuesta exitosa
+              echo json_encode(['success' => true, 'message' => 'Negocio actualizado correctamente']);
+          } catch (Exception $e) {
+              // En caso de error durante la edición
+              echo json_encode(['success' => false, 'message' => 'Error al actualizar el negocio: ' . $e->getMessage()]);
+          }
+          break;
+      
 
 
       case 'obtenerDatos':
