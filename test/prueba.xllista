@@ -108,7 +108,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form action="" autocomplete="off" id="form-negocio" enctype="multipart/form-data">
+            <form action="" autocomplete="off" id="form-negocio">
               <div class="row">
                 <!-- NOMBRE COMERCIAL DEL NEGOCIO -->
                 <div class="col-md-6">
@@ -494,29 +494,6 @@
           });
         }
 
-        function mostrarImagen(inputId, nombreSpanId) {
-    const input = document.getElementById(inputId);
-    const nombreSpan = document.getElementById(nombreSpanId);
-    const imagenPreview = document.getElementById(`imagen${inputId.charAt(0).toUpperCase() + inputId.slice(1)}`);
-
-    const archivo = input.files[0];
-
-    if (archivo) {
-        nombreSpan.textContent = archivo.name;
-        const lector = new FileReader();
-
-        lector.onload = function (e) {
-            imagenPreview.src = e.target.result;
-        };
-
-        lector.readAsDataURL(archivo);
-    } else {
-        // Limpiar la vista previa si no se selecciona ningún archivo
-        nombreSpan.textContent = '';
-        imagenPreview.src = '';
-    }
-}
-
         function registrar() {
 
           const parametros = new FormData();
@@ -619,8 +596,6 @@
           });
         }
 
-
-
         if (target.classList.contains('editar')) {
           // Obtener el idpersona del botón clickeado
           idnegocio = target.getAttribute('data-idnegocio');
@@ -661,13 +636,8 @@
             instagramInput.value = primerElemento.instagram || '';
             tiktokInput.value = primerElemento.tiktok || '';
             pagwebInput.value = primerElemento.pagweb || '';
-            if (primerElemento.logo) {
-            $("#logo").setAttribute("src", `./imgLogos/${primerElemento.logo}`);
-            }
-            // Mostrar la imagen de Portada
-            if (primerElemento.portada) {
-                $("#portada").setAttribute("src", `./imgPortada/${primerElemento.portada}`);
-            }
+            logoInput.value = '';
+            portadaInput.value = '';
             valoracionInput.value = primerElemento.valoracion || '';
 
             document.getElementById("modal-titulo").innerText = "Editar Negocio";
@@ -724,16 +694,8 @@
           parametrosActualizar.append("instagram", nuevosDatos.instagram);
           parametrosActualizar.append("tiktok", nuevosDatos.tiktok);
           parametrosActualizar.append("pagweb", nuevosDatos.pagweb);
-          if (nuevosDatos.logo) {
-        parametrosActualizar.append("logo", nuevosDatos.logo);
-    } else {
-        parametrosActualizar.append("logo_existente", true);
-    }
-    if (nuevosDatos.portada) {
-        parametrosActualizar.append("portada", nuevosDatos.portada);
-    } else {
-        parametrosActualizar.append("portada_existente", true);
-    }
+          parametrosActualizar.append("logo", nuevosDatos.logo);
+          parametrosActualizar.append("portada", nuevosDatos.portada);
           parametrosActualizar.append("valoracion", nuevosDatos.valoracion);
 
           fetch(`./controllers/negocio.controller.php`, {

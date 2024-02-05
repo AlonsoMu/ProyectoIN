@@ -255,15 +255,18 @@ if (isset($_POST['operacion'])) {
           }
 
             //Solo movemos la imagen, si esta existe (uploaded)
-            if (isset($_FILES['logo'])){
+            if (isset($_FILES['logo']) && $_FILES['logo']['size'] > 0) {
+              // Si se selecciona una nueva imagen de logo, mover y actualizar el nombre
               if (move_uploaded_file($_FILES['logo']['tmp_name'], "../imgLogos/" . $nombreArchivo)){
-                $datosEnviar["logo"] = $nombreArchivo;
+                  $datosEnviar["logo"] = $nombreArchivo;
               }
             }
-            if (isset($_FILES['portada'])){
-              if (move_uploaded_file($_FILES['portada']['tmp_name'], "../imgPortada/" . $nombreArchivo)){
-                $datosEnviar["portada"] = $nombreArchivo;
-              }
+            
+            if (isset($_FILES['portada']) && $_FILES['portada']['size'] > 0) {
+                // Si se selecciona una nueva imagen de portada, mover y actualizar el nombre
+                if (move_uploaded_file($_FILES['portada']['tmp_name'], "../imgPortada/" . $nombreArchivo)){
+                    $datosEnviar["portada"] = $nombreArchivo;
+                }
             }
 
             // Lógica para editar el negocio
