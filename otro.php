@@ -235,7 +235,6 @@
                     <label for="logo" class="form-label">Logo negocio</label>
                     <input type="file" id="logo" class="form-control">
                     <span id="nombreLogo" class="file-name"></span>
-                    <img class="img-thumbnail" id="img-preview">
                   </div>
                 </div>
                 <div class="col md-6">
@@ -243,7 +242,6 @@
                     <label for="portada" class="form-label">Portada negocio</label>
                     <input type="file" id="portada" class="form-control">
                     <span id="nombrePortada" class="file-name"></span>
-                    <img class="img-thumbnail" id="img-preview">
                   </div>
                 </div>
               </div>
@@ -497,27 +495,27 @@
         }
 
         function mostrarImagen(inputId, nombreSpanId) {
-    const input = document.getElementById(inputId);
-    const nombreSpan = document.getElementById(nombreSpanId);
-    const imagenPreview = document.getElementById(`imagen${inputId.charAt(0).toUpperCase() + inputId.slice(1)}`);
+          const input = document.getElementById(inputId);
+          const nombreSpan = document.getElementById(nombreSpanId);
+          const imagenPreview = document.getElementById(`imagen${inputId.charAt(0).toUpperCase() + inputId.slice(1)}`);
 
-    const archivo = input.files[0];
+          const archivo = input.files[0];
 
-    if (archivo) {
-        nombreSpan.textContent = archivo.name;
-        const lector = new FileReader();
+          if (archivo) {
+            nombreSpan.textContent = archivo.name;
+            const lector = new FileReader();
 
-        lector.onload = function (e) {
-            imagenPreview.src = e.target.result;
-        };
+            lector.onload = function (e) {
+              imagenPreview.src = e.target.result;
+            };
 
-        lector.readAsDataURL(archivo);
-    } else {
-        // Limpiar la vista previa si no se selecciona ningún archivo
-        nombreSpan.textContent = '';
-        imagenPreview.src = '';
-    }
-}
+            lector.readAsDataURL(archivo);
+          } else {
+            // Limpiar la vista previa si no se selecciona ningún archivo
+            nombreSpan.textContent = '';
+            imagenPreview.src = '';
+          }
+        }
 
         function registrar() {
 
@@ -548,16 +546,12 @@
           .then(respuesta => respuesta.json())
           .then(datos => {
             if (datos.idnegocio > 0) {
-                alert(`Usuario registrado con el ID: ${datos.idnegocio}`)
-                $("#form-negocio").reset();
-                myModal.hide();
-                listarNegocios();
-
-                
-
-                //  $("#modal-negocio").modal('hide');
-                }
-    
+              alert(`Usuario registrado con el ID: ${datos.idnegocio}`)
+              $("#form-negocio").reset();
+              myModal.hide();
+              listarNegocios();
+              //  $("#modal-negocio").modal('hide');
+            }
           })
           .catch(e => {
             console.error("Error en la solicitud:", e);
@@ -571,141 +565,135 @@
         // DETECTANDO click sobre un elemento asíncrono
         // Creado en tiempo de ejecución (ELIMINAR - EDITAR)
         tabla.addEventListener("click", function (event) {
-        // Obtener el elemento clickeado
-        const target = event.target;
-        idnegocio = parseInt(event.target.dataset.idnegocio);
+          // Obtener el elemento clickeado
+          const target = event.target;
+          idnegocio = parseInt(event.target.dataset.idnegocio);
 
-        // VISOR
-        if(event.target.classList.contains("view")){
-          const logo = event.target.dataset.idnegocio;
-          $("#visor").setAttribute("src", `./imgLogos/${logo}`);
-          myModalVisor.toggle();
-        }
+          // VISOR
+          if(event.target.classList.contains("view")){
+            const logo = event.target.dataset.idnegocio;
+            $("#visor").setAttribute("src", `./imgLogos/${logo}`);
+            myModalVisor.toggle();
+          }
 
-        if(event.target.classList.contains("view-portada")){
-          const portada = event.target.dataset.idnegocio;
-          $("#visor-portada").setAttribute("src", `./imgPortada/${portada}`);
-          myModalPortada.toggle();
-        }
+          if(event.target.classList.contains("view-portada")){
+            const portada = event.target.dataset.idnegocio;
+            $("#visor-portada").setAttribute("src", `./imgPortada/${portada}`);
+            myModalPortada.toggle();
+          }
 
-        if (event.target.classList.contains("eliminar")) {
-          const idnegocio = event.target.dataset.idnegocio;
+          if (event.target.classList.contains("eliminar")) {
+            const idnegocio = event.target.dataset.idnegocio;
 
-          // Mostrar el modal de confirmación
-          var confirmarModal = new bootstrap.Modal(document.getElementById('confirmarModal'));
-          confirmarModal.show();
+            // Mostrar el modal de confirmación
+            var confirmarModal = new bootstrap.Modal(document.getElementById('confirmarModal'));
+            confirmarModal.show();
 
-          // Agregar un evento de clic al botón de confirmar eliminar dentro del modal
-          document.getElementById('confirmarEliminarBtn').addEventListener('click', function () {
-            // Lógica para eliminar el registro
+            // Agregar un evento de clic al botón de confirmar eliminar dentro del modal
+            document.getElementById('confirmarEliminarBtn').addEventListener('click', function () {
+              // Lógica para eliminar el registro
+              const parametros = new FormData();
+              parametros.append("operacion", "inactive");
+              parametros.append("idnegocio", idnegocio);
+
+              fetch(`./controllers/negocio.controller.php`, {
+                method: "POST",
+                body: parametros
+              })
+              .then(respuesta => respuesta.text())
+              .then(datos => {
+                console.log(datos);
+                // Cerrar el modal después de eliminar
+                confirmarModal.hide();
+                listarNegocios();
+              })
+              .catch(e => {
+                console.error(e);
+                // Cerrar el modal en caso de error
+                confirmarModal.hide();
+              });
+            });
+          }
+
+          if (target.classList.contains('editar')) {
+            // Obtener el idpersona del botón clickeado
+            idnegocio = target.getAttribute('data-idnegocio');
+
+            // Restablecer el formulario si son datos nuevos
+            if (sonDatosNuevos) {
+              $("#form-negocio").reset();
+            }
+
+            // Obtener datos del cliente por su idpersona
             const parametros = new FormData();
-            parametros.append("operacion", "inactive");
+            parametros.append("operacion", "obtenerDatos");
             parametros.append("idnegocio", idnegocio);
 
             fetch(`./controllers/negocio.controller.php`, {
-              method: "POST",
+              method: 'POST',
               body: parametros
             })
-            .then(respuesta => respuesta.text())
-            .then(datos => {
-              console.log(datos);
-              // Cerrar el modal después de eliminar
-              confirmarModal.hide();
-              listarNegocios();
+            .then(respuesta => respuesta.json())
+            .then(datosRecibidos => {
+              console.log(datosRecibidos)
+              // Asumiendo que solo hay un elemento en el array
+              const primerElemento = datosRecibidos[0];
+              sonDatosNuevos = false;
+
+              // Llenar el formulario con los datos obtenidos
+              iddistritoInput.value = primerElemento.iddistrito || '';
+              idpersonaInput.value = primerElemento.idpersona + ' ' + primerElemento.Cliente || '';
+              idsubcategoriaInput.value = primerElemento.idsubcategoria || '';
+              nrorucInput.value = primerElemento.nroruc || '';
+              nombreComercialInput.value = primerElemento.NombreComercial || '';
+              descripcionInput.value = primerElemento.descripcion || '';
+              direccionInput.value = primerElemento.direccion || '';
+              telefonoInput.value = primerElemento.telefono || '';
+              correoInput.value = primerElemento.correo || '';
+              facebookInput.value = primerElemento.facebook || '';
+              whatsappInput.value = primerElemento.whatsapp || '';
+              instagramInput.value = primerElemento.instagram || '';
+              tiktokInput.value = primerElemento.tiktok || '';
+              pagwebInput.value = primerElemento.pagweb || '';
+              if (primerElemento.logo) {
+                $("#logo").setAttribute("src", `./imgLogos/${primerElemento.logo}`);
+              }
+              // Mostrar la imagen de Portada
+              if (primerElemento.portada) {
+                $("#portada").setAttribute("src", `./imgPortada/${primerElemento.portada}`);
+              }
+              valoracionInput.value = primerElemento.valoracion || '';
+
+              document.getElementById("modal-titulo").innerText = "Editar Negocio";
+              // Abrir el modal
+              myModal.show();
             })
             .catch(e => {
               console.error(e);
-              // Cerrar el modal en caso de error
-              confirmarModal.hide();
             });
-          });
-        }
-
-
-
-        if (target.classList.contains('editar')) {
-          // Obtener el idpersona del botón clickeado
-          idnegocio = target.getAttribute('data-idnegocio');
-
-          // Restablecer el formulario si son datos nuevos
-          if (sonDatosNuevos) {
-            $("#form-negocio").reset();
           }
-
-          // Obtener datos del cliente por su idpersona
-          const parametros = new FormData();
-          parametros.append("operacion", "obtenerDatos");
-          parametros.append("idnegocio", idnegocio);
-
-          fetch(`./controllers/negocio.controller.php`, {
-            method: 'POST',
-            body: parametros
-          })
-          .then(respuesta => respuesta.json())
-          .then(datosRecibidos => {
-            console.log(datosRecibidos)
-            // Asumiendo que solo hay un elemento en el array
-            const primerElemento = datosRecibidos[0];
-            sonDatosNuevos = false;
-
-            // Llenar el formulario con los datos obtenidos
-            iddistritoInput.value = primerElemento.iddistrito || '';
-            idpersonaInput.value = primerElemento.Cliente || '';
-            idsubcategoriaInput.value = primerElemento.idsubcategoria || '';
-            nrorucInput.value = primerElemento.nroruc || '';
-            nombreComercialInput.value = primerElemento.NombreComercial || '';
-            descripcionInput.value = primerElemento.descripcion || '';
-            direccionInput.value = primerElemento.direccion || '';
-            telefonoInput.value = primerElemento.telefono || '';
-            correoInput.value = primerElemento.correo || '';
-            facebookInput.value = primerElemento.facebook || '';
-            whatsappInput.value = primerElemento.whatsapp || '';
-            instagramInput.value = primerElemento.instagram || '';
-            tiktokInput.value = primerElemento.tiktok || '';
-            pagwebInput.value = primerElemento.pagweb || '';
-            if (primerElemento.logo) {
-            $("#logo").setAttribute("src", `./imgLogos/${primerElemento.logo}`);
-            }
-            // Mostrar la imagen de Portada
-            if (primerElemento.portada) {
-                $("#portada").setAttribute("src", `./imgPortada/${primerElemento.portada}`);
-            }
-            valoracionInput.value = primerElemento.valoracion || '';
-
-            document.getElementById("modal-titulo").innerText = "Editar Negocio";
-            // Abrir el modal
-            myModal.show();
-            
-          })
-          .catch(e => {
-            console.error(e);
-          });
-        }
-      });
-
-        
-
-
+        });
+      
         function editarNegocioExistente() {
           const nuevosDatos = {
-              idnegocio: idnegocio,
-              iddistrito: iddistritoInput.value,
-              idpersona: idpersonaInput.value,
-              idsubcategoria: idsubcategoriaInput.value,
-              nroruc: nrorucInput.value,
-              nombre: nombreComercialInput.value,
-              descripcion: descripcionInput.value,
-              direccion: direccionInput.value,
-              telefono: telefonoInput.value,
-              correo: correoInput.value,
-              facebook: facebookInput.value,
-              whatsapp: whatsappInput.value,
-              instagram: instagramInput.value,
-              tiktok: tiktokInput.value,
-              pagweb: pagwebInput.value,
-              logo: logoInput.files[0],  
-              portada: portadaInput.files[0],
-              valoracion: valoracionInput.value
+            idnegocio: idnegocio,
+            iddistrito: iddistritoInput.value,
+            idpersona: idpersonaInput.value,
+            idsubcategoria: idsubcategoriaInput.value,
+            nroruc: nrorucInput.value,
+            nombre: nombreComercialInput.value,
+            descripcion: descripcionInput.value,
+            direccion: direccionInput.value,
+            telefono: telefonoInput.value,
+            correo: correoInput.value,
+            facebook: facebookInput.value,
+            whatsapp: whatsappInput.value,
+            instagram: instagramInput.value,
+            tiktok: tiktokInput.value,
+            pagweb: pagwebInput.value,
+            logo: logoInput.files[0],  
+            portada: portadaInput.files[0],
+            valoracion: valoracionInput.value
           };
 
           // Enviar los nuevos datos para la actualización
@@ -726,63 +714,57 @@
           parametrosActualizar.append("instagram", nuevosDatos.instagram);
           parametrosActualizar.append("tiktok", nuevosDatos.tiktok);
           parametrosActualizar.append("pagweb", nuevosDatos.pagweb);
-          if (logoInput.files.length > 0) {
-            parametrosActualizar.append("logo", logoInput.files[0]);
+          if (nuevosDatos.logo) {
+            parametrosActualizar.append("logo", nuevosDatos.logo);
           } else {
-            // Indicar que no se seleccionó una nueva imagen de logo
             parametrosActualizar.append("logo_existente", true);
           }
-
-          // Verificar si se seleccionó una nueva imagen de portada
-          if (portadaInput.files.length > 0) {
-            parametrosActualizar.append("portada", portadaInput.files[0]);
+          if (nuevosDatos.portada) {
+            parametrosActualizar.append("portada", nuevosDatos.portada);
           } else {
-            // Indicar que no se seleccionó una nueva imagen de portada
             parametrosActualizar.append("portada_existente", true);
           }
           parametrosActualizar.append("valoracion", nuevosDatos.valoracion);
 
           fetch(`./controllers/negocio.controller.php`, {
-              method: 'POST',
-              body: parametrosActualizar
+            method: 'POST',
+            body: parametrosActualizar
           })
           .then(respuesta => respuesta.text())
           .then(resultado => {
-              console.log(resultado);
-              try {
-                  const datosJSON = JSON.parse(resultado);
+            console.log(resultado);
+            try {
+              const datosJSON = JSON.parse(resultado);
 
-                  if (datosJSON.success) {
-                      alert(`Negocio editado con éxito: ${datosJSON.message}`);
-                      myModal.hide();
-                      listarNegocios();
-                      $("#form-negocio").reset();
-                      sonDatosNuevos = true;
-                  } else {
-                      alert(`Error al editar negocio: ${datosJSON.message}`);
-                  }
-              } catch (error) {
-                  console.error("Error al analizar la respuesta JSON:", error);
-                  alert("Ocurrió un error al procesar la respuesta del servidor. Por favor, intenta nuevamente.");
+              if (datosJSON.success) {
+                alert(`Negocio editado con éxito: ${datosJSON.message}`);
+                myModal.hide();
+                listarNegocios();
+                $("#form-negocio").reset();
+                sonDatosNuevos = true;
+              } else {
+                alert(`Error al editar negocio: ${datosJSON.message}`);
               }
+            } catch (error) {
+              console.error("Error al analizar la respuesta JSON:", error);
+              alert("Ocurrió un error al procesar la respuesta del servidor. Por favor, intenta nuevamente.");
+            }
               
           })
           .catch(e => {
-              console.error('Error en la solicitud:', e);
-              alert('Ocurrió un error al realizar la solicitud. Por favor, intenta nuevamente.');
+            console.error('Error en la solicitud:', e);
+            alert('Ocurrió un error al realizar la solicitud. Por favor, intenta nuevamente.');
           });
-      }
+        }
 
         $("#buscar").addEventListener("click", busqueda);
         document.getElementById("guardarDatos").addEventListener('click', () => {
           if (sonDatosNuevos) {
-              registrar();
+            registrar();
           } else {
-              editarNegocioExistente();
+            editarNegocioExistente();
           }
-      });
-
-        
+        });
 
         listarNegocios();
         getSubcategoria();
