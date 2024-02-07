@@ -674,7 +674,7 @@ BEGIN
 END $$
 CALL spu_negocios_busquedaCard('xd');
 
-
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_obtener_id(
@@ -723,9 +723,9 @@ BEGIN
     WHERE n.idnegocio = _idnegocio
       AND n.inactive_at IS NULL; 
 END $$
-
 CALL spu_obtener_id(1, 'viernes');
 
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE negocioMap(
@@ -747,4 +747,41 @@ BEGIN
     SELECT _latitud AS latitud_obtenida, _longitud AS longitud_obtenida;
 END $$
 CALL negocioMap(1);
-	
+
+-- ##########################################################################################################################
+
+DELIMITER $$
+CREATE PROCEDURE spu_busquedas_negocios(
+    IN nombre_comercial VARCHAR(200)
+)
+BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        p.idpersona,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        CONCAT(p.nombres, ' ', p.apellidos) AS Cliente,
+        n.nroruc,
+        d.nomdistrito,
+        n.direccion,
+        n.correo,
+        n.whatsapp,
+		n.telefono,
+        n.facebook,
+        n.instagram,
+        n.tiktok,
+        n.descripcion,
+        n.pagweb,
+        n.logo,
+        n.portada,
+        n.valoracion
+    FROM negocios n
+    INNER JOIN personas p ON n.idpersona = p.idpersona
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%')
+    AND n.inactive_at IS NULL;
+END $$
+CALL spu_busquedas_negocios('carsa');

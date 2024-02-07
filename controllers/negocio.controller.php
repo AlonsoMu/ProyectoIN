@@ -297,5 +297,12 @@ if (isset($_POST['operacion'])) {
         ];
         enviarJSON($negocio->obtenerDatos($datosEnviar));
         break;
+      
+      case 'busquedaNegocios':
+        $datosEnviar = [
+          'nombre_comercial' => $_POST['nombre_comercial']
+        ];
+        enviarJSON($negocio->busquedaNegocios($datosEnviar));
+        break;
   }
 }

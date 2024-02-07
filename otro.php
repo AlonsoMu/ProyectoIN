@@ -35,6 +35,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
+      
     </style>
 
     <div class="container mt-3">
@@ -42,6 +43,20 @@
         <h4>Sting Studio</h4>
         <div>Lista de Negocios</div>
       </div>
+      <!-- BUSCADOR -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class=" d-flex justify-content-center">
+            <div class="input-group" style="max-width: 700px;">
+              <input type="search" id="nombre_comercial" class="form-control" />
+              <button type="button" id="busqueda" class="bus btn btn-primary">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
       <div class="col-md-6 text-end">
         <button class="btn btn-success btn-sm" id="abrir-modal"  data-bs-toggle="modal" data-bs-target="#modal-negocio"><i class="bi bi-plus-circle"></i> Agregar producto</button>
       </div>
@@ -373,7 +388,7 @@
 
         
 
-        function listarNegocios() {
+        /*function listarNegocios() {
           // Preparar los parametros a enviar
           const parametros = new FormData();
           parametros.append("operacion", "listarAdm")
@@ -427,7 +442,7 @@
           .catch(e => {
             console.error(e)
           })
-        } 
+        } */
 
         function getSubcategoria() {
           const parametros = new FormData();
@@ -757,7 +772,137 @@
           });
         }
 
+        /*function busquedaNegocios() {
+          const parametros = new FormData();
+          parametros.append("operacion", "busquedaNegocios");
+          parametros.append("nombre_comercial", $("#nombre_comercial").value);
+
+          fetch(`./controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            console.log("Respuesta de búsqueda:", datos);
+            // Limpiar la tabla antes de agregar los nuevos resultados
+            $("#tabla-negocios tbody").innerHTML = '';
+            let numFila = 1;
+            // Recorrer los datos recibidos y agregar cada registro a la tabla
+            datos.forEach(registro => {
+              let nuevafila = `
+              <tr>
+                <td>${numFila}</td>
+                <td>${registro.NombreComercial}</td>
+                <td>${registro.nomsubcategoria}</td>
+                <td>${registro.Cliente}</td>
+                <td>${registro.nroruc}</td>
+                <td>${registro.nomdistrito}</td>
+                <td>${registro.direccion}</td>
+                <td>${registro.correo}</td>
+                <td>${registro.whatsapp}</td>
+                <td>${registro.telefono}</td>
+                <td>${registro.facebook}</td>
+                <td>${registro.instagram}</td>
+                <td>${registro.tiktok}</td>
+                <td class="max-width-ellipsis">${registro.descripcion}</td>
+                <td>
+                  <a href='#' class='view' data-idnegocio='${registro.logo}'>Ver imagen</a>
+                </td>
+                <td>
+                  <a href='#' class='view-portada' data-idnegocio='${registro.portada}'>Ver portada</a>
+                </td>
+                <td>${registro.pagweb}</td>
+                <td>${registro.valoracion}</td>
+                <td>
+                  <button data-idnegocio="${registro.idnegocio}" class='btn btn-danger btn-sm eliminar' type='button'>Eliminar</button>
+                  <button data-idnegocio="${registro.idnegocio}" class='btn btn-warning btn-sm editar' type='button'>Editar</button>
+                </td>
+              </tr>`;
+              $("#tabla-negocios tbody").innerHTML += nuevafila;
+            });
+          })
+          .catch(e => {
+            console.error("Error en la búsqueda:", e);
+          });
+        }*/
+
+        function crearFilaNegocio(registro, numFila) {
+          return `
+          <tr>
+            <td>${numFila}</td>
+            <td>${registro.NombreComercial}</td>
+            <td>${registro.nomsubcategoria}</td>
+            <td>${registro.Cliente}</td>
+            <td>${registro.nroruc}</td>
+            <td>${registro.nomdistrito}</td>
+            <td>${registro.direccion}</td>
+            <td>${registro.correo}</td>
+            <td>${registro.whatsapp}</td>
+            <td>${registro.telefono}</td>
+            <td>${registro.facebook}</td>
+            <td>${registro.instagram}</td>
+            <td>${registro.tiktok}</td>
+            <td class="max-width-ellipsis">${registro.descripcion}</td>
+            <td><a href='#' class='view' data-idnegocio='${registro.logo}'>Ver imagen</a></td>
+            <td><a href='#' class='view-portada' data-idnegocio='${registro.portada}'>Ver portada</a></td>
+            <td>${registro.pagweb}</td>
+            <td>${registro.valoracion}</td>
+            <td>
+              <button data-idnegocio="${registro.idnegocio}" class='btn btn-danger btn-sm eliminar' type='button'>Eliminar</button>
+              <button data-idnegocio="${registro.idnegocio}" class='btn btn-warning btn-sm editar' type='button'>Editar</button>
+            </td>
+          </tr>`;
+        }
+
+        function busquedaNegocios() {
+          const parametros = new FormData();
+          parametros.append("operacion", "busquedaNegocios");
+          parametros.append("nombre_comercial", $("#nombre_comercial").value);
+
+          fetch(`./controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            console.log("Respuesta de búsqueda:", datos);
+            $("#tabla-negocios tbody").innerHTML = '';
+            let numFila = 1;
+            datos.forEach(registro => {
+              $("#tabla-negocios tbody").innerHTML += crearFilaNegocio(registro, numFila);
+              numFila++;
+            });
+          })
+          .catch(e => {
+            console.error("Error en la búsqueda:", e);
+          });
+        }
+
+        function listarNegocios() {
+          const parametros = new FormData();
+          parametros.append("operacion", "listarAdm");
+
+          fetch(`./controllers/negocio.controller.php`, {
+            method: 'POST',
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datosRecibidos => {
+            let numFila = 1;
+            $("#tabla-negocios tbody").innerHTML = '';
+            datosRecibidos.forEach(registro => {
+              $("#tabla-negocios tbody").innerHTML += crearFilaNegocio(registro, numFila);
+              numFila++;
+            });
+          })
+          .catch(e => {
+            console.error(e)
+          });
+        }
+
+
         $("#buscar").addEventListener("click", busqueda);
+        $("#busqueda").addEventListener("click", busquedaNegocios);
         document.getElementById("guardarDatos").addEventListener('click', () => {
           if (sonDatosNuevos) {
             registrar();
