@@ -11,7 +11,6 @@ if (isset($_POST['operacion'])) {
       $datos = [
         'apellidos' => $_POST['apellidos'],
         'nombres' => $_POST['nombres'],
-        'tipodoc' => $_POST['tipodoc'],
         'numerodoc' => $_POST['numerodoc']
       ];
       enviarJSON($persona->registrar($datos));

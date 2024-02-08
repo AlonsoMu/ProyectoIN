@@ -11,16 +11,15 @@ class Persona extends Conexion{
 
   public function registrar($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spu_personas_registrar(?,?,?,?)");
+      $consulta = $this->conexion->prepare("CALL spu_personas_registrar(?,?,?)");
       $consulta->execute(
         array(
           $datos['apellidos'],
           $datos['nombres'],
-          $datos['tipodoc'],
           $datos['numerodoc']
         )
       );
-      return $consulta->fetch(PDO::FETCH_ASSOC);
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
       die($e->getMessage());
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-02-2024 a las 04:53:20
+-- Tiempo de generación: 08-02-2024 a las 04:54:51
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -92,6 +92,68 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_buscar_token` (IN `_correo` VAR
     WHERE correo = _correo AND token = _token;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_busquedas_negocios` (IN `nombre_comercial` VARCHAR(200))   BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        p.idpersona,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        CONCAT(p.nombres, ' ', p.apellidos) AS Cliente,
+        n.nroruc,
+        d.nomdistrito,
+        n.direccion,
+        n.correo,
+        n.whatsapp,
+		n.telefono,
+        n.facebook,
+        n.instagram,
+        n.tiktok,
+        n.descripcion,
+        n.pagweb,
+        n.logo,
+        n.portada,
+        n.valoracion
+    FROM negocios n
+    INNER JOIN personas p ON n.idpersona = p.idpersona
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%')
+    AND n.inactive_at IS NULL;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_busquedas_negocios3` (IN `nombre_comercial` VARCHAR(200))   BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+        d.iddistrito,
+        p.idpersona,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        CONCAT(p.nombres, ' ', p.apellidos) AS Cliente,
+        n.nroruc,
+        d.nomdistrito,
+        n.direccion,
+        n.correo,
+        n.whatsapp,
+        n.telefono,
+        n.facebook,
+        n.instagram,
+        n.tiktok,
+        n.descripcion,
+        n.pagweb,
+        n.logo,
+        n.portada,
+        n.valoracion
+    FROM negocios n
+    INNER JOIN personas p ON n.idpersona = p.idpersona
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%')
+    AND n.inactive_at IS NULL;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_carrusel_listar` ()   BEGIN
 	SELECT
 		idcarrusel,
@@ -124,6 +186,41 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_categorias_registrar` (IN `_nom
 	-- SELECT @@last_insert_id 'idcategoria';
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_clientes_listar` ()   BEGIN
+	SELECT
+		p.idpersona,
+		CONCAT(p.nombres, ' ', p.apellidos) AS 'datos',
+        p.numerodoc,
+		COUNT(n.idnegocio) AS cantidad
+		FROM
+			personas p
+		LEFT JOIN
+			negocios n ON p.idpersona = n.idpersona
+		WHERE NOT EXISTS (
+			SELECT 1
+				FROM usuarios u
+				WHERE u.idpersona = p.idpersona
+				AND u.nivelacceso = 'ADM'
+		)
+		GROUP BY
+		p.idpersona, datos;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_clientes_obtener` (IN `_idpersona` INT)   BEGIN
+	SELECT *
+		FROM personas
+		WHERE idpersona = _idpersona;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_cliente_actualizar` (`_idpersona` INT, `_apellidos` VARCHAR(100), `_nombres` VARCHAR(100), `_numerodoc` CHAR(15))   BEGIN
+	UPDATE personas SET
+		apellidos = _apellidos,
+		nombres = _nombres,
+		numerodoc = _numerodoc,
+		update_at = NOW()
+	WHERE idpersona = _idpersona;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_distritos_listar` ()   BEGIN
 	SELECT 
 		iddistrito,
@@ -132,6 +229,37 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_distritos_listar` ()   BEGIN
         longitud
 	FROM distritos
     WHERE inactive_at IS NULL;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_editar_negocio` (IN `_idnegocio` INT, IN `_iddistrito` INT, IN `_idpersona` INT, IN `_idsubcategoria` INT, IN `_nroruc` CHAR(15), IN `_nombre` VARCHAR(200), IN `_descripcion` VARCHAR(200), IN `_direccion` VARCHAR(100), IN `_telefono` CHAR(11), IN `_correo` VARCHAR(100), IN `_facebook` VARCHAR(200), IN `_whatsapp` VARCHAR(200), IN `_instagram` VARCHAR(200), IN `_tiktok` VARCHAR(200), IN `_pagweb` VARCHAR(200), IN `_logo` VARCHAR(100), IN `_portada` VARCHAR(200), IN `_valoracion` INT)   BEGIN
+    -- Actualizar los datos del negocio
+    UPDATE negocios
+    SET 
+        iddistrito = _iddistrito,
+        idpersona = _idpersona,
+        idsubcategoria = _idsubcategoria,
+        nroruc = _nroruc,
+        nombre = _nombre,
+        descripcion = _descripcion,
+        direccion = _direccion,
+        telefono = _telefono,
+        correo = _correo,
+        facebook = _facebook,
+        whatsapp = _whatsapp,
+        instagram = _instagram,
+        tiktok = _tiktok,
+        pagweb = _pagweb,
+        logo = IFNULL(_logo, logo),
+        portada = IFNULL(_portada, portada),
+        valoracion = _valoracion,
+        update_at = NOW()
+    WHERE idnegocio = _idnegocio;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_eliminar_negocio` (IN `_idnegocio` INT)   BEGIN
+	UPDATE negocios
+    SET inactive_at = NOW()
+    WHERE idnegocio = _idnegocio;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_galerias_listar` (IN `_idnegocio` INT)   BEGIN
@@ -362,6 +490,69 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listarSubyDis` (IN `_i
         AND n.iddistrito = _iddistrito;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listar_adm` ()   BEGIN
+	SELECT
+    n.idnegocio,
+    s.idsubcategoria,
+     d.iddistrito,
+    n.nombre AS NombreComercial,
+    s.nomsubcategoria,
+    p.idpersona,
+    CONCAT(p.apellidos, ', ', p.nombres) AS Cliente,
+    n.nroruc,
+    d.nomdistrito,
+    n.direccion,
+    n.correo,
+    n.whatsapp,
+    n.telefono,
+    n.facebook,
+    n.instagram,
+    n.tiktok,
+    n.descripcion,
+    n.pagweb,
+    n.logo,
+    n.portada,
+    n.valoracion
+	FROM negocios n
+	INNER JOIN personas p ON n.idpersona = p.idpersona
+	INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE n.inactive_at IS NULL
+    ORDER BY n.create_at;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_listar_obt` (IN `p_idnegocio` INT)   BEGIN
+    SELECT
+        n.idnegocio,
+        s.idsubcategoria,
+		d.iddistrito,
+        n.nombre AS NombreComercial,
+        s.nomsubcategoria,
+        p.idpersona,
+        CONCAT(p.apellidos, ', ', p.nombres) AS Cliente,
+        n.nroruc,
+        d.nomdistrito,
+        n.direccion,
+        n.correo,
+        n.whatsapp,
+        n.telefono,
+        n.facebook,
+        n.instagram,
+        n.tiktok,
+        n.descripcion,
+        n.pagweb,
+        n.logo,
+        n.portada,
+        n.valoracion
+    FROM
+        negocios n
+    INNER JOIN personas p ON n.idpersona = p.idpersona
+    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
+    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
+    WHERE
+        n.inactive_at IS NULL AND n.idnegocio = p_idnegocio;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_negocios_registrar` (IN `_iddistrito` INT, IN `_idpersona` INT, IN `_idsubcategoria` INT, IN `_nroruc` CHAR(15), IN `_nombre` VARCHAR(200), IN `_descripcion` VARCHAR(200), IN `_direccion` VARCHAR(100), IN `_telefono` CHAR(11), IN `_correo` VARCHAR(200), IN `_facebook` VARCHAR(200), IN `_whatsapp` VARCHAR(200), IN `_instagram` VARCHAR(200), IN `_tiktok` VARCHAR(200), IN `_pagweb` VARCHAR(200), IN `_logo` VARCHAR(200), IN `_valoracion` INT, IN `_portada` VARCHAR(200))   BEGIN
 	INSERT INTO negocios
 		(iddistrito, idpersona, idsubcategoria, nroruc, nombre, descripcion, 
@@ -544,6 +735,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_personas_buscar` (IN `nombre_ap
     AND (
         CONCAT(p.nombres, ' ', p.apellidos) LIKE CONCAT('%', nombre_apellido, '%')
     );
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_personas_registrar` (IN `_apellidos` VARCHAR(100), IN `_nombres` VARCHAR(100), IN `_numerodoc` VARCHAR(15))   BEGIN
+	INSERT INTO personas
+		(apellidos, nombres, numerodoc)
+	VALUES
+		(_apellidos, _nombres, _numerodoc);
+	SELECT @@last_insert_id 'idpersona';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spu_planes_registrar` (IN `_tipoplan` CHAR(8), IN `_precio` DECIMAL(9,2))   BEGIN
@@ -880,17 +1079,14 @@ CREATE TABLE `negocios` (
 --
 
 INSERT INTO `negocios` (`idnegocio`, `iddistrito`, `idpersona`, `idsubcategoria`, `nroruc`, `nombre`, `descripcion`, `direccion`, `telefono`, `correo`, `facebook`, `whatsapp`, `instagram`, `tiktok`, `pagweb`, `logo`, `valoracion`, `create_at`, `update_at`, `inactive_at`, `portada`) VALUES
-(1, 1, 3, 1, '98765432112', 'xd', 'xd', 'xd', '987654321', 'xd@gmail.com', 'asdasd', '987654321', 'asd', 'asd', 'xd.com', '19b23f0e72ddde495dceeb06a436d897efe0a2db.jpg', 5, '2024-01-23 22:42:08', NULL, NULL, NULL),
-(4, 1, 3, 5, '987654321', 'asdasdasd', 'asd', 'asdasd', '96454631', 'asdasd@gmail.com', 'asdasd', '96454631', 'asdasd', 'asdasd', 'asdasd', 'f36a4bdf122a7bbdf454dde2188fc4b6f24c6021.jpg', 1, '2024-01-23 22:49:07', NULL, NULL, NULL),
-(8, 4, 1, 7, '45612345678', 'Alonso', 'Alonsito', 'alonsio av', '987654321', 'alonso@gmail.com', 'asda oficial', '987654321', 'asdasd', 'asdasd', 'asdasd.com', NULL, 5, '2024-01-23 23:01:02', NULL, NULL, NULL),
-(9, 1, 3, 7, '45678912345', 'asdasd', 'asd', 'asd', '685478951', 'alop@gmail.com', 'asd', '685478951', 'asdasd', 'asdasd', 'asd.com', '63849e20118f973fc8dc622744436c98730f043f.jpg', 0, '2024-01-23 23:06:04', NULL, NULL, NULL),
-(10, 1, 3, 2, '174544545454', 'helou', 'helou', 'heluo', '946989938', '946989938@gmail.com', '946989938', '946989938', '946989938', '946989938', '946989938.com', '4c4db88f726a4762efcc96db9b6970ca3b8c8cb9.jpg', 4, '2024-01-24 10:08:41', NULL, NULL, NULL),
-(11, 7, 1, 9, '12345662901', 'raton', 'comida xd', 'Av. Principal 122', '947654321', 'onfo@tiendatech.com', NULL, NULL, NULL, NULL, NULL, NULL, 2, '2024-01-26 00:44:12', NULL, NULL, NULL),
-(12, 7, 3, 9, '96458454654', 'chiquitin', 'asd', 'hola', '964587213', 'asdasd@gmail.com', 'asd', '964587213', 'asdas', 'asdasd', 'asdasd.com', '50feac573577629b9066c8811c7ba79980cfcfd3.jpg', 2, '2024-01-26 00:46:53', NULL, NULL, NULL),
-(13, 2, 3, 5, '11111', 'pipipi', 'asdxd', 'xd', '8', 'a@gmail.com', 'asd', '9', 'asd', 's', 'asd', '212da58332722654332510401ac9b8719e4f97fd.jpg', 4, '2024-01-27 00:32:00', NULL, NULL, NULL),
-(14, 1, 3, 5, '77777777777', 'asxx', 'asd', 'asdasd', '77777777777', 'asda@gmail.com', 'asdasd', '77777777777', 'asdasd', 'asd', 'asd.com', '20129974a0f6944d2dfa06c41ed7d065c919e7cb.jpg', 0, '2024-01-29 22:42:26', NULL, NULL, NULL),
-(15, 1, 3, 1, '98765402355', 'www', 'jijiji', 'asdas', '985647132', 'asdsd@gmail.com', 'asdasd', '985647132', 'xdd', 'xdd', 'asdsa.com', '6e1441eeb796fa8a3c069f156fee5dc1acdeb1ce.jpg', 4, '2024-01-29 22:44:40', NULL, NULL, '6e1441eeb796fa8a3c069f156fee5dc1acdeb1ce.jpg'),
-(16, 1, 3, 9, '12345678912', 'Jizui', 'Negocio escalable a partir de comida japonesa y para lo más rico del Perú, aprovecha nuestras promociones de fin de semana.', 'asdas', '954785632', 'jizui@gmail.com', 'dsdsd', '954785632', 'asdasd', 'asdasd', 'asdasd', '8e93b3438a035a59469177c182942c35a9e2a58c.jpg', 5, '2024-01-29 23:30:58', NULL, NULL, '8e93b3438a035a59469177c182942c35a9e2a58c.jpg');
+(55, 3, 4, 2, '12', 'platanitos online', 'platanitos', 'platanitos', '9469', 'platanitos@gmail.com', 'platanitos', '94', 'platanitos', 'platanitos', 'platanitos', '222ce160e1164b580c6c0d754a1714b7aaf8239d.jpg', 3, '2024-02-04 22:37:55', '2024-02-04 22:59:16', '2024-02-04 23:01:40', '222ce160e1164b580c6c0d754a1714b7aaf8239d.jpg'),
+(56, 3, 3, 2, '1515', 'carsaa', 'carsa', 'carsa', '941614', 'carsa@gmail.com', 'carsa', '46446', 'carsa', 'carsa', 'carsa', '', 0, '2024-02-04 23:00:58', '2024-02-04 23:01:22', '2024-02-04 23:01:40', ''),
+(58, 2, 4, 2, '1212', 'platanitos online', 'platanitos', 'platanitos', '64', 'platanitos@gmail.com', 'platanitos', '946464', 'platanitos', 'platanitos', 'platanitos', '', 2, '2024-02-04 23:15:44', '2024-02-04 23:18:28', '2024-02-04 23:29:28', ''),
+(61, 2, 4, 2, '454', 'platanitos online.com', 'platanitos', 'platanitos', '46454', 'platanitos@gmail.com', '45', '45454', '545454', '5454', '45454', '73f5dd2bdc637aa2f21414eb334e8eb035d76868.jpg', 3, '2024-02-04 23:30:46', '2024-02-05 16:03:51', '2024-02-05 16:58:10', '73f5dd2bdc637aa2f21414eb334e8eb035d76868.jpg'),
+(63, 3, 3, 3, '555', 'carsa', 'carsa', 'carsa', '94', 'carsa@gmail.com', 'carsa', '9', 'carsa', 'carsa', 'carsa', '9cc476389636c3c29e0131b49d28d2f4de533227.jpg', 1, '2024-02-05 16:45:29', '2024-02-05 16:57:27', '2024-02-05 16:58:10', '9cc476389636c3c29e0131b49d28d2f4de533227.jpg'),
+(65, 2, 4, 3, '45', 'carsiña', '5454', 'carsa', '45', '4carsa@gmail.com', '454', '5454', '545454', '5454', '454', '01344e1c16ddff9dad7e7201acd26ae4673c642e.jpg', 3, '2024-02-05 16:59:54', '2024-02-06 23:17:26', NULL, '01344e1c16ddff9dad7e7201acd26ae4673c642e.jpg'),
+(68, 2, 4, 7, '45454', 'xd alonsiño', '454', '54', '45', 'angel@gmail.com', '45', '454', '54', '545', '45', NULL, 4, '2024-02-06 23:03:42', '2024-02-06 23:07:31', NULL, ''),
+(69, 3, 3, 5, '45545', 'platanitos.com', '45454', 'platanitos', '4644', 'platanitos@gmail.com', '454', '54', '54', '54', '45454', '2a33a63ec2391968ef02d95b1dd1e0ab6cc0aad8.jpg', 1, '2024-02-06 23:06:49', '2024-02-06 23:15:43', NULL, '2a33a63ec2391968ef02d95b1dd1e0ab6cc0aad8.jpg');
 
 -- --------------------------------------------------------
 
@@ -902,7 +1098,7 @@ CREATE TABLE `personas` (
   `idpersona` int(11) NOT NULL,
   `apellidos` varchar(100) NOT NULL,
   `nombres` varchar(100) NOT NULL,
-  `tipodoc` char(15) NOT NULL,
+  `tipodoc` char(15) NOT NULL DEFAULT 'DNI',
   `numerodoc` char(15) NOT NULL,
   `create_at` datetime NOT NULL DEFAULT current_timestamp(),
   `update_at` datetime DEFAULT NULL,
@@ -914,9 +1110,14 @@ CREATE TABLE `personas` (
 --
 
 INSERT INTO `personas` (`idpersona`, `apellidos`, `nombres`, `tipodoc`, `numerodoc`, `create_at`, `update_at`, `inactive_at`) VALUES
-(1, 'Muñoz', 'Alonso', 'DNI', '74136969', '2024-01-19 22:59:53', NULL, NULL),
-(2, 'Hernandez', 'Yorghet', 'DNI', '72159736', '2024-01-19 22:59:53', NULL, NULL),
-(3, 'Francia', 'Jhon', 'DNI', '12345678', '2024-01-22 22:18:59', NULL, NULL);
+(1, 'Muñoz', 'Alonso', 'DNI', '74136969', '2024-02-07 19:04:35', NULL, NULL),
+(2, 'Hernandez', 'Yorghet', 'DNI', '72159736', '2024-02-07 19:04:35', NULL, NULL),
+(3, 'Yeren Carbajal', 'Margarita Elena', 'DNI', '21819126', '2024-02-07 19:16:42', '2024-02-07 21:05:56', NULL),
+(4, 'Hernandez Yauri', 'Fernando', 'DNI', '21873894', '2024-02-07 19:27:27', NULL, NULL),
+(5, 'a', 'a', 'DNI', '12122', '2024-02-07 21:07:19', '2024-02-07 21:23:36', NULL),
+(15, 'aloja', 'aloja', 'DNI', '1875', '2024-02-07 21:27:50', '2024-02-07 21:46:46', NULL),
+(19, 'hola', 'hola', 'DNI', '18753248', '2024-02-07 21:30:26', '2024-02-07 21:44:16', NULL),
+(28, 'angel', 'angel', 'DNI', '75157842', '2024-02-07 21:46:35', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1181,13 +1382,13 @@ ALTER TABLE `horarios`
 -- AUTO_INCREMENT de la tabla `negocios`
 --
 ALTER TABLE `negocios`
-  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idnegocio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `idpersona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idpersona` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `planes`

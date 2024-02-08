@@ -11,7 +11,7 @@ SELECT * FROM PERSONAS;
 INSERT INTO usuarios (idpersona,correo, claveacceso, celular, nivelacceso) VALUES
 (2,'yorghetyauri123@gmail.com','12345','946989937','ADM');
 
-
+select * from usuarios;
 
 INSERT INTO planes (tipoplan, precio) VALUES
 ('FREE', 0.00),
@@ -86,6 +86,7 @@ UPDATE usuarios
 	SET claveacceso = '$2y$10$4cRm3VvOaFVmAsetrnE5Y.hs8XexasbhwenpdZq.5kAegoJ7LZrTG';
 
 SELECT * FROM negocios;
+SELECT * FROM personas;
 SELECT * FROM distritos;
 SELECT * FROM galerias;
 SELECT * FROM subcategorias;

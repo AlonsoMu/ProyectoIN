@@ -7,17 +7,18 @@ USE innovacion;
 -- -------------------------------------------------------------------------
 -- 									| TABLA PERSONAS |
 -- --------------------------------------------------------------------------
-CREATE TABLE personas(
-	idpersona 				INT 			AUTO_INCREMENT PRIMARY KEY,
-    apellidos 				VARCHAR(100)	NOT NULL,
-    nombres 				VARCHAR(100) 	NOT NULL,
-    tipodoc					CHAR(15) 		NOT NULL,
-    numerodoc				CHAR(15) 		NOT NULL,
-    create_at				DATETIME		NOT NULL DEFAULT NOW(),
-    update_at				DATETIME		NULL,
-    inactive_at				DATETIME 		NULL,
-    CONSTRAINT uk_numerodoc_per				UNIQUE(numerodoc)
-)ENGINE = INNODB;
+CREATE TABLE personas (
+    idpersona       INT AUTO_INCREMENT PRIMARY KEY,
+    apellidos       VARCHAR(100) NOT NULL,
+    nombres         VARCHAR(100) NOT NULL,
+    tipodoc         CHAR(15) NOT NULL DEFAULT 'DNI',
+    numerodoc       CHAR(15) NOT NULL,
+    create_at       DATETIME NOT NULL DEFAULT NOW(),
+    update_at       DATETIME NULL,
+    inactive_at     DATETIME NULL,
+    CONSTRAINT uk_numerodoc_per UNIQUE(numerodoc)
+) ENGINE = INNODB;
+
 
 -- -------------------------------------------------------------------------------------
 --  							| TABLA USUARIOS |

@@ -10,16 +10,16 @@ DELIMITER $$
 CREATE PROCEDURE spu_personas_registrar(
 	IN _apellidos		VARCHAR(100),
     IN _nombres 		VARCHAR(100),
-    IN _tipodoc 		VARCHAR(15),
     IN _numerodoc 		VARCHAR(15)
 )
 BEGIN
 	INSERT INTO personas
-		(apellidos, nombres, tipodoc, numerodoc)
+		(apellidos, nombres, numerodoc)
 	VALUES
-		(_apellidos, _nombres, _tipodoc, _numerodoc);
-	-- SELECT @@last_insert_id 'idpersona';
+		(_apellidos, _nombres, _numerodoc);
+	SELECT @@last_insert_id 'idpersona';
 END $$
+CALL spu_personas_registrar('Yeren', 'Carbajal', '21819126');
 
 /*DELIMITER $$
 CREATE PROCEDURE spu_personas_listar()
