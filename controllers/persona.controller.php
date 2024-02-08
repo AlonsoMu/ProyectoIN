@@ -38,6 +38,13 @@ if (isset($_POST['operacion'])) {
         'idpersona' => $_POST['idpersona']
       ];
       enviarJSON($persona->obtener($datos));
-      break;
+    break;
+
+    case 'eliminar':
+      $datos = [
+        'idpersona' => $_POST['idpersona']
+      ];
+      $persona->eliminar($datos);
+    break;
   }
   }

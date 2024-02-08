@@ -19,6 +19,7 @@
       #tabla-negocios {
         width: 100%;
         overflow-x: auto; /* Agregar scrollbar horizontal cuando sea necesario */
+        background-color: lightblue !important;; 
       }
 
       /* Estilo para las celdas de la tabla */
@@ -35,19 +36,32 @@
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
+      .botones {
+          padding: 10px;
+          border-radius:50px;
+          font-weight: bold;
+          width: 150px;
+      }
       
     </style>
 
-    <div class="container mt-3">
-      <div class="alert alert-info" role="alert">
-        <h4>Sting Studio</h4>
-        <div>Lista de Negocios</div>
+    <div class="container mt-5">
+      <button class="btn btn-success btn-sm botones" id="abrir-modal"  data-bs-toggle="modal" data-bs-target="#modal-negocio">
+        Crear&nbsp;&nbsp;
+        <i class="bi bi-plus-lg"></i>
+      </button>
+
+      <div class="row mt-4">
+        <label>
+          Filtrar por <i class="bi bi-funnel-fill"></i>
+        </label>
       </div>
       <!-- BUSCADOR -->
-      <div class="row">
+      <div class="row mt-4">
         <div class="col-md-6">
-          <div class=" d-flex justify-content-center">
-            <div class="input-group" style="max-width: 700px;">
+          <div class=" d-flex justify-content-left">
+            <div class="input-group" style="max-width: 300px;">
               <input type="search" id="nombre_comercial" class="form-control" />
               <button type="button" id="busqueda" class="bus btn btn-primary">
                 <i class="bi bi-search"></i>
@@ -58,10 +72,10 @@
       </div>
       <br>
       <div class="col-md-6 text-end">
-        <button class="btn btn-success btn-sm" id="abrir-modal"  data-bs-toggle="modal" data-bs-target="#modal-negocio"><i class="bi bi-plus-circle"></i> Agregar producto</button>
+        
       </div>
       <div class="table-responsive">
-        <table class="table table-sm table-striped" id="tabla-negocios">
+        <table class="table table-sm  table-bordered" id="tabla-negocios">
           <colgroup>
             <col width="5%"> <!-- ID -->
             <col width="20%"> <!-- Nombre Comercial -->
@@ -84,7 +98,7 @@
             <col width="10%"> <!-- Operaciones -->
           </colgroup>
           <thead>
-            <tr>
+            <tr class="table-primary">
               <th>ID</th>
               <th>Nombre Comercial</th>
               <th>Giro de negocio</th>
@@ -364,6 +378,7 @@
         const logoInput = document.getElementById("logo");
         const portadaInput = document.getElementById("portada");
         const valoracionInput = document.getElementById("valoracion");
+        const formularioNegocio = document.getElementById("form-negocio")
 
         const tabla = document.querySelector("#tabla-negocios tbody");
 
@@ -371,7 +386,9 @@
 
         if (abrirModalButton) {
           abrirModalButton.addEventListener("click", () => {
-            sonDatosNuevos = true;
+            modo = 'registro'; // Cambiar al modo registro al abrir el modal
+            idnegocio = -1; // Reiniciar el idpersona a -1
+            formularioNegocio.reset(); // Restablecer el formulario
             document.getElementById("modal-titulo").innerText = "Registro de Negocios";
           });
         } else {

@@ -7,7 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+
+    <!-- Íconos de Bootstrap-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
   </head>
   <body>
     <div class="container mt-3">
@@ -74,6 +78,27 @@
         </div>
       </div>
     </div>
+
+    <div class="modal" tabindex="-1" id="confirmarModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title d-flex justify-content-between">
+              Eliminar Registro&nbsp;&nbsp;
+              <i class="bi bi-shield-fill-exclamation"></i>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>¿Estás seguro de Eliminar Registro?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="confirmarEliminarBtn">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div> <!-- FIN DEL MODAL ELIMINAR -->
     
     
     <!-- Bootstrap JavaScript Libraries -->
@@ -148,6 +173,40 @@
         // Agregar evento de clic para los botones de editar
         tabla.addEventListener('click', (event) => {
           const target = event.target;
+
+          if (event.target.classList.contains("eliminar")) {
+            const idpersona = event.target.dataset.idpersona;
+
+            // Mostrar el modal de confirmación
+            var confirmarModal = new bootstrap.Modal(document.getElementById('confirmarModal'));
+            confirmarModal.show();
+
+            // Agregar un evento de clic al botón de confirmar eliminar dentro del modal
+            document.getElementById('confirmarEliminarBtn').addEventListener('click', function () {
+              // Lógica para eliminar el registro
+              const parametros = new FormData();
+              parametros.append("operacion", "eliminar");
+              parametros.append("idpersona", idpersona);
+
+              fetch(`./controllers/persona.controller.php`, {
+                method: "POST",
+                body: parametros
+              })
+              .then(respuesta => respuesta.text())
+              .then(datos => {
+                console.log(datos);
+                // Cerrar el modal después de eliminar
+                confirmarModal.hide();
+                listar();
+              })
+              .catch(e => {
+                console.error(e);
+                // Cerrar el modal en caso de error
+                confirmarModal.hide();
+              });
+            });
+          }
+
           if (target.classList.contains('editar')) {
             modo = 'edicion'; // Cambiar al modo edición
             idpersona = target.getAttribute('data-idpersona');

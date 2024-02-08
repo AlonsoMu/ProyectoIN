@@ -7,6 +7,37 @@ USE INNOVACION;
 -- -------------------------------------------------------------------------------------------------
 
 DELIMITER $$
+CREATE PROCEDURE spu_eliminar_negocio_final(
+    IN _idpersona INT
+)
+BEGIN
+
+    -- Eliminar filas asociadas en la tabla contratos
+    DELETE FROM contratos WHERE idnegocio IN (SELECT idnegocio FROM negocios WHERE idpersona = _idpersona);
+
+    -- Eliminar filas asociadas en la tabla ubicaciones
+    DELETE FROM ubicaciones WHERE idnegocio IN (SELECT idnegocio FROM negocios WHERE idpersona = _idpersona);
+
+    -- Eliminar filas asociadas en la tabla galerias
+    DELETE FROM galerias WHERE idnegocio IN (SELECT idnegocio FROM negocios WHERE idpersona = _idpersona);
+
+    -- Eliminar el negocio principal
+    DELETE FROM negocios WHERE idpersona = _idpersona;
+    
+    DELETE FROM personas WHERE idpersona = _idpersona;
+
+    COMMIT;
+END $$
+
+CALL spu_eliminar_negocio_final(5);
+
+
+SELECT * FROM personas;
+SELECT * FROM negocios;
+SELECT * FROM ubicaciones;
+
+
+DELIMITER $$
 CREATE PROCEDURE spu_editar_negocio(
     IN _idnegocio INT,
     IN _iddistrito INT,

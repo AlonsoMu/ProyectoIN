@@ -79,6 +79,20 @@ class Persona extends Conexion{
       die($e->getMessage());
     }
   }
+
+  public function eliminar($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_eliminar_negocio_final(?)");
+      $consulta->execute(
+        array(
+          $datos['idpersona']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
 }
 
 ?>
