@@ -46,5 +46,12 @@ if (isset($_POST['operacion'])) {
       ];
       $persona->eliminar($datos);
     break;
+
+    case 'buscarCliente':
+      $datos = [
+        'cliente' => $_POST['cliente']
+      ];
+      enviarJSON($persona->buscarCliente($datos));
+    break;
   }
   }

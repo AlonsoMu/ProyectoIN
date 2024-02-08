@@ -93,6 +93,20 @@ class Persona extends Conexion{
       die($e->getMessage());
     }
   }
+
+  public function buscarCliente($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_buscar_cliente(?)");
+      $consulta->execute(
+        array(
+          $datos['cliente']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
 }
 
 ?>

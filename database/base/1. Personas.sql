@@ -77,7 +77,36 @@ END $$
 CALL spu_personas_buscar('xd');
 
 -- ##########################################################################################################################
+DELIMITER $$
+CREATE PROCEDURE spu_buscar_cliente(
+    IN _cliente VARCHAR(45)
+)
+BEGIN
+    SELECT
+        p.idpersona,
+        CONCAT(p.nombres, ' ', p.apellidos) AS 'datos',
+        p.numerodoc,
+        COUNT(n.idnegocio) AS cantidad
+    FROM
+        personas p
+    LEFT JOIN
+        negocios n ON p.idpersona = n.idpersona
+    WHERE
+        CONCAT(p.nombres, ' ', p.apellidos) LIKE CONCAT('%', _cliente, '%')
+        AND NOT EXISTS (
+            SELECT 1
+            FROM usuarios u
+            WHERE u.idpersona = p.idpersona
+            AND u.nivelacceso = 'ADM'
+        )
+    GROUP BY
+        p.idpersona, datos;
+END $$
 
+	
+
+CALL spu_buscar_cliente("hola hola");
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_clientes_listar()

@@ -14,13 +14,42 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
   </head>
   <body>
+
+      <style>
+        .botones {
+          padding: 10px;
+          border-radius:50px;
+          font-weight: bold;
+          width: 150px;
+      }
+      </style>
+
     <div class="container mt-3">
-      <div class="alert alert-info" role="alert">
-        <h4>Sting Studio</h4>
-        <div>Lista de Negocios</div>
+    <button class="btn btn-success btn-sm botones" id="abrir-modal"  data-bs-toggle="modal" data-bs-target="#modalId">
+        Crear&nbsp;&nbsp;
+        <i class="bi bi-plus-lg"></i>
+      </button>
+
+      <div class="row mt-4">
+        <label>
+          Filtrar por <i class="bi bi-funnel-fill"></i>
+        </label>
       </div>
+      <!-- BUSCADOR -->
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <div class=" d-flex justify-content-left">
+            <div class="input-group" style="max-width: 300px;">
+              <input type="search" id="cliente" class="form-control" />
+              <button type="button" id="busqueda" class="bus btn btn-primary">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
       <div class="col-md-6 text-end">
-        <button class="btn btn-success btn-sm" id="abrir-modal"  data-bs-toggle="modal" data-bs-target="#modalId">Agregar persona</button>
       </div>
       <table class="table table-sm table-striped" id="tabla-clientes">
         <colgroup>
@@ -136,7 +165,7 @@
           return document.querySelector(id);
         }
 
-        function listar() {
+        /*function listar() {
           const parametros = new FormData();
           parametros.append("operacion", "listaCliente");
 
@@ -168,7 +197,70 @@
           .catch(e => {
             console.error(e)
           })
+        }*/
+
+        function crearFilaCliente(registro, numFila) {
+          return `
+          <tr>
+            <td>${numFila}</td>
+            <td>${registro.datos}</td>
+            <td>${registro.numerodoc}</td>
+            <td>${registro.cantidad}</td>
+           
+            <td>
+              <button data-idpersona="${registro.idpersona}" class='btn btn-danger btn-sm eliminar' type='button'>Eliminar</button>
+              <button data-idpersona="${registro.idpersona}" class='btn btn-warning btn-sm editar' type='button'>Editar</button>
+            </td>
+          </tr>`;
         }
+
+        function busquedaCliente() {
+          const parametros = new FormData();
+          parametros.append("operacion", "buscarCliente");
+          parametros.append("cliente", $("#cliente").value);
+
+          fetch(`./controllers/persona.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datos => {
+            console.log("Respuesta de búsqueda:", datos);
+            $("#tabla-clientes tbody").innerHTML = '';
+            let numFila = 1;
+            datos.forEach(registro => {
+              $("#tabla-clientes tbody").innerHTML += crearFilaCliente(registro, numFila);
+              numFila++;
+            });
+          })
+          .catch(e => {
+            console.error("Error en la búsqueda:", e);
+          });
+        }
+
+        function listar() {
+          const parametros = new FormData();
+          parametros.append("operacion", "listaCliente");
+
+          fetch(`./controllers/persona.controller.php`, {
+            method: 'POST',
+            body: parametros
+          })
+          .then(respuesta => respuesta.json())
+          .then(datosRecibidos => {
+            let numFila = 1;
+            $("#tabla-clientes tbody").innerHTML = '';
+            datosRecibidos.forEach(registro => {
+              $("#tabla-clientes tbody").innerHTML += crearFilaCliente(registro, numFila);
+              numFila++;
+            });
+          })
+          .catch(e => {
+            console.error(e)
+          });
+        }
+
+        $("#busqueda").addEventListener("click", busquedaCliente);
 
         // Agregar evento de clic para los botones de editar
         tabla.addEventListener('click', (event) => {
