@@ -68,6 +68,13 @@
         transform: translateX(0);
     }
 
+    @media(max-width: 767px){
+        .custom-card2 img{max-height: 150px;}
+        .card-title{font-size: 14px;}
+        .custom-card2 .card-body div{font-size: 10px;}
+        .phone {font-size: 16px;}
+    }
+
 
 
 
