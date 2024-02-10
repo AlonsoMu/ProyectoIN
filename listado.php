@@ -387,7 +387,7 @@
                 const cardHTML = `
                   <div class="card custom-card2">
                     <div class="card-body d-flex align-items-center">
-                      <img src="${logoPath}" alt="Imagen de la tarjeta" style="width: 250px; height: 250px;">
+                      <img src="${logoPath}" alt="Imagen de la tarjeta">
                       <div>
                         <h5 class="card-title">${element.NombreComercial}</h5>
                         <p class="card-text">

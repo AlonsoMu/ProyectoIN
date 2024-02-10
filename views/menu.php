@@ -98,7 +98,7 @@ if(isset($_GET['id'])){
               <div class="row mt-4" >
                 <div class="col-md-4 limitador spacing1">
                   <!-- Sección de imagen -->
-                  <img id="logoNegocio"  class="img-fluid" alt="Imagen">
+                  <img id="logoNegocio"  class="img-fluid2" alt="Imagen">
                 </div>
                 <div class="col-md-4 limitador spacing2 demimv">
                   <!-- Sección con lista de redes sociales -->

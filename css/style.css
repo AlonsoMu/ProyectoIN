@@ -554,6 +554,8 @@ a {
   }
 }
 
+.img-fluid2{width:100%; height:auto;}
+/*.img-fluid2{display:flex; margin:0 auto; width:266px; height:200px;}*/
 
 
 
@@ -581,6 +583,8 @@ a {
     .corrector_nav1{padding:10px!important; background:#919191; position:relative; display:inline-block; width:auto; border-radius:5px; color:#FFF; margin-top:20px;}
     .corrector_nav{padding:10px!important; background:#919191; position:relative; display:inline-block; width:auto; border-radius:5px; color:#FFF; margin-top:20px;}
     .pie{margin-right:0px; margin-left:0px;}
+
+    .img-fluid2{display:flex; margin:0 auto; width:266px; height:200px;}
     
 }
 
@@ -628,8 +632,6 @@ a {
   border-color: #0AFFC2;
 }
 
-.hyundai .col-sm{
-  
-}
+
 
 
