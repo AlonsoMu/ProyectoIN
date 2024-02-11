@@ -97,7 +97,7 @@
     };
 
     fetch(`./controllers/carrusel.controller.php`, options)
-    .then(respuesta => respuesta.json())
+    .then(respuesta => respuesta.text())
     .then(datos => {
         if (datos.idcarrusel > 0) {
             alert(`Foto registrado con ID: ${datos.idcarrusel}`)

@@ -21,25 +21,25 @@ INSERT INTO planes (tipoplan, precio) VALUES
 
 
 INSERT INTO categorias (nomcategoria) VALUES
-('hoteles'),
-('farmacias'),
-('restaurantes'),
-('bodegas');
+('Hoteles'),
+('Farmacias'),
+('Restaurantes'),
+('Bodegas');
 
 
 INSERT INTO subcategorias (idcategoria, nomsubcategoria ) VALUES
-(1,'playa'),
-(1,'urbano'),
-(1,'lujo'),
-(2,'pediátrica'),
-(2,'comercial'),
-(2,'clínica'),
-(3,'japones'),
-(3,'italiano'),
-(3,'mexicano'),
-(4,'abarrotes'),
-(4,'artesanal'),
-(4,'general');
+(1,'Playa'),
+(1,'Urbano'),
+(1,'Lujo'),
+(2,'Pediátrica'),
+(2,'Comercial'),
+(2,'Clínica'),
+(3,'Japones'),
+(3,'Italiano'),
+(3,'Mexicano'),
+(4,'Abarrotes'),
+(4,'Artesanal'),
+(4,'General');
 
 
 INSERT INTO horarios (apertura, cierre, dia) VALUES
@@ -49,7 +49,7 @@ INSERT INTO horarios (apertura, cierre, dia) VALUES
 ('09:00:00', '16:00:00', 'jueves'),
 ('11:30:00', '16:00:00', 'Viernes'),
 ('07:45:00', '16:45:00', 'Sábado'),
-('08:30:00', '15:30:00', 'Domingo');
+('01:30:00', '15:30:00', 'Domingo');
 
 SELECT *  FROM horarios;
 
@@ -66,7 +66,7 @@ INSERT INTO ubicaciones (idhorario, idnegocio, latitud, longitud) VALUES
 (6, 4, -13.4182674, -76.1349002);
 
 INSERT INTO ubicaciones (idhorario, idnegocio, latitud, longitud) VALUES
-(3, 5, -13.4047002, -76.1582921);
+(1, 1, -13.4047002, -76.1582921);
 
 
 
@@ -138,6 +138,7 @@ SELECT * FROM distritos;
 SELECT * FROM negocios;
 SELECT * FROM ubicaciones;
 SELECT * FROM horarios;
+SELECt  * FROM carrusel;
 SELECT 
 	n.idnegocio,
     s.idsubcategoria,
@@ -152,3 +153,13 @@ FROM negocios n
 INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
 INNER JOIN distritos d ON n.iddistrito = d.iddistrito
 WHERE s.idsubcategoria =8 AND d.iddistrito = 6;
+
+
+
+DELETE FROM galerias;
+ALTER TABLE galerias AUTO_INCREMENT 1;
+-- Volver a activar la restricción de clave externa
+SET foreign_key_checks = 1;
+
+ALTER TABLE usuarios MODIFY token_estado CHAR(1) NULL;
+ALTER TABLE usuarios ADD fechatoken DATETIME NULL;

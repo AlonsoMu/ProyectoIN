@@ -4,7 +4,7 @@ USE INNOVACION;
 -- ---------------------------------------------------------------------------
 -- 								| SUBCATEGORIAS |
 -- ----------------------------------------------------------------------------
-
+/* NO OLVIDAR    */
 DELIMITER $$
 CREATE PROCEDURE spu_subcategorias_registrar(
 	IN _idcategoria			INT,
@@ -18,17 +18,6 @@ BEGIN
 	-- SELECT @@last_insert_id 'idsubcategoria';
 END $$
 
-/*DELIMITER $$
-CREATE PROCEDURE spu_subcategorias_listar(IN _idcategoria INT)
-BEGIN 
-    SELECT 
-		sub.idsubcategoria,
-		sub.nomsubcategoria
-		FROM subcategorias sub
-		WHERE sub.idcategoria = _idcategoria
-          AND sub.inactive_at IS NULL;
-END $$*/
-
 -- ##########################################################################################################################
 
 DELIMITER $$
@@ -41,31 +30,11 @@ BEGIN
 		FROM subcategorias sub
         INNER JOIN categorias cat ON cat.idcategoria = sub.idcategoria;
 END $$
-CALL spu_subcategorias_listartodo();
--- ##########################################################################################################################
-    
-/*DELIMITER $$
-CREATE PROCEDURE spu_subcategorias_listar(IN _idcategoria INT)
-BEGIN 
-    SELECT 
-		sub.idsubcategoria,
-        cat.idcategoria,
-        cat.nomcategoria,
-		sub.nomsubcategoria
-		FROM subcategorias sub
-        INNER JOIN categorias cat ON cat.idcategoria = sub.idcategoria
-		WHERE sub.idcategoria = _idcategoria
-          AND sub.inactive_at IS NULL;
-END $$
-CALL spu_subcategorias_listar(1);*/
-
-SELECT * FROM categorias;
-SELECT * FROM subcategorias;
 
 -- ##########################################################################################################################
+
 DELIMITER $$
 CREATE PROCEDURE spu_subcategorias_listar()
 BEGIN
 	SELECT * FROM subcategorias;
 END $$
-CALL spu_subcategorias_listar();

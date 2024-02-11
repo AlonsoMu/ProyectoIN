@@ -8,7 +8,6 @@ BEGIN
 		FROM distritos
         WHERE iddistrito = _iddistrito;
 END $$
-CALL spu_obtener_coordenadas(1);
 
 -- ##########################################################################################################################
 

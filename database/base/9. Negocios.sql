@@ -29,13 +29,7 @@ BEGIN
     COMMIT;
 END $$
 
-CALL spu_eliminar_negocio_final(5);
-
-
-SELECT * FROM personas;
-SELECT * FROM negocios;
-SELECT * FROM ubicaciones;
-
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_editar_negocio(
@@ -83,28 +77,7 @@ BEGIN
     WHERE idnegocio = _idnegocio;
 END $$
 
-CALL spu_editar_negocio(
-    1,            -- _idnegocio
-    3,            -- _iddistrito
-    3,            -- _idpersona
-    5,            -- _idsubcategoria
-    '123456789',  -- _nroruc
-    'Nuevo Nombre Comercial',    -- _nombre
-    'Nueva Descripción',         -- _descripcion
-    'Nueva Dirección',           -- _direccion
-    '12345678901',               -- _telefono
-    'correo@ejemplo.com',        -- _correo
-    'Nuevo Facebook',            -- _facebook
-    'Nuevo WhatsApp',            -- _whatsapp
-    'Nuevo Instagram',           -- _instagram
-    'Nuevo TikTok',               -- _tiktok
-    'www.nuevapagweb.com',       -- _pagweb
-    'nuevologo.jpg',             -- _logo
-    'nuevaportada.jpg',          -- _portada
-    2             -- _valoracion
-);
-
-SELECT * FROM negocios;
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_listar_adm()
@@ -137,9 +110,9 @@ BEGIN
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
     WHERE n.inactive_at IS NULL;
 END $$
-CALL spu_negocios_listar_adm();
 
-SELECT * FROM negocios;
+-- ##########################################################################################################################
+
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_listar_obt(IN p_idnegocio INT)
 BEGIN
@@ -174,8 +147,7 @@ BEGIN
         n.inactive_at IS NULL AND n.idnegocio = p_idnegocio;
 END $$
 
-SELECT * FROM negocios;
-CALL spu_negocios_listar_obt(1);
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_eliminar_negocio(
@@ -192,7 +164,8 @@ CREATE PROCEDURE buscar_negocios(IN negocio VARCHAR(200))
 BEGIN
     SELECT idnegocio, nombre FROM negocios WHERE nombre LIKE CONCAT('%', negocio, '%');
 END $$
-CALL buscar_negocios('xd');
+
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_listaCardsDistrito(IN _iddistrito INT)
@@ -213,7 +186,7 @@ BEGIN
     WHERE n.iddistrito = _iddistrito;
 END $$
 
-SELECT * FROM negocios;
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_registrar(
@@ -244,48 +217,8 @@ BEGIN
 		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _pagweb, NULLIF(_logo, ''), _valoracion, _portada);
 	 SELECT @@last_insert_id 'idnegocio';
 END $$
-CALL spu_negocios_registrar(6, 2, 5, 21481260159, 'vegas', 'vegas, cuidamos tu salud y tu economía.', '486 av. grocio prado', 
-				953656344, 'vega@prueba.es', 'https://www.facebook.com/novafarmachinchaalta', 953686344, NULL, NULL, NULL, NULL,3, 'hola.jpg');
-SELECT * FROM distritos;
-SELECt * FROM galerias;
-SELECt * FROM personas;
-SELECT * FROM usuarios;
-SELECT * FROM subcategorias;
-SELECT * FROM ubicaciones;
-SELECT * FROM horarios;
-SELECT * FROM negocios;
-SELECT * FROM contratos;
+
 -- ##########################################################################################################################
-
-/*DELIMITER $$
-CREATE PROCEDURE spu_obtener_negocios(IN _idsubcategoria INT)
-BEGIN
-    SELECT 
-        n.idnegocio,
-        u.idubicacion,
-        h.idhorario,
-        d.iddistrito,
-        s.idsubcategoria,
-        s.nomsubcategoria,
-        u.latitud,
-        u.longitud,
-        n.nombre,
-        n.direccion,
-        d.nomdistrito,
-        n.telefono
-        FROM negocios n
-        INNER JOIN horarios h ON h.idhorario = n.idhorario
-        INNER JOIN ubicaciones u ON h.idubicacion = u.idubicacion
-        INNER JOIN distritos d ON n.iddistrito = d.iddistrito
-        INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
-        WHERE n.idsubcategoria = 7
-        AND n.inactive_at IS NULL; 
-END $$
-CALL spu_obtener_negocios(7);*/
-
-SELECT * FROM negocios;
--- ##########################################################################################################################
-
 
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_listar()
@@ -301,7 +234,7 @@ BEGIN
 	FROM negocios n
 	INNER JOIN distritos d ON n.iddistrito = d.iddistrito;
 END $$
-CALL spu_negocios_listar();
+
 -- ##########################################################################################################################
 
 DELIMITER $$
@@ -344,11 +277,11 @@ BEGIN
         WHERE n.idsubcategoria = _idsubcategoria
         AND n.iddistrito = _iddistrito;
 END $$
-CALL spu_negocios_listarSubyDis(7,1);
+
 
 -- ##########################################################################################################################
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_negocios_listaCardsDistrito(IN _iddistrito INT)
 BEGIN
     SELECT
@@ -365,12 +298,11 @@ BEGIN
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
     WHERE n.iddistrito = _iddistrito;
-END $$
-CALL spu_negocios_listaCardsDistrito(1);
+END $$*/
 
 -- ##########################################################################################################################
 
-DELIMITER $$
+/*DELIMITER $$
 CREATE PROCEDURE spu_negocios_buscar(
     IN nombre_comercial VARCHAR(200)
 )
@@ -394,80 +326,7 @@ BEGIN
     INNER JOIN usuarios u ON n.idusuario = u.idusuario
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%');
-END $$
-CALL spu_negocios_buscar('naoky');
-
--- ##########################################################################################################################
-
-/*DELIMITER $$
-CREATE PROCEDURE spu_obtener_negocios_y_disponibilidad(
-    IN _idsubcategoria INT,
-    IN _dia_actual VARCHAR(20)
-)
-BEGIN
-    DECLARE _hora_actual TIME;
-    DECLARE estado VARCHAR(10);
-
-    -- Obtener la hora actual
-    SET _hora_actual = CURRENT_TIME();
-
-    -- Verificar el estado del negocio
-    SELECT
-        CASE
-            WHEN _hora_actual BETWEEN h.apertura AND h.cierre THEN 'Abierto'
-            ELSE 'Cerrado'
-        END INTO estado
-    FROM horarios h
-    WHERE h.dia = _dia_actual;
-
-    -- Mostrar la información de los negocios y su estado de disponibilidad
-    SELECT 
-        n.idnegocio,
-        u.idubicacion,
-        d.iddistrito,
-        s.idsubcategoria,
-        s.nomsubcategoria,
-        u.latitud,
-        u.longitud,
-        n.nombre,
-        n.direccion,
-        d.nomdistrito,
-        n.telefono,
-        estado AS 'Estado'
-    FROM negocios n
-    INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
-    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
-    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
-    WHERE n.idsubcategoria = _idsubcategoria
-    AND n.inactive_at IS NULL; 
-END $$
-
-DELIMITER ;*/
-
--- ##########################################################################################################################
-
-/*DELIMITER $$
-CREATE PROCEDURE spu_obtener_negocios_subdis(
-	IN _idsubcategoria 		INT,
-    IN _iddistrito 			INT 
-)
-BEGIN
-	SELECT 
-        n.idnegocio,
-        s.idsubcategoria,
-        d.iddistrito,
-        n.nombre,
-        n.descripcion,
-        n.direccion,
-        n.telefono,
-        s.nomsubcategoria,
-        d.nomdistrito
-    FROM negocios n
-    INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
-    INNER JOIN distritos d ON n.iddistrito = d.iddistrito
-    WHERE s.idsubcategoria = _idsubcategoria AND d.iddistrito = _iddistrito;
-END  $$
-CALL spu_obtener_negocios_subdis(8,6);*/
+END $$*/
 
 -- ##########################################################################################################################
 
@@ -522,7 +381,8 @@ BEGIN
       AND n.inactive_at IS NULL
       ; 
 END $$
-CALL spu_obtener_nyh(1, 'viernes');
+
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_obtener_dist(
@@ -578,39 +438,6 @@ BEGIN
 	  LIMIT 1; 
 END $$
 
-
-CALL spu_obtener_dist(1, 1, 'viernes');
-
-SELECT * FROM galerias;
-SELECT * FROM ubicaciones;
-SELECT * FROM horarios;
-SELECT * FROM negocios;
-SELECT * FROM usuarios;
--- ##########################################################################################################################
-
--- PROCEDIMIENTO BUSCAR POR PRIMERA LETRA DE NEGOCIO
-/*DELIMITER $$
-CREATE PROCEDURE spu_negocios_busqueda(
-IN _valor VARCHAR(30)
-)
-BEGIN
-	SELECT 
-		n.idnegocio,
-        d.iddistrito,
-        u.idubicacion,
-        n.nombre,
-        d.nomdistrito,
-        u.latitud,
-        u.longitud,
-        n.telefono
-        FROM negocios n
-        INNER JOIN distritos d ON 
-			d.iddistrito = n.iddistrito
-		INNER JOIN ubicaciones u ON
-			u.idubicacion = n.idubicacion
-            WHERE n.nombre  LIKE CONCAT('%',_valor,'%');
-END $$*/
-
 -- ##########################################################################################################################
 
 DELIMITER $$
@@ -659,30 +486,9 @@ BEGIN
     WHERE n.nombre LIKE CONCAT('%',_valor,'%')
       AND n.inactive_at IS NULL; 
 END $$
-SELECT * FROM negocios;
-CALL spu_negocios_busqueda('oishi','jueves');
 
 -- ##########################################################################################################################
 
-/*DELIMITER $$
-CREATE PROCEDURE spu_obtener_negocios(IN _idsubcategoria INT)
-BEGIN
-    SELECT 
-		n.idnegocio,
-		u.idubicacion,
-		u.latitud,
-		u.longitud,
-		n.nombre,
-		n.direccion
-		FROM negocios n
-		INNER JOIN ubicaciones u ON n.idubicacion = u.idubicacion
-		WHERE n.idsubcategoria = _idsubcategoria
-        AND n.inactive_at IS NULL; 
-END $$
-CALL spu_obtener_negocios(3);*/
-SELECT * FROM distritos;
-
--- ##########################################################################################################################
 DELIMITER $$
 CREATE PROCEDURE spu_negocios_busquedaCard(
     IN nombre_comercial VARCHAR(200)
@@ -703,7 +509,6 @@ BEGIN
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
     WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%');
 END $$
-CALL spu_negocios_busquedaCard('xd');
 
 -- ##########################################################################################################################
 
@@ -754,7 +559,6 @@ BEGIN
     WHERE n.idnegocio = _idnegocio
       AND n.inactive_at IS NULL; 
 END $$
-CALL spu_obtener_id(1, 'viernes');
 
 -- ##########################################################################################################################
 
@@ -777,7 +581,6 @@ BEGIN
     -- Mostrar los resultados
     SELECT _latitud AS latitud_obtenida, _longitud AS longitud_obtenida;
 END $$
-CALL negocioMap(1);
 
 -- ##########################################################################################################################
 
@@ -815,4 +618,3 @@ BEGIN
     WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%')
     AND n.inactive_at IS NULL;
 END $$
-CALL spu_busquedas_negocios('carsa');

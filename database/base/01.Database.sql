@@ -1,5 +1,4 @@
 CREATE DATABASE innovacion;
-
 USE innovacion;
 
 -- TABLAS SI CREADAS!!!!!!!!!
@@ -19,7 +18,6 @@ CREATE TABLE personas (
     CONSTRAINT uk_numerodoc_per UNIQUE(numerodoc)
 ) ENGINE = INNODB;
 
-
 -- -------------------------------------------------------------------------------------
 --  							| TABLA USUARIOS |
 -- --------------------------------------------------------------------------------------
@@ -33,16 +31,15 @@ CREATE TABLE usuarios(
     token 					CHAR(6) 		NULL, -- CLAVE DE RECUPERACION
     nivelacceso 			CHAR(3)			NOT NULL, -- ADM
     estado					CHAR(1) 		NOT NULL DEFAULT '1',
+    token_estado			CHAR (1)		NULL,
+    fechatoken				DATETIME 		NULL,
     create_at				DATETIME		NOT NULL DEFAULT NOW(),
     update_at				DATETIME		NULL,
     inactive_at				DATETIME 		NULL,
-    token_estado			CHAR (1)		NULL,
-    fechatoken				DATETIME 		NULL,
     CONSTRAINT fk_idpersona_per 			FOREIGN KEY(idpersona) REFERENCES personas (idpersona),
     CONSTRAINT uk_correo_per 				UNIQUE(correo)
 )ENGINE = INNODB;
-ALTER TABLE usuarios MODIFY token_estado CHAR(1) NULL;
-ALTER TABLE usuarios ADD fechatoken DATETIME NULL;
+
 -- ------------------------------------------------------------------------------
 -- 		 							| TABLA PLANES |
 -- ------------------------------------------------------------------------------
@@ -107,7 +104,7 @@ CREATE TABLE ubicaciones(
     CONSTRAINT fk_idhorario_ubi				FOREIGN KEY (idhorario) REFERENCES horarios (idhorario),
     CONSTRAINT fk_idnegocio_ubi			FOREIGN KEY (idnegocio) REFERENCES negocios (idnegocio)
 )ENGINE = INNODB;
-SELECT * FROM galerias;
+
 -- -------------------------------------------------------------------------------------------------
 -- 											| TABLA NEGOCIOS |
 -- -------------------------------------------------------------------------------------------------
@@ -128,22 +125,17 @@ CREATE TABLE negocios(
     tiktok					VARCHAR(200)	NULL,
     pagweb 					VARCHAR(200) 	NULL,
     logo 					VARCHAR(100) 	NULL,
+	portada					VARCHAR(200) 	NULL,
     valoracion				INT 			NULL,
     create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL,
-    portada					VARCHAR(200) 	NULL,
     CONSTRAINT fk_iddistrito_neg			FOREIGN KEY (iddistrito) REFERENCES distritos (iddistrito),
     CONSTRAINT fk_idpersona_neg 			FOREIGN KEY (idpersona) REFERENCES personas (idpersona),
     CONSTRAINT fk_idsubcategoria_neg		FOREIGN KEY (idsubcategoria) REFERENCES subcategorias (idsubcategoria),
     CONSTRAINT uk_nroruc_neg 				UNIQUE(nroruc)
 )ENGINE = INNODB;
 ALTER TABLE negocios ADD COLUMN portada VARCHAR(200) NULL;
-
-SELECT * FROM negocios;
-SELECT * FROM negocios;
-SELECT * FROM galerias;
-
 
 -- ------------------------------------------------------------------------------------------------
 -- 									| TABLA GALERIAS |
@@ -177,16 +169,10 @@ CREATE TABLE contratos(
     CONSTRAINT chk_fechafin_con 			CHECK (fechafin > fechainicio)
 )ENGINE = INNODB;
 
-DELETE FROM galerias;
-ALTER TABLE galerias AUTO_INCREMENT 1;
--- Volver a activar la restricción de clave externa
-SET foreign_key_checks = 1;
-SELECT * FROM horarios;
+-- ------------------------------------------------------------------------------------------------------
+-- 										| TABLA DISTRITOS |
+-- ------------------------------------------------------------------------------------------------------
 
-SELECT * FROM ubicaciones;
-SELECT * FROM negocios;
-SELECT * FROM horarios;
--- TABLA DISTRITOS
 CREATE TABLE distritos(
 	iddistrito					INT 			AUTO_INCREMENT PRIMARY KEY,
     nomdistrito					VARCHAR(50)		NOT NULL,
@@ -197,7 +183,10 @@ CREATE TABLE distritos(
 	inactive_at				DATETIME	 	NULL
 )ENGINE = INNODB;
 
--- TABLA DISTRITOS
+-- ------------------------------------------------------------------------------------------------------
+-- 										| TABLA CARRUSEL |
+-- ------------------------------------------------------------------------------------------------------
+
 CREATE TABLE carrusel(
 	idcarrusel				INT 			AUTO_INCREMENT PRIMARY KEY,
     idusuario				INT 			NOT NULL, -- FK
@@ -207,6 +196,3 @@ CREATE TABLE carrusel(
 	inactive_at				DATETIME	 	NULL,
     CONSTRAINT fk_idusuario_carr			FOREIGN KEY(idusuario) REFERENCES usuarios (idusuario)
 )ENGINE = INNODB;
-
-
-SELECT * FROM CARRUSEL;

@@ -19,38 +19,6 @@ BEGIN
 		(_apellidos, _nombres, _numerodoc);
 	SELECT @@last_insert_id 'idpersona';
 END $$
-CALL spu_personas_registrar('Yeren', 'Carbajal', '21819126');
-
-/*DELIMITER $$
-CREATE PROCEDURE spu_personas_listar()
-BEGIN
-	SELECT 
-		idpersona,
-        CONCAT(apellidos,',', nombres) 'Nombres y Apellidos',
-        tipodoc,
-        numerodoc
-	FROM personas
-    WHERE inactive_at IS NULL;
-END $$*/
-
--- ##########################################################################################################################
-
-/*DELIMITER $$
-CREATE PROCEDURE spu_personas_listar()
-BEGIN
-    SELECT 
-        idpersona,
-        CONCAT(nombres, ' ', apellidos) AS 'Nombres y Apellidos',
-        tipodoc,
-        numerodoc
-    FROM personas
-    WHERE inactive_at IS NULL
-        AND idpersona NOT IN (
-            SELECT idpersona
-            FROM usuarios
-        );
-END $$
-CALL spu_personas_listar();*/
 
 -- ##########################################################################################################################
 
@@ -74,9 +42,9 @@ BEGIN
         CONCAT(p.nombres, ' ', p.apellidos) LIKE CONCAT('%', nombre_apellido, '%')
     );
 END $$
-CALL spu_personas_buscar('xd');
 
 -- ##########################################################################################################################
+/* spu_buscar_cliente : Diferencia en vistas de poryecto */
 DELIMITER $$
 CREATE PROCEDURE spu_buscar_cliente(
     IN _cliente VARCHAR(45)
@@ -103,9 +71,6 @@ BEGIN
         p.idpersona, datos;
 END $$
 
-	
-
-CALL spu_buscar_cliente("hola hola");
 -- ##########################################################################################################################
 
 DELIMITER $$
@@ -129,7 +94,8 @@ BEGIN
 		GROUP BY
 		p.idpersona, datos;
 END $$	
-CALL spu_clientes_listar();	
+
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_cliente_actualizar
@@ -147,8 +113,8 @@ BEGIN
 		update_at = NOW()
 	WHERE idpersona = _idpersona;
 END $$
-CALL spu_cliente_actualizar(3, 'Francia Minaya', 'Jhon', 12345678);
 
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_clientes_obtener(IN _idpersona INT)

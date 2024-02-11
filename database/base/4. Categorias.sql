@@ -5,6 +5,7 @@ USE innovacion;
 -- 								| CATEGORIAS |
 -- ------------------------------------------------------------------------------
 
+/* FALTA CREARLO - NO OLVIDAR */
 DELIMITER $$
 CREATE PROCEDURE spu_categorias_registrar(
 	IN _nomcategoria		VARCHAR(50)
@@ -28,8 +29,5 @@ BEGIN
 	FROM categorias
     WHERE inactive_at IS NULL;
 END $$
-CALL spu_categorias_listar();
-SELECT * FROM categorias;
-SELECT * FROM subcategorias;
 
 -- ##########################################################################################################################

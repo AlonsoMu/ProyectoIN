@@ -18,9 +18,6 @@ BEGIN
 	SELECT @@last_insert_id 'idcarrusel';
 END $$
 
-select * from carrusel;
-
-
 -- ##########################################################################################################################
 
 DELIMITER $$
@@ -32,6 +29,8 @@ BEGIN
 	FROM carrusel
     WHERE inactive_at IS NULL;
 END $$
+CALL spu_carrusel_listar();
+-- ##########################################################################################################################
 
 DELIMITER $$
 CREATE PROCEDURE spu_usuarios_listar()
