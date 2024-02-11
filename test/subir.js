@@ -1,186 +1,216 @@
-const form = document.querySelector('form');
-const fileInput = document.querySelector('input');
-const submitButton = document.querySelector('button');
-const statusMessage = document.getElementById('statusMessage');
-const fileListMetadata = document.getElementById('fileListMetadata');
-const fileNum = document.getElementById('fileNum');
-const progressBar = document.querySelector('progress');
-const dropArea = document.getElementById('dropArea');
-
-form.addEventListener('submit', handleSubmit);
-fileInput.addEventListener('change', handleInputChange);
-dropArea.addEventListener('drop', handleDrop);
-
-initDropAreaHighlightOnDrag();
-
-function handleSubmit(event) {
-  event.preventDefault();
-
-  showPendingState();
-
-  uploadFiles(fileInput.files);
-}
-
-function handleDrop(event) {
-  const fileList = event.dataTransfer.files;
-
-  resetFormState();
-
-  try {
-    assertFilesValid(fileList);
-  } catch (err) {
-    updateStatusMessage(err.message);
-    return;
-  }
-
-  showPendingState();
-
-  uploadFiles(fileList);
-}
-
-function handleInputChange(event) {
-  resetFormState();
-
-  try {
-    assertFilesValid(event.target.files);
-  } catch (err) {
-    updateStatusMessage(err.message);
-    return;
-  }
-
-  submitButton.disabled = false;
-}
-
-function uploadFiles(files) {
-  const url = 'https://httpbin.org/post';
-  const method = 'post';
-
-  const xhr = new XMLHttpRequest();
-
-  xhr.upload.addEventListener('progress', event => {
-    updateStatusMessage(`⏳ Uploaded ${event.loaded} bytes of ${event.total}`);
-    updateProgressBar(event.loaded / event.total);
-  });
-
-  xhr.addEventListener('loadend', () => {
-    if (xhr.status === 200) {
-      updateStatusMessage('✅ Success');
-      renderFilesMetadata(files);
-    } else {
-      updateStatusMessage('❌ Error');
+document.addEventListener("DOMContentLoaded", () => {
+    function $(id) {
+        return document.querySelector(id);
     }
 
-    updateProgressBar(0);
-  });
 
-  const data = new FormData();
 
-  for (const file of files) {
-    data.append('file', file);
-  }
 
-  xhr.open(method, url);
-  xhr.send(data);
-}
-
-function renderFilesMetadata(fileList) {
-  fileNum.textContent = fileList.length;
-
-  fileListMetadata.textContent = '';
-
-  for (const file of fileList) {
-    const name = file.name;
-    const type = file.type;
-    const size = file.size;
-
-    fileListMetadata.insertAdjacentHTML(
-      'beforeend',
-      `
-        <li>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Type:</strong> ${type}</p>
-          <p><strong>Size:</strong> ${size} bytes</p>
-        </li>`
-    );
-  }
-}
-
-function assertFilesValid(fileList) {
-  const allowedTypes = ['image/webp', 'image/jpeg', 'image/png'];
-  const sizeLimit = 1024 * 1024; // 1 megabyte
-
-  for (const file of fileList) {
-    const { name: fileName, size: fileSize } = file;
-
-    if (!allowedTypes.includes(file.type)) {
-      throw new Error(`❌ File "${fileName}" could not be uploaded. Only images with the following types are allowed: WEBP, JPEG, PNG.`);
+    function calcularTamañoArchivos(files) {
+        let totalSize = 0;
+        for (const file of files) {
+            totalSize += file.size;
+        }
+        // Convertir el tamaño total de bytes a megabytes con dos decimales
+        const totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+        return `${totalSizeMB} MB`;
     }
 
-    if (fileSize > sizeLimit) {
-      throw new Error(`❌ File "${fileName}" could not be uploaded. Only images up to 1 MB are allowed.`);
-    }
-  }
-}
+    function busqueda() {
+        const parametros = new FormData();
+        parametros.append("operacion", "buscarNegocio");
+        parametros.append("negocio", $("#negocio").value);
 
-function updateStatusMessage(text) {
-  statusMessage.textContent = text;
-}
+        fetch(`../controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros,
+        })
+            .then((respuesta) => respuesta.json())
+            .then((datos) => {
+                console.log("Respuesta de búsqueda completa:", datos);
 
-function updateProgressBar(value) {
-  const percent = value * 100;
-  progressBar.value = Math.round(percent);
-}
-
-function showPendingState() {
-  submitButton.disabled = true;
-  updateStatusMessage('⏳ Pending...')
-}
-
-function resetFormState() {
-  fileListMetadata.textContent = '';
-  fileNum.textContent = '0';
-
-  submitButton.disabled = true;
-  updateStatusMessage(`🤷‍♂ Nothing's uploaded`)
-}
-
-function initDropAreaHighlightOnDrag() {
-  let dragEventCounter = 0;
-
-  dropArea.addEventListener('dragenter', event => {
-    event.preventDefault();
-
-    if (dragEventCounter === 0) {
-      dropArea.classList.add('highlight');
+                if (
+                    datos.length > 0 &&
+                    datos[0].idnegocio !== undefined &&
+                    datos[0].nombre !== undefined
+                ) {
+                    const resultadoInput = $("#resultado");
+                    resultadoInput.value = datos[0].idnegocio + ". " + datos[0].nombre;
+                    $("#resultadoBusqueda").style.display = "block";
+                } else {
+                    console.error(
+                        "Los campos idnegocio y/o nombre no están presentes en la respuesta."
+                    );
+                }
+            })
+            .catch((e) => {
+                console.error("Error en la búsqueda:", e);
+            });
     }
 
-    dragEventCounter += 1;
-  });
+    $("#buscar").addEventListener("click", busqueda);
 
-  dropArea.addEventListener('dragover', event => {
-    event.preventDefault();
+    // Function to handle image upload
+    function handleImageUpload() {
+        const fileInput = $("#fileInput");
+        const progressBar = $(".progress-bar");
+        const progressPercentage = $("#progressPercentage");
+        const uploadStatus = $("#uploadStatus");
+        const uploadSuccess = $("#uploadSuccess");
+        const uploadedFilesContainer = $("#uploadedFiles");
+        const fileSizeInfo = $("#fileSizeInfo");
 
-    // in case of non triggered dragenter!
-    if (dragEventCounter === 0) {
-      dragEventCounter = 1;
+        const files = fileInput.files;
+        const maxImageCount = 12;
+
+        if (files.length === 0) {
+            alert("Selecciona al menos una imagen para cargar.");
+            return;
+        }
+
+        if (files.length > maxImageCount) {
+            alert(`Solo puedes subir hasta ${maxImageCount} imágenes.`);
+            // Clear the file input
+            fileInput.value = "";
+            return;
+        }
+
+        // Show progress bar
+        $("#imageUploadProgress").style.display = "block";
+
+        // Simulate an upload process
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 10;
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+                progressPercentage.innerHTML = `${progress}%`;
+            }
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                if (uploadStatus) {
+                    uploadStatus.innerHTML =
+                        "¡Éxito! Las imágenes se han cargado correctamente.";
+                }
+                if (uploadSuccess) {
+                    uploadSuccess.style.display = "block";
+                }
+
+                // Display uploaded file names
+                const fileNames = Array.from(files).map((file) => file.name);
+                if (uploadedFilesContainer) {
+                    uploadedFilesContainer.innerHTML = `Archivos subidos: ${fileNames.join(
+                        ", "
+                    )}`;
+                    uploadedFilesContainer.style.display = "block";
+                }
+                if (fileSizeInfo) {
+                    fileSizeInfo.innerHTML = "";
+                }
+
+            }
+        }, 200);
     }
-  });
 
-  dropArea.addEventListener('dragleave', event => {
-    event.preventDefault();
+    // Attach the handleImageUpload function to the file input change event
+    $("#fileInput").addEventListener("change", () => {
+        const files = $("#fileInput").files;
 
-    dragEventCounter -= 1;
+        // Actualizar el texto con el tamaño total de archivos seleccionados
+        if (fileSizeInfo) {
+            fileSizeInfo.innerHTML = `Tamaño total de archivos seleccionados: ${calcularTamañoArchivos(
+                files
+            )}`;
+        }
 
-    if (dragEventCounter <= 0) {
-      dragEventCounter = 0;
-      dropArea.classList.remove('highlight');
+        handleImageUpload(); // Llamar a handleImageUpload después de actualizar el tamaño
+    });
+
+    // Button click event for Cancel
+    $("#cancelar").addEventListener("click", () => {
+
+        // Reset the file input
+        $("#fileInput").value = "";
+
+        // Hide the progress bar and uploaded files display
+        $("#imageUploadProgress").style.display = "none";
+        $("#uploadedFiles").style.display = "none";
+
+        // Reset the success message
+        $("#uploadSuccess").innerHTML = "";
+        $("#uploadSuccess").style.display = "none";
+    });
+
+
+    function validarFotos() {
+
+        const fotos = $("#fileInput")
+
+        if (fotos.files.length > 10) {
+
+            alert("Solo puedes elegir 10 fotos");
+
+        } else {
+            insertGaleria();
+        }
     }
-  });
 
-  dropArea.addEventListener('drop', event => {
-    event.preventDefault();
+    function insertGaleria() {
+        const parametros = new FormData();
+        parametros.append("operacion", "registrar");
+        parametros.append("idnegocio", $("#resultado").value);
 
-    dragEventCounter = 0;
-    dropArea.classList.remove('highlight');
-  });
-}
+        const inputFotografia = $("#fileInput");
+        const fotosSeleccionadas = inputFotografia.files;
+
+        for (let i = 0; i < Math.min(10, fotosSeleccionadas.length); ++i) {
+            parametros.append("rutafoto[]", fotosSeleccionadas[i]);
+        }
+
+        // Obtener elementos relevantes
+        const imageUploadProgress = $("#imageUploadProgress");
+        const progressBar = $(".progress-bar");
+        const uploadSuccess = $("#uploadSuccess");
+        const uploadedFilesContainer = $("#uploadedFiles");
+
+        fetch(`../controllers/galeria.controller.php`, {
+            method: "POST",
+            body: parametros
+        })
+            .then(result => result.json())
+            .then(data => {
+                alert("Se registró correctamente");
+
+                // Resetear el formulario después del registro
+                const form = $("#form-galeria");
+                if (form) {
+                    form.reset();
+                }
+
+                // Resetear la barra de progreso
+                if (progressBar) {
+                    progressBar.style.width = "0%";
+                }
+
+                // Ocultar el cuadro de carga y la barra de progreso
+                if (imageUploadProgress) {
+                    imageUploadProgress.style.display = "none";
+                }
+
+
+
+
+                // También puedes restablecer otros elementos o realizar acciones adicionales si es necesario
+
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
+    $("#form-galeria").addEventListener("submit", (event) => {
+        event.preventDefault();
+        validarFotos()
+    });
+});

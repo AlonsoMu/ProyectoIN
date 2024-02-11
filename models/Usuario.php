@@ -48,7 +48,7 @@ class Usuario extends Conexion{
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
     catch(Exception $e){
-      die($e->getMessage()); //Desarrollo > Producción
+      die($e->getMessage());
     }
   }
 

@@ -9,19 +9,6 @@ class Negocio extends Conexion{
     $this->conexion = parent::getConexion();
   }
 
-  /*public function obtenerNegocio($datos = []){
-    try {
-      $consulta = $this->conexion->prepare("CALL spu_obtener_negocios(?)");
-      $consulta->execute(
-        array(
-          $datos['idsubcategoria']
-        )
-      );
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
-      die($e->getMessage());
-    }
-  }*/
 
   public function obtenerNyH($datos = []){
     try {
@@ -39,21 +26,7 @@ class Negocio extends Conexion{
     }
   }
   
-  /*public function obtenerSyD($datos = []){
-    try {
-      $consulta = $this->conexion->prepare("CALL spu_obtener_negocios_subdis(?,?)");
-      $consulta->execute(
-        array(
-          $datos['idsubcategoria'],
-          $datos['iddistrito'],
-        )
-      );
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
-      die($e->getMessage());
-    }
-  }
-*/
+
   public function buscar($datos = []){
     try {
       $consulta = $this->conexion->prepare("CALL spu_negocios_busqueda(?,?)");

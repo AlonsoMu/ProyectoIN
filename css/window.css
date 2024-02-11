@@ -3,14 +3,16 @@
   background-color: #ffffff;
   border-radius: 10px;
   padding: -5px;
-  width: 502px; /* Puedes ajustar el ancho según tus necesidades */
-  height:204px;
+  width: 502px;
+  /* Puedes ajustar el ancho según tus necesidades */
+  height: 204px;
   text-align: left;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .logo-window {
-  flex: 0 0 45%; /* La imagen ocupa el 45% del card y no se expande */
+  flex: 0 0 45%;
+  /* La imagen ocupa el 45% del card y no se expande */
   margin-right: 20px;
 }
 
@@ -21,20 +23,21 @@
 }
 
 .info-window {
-  flex: 1; /* La información ocupa el espacio restante */
+  flex: 1;
+  /* La información ocupa el espacio restante */
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 0%;
   margin-top: auto;
 }
 
-.nombre{
+.nombre {
   color: #555555;
 }
 
 .name-window {
   font-size: 24px;
-  color:#5B4AFF;
+  color: #5B4AFF;
   font-weight: bold;
 }
 
@@ -42,7 +45,8 @@
   font-size: 18px;
 }
 
-.distrito-window, .phone-window {
+.distrito-window,
+.phone-window {
   font-size: 16px;
 }
 
@@ -50,19 +54,49 @@
   padding: 0 !important;
 }
 
-.gm-style .gm-style-iw-c > div {
+.gm-style .gm-style-iw-c>div {
   overflow: visible !important;
 }
 
-.imag{width: 217px!important; height:204px!important;}
+.imag {
+  width: 217px !important;
+  height: 204px !important;
+}
 
-@media only screen and (max-width: 767px){
-  .card-window{width:140px; height:285px; flex-direction:column;}
-  .logo-window{margin-bottom:10px;}
-  .logo-window .imag{width:140px!important; height:140px!important;}
-  .info-window{padding:0px 10px;}
-  .info-window h6{font-size:12px;}
-  .info-window h1{font-size:14px;}
-  .info-window p{font-size:12px;}
-  .info-window img{width: 14px; height: 14px;}
+@media only screen and (max-width: 767px) {
+  .card-window {
+    width: 140px;
+    height: 285px;
+    flex-direction: column;
+  }
+
+  .logo-window {
+    margin-bottom: 10px;
+  }
+
+  .logo-window .imag {
+    width: 140px !important;
+    height: 140px !important;
+  }
+
+  .info-window {
+    padding: 0px 10px;
+  }
+
+  .info-window h6 {
+    font-size: 12px;
+  }
+
+  .info-window h1 {
+    font-size: 14px;
+  }
+
+  .info-window p {
+    font-size: 12px;
+  }
+
+  .info-window img {
+    width: 14px;
+    height: 14px;
+  }
 }

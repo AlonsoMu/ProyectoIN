@@ -6,7 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../fonts/icomoon/style.css">
@@ -16,54 +16,54 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    
+
     <!-- Style -->
     <link rel="stylesheet" href="../css/style.css">
-    
+
 </head>
 
 <body>
 
     <div class="site-mobile-menu site-navbar-target">
-      <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close mt-3">
-          <span class="icon-close2 js-menu-toggle"></span>
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+                <span class="icon-close2 js-menu-toggle"></span>
+            </div>
         </div>
-      </div>
-      <div class="site-mobile-menu-body"></div>
+        <div class="site-mobile-menu-body"></div>
     </div> <!-- .site-mobile-menu -->
 
     <header class="site-navbar-wrap">
-      <div class="site-navbar site-navbar-target js-sticky-header sting">
+        <div class="site-navbar site-navbar-target js-sticky-header sting">
 
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-2">
-              <h1 class="my-0 site-logo"><a href="index.html"><img src="../img/sting.svg" alt="" height="40" /></a></h1>
-            </div>
-            <div class="col-10">
-              <nav class="site-navigation text-right" role="navigation">
-                <div class="container">
-                  <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3 text-dark"></span></a></div>
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <h1 class="my-0 site-logo"><a href="index.html"><img src="../img/sting.svg" alt="" height="40" /></a></h1>
+                    </div>
+                    <div class="col-10">
+                        <nav class="site-navigation text-right" role="navigation">
+                            <div class="container">
+                                <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3 text-dark"></span></a></div>
 
-                  <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
-                    <li><a href="#home-section"  class="nav-link">Inicio</a></li>
-                    <li><a href="#servicios"  class="nav-link">Servicios</a></li>
-                    <li class="has-children">
-                      <a href="#" class="nav-link"><strong>Idioma</strong></a>
-                      <ul class="dropdown arrow-top">
-                        <li><a href="#" class="nav-link">Español</a></li>
-                        <li><a href="#" class="nav-link">English</a></li>
-                        <li><a href="#" class="nav-link">Portugues</a></li>
-                      </ul>
-                    </li>
-                  </ul>
+                                <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
+                                    <li><a href="#home-section" class="nav-link">Inicio</a></li>
+                                    <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                                    <li class="has-children">
+                                        <a href="#" class="nav-link"><strong>Idioma</strong></a>
+                                        <ul class="dropdown arrow-top">
+                                            <li><a href="#" class="nav-link">Español</a></li>
+                                            <li><a href="#" class="nav-link">English</a></li>
+                                            <li><a href="#" class="nav-link">Portugues</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
                 </div>
-              </nav>
             </div>
-          </div>
         </div>
-      </div>
     </header>
 
     <section class="portada" style="background-image: url('../img/portada.jpg');">
@@ -125,9 +125,9 @@
         <div class="container mt-l">
             <!-- TEXT -->
             <h1 class="font24 text-sting">Acerca de...</h1>
-            
+
             <!-- CONTENIDO -->
-            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit ad mattis, varius phasellus hendrerit metus cum faucibus nec gravida cras sagittis, vivamus sociosqu curabitur sapien velit dictum fringilla sodales. Venenatis aenean auctor facilisi litora accumsan quis dui. Aptent cursus  nostra a eu elementum fermentum donec dui. Aptent cursus congue mus interdum mauris risus.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit ad mattis, varius phasellus hendrerit metus cum faucibus nec gravida cras sagittis, vivamus sociosqu curabitur sapien velit dictum fringilla sodales. Venenatis aenean auctor facilisi litora accumsan quis dui. Aptent cursus nostra a eu elementum fermentum donec dui. Aptent cursus congue mus interdum mauris risus.</p>
         </div>
     </section>
 
@@ -136,28 +136,28 @@
         <div class="container mt-5 py-5">
             <!-- TITULO -->
             <h1 class="font24 text-blanco lineabaja mb-5">Galería de fotos</h1>
-            
+
             <!-- IMAGENES -->
             <div class="owl-2-style">
                 <div class="owl-carousel owl-2">
-                  <div class="media-29101">
-                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                  <div class="media-29101">
-                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                  <div class="media-29101">
-                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                  <div class="media-29101">
-                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                  <div class="media-29101">
-                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
-                  </div>
-                  <div class="media-29101">
-                    <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
-                  </div>
+                    <div class="media-29101">
+                        <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                    </div>
+                    <div class="media-29101">
+                        <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                    </div>
+                    <div class="media-29101">
+                        <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                    </div>
+                    <div class="media-29101">
+                        <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                    </div>
+                    <div class="media-29101">
+                        <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                    </div>
+                    <div class="media-29101">
+                        <a href="#"><img src="../galeria/image.svg" alt="Image" class="img-fluid"></a>
+                    </div>
                 </div>
             </div>
 
@@ -165,18 +165,18 @@
     </section>
 
     <!-- VISITANOS -->
-    <section class="width100">        
+    <section class="width100">
         <!-- TITULO -->
         <h1 class="font24 text-sting lineabaja my-5">Visítanos</h1>
     </section>
 
     <!-- MAPA -->
-    <section class="width100 bg-secondary">        
-      <div id="map" style="height: 400px;"></div>   
+    <section class="width100 bg-secondary">
+        <div id="map" style="height: 400px;"></div>
     </section>
 
     <!-- Horarios de atención -->
-    <section class="width100">        
+    <section class="width100">
         <div class="container mt-5">
             <!-- TITULO -->
             <h1 class="font24 text-sting lineabaja my-5">Horario de atención</h1>
@@ -214,13 +214,13 @@
         </div>
     </section>
 
-    
 
-    
+
+
 
 
     <a href="https://wa.me/1234567890?text=hello+123" target=”_blank” class="whatsapp-btn">
-      <i class="bi bi-whatsapp"></i>
+        <i class="bi bi-whatsapp"></i>
     </a>
     <div class="cuadro-btn text-sting">Inicia con nosotros</div>
 
@@ -233,7 +233,7 @@
                 <div class="col-md-4 pt-5 text-left">
                     <h2 class="h2 text-light pb-3 border-light"><img src="../img/sting.svg" alt="" height="40"></h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li>Creativos, Estratégicos <br/>e Innovadores</li>
+                        <li>Creativos, Estratégicos <br />e Innovadores</li>
                     </ul>
                 </div>
 
@@ -281,7 +281,7 @@
     </footer>
 
 
-   
+
 
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/popper.min.js"></script>
@@ -291,66 +291,69 @@
     <script src="../js/main.js"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
 
-  <script>
-    let map;
+    <script>
+        let map;
 
-    function initMap() {
-      const mapDiv = document.getElementById('map');
-      const mapOptions = {
-        center: { lat: -13.4098500, lng: -76.1323500 }, // Coordenadas de ejemplo
-        zoom: 15,
-      };
+        function initMap() {
+            const mapDiv = document.getElementById('map');
+            const mapOptions = {
+                center: {
+                    lat: -13.4098500,
+                    lng: -76.1323500
+                }, // Coordenadas de ejemplo
+                zoom: 15,
+            };
 
-      map = new google.maps.Map(mapDiv, mapOptions);
+            map = new google.maps.Map(mapDiv, mapOptions);
 
-      // Puedes agregar marcadores u otras configuraciones aquí
-    }
-  </script>
-  <!-- Idiomas -->
-<script>
-    function cambiarIdioma(idioma) {
-        // Traducciones
-        const traducciones = {
-            'espanol': {
-                'inicio': 'inicio',
-                'servicios': 'servicios',
-                // Agrega más traducciones según sea necesario
-            },
-            'english': {
-                'inicio': 'home',
-                'servicios': 'services',
-                // Agrega más traducciones según sea necesario
-            },
-            'portugues': {
-                'inicio': 'início',
-                'servicios': 'serviços',
-                // Agrega más traducciones según sea necesario
-            }
-        };
+            // Puedes agregar marcadores u otras configuraciones aquí
+        }
+    </script>
+    <!-- Idiomas -->
+    <script>
+        function cambiarIdioma(idioma) {
+            // Traducciones
+            const traducciones = {
+                'espanol': {
+                    'inicio': 'inicio',
+                    'servicios': 'servicios',
+                    // Agrega más traducciones según sea necesario
+                },
+                'english': {
+                    'inicio': 'home',
+                    'servicios': 'services',
+                    // Agrega más traducciones según sea necesario
+                },
+                'portugues': {
+                    'inicio': 'início',
+                    'servicios': 'serviços',
+                    // Agrega más traducciones según sea necesario
+                }
+            };
 
-        // Selecciona el idioma actual
-        const idiomaActual = traducciones[idioma];
+            // Selecciona el idioma actual
+            const idiomaActual = traducciones[idioma];
 
-        // Actualiza los textos en el menú principal
-        const menuItems = document.querySelectorAll('.main-menu a.nav-link');
-        menuItems.forEach(item => {
-            const claveTraduccion = item.textContent.toLowerCase();
-            item.textContent = idiomaActual[claveTraduccion] || item.textContent;
-        });
+            // Actualiza los textos en el menú principal
+            const menuItems = document.querySelectorAll('.main-menu a.nav-link');
+            menuItems.forEach(item => {
+                const claveTraduccion = item.textContent.toLowerCase();
+                item.textContent = idiomaActual[claveTraduccion] || item.textContent;
+            });
 
-        // También puedes agregar más elementos para traducir aquí...
+            // También puedes agregar más elementos para traducir aquí...
 
-        // Actualiza el texto de los días de la semana en el horario
-        const diasSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-        diasSemana.forEach(dia => {
-            const elementoDia = document.querySelector(`.border h3:contains('${dia}')`);
-            if (elementoDia) {
-                const claveTraduccion = dia.toLowerCase();
-                elementoDia.textContent = idiomaActual[claveTraduccion] || dia;
-            }
-        });
-    }
-</script>
+            // Actualiza el texto de los días de la semana en el horario
+            const diasSemana = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+            diasSemana.forEach(dia => {
+                const elementoDia = document.querySelector(`.border h3:contains('${dia}')`);
+                if (elementoDia) {
+                    const claveTraduccion = dia.toLowerCase();
+                    elementoDia.textContent = idiomaActual[claveTraduccion] || dia;
+                }
+            });
+        }
+    </script>
 
 </body>
 

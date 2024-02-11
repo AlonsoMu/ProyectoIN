@@ -32,26 +32,26 @@ if (isset($_POST['operacion'])) {
         'numerodoc' => $_POST['numerodoc']
       ];
       $persona->editar($datos);
-    break;
+      break;
     case 'obtener':
       $datos = [
         'idpersona' => $_POST['idpersona']
       ];
       enviarJSON($persona->obtener($datos));
-    break;
+      break;
 
     case 'eliminar':
       $datos = [
         'idpersona' => $_POST['idpersona']
       ];
       $persona->eliminar($datos);
-    break;
+      break;
 
     case 'buscarCliente':
       $datos = [
         'cliente' => $_POST['cliente']
       ];
       enviarJSON($persona->buscarCliente($datos));
-    break;
+      break;
   }
-  }
+}

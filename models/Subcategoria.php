@@ -20,17 +20,6 @@ class Subcategoria extends Conexion{
     }
   }
 
-  /*public function listarsub(){
-    try {
-      $consulta = $this->conexion->prepare("CALL spu_subcategorias_listartodo()");
-      $consulta->execute();
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    }
-    catch(Exception $e){
-      die($e->getMessage());
-    }
-  }*/
-
   public function listarsub() {
     try {
       $consulta = $this->conexion->prepare("CALL spu_subcategorias_listartodo()");

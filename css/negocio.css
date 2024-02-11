@@ -1,0 +1,26 @@
+#tabla-negocios {
+  width: 100%;
+  overflow-x: auto;
+  background-color: lightblue !important;
+  ;
+}
+
+#tabla-negocios th,
+#tabla-negocios td {
+  text-align: center;
+  padding: 8px;
+  white-space: nowrap;
+}
+
+.max-width-ellipsis {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.botones {
+  padding: 10px;
+  border-radius: 50px;
+  font-weight: bold;
+  width: 150px;
+}

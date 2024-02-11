@@ -48,18 +48,18 @@ function getSubcategoria() {
     method: "POST",
     body: parametros
   })
-  .then(respuesta => respuesta.json())
-  .then(datos => {
-    datos.forEach(element => {
-      const etiqueta = document.createElement("option");
-      etiqueta.value = element.idsubcategoria;
-      etiqueta.innerHTML = element.nomsubcategoria;
-      $("#idsubcategoria").appendChild(etiqueta);
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+      datos.forEach(element => {
+        const etiqueta = document.createElement("option");
+        etiqueta.value = element.idsubcategoria;
+        etiqueta.innerHTML = element.nomsubcategoria;
+        $("#idsubcategoria").appendChild(etiqueta);
+      });
+    })
+    .catch(e => {
+      console.error(e);
     });
-  })
-  .catch(e => {
-    console.error(e);
-  });
 }
 
 function getDistritos() {
@@ -70,18 +70,18 @@ function getDistritos() {
     method: "POST",
     body: parametros
   })
-  .then(respuesta => respuesta.json())
-  .then(datos => {
-    datos.forEach(element => {
-      const etiqueta = document.createElement("option");
-      etiqueta.value = element.iddistrito;
-      etiqueta.innerHTML = element.nomdistrito;
-      $("#iddistrito").appendChild(etiqueta);
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+      datos.forEach(element => {
+        const etiqueta = document.createElement("option");
+        etiqueta.value = element.iddistrito;
+        etiqueta.innerHTML = element.nomdistrito;
+        $("#iddistrito").appendChild(etiqueta);
+      });
+    })
+    .catch(e => {
+      console.error(e);
     });
-  })
-  .catch(e => {
-    console.error(e);
-  });
 }
 
 function busqueda() {
@@ -93,16 +93,16 @@ function busqueda() {
     method: "POST",
     body: parametros
   })
-  .then(respuesta => respuesta.json())
-  .then(datos => {
-    console.log("Respuesta de búsqueda:", datos);
-    const resultadoInput = $("#resultado");
-    resultadoInput.value = datos.idpersona + '' + datos.datos;
-    $("#resultadoBusqueda").style.display = "block";
-  })
-  .catch(e => {
-    console.error("Error en la búsqueda:", e);
-  });
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+      console.log("Respuesta de búsqueda:", datos);
+      const resultadoInput = $("#resultado");
+      resultadoInput.value = datos.idpersona + '' + datos.datos;
+      $("#resultadoBusqueda").style.display = "block";
+    })
+    .catch(e => {
+      console.error("Error en la búsqueda:", e);
+    });
 }
 
 function mostrarImagen(inputId, nombreSpanId) {
@@ -115,7 +115,7 @@ function mostrarImagen(inputId, nombreSpanId) {
     nombreSpan.textContent = archivo.name;
     const lector = new FileReader();
 
-    lector.onload = function(e) {
+    lector.onload = function (e) {
       imagenPreview.src = e.target.result;
     };
 
@@ -124,7 +124,7 @@ function mostrarImagen(inputId, nombreSpanId) {
     // Limpiar la vista previa si no se selecciona ningún archivo
     nombreSpan.textContent = '';
     imagenPreview.src = '';
-  } 
+  }
 }
 
 // Función para mostrar la vista previa de la imagen
@@ -185,34 +185,34 @@ function registrar() {
     method: "POST",
     body: parametros
   })
-  .then(respuesta => respuesta.json())
-  .then(datos => {
-    if (datos.idnegocio > 0) {
-      Swal.fire({
-      icon: 'success',
-      title: `Negocio registrado con el ID: ${datos.idnegocio}`,
-      showConfirmButton: false,
-      timer: 1500
-    });
-      $("#form-negocio").reset();
-      myModal.hide();
-      listarNegocios();
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+      if (datos.idnegocio > 0) {
+        Swal.fire({
+          icon: 'success',
+          title: `Negocio registrado con el ID: ${datos.idnegocio}`,
+          showConfirmButton: false,
+          timer: 1500
+        });
+        $("#form-negocio").reset();
+        myModal.hide();
+        listarNegocios();
       } else {
-    toastr.error(`Error al registrar negocio: ${datos.message}`);
-    }
-  })
-  .catch(e => {
-    console.error("Error en la solicitud:", e);
-    toastr.error("Ocurrió un error al realizar la solicitud. Por favor, intenta nuevamente.");
-  });
-} 
+        toastr.error(`Error al registrar negocio: ${datos.message}`);
+      }
+    })
+    .catch(e => {
+      console.error("Error en la solicitud:", e);
+      toastr.error("Ocurrió un error al realizar la solicitud. Por favor, intenta nuevamente.");
+    });
+}
 
 // Comunicación Controlador
 // Renderizar los datos en la Tabla > tbody
 
 // DETECTANDO click sobre un elemento asíncrono
 // Creado en tiempo de ejecución (ELIMINAR - EDITAR)
-tabla.addEventListener("click", function(event) {
+tabla.addEventListener("click", function (event) {
   // Obtener el elemento clickeado
   const target = event.target;
   idnegocio = parseInt(event.target.dataset.idnegocio);
@@ -242,37 +242,37 @@ tabla.addEventListener("click", function(event) {
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar'
     })
-    .then((result) => {
-      if (result.isConfirmed) {
-        // Lógica para eliminar el registro
-        const parametros = new FormData();
-        parametros.append("operacion", "inactive");
-        parametros.append("idnegocio", idnegocio);
+      .then((result) => {
+        if (result.isConfirmed) {
+          // Lógica para eliminar el registro
+          const parametros = new FormData();
+          parametros.append("operacion", "inactive");
+          parametros.append("idnegocio", idnegocio);
 
-        fetch(`./controllers/negocio.controller.php`, {
-          method: "POST",
-          body: parametros
-        })
-        .then(respuesta => respuesta.text())
-        .then(datos => {
-          console.log(datos);
-          listarNegocios();
-          Swal.fire(
-            '¡Eliminado!',
-            'El negocio ha sido eliminado exitosamente.',
-            'success'
-          );
-        })
-        .catch(e => {
-          console.error(e);
-          Swal.fire(
-            'Error',
-            'Hubo un error al intentar eliminar el negocio.',
-            'error'
-          );
-        });
-      }
-    });
+          fetch(`./controllers/negocio.controller.php`, {
+            method: "POST",
+            body: parametros
+          })
+            .then(respuesta => respuesta.text())
+            .then(datos => {
+              console.log(datos);
+              listarNegocios();
+              Swal.fire(
+                '¡Eliminado!',
+                'El negocio ha sido eliminado exitosamente.',
+                'success'
+              );
+            })
+            .catch(e => {
+              console.error(e);
+              Swal.fire(
+                'Error',
+                'Hubo un error al intentar eliminar el negocio.',
+                'error'
+              );
+            });
+        }
+      });
   }
 
   if (target.classList.contains('editar')) {
@@ -293,44 +293,44 @@ tabla.addEventListener("click", function(event) {
       method: 'POST',
       body: parametros
     })
-    .then(respuesta => respuesta.json())
-    .then(datosRecibidos => {
-      console.log(datosRecibidos)
-      // Asumiendo que solo hay un elemento en el array
-      const primerElemento = datosRecibidos[0];
-      sonDatosNuevos = false;
+      .then(respuesta => respuesta.json())
+      .then(datosRecibidos => {
+        console.log(datosRecibidos)
+        // Asumiendo que solo hay un elemento en el array
+        const primerElemento = datosRecibidos[0];
+        sonDatosNuevos = false;
 
-      // Llenar el formulario con los datos obtenidos
-      iddistritoInput.value = primerElemento.iddistrito || '';
-      idpersonaInput.value = primerElemento.idpersona + ' ' + primerElemento.Cliente || '';
-      idsubcategoriaInput.value = primerElemento.idsubcategoria || '';
-      nrorucInput.value = primerElemento.nroruc || '';
-      nombreComercialInput.value = primerElemento.NombreComercial || '';
-      descripcionInput.value = primerElemento.descripcion || '';
-      direccionInput.value = primerElemento.direccion || '';
-      telefonoInput.value = primerElemento.telefono || '';
-      correoInput.value = primerElemento.correo || '';
-      facebookInput.value = primerElemento.facebook || '';
-      whatsappInput.value = primerElemento.whatsapp || '';
-      instagramInput.value = primerElemento.instagram || '';
-      tiktokInput.value = primerElemento.tiktok || '';
-      pagwebInput.value = primerElemento.pagweb || '';
-      if (primerElemento.logo) {
-        $("#logo").setAttribute("src", `./imgLogos/${primerElemento.logo}`);
-      }
-      // Mostrar la imagen de Portada
-      if (primerElemento.portada) {
-        $("#portada").setAttribute("src", `./imgPortada/${primerElemento.portada}`);
-      }
-      valoracionInput.value = primerElemento.valoracion || '';
+        // Llenar el formulario con los datos obtenidos
+        iddistritoInput.value = primerElemento.iddistrito || '';
+        idpersonaInput.value = primerElemento.idpersona + ' ' + primerElemento.Cliente || '';
+        idsubcategoriaInput.value = primerElemento.idsubcategoria || '';
+        nrorucInput.value = primerElemento.nroruc || '';
+        nombreComercialInput.value = primerElemento.NombreComercial || '';
+        descripcionInput.value = primerElemento.descripcion || '';
+        direccionInput.value = primerElemento.direccion || '';
+        telefonoInput.value = primerElemento.telefono || '';
+        correoInput.value = primerElemento.correo || '';
+        facebookInput.value = primerElemento.facebook || '';
+        whatsappInput.value = primerElemento.whatsapp || '';
+        instagramInput.value = primerElemento.instagram || '';
+        tiktokInput.value = primerElemento.tiktok || '';
+        pagwebInput.value = primerElemento.pagweb || '';
+        if (primerElemento.logo) {
+          $("#logo").setAttribute("src", `./imgLogos/${primerElemento.logo}`);
+        }
+        // Mostrar la imagen de Portada
+        if (primerElemento.portada) {
+          $("#portada").setAttribute("src", `./imgPortada/${primerElemento.portada}`);
+        }
+        valoracionInput.value = primerElemento.valoracion || '';
 
-      document.getElementById("modal-titulo").innerText = "Editar Negocio";
-      // Abrir el modal
-      myModal.show();
-    })
-    .catch(e => {
-      console.error(e);
-    });
+        document.getElementById("modal-titulo").innerText = "Editar Negocio";
+        // Abrir el modal
+        myModal.show();
+      })
+      .catch(e => {
+        console.error(e);
+      });
   }
 });
 
@@ -390,36 +390,36 @@ function editarNegocioExistente() {
     method: 'POST',
     body: parametrosActualizar
   })
-  .then(respuesta => respuesta.text())
-  .then(resultado => {
-    console.log(resultado);
-    try {
-      const datosJSON = JSON.parse(resultado);
+    .then(respuesta => respuesta.text())
+    .then(resultado => {
+      console.log(resultado);
+      try {
+        const datosJSON = JSON.parse(resultado);
 
-      if (datosJSON.success) {
-        Swal.fire({
-        icon: 'success',
-        title: 'Negocio editado',
-        showConfirmButton: false,
-        timer: 1500
-      });
-        myModal.hide();
-        listarNegocios();
-        $("#form-negocio").reset();
-        sonDatosNuevos = true;
-      } else {
-        toastr.error(`Error al editar negocio: ${datosJSON.message}`);
+        if (datosJSON.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Negocio editado',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          myModal.hide();
+          listarNegocios();
+          $("#form-negocio").reset();
+          sonDatosNuevos = true;
+        } else {
+          toastr.error(`Error al editar negocio: ${datosJSON.message}`);
+        }
       }
-    } 
-  catch (error) {
-      console.error("Error al analizar la respuesta JSON:", error);
-      toastr.error("Ocurrió un error al procesar la respuesta del servidor. Por favor, intenta nuevamente.");
-    }
-  })
-  .catch(e => {
-    console.error('Error en la solicitud:', e);
-    toastr.error('Ocurrió un error al realizar la solicitud. Por favor, intenta nuevamente.');
-  });
+      catch (error) {
+        console.error("Error al analizar la respuesta JSON:", error);
+        toastr.error("Ocurrió un error al procesar la respuesta del servidor. Por favor, intenta nuevamente.");
+      }
+    })
+    .catch(e => {
+      console.error('Error en la solicitud:', e);
+      toastr.error('Ocurrió un error al realizar la solicitud. Por favor, intenta nuevamente.');
+    });
 }
 
 function crearFilaNegocio(registro, numFila) {
@@ -459,19 +459,19 @@ function busquedaNegocios() {
     method: "POST",
     body: parametros
   })
-  .then(respuesta => respuesta.json())
-  .then(datos => {
-    console.log("Respuesta de búsqueda:", datos);
-    $("#tabla-negocios tbody").innerHTML = '';
-    let numFila = 1;
-    datos.forEach(registro => {
-      $("#tabla-negocios tbody").innerHTML += crearFilaNegocio(registro, numFila);
-      numFila++;
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+      console.log("Respuesta de búsqueda:", datos);
+      $("#tabla-negocios tbody").innerHTML = '';
+      let numFila = 1;
+      datos.forEach(registro => {
+        $("#tabla-negocios tbody").innerHTML += crearFilaNegocio(registro, numFila);
+        numFila++;
+      });
+    })
+    .catch(e => {
+      console.error("Error en la búsqueda:", e);
     });
-  })
-  .catch(e => {
-    console.error("Error en la búsqueda:", e);
-  });
 }
 
 function listarNegocios() {
@@ -482,18 +482,18 @@ function listarNegocios() {
     method: 'POST',
     body: parametros
   })
-  .then(respuesta => respuesta.json())
-  .then(datosRecibidos => {
-    let numFila = 1;
-    $("#tabla-negocios tbody").innerHTML = '';
-    datosRecibidos.forEach(registro => {
-      $("#tabla-negocios tbody").innerHTML += crearFilaNegocio(registro, numFila);
-      numFila++;
+    .then(respuesta => respuesta.json())
+    .then(datosRecibidos => {
+      let numFila = 1;
+      $("#tabla-negocios tbody").innerHTML = '';
+      datosRecibidos.forEach(registro => {
+        $("#tabla-negocios tbody").innerHTML += crearFilaNegocio(registro, numFila);
+        numFila++;
+      });
+    })
+    .catch(e => {
+      console.error(e)
     });
-  })
-  .catch(e => {
-    console.error(e)
-  });
 }
 
 

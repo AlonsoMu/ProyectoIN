@@ -1,0 +1,249 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login-container {
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+}
+
+.login-container h2 {
+    color: #333;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.form-group label:focus {
+    outline: none;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.form-group button {
+    background-color: #5B4AFF;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 auto;
+    border-radius: 20px;
+    width: 50%;
+}
+
+.form-group button:hover {
+    background-color: #00E7AD;
+}
+
+.reset-password {
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.reset-password:hover {
+    text-decoration: underline;
+}
+
+.circular-icon {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: #4caf50;
+    border-radius: 50%;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.circular-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+@media screen and (max-width: 600px) {
+    .login-container {
+        width: 80%;
+    }
+
+    .form-group button {
+        width: 100%;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-group button {
+        width: 100%;
+        max-width: 200px;
+        /* Ajusta según sea necesario */
+        margin: 0 auto;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    .circular-icon {
+        width: 50px;
+        height: 50px;
+        top: -30px;
+    }
+}
+
+.form-card {
+    width: 280px;
+    height: 350px;
+    border-radius: 1.2rem;
+    background-color: #fff;
+    padding: 1.3rem;
+    color: #212121;
+    text-align: center;
+    position: relative;
+}
+
+.form-card-prompt {
+    margin-bottom: 2rem;
+    font-size: 19px;
+}
+
+/* hard reset */
+.form-card-input {
+    all: unset;
+}
+
+.form-card-input-wrapper {
+    position: relative;
+    width: 100%;
+    height: 3rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.form-card-input {
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 2rem;
+    text-align: start;
+    -webkit-transform: translateX(36px);
+    -ms-transform: translateX(36px);
+    transform: translateX(36px);
+    position: absolute;
+    z-index: 3;
+    background-color: transparent;
+}
+
+.form-card-input-bg {
+    content: '';
+    width: 240px;
+    height: 60px;
+    margin: auto;
+    inset: 0;
+    bottom: 10px;
+    position: absolute;
+    z-index: 1;
+    border-radius: 12px;
+    background-color: rgba(206, 206, 206, 0.664);
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.button-container button {
+    background-color: #5B4AFF;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.button-container button:hover {
+    background-color: #00E7AD;
+}
+
+/* Estilo para el formulario de cambio de contraseña */
+#form-cambiarpass {
+    margin-top: 5px;
+}
+
+#form-cambiarpass label {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    /* Ajusta según sea necesario */
+    color: #666;
+}
+
+#form-cambiarpass input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+#form-cambiarpass button {
+    background-color: #5B4AFF;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+}
+
+#form-cambiarpass button:hover {
+    background-color: #00E7AD;
+}

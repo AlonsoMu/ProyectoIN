@@ -48,19 +48,19 @@ function busquedaCliente() {
     method: "POST",
     body: parametros
   })
-  .then(respuesta => respuesta.json())
-  .then(datos => {
-    console.log("Respuesta de búsqueda:", datos);
-    $("#tabla-clientes tbody").innerHTML = '';
-    let numFila = 1;
-    datos.forEach(registro => {
-      $("#tabla-clientes tbody").innerHTML += crearFilaCliente(registro, numFila);
-      numFila++;
+    .then(respuesta => respuesta.json())
+    .then(datos => {
+      console.log("Respuesta de búsqueda:", datos);
+      $("#tabla-clientes tbody").innerHTML = '';
+      let numFila = 1;
+      datos.forEach(registro => {
+        $("#tabla-clientes tbody").innerHTML += crearFilaCliente(registro, numFila);
+        numFila++;
+      });
+    })
+    .catch(e => {
+      console.error("Error en la búsqueda:", e);
     });
-  })
-  .catch(e => {
-    console.error("Error en la búsqueda:", e);
-  });
 }
 
 function listar() {
@@ -71,18 +71,18 @@ function listar() {
     method: 'POST',
     body: parametros
   })
-  .then(respuesta => respuesta.json())
-  .then(datosRecibidos => {
-    let numFila = 1;
-    $("#tabla-clientes tbody").innerHTML = '';
-    datosRecibidos.forEach(registro => {
-      $("#tabla-clientes tbody").innerHTML += crearFilaCliente(registro, numFila);
-      numFila++;
+    .then(respuesta => respuesta.json())
+    .then(datosRecibidos => {
+      let numFila = 1;
+      $("#tabla-clientes tbody").innerHTML = '';
+      datosRecibidos.forEach(registro => {
+        $("#tabla-clientes tbody").innerHTML += crearFilaCliente(registro, numFila);
+        numFila++;
+      });
+    })
+    .catch(e => {
+      console.error(e)
     });
-  })
-  .catch(e => {
-    console.error(e)
-  });
 }
 
 $("#busqueda").addEventListener("click", busquedaCliente);
@@ -99,7 +99,7 @@ tabla.addEventListener('click', (event) => {
     confirmarModal.show();
 
     // Agregar un evento de clic al botón de confirmar eliminar dentro del modal
-    document.getElementById('confirmarEliminarBtn').addEventListener('click', function() {
+    document.getElementById('confirmarEliminarBtn').addEventListener('click', function () {
       // Lógica para eliminar el registro
       const parametros = new FormData();
       parametros.append("operacion", "eliminar");
@@ -109,18 +109,18 @@ tabla.addEventListener('click', (event) => {
         method: "POST",
         body: parametros
       })
-      .then(respuesta => respuesta.text())
-      .then(datos => {
-        console.log(datos);
-        // Cerrar el modal después de eliminar
-        confirmarModal.hide();
-        listar();
-      })
-      .catch(e => {
-        console.error(e);
-        // Cerrar el modal en caso de error
-        confirmarModal.hide();
-      });
+        .then(respuesta => respuesta.text())
+        .then(datos => {
+          console.log(datos);
+          // Cerrar el modal después de eliminar
+          confirmarModal.hide();
+          listar();
+        })
+        .catch(e => {
+          console.error(e);
+          // Cerrar el modal en caso de error
+          confirmarModal.hide();
+        });
     });
   }
 
@@ -137,23 +137,23 @@ tabla.addEventListener('click', (event) => {
       method: 'POST',
       body: parametros
     })
-    .then(respuesta => respuesta.json())
-    .then(datosRecibidos => {
-      console.log(datosRecibidos)
-      // Asumiendo que solo hay un elemento en el array
-      const primerElemento = datosRecibidos[0];
+      .then(respuesta => respuesta.json())
+      .then(datosRecibidos => {
+        console.log(datosRecibidos)
+        // Asumiendo que solo hay un elemento en el array
+        const primerElemento = datosRecibidos[0];
 
-      // Llenar el formulario con los datos obtenidos
-      apellidosInput.value = primerElemento.apellidos || '';
-      nombresInput.value = primerElemento.nombres || '';
-      numerodocInput.value = primerElemento.numerodoc || '';
-      document.getElementById("modal-titulo").innerText = "Editar Negocio";
-      // Abrir el modal
-      myModal.show();
-    })
-    .catch(e => {
-      console.error(e);
-    });
+        // Llenar el formulario con los datos obtenidos
+        apellidosInput.value = primerElemento.apellidos || '';
+        nombresInput.value = primerElemento.nombres || '';
+        numerodocInput.value = primerElemento.numerodoc || '';
+        document.getElementById("modal-titulo").innerText = "Editar Negocio";
+        // Abrir el modal
+        myModal.show();
+      })
+      .catch(e => {
+        console.error(e);
+      });
   }
 });
 
@@ -189,29 +189,29 @@ document.getElementById("guardarDatos").addEventListener('click', () => {
     method: 'POST',
     body: parametrosActualizar
   })
-  .then(respuesta => respuesta.text())
-  .then(resultado => {
-    console.log(resultado);
-    // Cerrar el modal después de completar la operación
-    myModal.hide();
-    // Mostrar notificación SweetAlert de éxito después de editar el negocio
-    Swal.fire(
-      `Cliente ${operacionMensaje}`,
-      `El cliente ha sido ${operacionMensaje} correctamente.`,
-      'success'
-    ).then(() => {
-      listar(); // Actualizar la lista después de completar la operación
+    .then(respuesta => respuesta.text())
+    .then(resultado => {
+      console.log(resultado);
+      // Cerrar el modal después de completar la operación
+      myModal.hide();
+      // Mostrar notificación SweetAlert de éxito después de editar el negocio
+      Swal.fire(
+        `Cliente ${operacionMensaje}`,
+        `El cliente ha sido ${operacionMensaje} correctamente.`,
+        'success'
+      ).then(() => {
+        listar(); // Actualizar la lista después de completar la operación
+      });
+    })
+    .catch(e => {
+      console.error(e);
+      // Mostrar alerta de error si ocurre algún problema
+      Swal.fire(
+        'Error',
+        'Hubo un error al procesar la solicitud. Por favor, inténtalo de nuevo.',
+        'error'
+      );
     });
-  })
-  .catch(e => {
-    console.error(e);
-    // Mostrar alerta de error si ocurre algún problema
-    Swal.fire(
-      'Error',
-      'Hubo un error al procesar la solicitud. Por favor, inténtalo de nuevo.',
-      'error'
-    );
-  });
 });
 
 listar();
