@@ -65,7 +65,7 @@
       </div>
     </div>
   </header>
-  
+
 
   <section class="espacio_eredado"></section>
   <div class="page-container">

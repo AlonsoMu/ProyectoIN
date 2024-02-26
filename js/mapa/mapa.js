@@ -260,10 +260,13 @@ function listarNegocios(idsubcategoria) {
                     // Cambiar 'mouseover' a 'click' para el evento del marcador
                     marker.addListener('click', function () {
                         mostrarInfoWindow(element, marker);
+                        calcularYDibujarRuta(point);
                     });
 
                     markers.push(marker);
                 });
+
+                getYourLocation();
                 // Centrar y hacer zoom solo si hay marcadores
                 if (markers.length > 0) {
                     const bounds = new google.maps.LatLngBounds();
@@ -271,6 +274,8 @@ function listarNegocios(idsubcategoria) {
                         bounds.extend(marker.getPosition());
                     });
                     map.fitBounds(bounds);
+
+                    map.setZoom(18);
                 }
             }
         })
@@ -281,6 +286,60 @@ function listarNegocios(idsubcategoria) {
     map.addListener('click', function () {
         infoWindow.close();
     });
+}
+
+function calcularYDibujarRuta(destino) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const directionsService = new google.maps.DirectionsService();
+                const directionsRenderer = new google.maps.DirectionsRenderer();
+
+                directionsRenderer.setMap(map);
+
+                const request = {
+                    origin: {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    },
+                    destination: destino,
+                    travelMode: 'DRIVING'
+                };
+
+                directionsService.route(request, function (response, status) {
+                    if (status === 'OK') {
+                        directionsRenderer.setDirections(response);
+                        const route = response.routes[0];
+                        const leg = route.legs[0];
+                        const arrivalTimeDriving = leg.duration.text;
+                        alert({arrivalTimeDriving});
+
+                        
+                        // Calcular tiempo estimado caminando
+                        request.travelMode = 'WALKING';
+                        directionsService.route(request, function (response, status) {
+                            if (status === 'OK') {
+                                const routeWalking = response.routes[0];
+                                const legWalking = routeWalking.legs[0];
+                                const arrivalTimeWalking = legWalking.duration.text;
+
+
+                            } else {
+                                console.error("Error al calcular la ruta caminando: " + status);
+                            }
+                        });
+                    } else {
+                        console.error("Error al calcular la ruta en coche: " + status);
+                    }
+                });
+            },
+            () => {
+                console.error("Error al obtener la ubicación actual");
+            }
+        );
+    } else {
+        console.error("Tu navegador no admite geolocalización");
+    }
 }
 
 // Evento de clic en los botones de subcategoría
