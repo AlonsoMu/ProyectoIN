@@ -22,6 +22,67 @@
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/listado.css">
   <link rel="stylesheet" href="./css/window.css">
+
+  <style>
+        /* Estilos CSS para el toast */
+        .page-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast-1 {
+            background-image: linear-gradient(to right, #a0c4ff, #ffffff);
+            border-top: 1px solid #3182ce;
+            color: #3182ce;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            border-radius: 0.25rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            animation: slideIn 0.5s ease forwards, fadeOut 3s ease forwards 2s;
+        }
+
+        .container-13 {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .container-23 {
+            font-weight: bold;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #3182ce;
+            padding: 0.25rem;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+  
 </head>
 
 <body>
@@ -68,7 +129,7 @@
 
 
   <section class="espacio_eredado"></section>
-  <div class="page-container">
+  <!--<div class="page-container">
     <div class="wrapper-1">
       <div class="toast-1 success-1">
         <div class="container-13">
@@ -81,7 +142,7 @@
         <button>&times;</button>
       </div>
     </div>
-  </div>
+  </div>-->
 
   <div class="container mt-5 text-center">
     <h1 class="nav_titulo mb-5 lineabajo">¿Qué lugar deseas encontrar?</h1>

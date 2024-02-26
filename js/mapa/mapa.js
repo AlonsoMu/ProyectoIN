@@ -180,6 +180,9 @@ function listarNegociosPorDistrito(idsubcategoria, iddistrito) {
                         const message = `Se encontraron ${jsonDatos.length} negocios en este distrito para la subcategoría dada`;
                         showToast(message, "green");
                     }
+
+                    
+                    
                 } else {
                     // No se encontraron negocios en este distrito para la subcategoría dada
                     showToast(`No se encontraron negocios para la subcategoría en el distrito seleccionado`, "red");
@@ -209,6 +212,8 @@ function listarNegociosPorDistrito(idsubcategoria, iddistrito) {
             });
         });
 }
+
+
 
 
 function obtenerCoordenadasDistrito(iddistrito) {
@@ -288,6 +293,34 @@ function listarNegocios(idsubcategoria) {
     });
 }
 
+function mostrarToast(mensaje, icono) {
+    const toastContainer = document.createElement('div');
+    toastContainer.classList.add('page-container', 'top-right');
+
+    const toast = document.createElement('div');
+    toast.classList.add('toast-1');
+
+    const iconContainer = document.createElement('div');
+    iconContainer.classList.add('container-13');
+    const icon = document.createElement('i');
+    icon.classList.add('bi', icono); // Utiliza el icono pasado como parámetro
+    iconContainer.appendChild(icon);
+
+    const messageContainer = document.createElement('div');
+    messageContainer.classList.add('container-23');
+    const paragraphs = mensaje.split('\n');
+    paragraphs.forEach(paragraphText => {
+        const p = document.createElement('p');
+        p.textContent = paragraphText;
+        messageContainer.appendChild(p);
+    });
+
+    toast.appendChild(iconContainer);
+    toast.appendChild(messageContainer);
+    toastContainer.appendChild(toast);
+    document.body.appendChild(toastContainer);
+}
+
 function calcularYDibujarRuta(destino) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -312,9 +345,9 @@ function calcularYDibujarRuta(destino) {
                         const route = response.routes[0];
                         const leg = route.legs[0];
                         const arrivalTimeDriving = leg.duration.text;
-                        alert({arrivalTimeDriving});
-
                         
+                        const toast1 = mostrarToast("Tiempo en transporte: " + arrivalTimeDriving, "bi-car-front-fill"); // Muestra el icono de carro
+
                         // Calcular tiempo estimado caminando
                         request.travelMode = 'WALKING';
                         directionsService.route(request, function (response, status) {
@@ -323,7 +356,10 @@ function calcularYDibujarRuta(destino) {
                                 const legWalking = routeWalking.legs[0];
                                 const arrivalTimeWalking = legWalking.duration.text;
 
-
+                                // Muestra el tiempo caminando después de 2 segundos
+                                setTimeout(() => {
+                                    const toast2 = mostrarToast("Tiempo caminando: " + arrivalTimeWalking, "bi-person-walking"); // Muestra el icono de persona caminando
+                                }, 2000);
                             } else {
                                 console.error("Error al calcular la ruta caminando: " + status);
                             }
@@ -341,6 +377,12 @@ function calcularYDibujarRuta(destino) {
         console.error("Tu navegador no admite geolocalización");
     }
 }
+
+
+
+
+
+
 
 // Evento de clic en los botones de subcategoría
 document.addEventListener('click', function (event) {
@@ -425,7 +467,7 @@ function getYourLocation() {
                     lng: position.coords.longitude
                 };
                 map.setCenter(coords);
-                map.setZoom(16);
+                map.setZoom(14);
 
                 new google.maps.Marker({
                     position: coords,
