@@ -1,0 +1,80 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins",sans-serif;
+}
+body{
+  background-color: #f9f9f9;
+}
+
+.page-container {
+  position: relative; /* Posicionamiento relativo */
+}
+
+.wrapper-1 {
+  width: 300px;
+  position: absolute;
+  top: 20px; /* Posicionamiento a 20px del borde superior */
+  right: 20px; /* Posicionamiento a 20px del borde derecho */
+  z-index: 9999; /* Asegúrate de que el z-index sea mayor que el de la barra de navegación */
+  display: grid;
+  align-items: center; /* Centrar verticalmente */
+}
+
+
+
+.toast-1{
+  width: 100%;
+  height: 80px;
+  padding: 20px;
+  background-color: #c1c1c1;
+  border-radius: 7px;
+  display: grid;
+  grid-template-columns: 1.3fr 6fr 0.5fr;
+  box-shadow: 0 15px 30ppx rgba(0, 0, 0, 0.8);
+}
+
+.success-1{ 
+  border-left: 8px solid #5B4AFF;
+}
+
+.success-1 i{
+  color: #5B4AFF;
+  margin-bottom: 8px;
+}
+
+.container-13 i{
+  font-size: 35px;
+  
+}
+
+.container-13, .container-23{
+  align-self: center;
+}
+
+
+
+.container-23 p:first-child {
+  font-size: 16px;
+  color: #101020;
+  font-weight: 600;
+  margin-bottom: 5px; /* Ajusta el margen inferior según sea necesario */
+}
+
+
+.container-23 p:last-child{
+  font-size: 12px;
+  font-weight: 400;
+  color: #656565;
+}
+
+.toast-1 button{
+  align-self: flex-start;
+  background-color: transparent;
+  border: none;
+  font-size: 25px;
+  line-height: 0;
+  cursor: pointer;
+  color: #656565;
+}

@@ -15,7 +15,8 @@
   <link rel="stylesheet" href="./css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="./css/toast.css">
-
+  <link rel="stylesheet" href="test/1.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Style -->
   <link rel="stylesheet" href="./css/style.css">
@@ -64,17 +65,31 @@
       </div>
     </div>
   </header>
+  
 
   <section class="espacio_eredado"></section>
+  <div class="page-container">
+    <div class="wrapper-1">
+      <div class="toast-1 success-1">
+        <div class="container-13">
+          <i class="fa-solid fa-person-walking"></i>
+        </div>
+        <div class="container-23">
+          <p>¡Éxito!</p>
+          <p>Este es un mensaje de éxito</p>
+        </div>
+        <button>&times;</button>
+      </div>
+    </div>
+  </div>
+
   <div class="container mt-5 text-center">
     <h1 class="nav_titulo mb-5 lineabajo">¿Qué lugar deseas encontrar?</h1>
     <div class="d-flex justify-content-center mt-4 valor_c" id="categoria">
       <a class="nav-link corrector_nav1" data-bs-toggle="collapse" href="listado.php">Todos los negocios</a>
       <span class="text-muted mx-3 m-division"> | </span>
-
     </div>
   </div>
-
   <div class="w-100 bg-azul reor " id="subcategoria">
 
   </div>
