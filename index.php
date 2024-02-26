@@ -24,64 +24,69 @@
   <link rel="stylesheet" href="./css/window.css">
 
   <style>
-        /* Estilos CSS para el toast */
-        .page-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-        }
+    /* Estilos CSS para el toast */
+/* Estilos CSS para el toast */
+/* Estilos CSS para el toast */
+.page-container {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 9999;
+}
 
-        .toast-1 {
-            background-image: linear-gradient(to right, #a0c4ff, #ffffff);
-            border-top: 1px solid #3182ce;
-            color: #3182ce;
-            padding: 0.5rem;
-            display: flex;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            border-radius: 0.25rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 300px;
-            animation: slideIn 0.5s ease forwards, fadeOut 3s ease forwards 2s;
-        }
+.toast-1 {
+    background-color: #ffffff;
+    border: 2px solid #5B4AFF; /* Cambié el color del borde a morado */
+    color: #5B4AFF; /* Cambié el color del texto a morado */
+    padding: 20px; /* Aumenté el padding para que haya más espacio interior */
+    display: flex;
+    align-items: center;
+    font-family: "Arial", sans-serif;
+    border-radius: 10px; /* Aumenté el radio de borde para suavizar las esquinas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aumenté la sombra para hacerla más visible */
+    max-width: 300px;
+    animation: slideIn 0.5s ease forwards, fadeOut 3s ease forwards 2s;
+}
 
-        .container-13 {
-            margin-right: 0.5rem;
-            font-size: 1.5rem;
-        }
+.container-13 {
+    margin-right: 15px; /* Aumenté el margen derecho */
+    font-size: 1.4rem; /* Aumenté el tamaño del ícono */
+}
 
-        .container-23 {
-            font-weight: bold;
-        }
+.container-23 {
+    font-weight: bold;
+    margin-top: 8px; /* Aumenté el margen superior */
+}
 
-        button {
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 1rem;
-            color: #3182ce;
-            padding: 0.25rem;
-        }
+button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem; /* Aumenté el tamaño del botón */
+    color: #5B4AFF; /* Cambié el color del botón a morado */
+    padding: 0.5rem;
+    margin-left: auto; /* Alinear el botón a la derecha */
+}
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-100%);
-            }
-            to {
-                transform: translateY(0);
-            }
-        }
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
 
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-            }
-        }
-    </style>
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+  </style>
   
 </head>
 
@@ -276,7 +281,7 @@
   <!-- Toastr script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
-  <script src="./js/mapa/mapa.js"></script>
+  <script src=".//js/mapa/mapa.js"></script>
 
 
 </body>
