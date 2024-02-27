@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="./css/owl.carousel.min.css">
   <link rel="stylesheet" href="./css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="./css/toast.css">
+  
   <link rel="stylesheet" href="test/1.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -22,69 +22,10 @@
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/listado.css">
   <link rel="stylesheet" href="./css/window.css">
+  <link rel="stylesheet" href="./css/toast.css">
 
   <style>
     /* Estilos CSS para el toast */
-/* Estilos CSS para el toast */
-/* Estilos CSS para el toast */
-.page-container {
-    position: fixed;
-    top: 90px;
-    right: 20px;
-    z-index: 9999;
-}
-
-.toast-1 {
-    background-color: #ffffff;
-    border: 2px solid #5B4AFF; /* Cambié el color del borde a morado */
-    color: #5B4AFF; /* Cambié el color del texto a morado */
-    padding: 20px; /* Aumenté el padding para que haya más espacio interior */
-    display: flex;
-    align-items: center;
-    font-family: "Arial", sans-serif;
-    border-radius: 10px; /* Aumenté el radio de borde para suavizar las esquinas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aumenté la sombra para hacerla más visible */
-    max-width: 300px;
-    animation: slideIn 0.5s ease forwards, fadeOut 3s ease forwards 2s;
-}
-
-.container-13 {
-    margin-right: 15px; /* Aumenté el margen derecho */
-    font-size: 1.4rem; /* Aumenté el tamaño del ícono */
-}
-
-.container-23 {
-    font-weight: bold;
-    margin-top: 8px; /* Aumenté el margen superior */
-}
-
-button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 1.2rem; /* Aumenté el tamaño del botón */
-    color: #5B4AFF; /* Cambié el color del botón a morado */
-    padding: 0.5rem;
-    margin-left: auto; /* Alinear el botón a la derecha */
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateY(-100%);
-    }
-    to {
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
 
   </style>
   

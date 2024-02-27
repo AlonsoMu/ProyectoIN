@@ -18,6 +18,7 @@ function initMap() {
 let markers = [];
 let infoWindow;
 let selectedIdSubcategoria;
+let directionsRenderer;
 
 function clearMarkers() {
     markers.forEach(marker => {
@@ -181,8 +182,8 @@ function listarNegociosPorDistrito(idsubcategoria, iddistrito) {
                         showToast(message, "green");
                     }
 
-                    
-                    
+
+
                 } else {
                     // No se encontraron negocios en este distrito para la subcategoría dada
                     showToast(`No se encontraron negocios para la subcategoría en el distrito seleccionado`, "red");
@@ -321,20 +322,32 @@ function mostrarToast(mensaje, icono) {
     document.body.appendChild(toastContainer);
 }
 
+function calcularDistanciaEntrePuntos(punto1, punto2) {
+    return google.maps.geometry.spherical.computeDistanceBetween(punto1, punto2);
+}
+
+
 function calcularYDibujarRuta(destino) {
+    // Limpiar la ruta anteriormente dibujada si existe
+    if (directionsRenderer) {
+        directionsRenderer.setMap(null);
+    }
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
+                const userLocation = new google.maps.LatLng(
+                    position.coords.latitude,
+                    position.coords.longitude
+                );
                 const directionsService = new google.maps.DirectionsService();
-                const directionsRenderer = new google.maps.DirectionsRenderer();
-
-                directionsRenderer.setMap(map);
+                directionsRenderer = new google.maps.DirectionsRenderer({
+                    suppressMarkers: true // Oculta los marcadores A y B
+                });
+                directionsRenderer.setMap(map); // Asignamos el mapa donde se dibujará la ruta
 
                 const request = {
-                    origin: {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    },
+                    origin: userLocation,
                     destination: destino,
                     travelMode: 'DRIVING'
                 };
@@ -342,11 +355,13 @@ function calcularYDibujarRuta(destino) {
                 directionsService.route(request, function (response, status) {
                     if (status === 'OK') {
                         directionsRenderer.setDirections(response);
+
                         const route = response.routes[0];
                         const leg = route.legs[0];
                         const arrivalTimeDriving = leg.duration.text;
-                        
-                        const toast1 = mostrarToast("Tiempo en transporte: " + arrivalTimeDriving, "bi-car-front-fill"); // Muestra el icono de carro
+
+                        // Muestra el tiempo en transporte en una alerta
+                        mostrarToast("Tiempo en transporte: " + arrivalTimeDriving, "bi-car-front-fill");
 
                         // Calcular tiempo estimado caminando
                         request.travelMode = 'WALKING';
@@ -356,14 +371,26 @@ function calcularYDibujarRuta(destino) {
                                 const legWalking = routeWalking.legs[0];
                                 const arrivalTimeWalking = legWalking.duration.text;
 
-                                // Muestra el tiempo caminando después de 2 segundos
+                                // Muestra el tiempo caminando en una alerta después de 2 segundos
                                 setTimeout(() => {
-                                    const toast2 = mostrarToast("Tiempo caminando: " + arrivalTimeWalking, "bi-person-walking"); // Muestra el icono de persona caminando
+                                    mostrarToast("Tiempo caminando: " + arrivalTimeWalking, "bi-person-walking");
                                 }, 2000);
                             } else {
                                 console.error("Error al calcular la ruta caminando: " + status);
                             }
                         });
+
+                        // Calcular la distancia entre la ubicación del usuario y el destino
+                        const distance = calcularDistanciaEntrePuntos(userLocation, destino);
+                        // Definir el nivel de zoom en función de la distancia
+                        let zoomLevel = 8; // Nivel de zoom predeterminado
+                        if (distance < 1000) {
+                            zoomLevel = 15; // Zoom más cercano si la distancia es menor a 1km
+                        } else if (distance < 5000) {
+                            zoomLevel = 12; // Zoom intermedio si la distancia es menor a 5km
+                        }
+                        // Establecer el nivel de zoom en el mapa
+                        map.setZoom(zoomLevel);
                     } else {
                         console.error("Error al calcular la ruta en coche: " + status);
                     }
@@ -377,6 +404,19 @@ function calcularYDibujarRuta(destino) {
         console.error("Tu navegador no admite geolocalización");
     }
 }
+
+
+markers.forEach(marker => {
+    marker.addListener('click', function () {
+        // Limpiar la ruta anteriormente dibujada
+        if (directionsRenderer) {
+            directionsRenderer.setMap(null);
+        }
+        // Calcular y dibujar la ruta al nuevo marcador seleccionado
+        calcularYDibujarRuta(marker.getPosition());
+    });
+});
+
 
 
 
@@ -449,13 +489,13 @@ function mostrarInfoWindow(element, marker) {
     infoWindow.setContent(contentString);
     infoWindow.open(map, marker);
 
-    // Agregar evento para cerrar el card cuando el mouse sale del card
+    /* Agregar evento para cerrar el card cuando el mouse sale del card
     infoWindow.addListener('domready', function () {
         const cardWindow = document.querySelector('.card-window');
         cardWindow.addEventListener('mouseleave', function () {
             infoWindow.close();
         });
-    });
+    });*/
 }
 
 function getYourLocation() {
