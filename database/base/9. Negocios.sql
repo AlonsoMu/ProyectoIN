@@ -618,3 +618,19 @@ BEGIN
     WHERE n.nombre LIKE CONCAT('%', nombre_comercial, '%')
     AND n.inactive_at IS NULL;
 END $$
+
+-- -------------------------------------------------------------------------------------------------
+-- 											| BÚSQUEDA |
+-- -------------------------------------------------------------------------------------------------
+
+
+DELIMITER $$
+CREATE PROCEDURE spu_busqueda_general()
+BEGIN
+    SELECT 
+		idnegocio,
+        logo,
+        nombre
+	FROM negocios
+    WHERE inactive_at IS NULL;
+END $$

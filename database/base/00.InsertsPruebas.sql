@@ -68,7 +68,10 @@ INSERT INTO ubicaciones (idhorario, idnegocio, latitud, longitud) VALUES
 INSERT INTO ubicaciones (idhorario, idnegocio, latitud, longitud) VALUES
 (1, 1, -13.4047002, -76.1582921);
 
+INSERT INTO ubicaciones (idhorario, idnegocio, latitud, longitud) VALUES
+(1, 3, -13.4167145, -76.1490022);
 
+select * from negocios;
 
 SELECT * FROM ubicaciones;
 INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, nroruc, nombre,

@@ -304,5 +304,9 @@ if (isset($_POST['operacion'])) {
       ];
       enviarJSON($negocio->busquedaNegocios($datosEnviar));
       break;
+
+    case 'busquedaGeneral':
+      enviarJson($negocio->busquedaGeneral());
+      break;
   }
 }
