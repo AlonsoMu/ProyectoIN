@@ -141,7 +141,7 @@ CREATE TABLE negocios(
 CREATE TABLE visitas
 (
 	idvisita 				INT 			AUTO_INCREMENT PRIMARY KEY,
-    user_google_id			INT 			NOT NULL,
+    user_google_id			VARCHAR(25)			NOT NULL,
     user_first_name 		VARCHAR(50) 	NOT NULL,
     user_last_name			VARCHAR(50) 	NOT NULL,
     user_email_address		VARCHAR(100)	NOT NULL,
@@ -152,6 +152,8 @@ CREATE TABLE visitas
 )ENGINE = INNODB;
 
 delete from negocios;
+
+select * from visitas;
 
 SET foreign_key_checks = 0;
 
