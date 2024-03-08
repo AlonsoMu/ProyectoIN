@@ -634,3 +634,19 @@ BEGIN
 	FROM negocios
     WHERE inactive_at IS NULL;
 END $$
+
+
+
+-- LOGIN
+DELIMITER $$
+CREATE PROCEDURE spu_registrar_visita(
+    IN _user_google_id INT,
+    IN _user_first_name VARCHAR(50),
+    IN _user_last_name VARCHAR(50),
+    IN _user_email_address VARCHAR(100),
+    IN _user_image VARCHAR(200)
+)
+BEGIN
+    INSERT INTO visitas (user_google_id, user_first_name, user_last_name, user_email_address, user_image)
+    VALUES (_user_google_id, _user_first_name, _user_last_name, _user_email_address, _user_image);
+END $$

@@ -126,7 +126,8 @@ CREATE TABLE negocios(
     pagweb 					VARCHAR(200) 	NULL,
     logo 					VARCHAR(100) 	NULL,
 	portada					VARCHAR(200) 	NULL,
-    valoracion				INT 			NULL,
+    valoracion				INT 			NULL DEFAULT 0,
+    estado 					CHAR(2) 		NOT NULL DEFAULT 'I',
     create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL,
@@ -135,7 +136,24 @@ CREATE TABLE negocios(
     CONSTRAINT fk_idsubcategoria_neg		FOREIGN KEY (idsubcategoria) REFERENCES subcategorias (idsubcategoria),
     CONSTRAINT uk_nroruc_neg 				UNIQUE(nroruc)
 )ENGINE = INNODB;
-ALTER TABLE negocios ADD COLUMN portada VARCHAR(200) NULL;
+
+
+CREATE TABLE visitas
+(
+	idvisita 				INT 			AUTO_INCREMENT PRIMARY KEY,
+    user_google_id			INT 			NOT NULL,
+    user_first_name 		VARCHAR(50) 	NOT NULL,
+    user_last_name			VARCHAR(50) 	NOT NULL,
+    user_email_address		VARCHAR(100)	NOT NULL,
+ 	user_image				VARCHAR(200) 	NULL,
+    create_at 				DATETIME		DEFAULT NOW(),
+	update_at				DATETIME		NULL,
+	inactive_at				DATETIME	 	NULL
+)ENGINE = INNODB;
+
+delete from negocios;
+
+SET foreign_key_checks = 0;
 
 -- ------------------------------------------------------------------------------------------------
 -- 									| TABLA GALERIAS |
