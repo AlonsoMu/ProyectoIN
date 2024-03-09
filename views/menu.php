@@ -168,6 +168,27 @@ if(isset($_GET['id'])){
     </a>
     <div class="cuadro-btn text-sting">Inicia con nosotros</div>
 
+    <!-- Evaluar negocio -->
+    <section class="width100 bg-secondary">        
+  <div class="container mt-5">
+    <!-- TITULO -->
+    <h1 class="font24 text-sting lineabaja my-5">Deseas evaluar este negocio?</h1>
+    <!-- Estrellas de valoración -->
+    <div class="stars">
+      <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Excelente"></label>
+      <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Muy bueno"></label>
+      <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Bueno"></label>
+      <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Regular"></label>
+      <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Malo"></label>
+    </div>
+    <!-- Enlace a la evaluación -->
+    <a href="#" onclick="openPopup()" class="btn btn-primary">Evaluar</a>
+  </div>
+</section>
+
+
+
+
     <!-- Footer -->
     <footer id="footer" class="bg-footer">
       <div class="container mt-5">
@@ -221,12 +242,24 @@ if(isset($_GET['id'])){
       </div>
     </footer>
 
+    
+
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/jquery.sticky.js"></script>
     <script src="../js/owl.carousel.min.js"></script>
     <script src="../js/main.js"></script>
+    <script>
+  function openPopup() {
+    var url = '../modelGmail/index.php';
+    var width = 500;
+    var height = 600;
+    var left = (screen.width - width) / 2;
+    var top = (screen.height - height) / 2;
+    window.open(url, 'popup', 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+  }
+</script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
 
     <script>

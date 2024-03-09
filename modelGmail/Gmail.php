@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Conexion.php';
+require_once '../models/Conexion.php';
 
 class Gmail extends Conexion{
   private $conexion;
@@ -25,6 +25,6 @@ class Gmail extends Conexion{
         // Manejar el error de alguna manera apropiada
         die($e->getMessage());
     }
-}
+  }
 
 }

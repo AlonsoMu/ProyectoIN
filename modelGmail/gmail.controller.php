@@ -25,7 +25,5 @@ if (isset($_GET["code"])) {
         $gmail->registrar($datos);
     }
 }
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 ?>
