@@ -89,20 +89,18 @@ CREATE TABLE horarios(
     inactive_at				DATETIME 		NULL
 )ENGINE = INNODB;
 
--- ------------------------------------------------------------------------
--- 								| TABLA UBICACIONES |
--- ------------------------------------------------------------------------
-CREATE TABLE ubicaciones(
-	idubicacion 			INT 			AUTO_INCREMENT	PRIMARY KEY,
-    idhorario 				INT 			NOT NULL, -- FK
-    idnegocio				INT 			NOT NULL, -- FK
-    latitud					DOUBLE 			NOT NULL,
-	longitud 				DOUBLE 			NOT NULL,
-    create_at				DATETIME		NOT NULL DEFAULT NOW(),
-    update_at				DATETIME		NULL,
-    inactive_at				DATETIME 		NULL,
-    CONSTRAINT fk_idhorario_ubi				FOREIGN KEY (idhorario) REFERENCES horarios (idhorario),
-    CONSTRAINT fk_idnegocio_ubi			FOREIGN KEY (idnegocio) REFERENCES negocios (idnegocio)
+-- ------------------------------------------------------------------------------------------------------
+-- 										| TABLA DISTRITOS |
+-- ------------------------------------------------------------------------------------------------------
+
+CREATE TABLE distritos(
+	iddistrito					INT 			AUTO_INCREMENT PRIMARY KEY,
+    nomdistrito					VARCHAR(50)		NOT NULL,
+    latitud						DOUBLE 			NOT NULL,
+    longitud 					DOUBLE			NOT NULL,
+	create_at 				DATETIME		DEFAULT NOW(),
+	update_at				DATETIME		NULL,
+	inactive_at				DATETIME	 	NULL
 )ENGINE = INNODB;
 
 -- -------------------------------------------------------------------------------------------------
@@ -126,7 +124,7 @@ CREATE TABLE negocios(
     pagweb 					VARCHAR(200) 	NULL,
     logo 					VARCHAR(100) 	NULL,
 	portada					VARCHAR(200) 	NULL,
-    valoracion				INT 			NULL DEFAULT 0,
+    -- valoracion				INT 			NULL DEFAULT 0>
     estado 					CHAR(2) 		NOT NULL DEFAULT 'I',
     create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
@@ -137,7 +135,25 @@ CREATE TABLE negocios(
     CONSTRAINT uk_nroruc_neg 				UNIQUE(nroruc)
 )ENGINE = INNODB;
 
+-- ------------------------------------------------------------------------
+-- 								| TABLA UBICACIONES |
+-- ------------------------------------------------------------------------
+CREATE TABLE ubicaciones(
+	idubicacion 			INT 			AUTO_INCREMENT	PRIMARY KEY,
+    idhorario 				INT 			NOT NULL, -- FK
+    idnegocio				INT 			NOT NULL, -- FK
+    latitud					DOUBLE 			NOT NULL,
+	longitud 				DOUBLE 			NOT NULL,
+    create_at				DATETIME		NOT NULL DEFAULT NOW(),
+    update_at				DATETIME		NULL,
+    inactive_at				DATETIME 		NULL,
+    CONSTRAINT fk_idhorario_ubi				FOREIGN KEY (idhorario) REFERENCES horarios (idhorario),
+    CONSTRAINT fk_idnegocio_ubi			FOREIGN KEY (idnegocio) REFERENCES negocios (idnegocio)
+)ENGINE = INNODB;
 
+-- ------------------------------------------------------------------------
+-- 								| TABLA VISITAS |
+-- ------------------------------------------------------------------------
 CREATE TABLE visitas
 (
 	idvisita 				INT 			AUTO_INCREMENT PRIMARY KEY,
@@ -151,11 +167,21 @@ CREATE TABLE visitas
 	inactive_at				DATETIME	 	NULL
 )ENGINE = INNODB;
 
-delete from negocios;
-
-select * from visitas;
-
-SET foreign_key_checks = 0;
+-- ------------------------------------------------------------------------
+-- 								| TABLA COMENTARIOS |
+-- ------------------------------------------------------------------------
+CREATE TABLE comentarios(
+	idcomentario 			INT 			AUTO_INCREMENT PRIMARY KEY,
+    idvisita 				INT 			NULL,
+    idnegocio 				INT 			NULL,
+    comentarios 			TEXT 			NULL,
+    valoracion 				SMALLINT 		NULL,
+	create_at 				DATETIME		DEFAULT NOW(),
+	update_at				DATETIME		NULL,
+	inactive_at				DATETIME	 	NULL,
+    CONSTRAINT fk_idvisita_com				FOREIGN KEY (idvisita) REFERENCES visitas (idvisita),
+    CONSTRAINT fk_idnegocio_com 			FOREIGN KEY (idnegocio) REFERENCES negocios (idnegocio)
+)ENGINE = INNODB;
 
 -- ------------------------------------------------------------------------------------------------
 -- 									| TABLA GALERIAS |
@@ -190,23 +216,8 @@ CREATE TABLE contratos(
 )ENGINE = INNODB;
 
 -- ------------------------------------------------------------------------------------------------------
--- 										| TABLA DISTRITOS |
--- ------------------------------------------------------------------------------------------------------
-
-CREATE TABLE distritos(
-	iddistrito					INT 			AUTO_INCREMENT PRIMARY KEY,
-    nomdistrito					VARCHAR(50)		NOT NULL,
-    latitud						DOUBLE 			NOT NULL,
-    longitud 					DOUBLE			NOT NULL,
-	create_at 				DATETIME		DEFAULT NOW(),
-	update_at				DATETIME		NULL,
-	inactive_at				DATETIME	 	NULL
-)ENGINE = INNODB;
-
--- ------------------------------------------------------------------------------------------------------
 -- 										| TABLA CARRUSEL |
 -- ------------------------------------------------------------------------------------------------------
-
 CREATE TABLE carrusel(
 	idcarrusel				INT 			AUTO_INCREMENT PRIMARY KEY,
     idusuario				INT 			NOT NULL, -- FK
@@ -216,3 +227,12 @@ CREATE TABLE carrusel(
 	inactive_at				DATETIME	 	NULL,
     CONSTRAINT fk_idusuario_carr			FOREIGN KEY(idusuario) REFERENCES usuarios (idusuario)
 )ENGINE = INNODB;
+
+
+drop table negocios;
+select * from negocios;
+delete from negocios;
+
+select * from visitas;
+
+SET foreign_key_checks = 1;

@@ -41,6 +41,8 @@ INSERT INTO subcategorias (idcategoria, nomsubcategoria ) VALUES
 (4,'Artesanal'),
 (4,'General');
 
+select * from subcategorias;
+
 
 INSERT INTO horarios (apertura, cierre, dia) VALUES
 ('10:00:00', '16:00:00', 'lunes'),
@@ -74,11 +76,12 @@ INSERT INTO ubicaciones (idhorario, idnegocio, latitud, longitud) VALUES
 select * from negocios;
 
 SELECT * FROM ubicaciones;
-INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, nroruc, nombre,
- descripcion, direccion, telefono, correo, valoracion) VALUES
-(1, 1, 1, 7, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com', 4),
-(6, 2, 1, 8, '98765432101', 'costumbres', 'comida italiana','Calle Secundaria 456', '987654322', 'info@modaelegante.com', 5),
-(7, 1, 1, 9, '11112222333', 'naoky', 'comida mexicana','Av. Deportiva 789', '987654323', 'info@deportesxtreme.com', 3);
+
+INSERT INTO negocios (iddistrito, idpersona, idsubcategoria, nroruc, nombre,
+ descripcion, direccion, telefono, correo) VALUES
+(1, 1, 7, '12345678901', 'oishi', 'comida japonea', 'Av. Principal 123', '987654321', 'info@tiendatech.com'),
+(6, 2, 8, '98765432101', 'costumbres', 'comida italiana','Calle Secundaria 456', '987654322', 'info@modaelegante.com'),
+(7, 1, 9, '11112222333', 'naoky', 'comida mexicana','Av. Deportiva 789', '987654323', 'info@deportesxtreme.com');
 
 INSERT INTO negocios (iddistrito, idpersona, idusuario, idsubcategoria, nroruc, nombre,
  descripcion, direccion, telefono, correo, valoracion) VALUES

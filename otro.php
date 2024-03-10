@@ -66,7 +66,6 @@
           <col width="5%"> <!-- Logo -->
           <col width="5%"> <!-- Portada -->
           <col width="10%"> <!-- Pagina Web -->
-          <col width="10%"> <!-- Valoración -->
           <col width="10%"> <!-- Operaciones -->
         </colgroup>
         <thead>
@@ -88,7 +87,6 @@
             <th>Logo</th>
             <th>Portada</th>
             <th>Página Web</th>
-            <th>Valoración</th>
             <th>Operaciones</th>
           </tr>
         </thead>
@@ -252,10 +250,6 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <div class="mb-3">
-                  <label for="valoracion" class="form-label">Valoración</label>
-                  <input type="number" id="valoracion" class="form-control">
-                </div>
               </div>
             </div>
           </form> <!-- FIN DEL FORMULARIO-->

@@ -49,8 +49,7 @@ CREATE PROCEDURE spu_editar_negocio(
     IN _tiktok VARCHAR(200),
     IN _pagweb VARCHAR(200),
     IN _logo VARCHAR(100),
-    IN _portada VARCHAR(200),
-    IN _valoracion INT
+    IN _portada VARCHAR(200)
 )
 BEGIN
     -- Actualizar los datos del negocio
@@ -72,7 +71,6 @@ BEGIN
         pagweb = _pagweb,
         logo = IFNULL(_logo, logo),
         portada = IFNULL(_portada, portada),
-        valoracion = _valoracion,
         update_at = NOW()
     WHERE idnegocio = _idnegocio;
 END $$
@@ -102,8 +100,7 @@ BEGIN
     n.descripcion,
     n.pagweb,
     n.logo,
-    n.portada,
-    n.valoracion
+    n.portada
 	FROM negocios n
 	INNER JOIN personas p ON n.idpersona = p.idpersona
 	INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
@@ -136,8 +133,7 @@ BEGIN
         n.descripcion,
         n.pagweb,
         n.logo,
-        n.portada,
-        n.valoracion
+        n.portada
     FROM
         negocios n
     INNER JOIN personas p ON n.idpersona = p.idpersona
@@ -205,16 +201,15 @@ CREATE PROCEDURE spu_negocios_registrar(
     IN _tiktok				VARCHAR(200),
     IN _pagweb 			VARCHAR(200),
     IN _logo				VARCHAR(200),
-	IN _valoracion			INT,
     IN _portada 			VARCHAR(200)
 )
 BEGIN
 	INSERT INTO negocios
 		(iddistrito, idpersona, idsubcategoria, nroruc, nombre, descripcion, 
-		 direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, pagweb, logo, valoracion, portada)
+		 direccion, telefono, correo, facebook, whatsapp, instagram, tiktok, pagweb, logo, portada)
     VALUES
 		(_iddistrito, _idpersona, _idsubcategoria, _nroruc, _nombre, _descripcion, 
-		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _pagweb, NULLIF(_logo, ''), _valoracion, _portada);
+		_direccion, _telefono, _correo, _facebook, _whatsapp, _instagram, _tiktok, _pagweb, NULLIF(_logo, ''), _portada);
 	 SELECT @@last_insert_id 'idnegocio';
 END $$
 
@@ -378,8 +373,7 @@ BEGIN
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
     INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
     WHERE n.idsubcategoria = _idsubcategoria
-      AND n.inactive_at IS NULL
-      ; 
+      AND n.inactive_at IS NULL; 
 END $$
 
 -- ##########################################################################################################################
@@ -553,7 +547,6 @@ BEGIN
         n.direccion,
         n.pagweb,
         n.logo,
-        n.valoracion,
         estado AS 'Estado'
     FROM negocios n
     WHERE n.idnegocio = _idnegocio
@@ -609,8 +602,7 @@ BEGIN
         n.descripcion,
         n.pagweb,
         n.logo,
-        n.portada,
-        n.valoracion
+        n.portada
     FROM negocios n
     INNER JOIN personas p ON n.idpersona = p.idpersona
     INNER JOIN distritos d ON n.iddistrito = d.iddistrito
@@ -652,3 +644,35 @@ BEGIN
 END $$
 
 CALL spu_registrar_visita(116714666818250717371, 'Darce', 'Gg', 'alonsomunoz263@gmail.com','https://lh3.googleusercontent.com/a/ACg8ocK4pA-TGizBsFTMktodiLwXCz5YwfsVGUjM9lt2FVCe=s96-c');
+
+SELECT * FROM comentarios;
+-- REGISTRAR COMWENTARIO
+DELIMITER $$
+CREATE PROCEDURE spu_registrar_comentarios(
+	IN _idvisita 			INT,
+	IN _idnegocio 			INT,
+    IN _comentario 			TEXT,
+    IN _valoracion 			SMALLINT
+)
+BEGIN
+	INSERT INTO comentarios (idvisita, idnegocio, comentarios, valoracion) VALUES
+    (_idvista, _idnegocio, _comentarios, _valoracion);
+END $$
+
+
+-- LISTAR COMENTNARIONS
+DELIMITER $$
+CREATE PROCEDURE spu_listar_comentarios(IN _idnegocio INT)
+BEGIN 
+	SELECT 
+		c.idnegocio, 
+        c.idcomentario, 
+        c.comentarios, 
+        c.valoracion,
+		v.user_first_name, 
+        v.user_last_name
+	FROM comentarios c
+	INNER JOIN visitas v ON c.idvisita = v.idvisita
+	WHERE c.idnegocio = _idnegocio;
+END $$
+CALL spu_listar_comentarios(1);

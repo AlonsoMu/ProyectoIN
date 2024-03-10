@@ -512,22 +512,8 @@ comentarioForm.addEventListener('submit', function(event) {
             const estrellasContainer = document.querySelector('.estrella-sting');
             estrellasContainer.innerHTML = ''; // Limpiar contenido existente
 
-            const valoracion = negocio.valoracion || 0; // Valoración por defecto si no hay datos
 
-            for (let i = 0; i < 5; i++) {
-              const estrella = document.createElement('i');
-              estrella.classList.add('bi', 'bi-star-fill');
-
-              // Pintar solo las estrellas necesarias
-              if (i < valoracion) {
-                estrellasContainer.appendChild(estrella);
-              } else {
-                // Agregar estrellas vacías o negras
-                estrella.classList.remove('bi-star-fill');
-                estrella.classList.add('bi-star');
-                estrellasContainer.appendChild(estrella);
-              }
-            }
+            
 
             // Redes Sociales
             const redesSociales = document.getElementById('redesSociales');

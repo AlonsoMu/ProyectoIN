@@ -5,7 +5,6 @@ date_default_timezone_set("America/Lima");
 require_once '../models/Negocios.php';
 require_once '../models/Funciones.php';
 
-date_default_timezone_set("America/Lima");
 
 if (isset($_POST['operacion'])) {
   $negocio = new Negocio();
@@ -105,7 +104,6 @@ if (isset($_POST['operacion'])) {
         'tiktok'          => $_POST['tiktok'],
         'pagweb'          => $_POST['pagweb'],
         'logo'            => '',
-        'valoracion'      => $_POST['valoracion'],
         'portada'         => ''
       ];
       //Solo movemos la imagen, si esta existe (uploaded)
@@ -244,8 +242,7 @@ if (isset($_POST['operacion'])) {
           'whatsapp'        => $_POST['whatsapp'],
           'instagram'       => $_POST['instagram'],
           'tiktok'          => $_POST['tiktok'],
-          'pagweb'          => $_POST['pagweb'],
-          'valoracion'      => $_POST['valoracion']
+          'pagweb'          => $_POST['pagweb']
         ];
 
         if (isset($_POST['nroruc'])) {

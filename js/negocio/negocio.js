@@ -20,7 +20,6 @@ const tiktokInput = document.getElementById("tiktok");
 const pagwebInput = document.getElementById("pagweb");
 const logoInput = document.getElementById("logo");
 const portadaInput = document.getElementById("portada");
-const valoracionInput = document.getElementById("valoracion");
 const formularioNegocio = document.getElementById("form-negocio")
 const tabla = document.querySelector("#tabla-negocios tbody");
 const abrirModalButton = document.getElementById("abrir-modal");
@@ -179,7 +178,6 @@ function registrar() {
   parametros.append("pagweb", $("#pagweb").value);
   parametros.append("logo", $("#logo").files[0]);
   parametros.append("portada", $("#portada").files[0]);
-  parametros.append("valoracion", $("#valoracion").value);
 
   fetch(`./controllers/negocio.controller.php`, {
     method: "POST",
@@ -322,7 +320,6 @@ tabla.addEventListener("click", function (event) {
         if (primerElemento.portada) {
           $("#portada").setAttribute("src", `./imgPortada/${primerElemento.portada}`);
         }
-        valoracionInput.value = primerElemento.valoracion || '';
 
         document.getElementById("modal-titulo").innerText = "Editar Negocio";
         // Abrir el modal
@@ -352,8 +349,7 @@ function editarNegocioExistente() {
     tiktok: tiktokInput.value,
     pagweb: pagwebInput.value,
     logo: logoInput.files[0],
-    portada: portadaInput.files[0],
-    valoracion: valoracionInput.value
+    portada: portadaInput.files[0]
   };
 
   // Enviar los nuevos datos para la actualización
@@ -384,7 +380,6 @@ function editarNegocioExistente() {
   } else {
     parametrosActualizar.append("portada_existente", true);
   }
-  parametrosActualizar.append("valoracion", nuevosDatos.valoracion);
 
   fetch(`./controllers/negocio.controller.php`, {
     method: 'POST',
@@ -442,7 +437,6 @@ function crearFilaNegocio(registro, numFila) {
     <td><a href='#' class='view' data-idnegocio='${registro.logo}'>Ver imagen</a></td>
     <td><a href='#' class='view-portada' data-idnegocio='${registro.portada}'>Ver portada</a></td>
     <td>${registro.pagweb}</td>
-    <td>${registro.valoracion}</td>
     <td>
       <button data-idnegocio="${registro.idnegocio}" class='btn btn-danger btn-sm eliminar' type='button'>Eliminar</button>
       <button data-idnegocio="${registro.idnegocio}" class='btn btn-warning btn-sm editar' type='button'>Editar</button>
