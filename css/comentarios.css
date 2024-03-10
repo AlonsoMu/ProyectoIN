@@ -1,0 +1,200 @@
+.apock-contenedor-comentarios {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+}
+
+.apock-contenedor-comentarios img {
+    width: 100%;
+}
+
+.apock-area-comentar {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-bottom: 1.5rem;
+    padding: 18px;
+    background-color: #fff;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, .1);
+    border-radius: 12px;
+    width: 100%;
+}
+
+
+
+
+.apock-comentar-publicacion .apock-avatar,
+.apock-publicacion-realizada .apock-usuario-publico .apock-avatar,
+.apock-contenedor-comentarios .apock-comentario-principal-usuario .apock-avatar,
+.apock-area-comentar .apock-avatar {
+    display: flex;
+    width: 65px;
+    height: 65px;
+    background-color: #F4F4F4;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+
+
+
+
+
+
+
+.apock-boton-enviar {
+    display: inline-block;
+    border: 0;
+    background-color: #374D71;
+    padding: 7px 15px;
+    margin-right: .5rem;
+    color: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color ease-in 200ms;
+}
+
+
+.apock-boton-enviar:hover {
+    background-color: #4C6FA7;
+}
+
+/* fin */
+.apock-contenedor-comentarios .apock-comentario,
+.apock-area-comentar .apock-inputs-comentarios {
+    flex-grow: 1;
+    flex-basis: 0;
+    margin-left: .5rem;
+    width: calc(100% - 65px - 1rem);
+}
+
+.apock-area-comentar .apock-inputs-comentarios {
+    margin-left: 1rem;
+}
+
+.apock-contenedor-comentarios .apock-texto,
+.apock-area-comentar .apock-inputs-comentarios .apock-area-comentario {
+    border: 0;
+    background-color: #F0F0F0;
+    display: block;
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: .5rem;
+}
+
+
+
+.apock-area-comentar .apock-inputs-comentarios .apock-area-comentario {
+    padding: 12px 15px;
+}
+
+.apock-area-comentar .apock-inputs-comentarios .apock-botones-comentar {
+    display: flex;
+}
+
+
+
+
+
+.apock-menu-comentario {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #E9E9E9;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+
+
+.apock-publicacion-realizada .apock-menu-comentario {
+    display: flex;
+    right: 0;
+}
+
+.apock-menu-comentario .apock-menu {
+    list-style: none;
+    position: absolute;
+    right: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, .2);
+    border-radius: 8px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all ease-in 200ms;
+}
+
+.apock-menu-comentario:hover .apock-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+.apock-menu-comentario .apock-menu a {
+    display: block;
+    padding: 7px 15px;
+    color: inherit;
+}
+
+.apock-menu-comentario .apock-menu a:hover {
+    background-color: #E1E1E1;
+}
+
+.apock-publicacion-realizada .apock-usuario-publico .apock-avatar {
+    width: 45px;
+    height: 45px;
+}
+
+
+.apock-botones-comentario button {
+    display: inline-block;
+    border: 0;
+    padding: 3px 8px;
+    font-size: .8rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.apock-botones-comentario button:hover {
+    background-color: #D5D8E1;
+}
+
+
+
+.apock-boton-enviar i,
+.apock-boton-file i,
+.apock-boton-puntuar i,
+.apock-boton-responder i {
+    margin-right: .5rem;
+}
+
+
+
+.apock-publicacion-realizada .apock-usuario-publico {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: .5rem;
+    position: relative;
+}
+
+.apock-publicacion-realizada .apock-usuario-publico .apock-contenido-publicacion {
+    margin-left: 1rem;
+}
+
+.apock-publicacion-realizada {
+margin-top: 1.5rem; /* Agregar margen superior */
+}
+
+
+
+.apock-publicacion-realizada p {
+    margin-bottom: 0.5rem;
+    font-size: 0.9em;
+}

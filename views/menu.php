@@ -1,10 +1,10 @@
 <?php
-if(isset($_GET['id'])){
+if (isset($_GET['id'])) {
   $idnegocio = $_GET['id'];
 
   echo "
     <script>
-    const  idnegocio = ".json_encode($idnegocio) .";
+    const  idnegocio = " . json_encode($idnegocio) . ";
     console.log('ID del Negocio:', idnegocio);
     </script>
   ";
@@ -13,276 +13,416 @@ if(isset($_GET['id'])){
 
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+
+<head>
   <title>Menu</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap" rel="stylesheet">
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="../fonts/icomoon/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="../css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../fonts/icomoon/style.css">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    
-    <!-- Style -->
-    <link rel="stylesheet" href="../css/style.css">
-  </head>
-  <body>
-    <div class="site-mobile-menu site-navbar-target">
-      <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close mt-3">
-          <span class="icon-close2 js-menu-toggle"></span>
-        </div>
+  <link rel="stylesheet" href="../css/owl.carousel.min.css">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+
+  <!-- Style -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/comentarios.css">
+
+  
+</head>
+
+<body>
+  <div class="site-mobile-menu site-navbar-target">
+    <div class="site-mobile-menu-header">
+      <div class="site-mobile-menu-close mt-3">
+        <span class="icon-close2 js-menu-toggle"></span>
       </div>
-      <div class="site-mobile-menu-body"></div>
-    </div> <!-- .site-mobile-menu -->
-
-    <header class="site-navbar-wrap">
-      <div class="site-navbar site-navbar-target js-sticky-header sting">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-2">
-              <h1 class="my-0 site-logo"><a href="index.html"><img src="../img/sting.svg" alt="" height="40" /></a></h1>
-            </div>
-            <div class="col-10">
-              <nav class="site-navigation text-right" role="navigation">
-                <div class="container">
-                  <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3 text-dark"></span></a></div>
-
-                  <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
-                    <li><a href="#home-section"  class="nav-link">Inicio</a></li>
-                    <li><a href="#servicios"  class="nav-link">Servicios</a></li>
-                    <li class="has-children">
-                      <a href="#" class="nav-link"><strong>Idioma</strong></a>
-                      <ul class="dropdown arrow-top">
-                        <li><a href="#" class="nav-link">Español</a></li>
-                        <li><a href="#" class="nav-link">English</a></li>
-                        <li><a href="#" class="nav-link">Portugues</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <section class="portada"  id="portadaSection">
-      <div class="cuadro-encima2">
-        <i class="bi bi-clock icon-sting"></i>
-        <p class="text-sting"></p>
-      </div>
-      <div class="cuadro-encima" >
-        <!-- Contenido del cuadro encima de la portada -->
-        <div class="container mt-4">
-          <div class="card custom-card">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-4">
-                  <!-- Primera sección con el título -->
-                  <h3 class="card-title text-sting"></h3>
-                </div>
-                <div class="col-md-4">
-                  <!-- Segunda sección con estrellas de valoración -->
-                  <div class="stars estrella-sting">
-                  </div>
-                </div>
-              </div>
-              <div class="row mt-4" >
-                <div class="col-md-4 limitador spacing1">
-                  <!-- Sección de imagen -->
-                  <img id="logoNegocio"  class="img-fluid2" alt="Imagen">
-                </div>
-                <div class="col-md-4 limitador spacing2 demimv">
-                  <!-- Sección con lista de redes sociales -->
-                  <div class="social-list" id="redesSociales" >
-                  </div>
-                </div>
-                <div class="col-md-4 limitador spacing2 demimv">
-                  <div class="social-list" id="redesSociales2">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ACERCA DE -->
-    <section class="width100">
-      <div class="container mt-l">
-        <!-- TEXT -->
-        <h1 class="font24 text-sting">Acerca </h1>  
-        <!-- CONTENIDO -->
-        <p></p> 
-      </div>
-    </section>
-
-    <!-- GALERIA -->
-    <section class="width100 sting">
-      <div class="container mt-5 py-5">
-        <!-- TITULO -->
-        <h1 class="font24 text-blanco lineabaja mb-5">Galería de fotos</h1>
-            
-        <!-- IMAGENES -->
-        <div class="owl-2-style">
-          <div class="owl-carousel owl-2" id="galeria-carousel">
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- VISITANOS -->
-    <section class="width100">        
-      <!-- TITULO -->
-      <h1 class="font24 text-sting lineabaja my-5">Visítanos</h1>
-    </section>
-
-    <!-- MAPA -->
-    <section class="width100 bg-secondary">        
-      <div id="map" style="height: 400px;"></div>   
-    </section>
-
-    <!-- Horarios de atención -->
-    <section class="width100">        
-      <div class="container mt-5">
-        <!-- TITULO -->
-        <h1 class="font24 text-sting lineabaja my-5">Horario de atención</h1>
-
-        <div class="row utils justify-content-center">
-        </div>
-      </div>
-    </section>
-
-    <a href="https://wa.me/1234567890?text=hello+123" target=”_blank” class="whatsapp-btn">
-      <i class="bi bi-whatsapp"></i>
-    </a>
-    <div class="cuadro-btn text-sting">Inicia con nosotros</div>
-
-    <!-- Evaluar negocio -->
-    <section class="width100 bg-secondary">        
-  <div class="container mt-5">
-    <!-- TITULO -->
-    <h1 class="font24 text-sting lineabaja my-5">Deseas evaluar este negocio?</h1>
-    <!-- Estrellas de valoración -->
-    <div class="stars">
-      <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Excelente"></label>
-      <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Muy bueno"></label>
-      <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Bueno"></label>
-      <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Regular"></label>
-      <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Malo"></label>
     </div>
-    <!-- Enlace a la evaluación -->
-    <a href="#" onclick="openPopup()" class="btn btn-primary">Evaluar</a>
-  </div>
+    <div class="site-mobile-menu-body"></div>
+  </div> <!-- .site-mobile-menu -->
+
+  <header class="site-navbar-wrap">
+    <div class="site-navbar site-navbar-target js-sticky-header sting">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-2">
+            <h1 class="my-0 site-logo"><a href="index.html"><img src="../img/sting.svg" alt="" height="40" /></a></h1>
+          </div>
+          <div class="col-10">
+            <nav class="site-navigation text-right" role="navigation">
+              <div class="container">
+                <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3 text-dark"></span></a></div>
+
+                <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
+                  <li><a href="#home-section" class="nav-link">Inicio</a></li>
+                  <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                  <li class="has-children">
+                    <a href="#" class="nav-link"><strong>Idioma</strong></a>
+                    <ul class="dropdown arrow-top">
+                      <li><a href="#" class="nav-link">Español</a></li>
+                      <li><a href="#" class="nav-link">English</a></li>
+                      <li><a href="#" class="nav-link">Portugues</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="portada" id="portadaSection">
+    <div class="cuadro-encima2">
+      <i class="bi bi-clock icon-sting"></i>
+      <p class="text-sting"></p>
+    </div>
+    <div class="cuadro-encima">
+      <!-- Contenido del cuadro encima de la portada -->
+      <div class="container mt-4">
+        <div class="card custom-card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4">
+                <!-- Primera sección con el título -->
+                <h3 class="card-title text-sting"></h3>
+              </div>
+              <div class="col-md-4">
+                <!-- Segunda sección con estrellas de valoración -->
+                <div class="stars estrella-sting">
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-4 limitador spacing1">
+                <!-- Sección de imagen -->
+                <img id="logoNegocio" class="img-fluid2" alt="Imagen">
+              </div>
+              <div class="col-md-4 limitador spacing2 demimv">
+                <!-- Sección con lista de redes sociales -->
+                <div class="social-list" id="redesSociales">
+                </div>
+              </div>
+              <div class="col-md-4 limitador spacing2 demimv">
+                <div class="social-list" id="redesSociales2">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- ACERCA DE -->
+  <section class="width100">
+    <div class="container mt-l">
+      <!-- TEXT -->
+      <h1 class="font24 text-sting">Acerca </h1>
+      <!-- CONTENIDO -->
+      <p></p>
+    </div>
+  </section>
+
+
+
+  <!-- GALERIA -->
+  <section class="width100 sting">
+    <div class="container mt-5 py-5">
+      <!-- TITULO -->
+      <h1 class="font24 text-blanco lineabaja mb-5">Galería de fotos</h1>
+
+      <!-- IMAGENES -->
+      <div class="owl-2-style">
+        <div class="owl-carousel owl-2" id="galeria-carousel">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VISITANOS -->
+  <section class="width100">
+    <!-- TITULO -->
+    <h1 class="font24 text-sting lineabaja my-5">Visítanos</h1>
+  </section>
+
+  <!-- MAPA -->
+  <section class="width100 bg-secondary">
+    <div id="map" style="height: 400px;"></div>
+  </section>
+
+  <!-- Horarios de atención -->
+  <section class="width100">
+    <div class="container mt-5">
+      <!-- TITULO -->
+      <h1 class="font24 text-sting lineabaja my-5">Horario de atención</h1>
+
+      <div class="row utils justify-content-center">
+      </div>
+    </div>
+  </section>
+
+  <a href="https://wa.me/1234567890?text=hello+123" target=”_blank” class="whatsapp-btn">
+    <i class="bi bi-whatsapp"></i>
+  </a>
+  <div class="cuadro-btn text-sting">Inicia con nosotros</div>
+
+
+
+  <section class="apock-contenedor-comentarios mt-5">
+    <div class="apock-area-comentar">
+        <div class="apock-avatar">
+            <img src="../img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="img">
+        </div>
+        <form action="#" method="post" class="apock-inputs-comentarios" id="comentarioForm">
+            <textarea name="" class="apock-area-comentario" id="nuevoComentario"></textarea>
+            <div class="apock-botones-comentar">
+                <button class="apock-boton-enviar" type="submit">
+                    <i class="fas fa-paper-plane"></i>
+                    Enviar
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="apock-publicacion-realizada" style="display: none;" id="comentarioPublicado">
+        <!-- Contenido del comentario publicado se agregará aquí dinámicamente -->
+    </div>
 </section>
 
 
 
 
-    <!-- Footer -->
-    <footer id="footer" class="bg-footer">
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-md-4 pt-5 text-left">
-            <h2 class="h2 text-light pb-3 border-light"><img src="../img/sting.svg" alt="" height="40"></h2>
-            <ul class="list-unstyled text-light footer-link-list">
-              <li>Creativos, Estratégicos <br/>e Innovadores</li>
-            </ul>
-          </div>
 
-          <div class="col-md-4 pt-5 text-left">
-            <h2 class="h2 text-light pb-3 border-light">Síguenos</h2>
-            <ul class="list-unstyled text-light d-flex justify-content-left">
-              <li class="pr-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon _facebook.svg" /></a></li>
-              <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon _instagram.svg" /></a></li>
-              <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon_logo_behance.svg" /></a></li>
-              <li class="pl-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon_tiktok.svg" /></a></li>
-            </ul>
-          </div>
+  <!-- Footer -->
+  <footer id="footer" class="bg-footer">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-4 pt-5 text-left">
+          <h2 class="h2 text-light pb-3 border-light"><img src="../img/sting.svg" alt="" height="40"></h2>
+          <ul class="list-unstyled text-light footer-link-list">
+            <li>Creativos, Estratégicos <br />e Innovadores</li>
+          </ul>
+        </div>
 
-          <div class="col-md-4 pt-5 text-left">
-            <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
-            <ul class="list-unstyled text-light footer-link-list">
-              <li>Lorem ipsum dolor sit am secta emy dipiscing, elit netus pharetra copy condimentum lacus.</li>
-              <li class="py-3">
-                <a class="text-decoration-none text-white" href="#">
-                  <img src="../img/buzon.svg" /> stingstudio.chincha@gmail.com
-                </a>
-              </li>
-              <li>
-                <a class="text-decoration-none text-white" href="#">
-                  <img src="../img/phone.svg" /> +51 907 233 783
-                </a>
-              </li>
-            </ul>
+        <div class="col-md-4 pt-5 text-left">
+          <h2 class="h2 text-light pb-3 border-light">Síguenos</h2>
+          <ul class="list-unstyled text-light d-flex justify-content-left">
+            <li class="pr-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon _facebook.svg" /></a></li>
+            <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon _instagram.svg" /></a></li>
+            <li class="px-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon_logo_behance.svg" /></a></li>
+            <li class="pl-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon_tiktok.svg" /></a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-4 pt-5 text-left">
+          <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
+          <ul class="list-unstyled text-light footer-link-list">
+            <li>Lorem ipsum dolor sit am secta emy dipiscing, elit netus pharetra copy condimentum lacus.</li>
+            <li class="py-3">
+              <a class="text-decoration-none text-white" href="#">
+                <img src="../img/buzon.svg" /> stingstudio.chincha@gmail.com
+              </a>
+            </li>
+            <li>
+              <a class="text-decoration-none text-white" href="#">
+                <img src="../img/phone.svg" /> +51 907 233 783
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-100 bg-footer linen pt-3">
+      <div class="container">
+        <div class="row pie">
+          <div class="col-12 py-3 text-center">
+            <p class="text-light">
+              &copy; Sting Studio 2024 | Creativos, Estratégicos e Innovadores
+            </p>
           </div>
         </div>
       </div>
+    </div>
+  </footer>
 
-      <div class="w-100 bg-footer linen pt-3">
-        <div class="container">
-          <div class="row pie">
-            <div class="col-12 py-3 text-center">
-              <p class="text-light">
-                &copy; Sting Studio 2024 | Creativos, Estratégicos e Innovadores
-              </p>
+
+
+
+
+  <script src="../js/jquery-3.3.1.min.js"></script>
+  <script src="../js/popper.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/jquery.sticky.js"></script>
+  <script src="../js/owl.carousel.min.js"></script>
+  <script src="../js/main.js"></script>
+
+  <script>
+    // Obtener elementos del DOM
+const comentarioForm = document.getElementById('comentarioForm');
+const nuevoComentarioInput = document.getElementById('nuevoComentario');
+const comentarioPublicado = document.getElementById('comentarioPublicado');
+
+// Manejar el evento de envío del formulario de comentario
+comentarioForm.addEventListener('submit', function(event) {
+    // Evitar el comportamiento por defecto del formulario
+    event.preventDefault();
+
+    // Obtener el texto del nuevo comentario
+    const nuevoComentarioTexto = nuevoComentarioInput.value;
+
+    // Crear elementos HTML para el nuevo comentario
+    const nuevoComentarioElemento = document.createElement('div');
+    nuevoComentarioElemento.classList.add('apock-publicacion-realizada');
+
+    // Construir el contenido del nuevo comentario
+    nuevoComentarioElemento.innerHTML = `
+        <div class="apock-usuario-publico">
+            <div class="apock-avatar">
+                <img src="../img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="img">
             </div>
-          </div>
+            <div class="apock-contenido-publicacion">
+                <h4>Tu Nombre</h4>
+            </div>
+            <div class="apock-menu-comentario">
+                <i class="fas fa-pen"></i>
+                <ul class="apock-menu">
+                    <li><a href="#" class="editar-comentario">Editar</a></li>
+                    <li><a href="#" class="eliminar-comentario">Eliminar</a></li>
+                </ul>
+            </div>
         </div>
-      </div>
-    </footer>
+        <p>${nuevoComentarioTexto}</p>
+        <div class="apock-botones-comentario">
+            <button type="" class="apock-boton-puntuar">
+                <i class="fas fa-thumbs-up"></i>
+                <span>0</span>
+            </button>
+        </div>
+    `;
 
-    
+    // Insertar el nuevo comentario en la sección de comentarios publicados
+    comentarioPublicado.appendChild(nuevoComentarioElemento);
 
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/jquery.sticky.js"></script>
-    <script src="../js/owl.carousel.min.js"></script>
-    <script src="../js/main.js"></script>
-    <script>
-  function openPopup() {
-    var url = '../modelGmail/index.php';
-    var width = 500;
-    var height = 600;
-    var left = (screen.width - width) / 2;
-    var top = (screen.height - height) / 2;
-    window.open(url, 'popup', 'width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
-  }
-</script>
-    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
+    // Mostrar el apartado de comentario publicado
+    comentarioPublicado.style.display = 'block';
 
-    <script>
-      let map;
+    // Limpiar el campo de texto del comentario
+    nuevoComentarioInput.value = '';
 
-      function initMap() {
-        const mapDiv = document.getElementById('map');
-        const mapOptions = {
-          center: { lat: -13.4098500, lng: -76.1323500 }, // Coordenadas de ejemplo
-          zoom: 15,
-        };
+    // Manejar la funcionalidad de editar y eliminar comentario
+    const editarComentario = nuevoComentarioElemento.querySelector('.editar-comentario');
+    const eliminarComentario = nuevoComentarioElemento.querySelector('.eliminar-comentario');
 
-        map = new google.maps.Map(mapDiv, mapOptions);
-        
-        // Puedes agregar marcadores u otras configuraciones aquí
+    // Evento clic para editar comentario
+    editarComentario.addEventListener('click', function(event) {
+        event.preventDefault();
+        // Aquí puedes implementar la funcionalidad para editar el comentario
+        console.log('Editar comentario');
+    });
+
+    // Evento clic para eliminar comentario
+    eliminarComentario.addEventListener('click', function(event) {
+        event.preventDefault();
+        // Aquí puedes implementar la funcionalidad para eliminar el comentario
+        console.log('Eliminar comentario');
+    });
+
+    // Manejar la funcionalidad de dar Me gusta a un comentario
+    const botonMeGusta = nuevoComentarioElemento.querySelector('.apock-boton-puntuar');
+    const contadorMeGusta = nuevoComentarioElemento.querySelector('.apock-boton-puntuar span');
+    let meGustaActivo = false;
+
+    botonMeGusta.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (!meGustaActivo) {
+            contadorMeGusta.textContent = parseInt(contadorMeGusta.textContent) + 1;
+            meGustaActivo = true;
+            botonMeGusta.classList.add('activo');
+        } else {
+            contadorMeGusta.textContent = parseInt(contadorMeGusta.textContent) - 1;
+            meGustaActivo = false;
+            botonMeGusta.classList.remove('activo');
+        }
+    });
+});
+
+  </script>
+
+  <script>
+    function addComment() {
+      var authorName = document.getElementById("author-name").value;
+      var commentInput = document.getElementById("comment-input").value;
+
+      if (authorName.trim() === "" || commentInput.trim() === "") {
+        alert("Por favor completa todos los campos.");
+        return;
       }
 
-      function mostrarMarcador() {
-        const parametros = new FormData();
-        parametros.append("operacion", "obtenerMap");
-        parametros.append("idnegocio", idnegocio);
+      var commentElement = document.createElement("div");
+      commentElement.classList.add("comment");
+      commentElement.innerHTML = `
+    <p class="author">${authorName}</p>
+    <p class="comment-text">${commentInput}</p>
+    <button class="delete-button" onclick="deleteComment(this)">Eliminar</button>
+  `;
 
-        fetch(`../controllers/negocio.controller.php`, {
+      var commentsContainer = document.getElementById("comments");
+      commentsContainer.appendChild(commentElement);
+
+      document.getElementById("author-name").value = "";
+      document.getElementById("comment-input").value = "";
+    }
+
+    function deleteComment(button) {
+      if (confirm("¿Estás seguro de que quieres eliminar este comentario?")) {
+        var comment = button.parentElement;
+        comment.remove();
+      }
+    }
+  </script>
+
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyjyqgSwFgtNUj84wtqmcBLRQvY3W6Jho&libraries=places&callback=initMap"></script>
+
+  <script>
+    let map;
+
+    function initMap() {
+      const mapDiv = document.getElementById('map');
+      const mapOptions = {
+        center: {
+          lat: -13.4098500,
+          lng: -76.1323500
+        }, // Coordenadas de ejemplo
+        zoom: 15,
+      };
+
+      map = new google.maps.Map(mapDiv, mapOptions);
+
+      // Puedes agregar marcadores u otras configuraciones aquí
+    }
+
+    function mostrarMarcador() {
+      const parametros = new FormData();
+      parametros.append("operacion", "obtenerMap");
+      parametros.append("idnegocio", idnegocio);
+
+      fetch(`../controllers/negocio.controller.php`, {
           method: "POST",
           body: parametros
         })
@@ -309,7 +449,7 @@ if(isset($_GET['id'])){
             // Crea un marcador en el mapa
             const marker = new google.maps.Marker({
               position: ubicacion,
-              map: map,  // Asocia el marcador con la instancia del mapa
+              map: map, // Asocia el marcador con la instancia del mapa
               icon: "../img/ubicacion.svg",
               title: 'Negocio'
             });
@@ -323,20 +463,20 @@ if(isset($_GET['id'])){
         .catch(e => {
           console.error(e);
         });
-      }
+    }
 
-      mostrarMarcador();
-    </script>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const imagenPortadaAlterna = '../img/notFound.jpg'; // Ruta de la imagen alternativa
+    mostrarMarcador();
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const imagenPortadaAlterna = '../img/notFound.jpg'; // Ruta de la imagen alternativa
 
-        function getInfo() {
-          const parametros = new FormData();
-          parametros.append("operacion", "obtenerid");
-          parametros.append("idnegocio", idnegocio);
+      function getInfo() {
+        const parametros = new FormData();
+        parametros.append("operacion", "obtenerid");
+        parametros.append("idnegocio", idnegocio);
 
-          fetch(`../controllers/negocio.controller.php`, {
+        fetch(`../controllers/negocio.controller.php`, {
             method: "POST",
             body: parametros
           })
@@ -365,7 +505,7 @@ if(isset($_GET['id'])){
             }
 
             // Portada
-            document.querySelector('.cuadro-encima2 .text-sting').textContent =  `Hoy ${negocio.Estado}`;
+            document.querySelector('.cuadro-encima2 .text-sting').textContent = `Hoy ${negocio.Estado}`;
             document.querySelector('.cuadro-encima .card-title').textContent = negocio.nombre;
 
             // Estrellas de Valoración
@@ -433,28 +573,28 @@ if(isset($_GET['id'])){
             document.querySelector('.width100 h1').textContent = 'Acerca de ' + negocio.nombre;
             document.querySelector('.width100 p').textContent = negocio.descripcion;
 
-            
+
           })
           .catch(e => {
             console.error(e);
           });
-        }
+      }
 
-        // Llama a la función para obtener la información al cargar la página
-        getInfo();
-      });
-    </script>
+      // Llama a la función para obtener la información al cargar la página
+      getInfo();
+    });
+  </script>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
 
-        function carrusel() {
+      function carrusel() {
 
-          const parametros = new FormData();
-          parametros.append("operacion", "listar");
-          parametros.append("idnegocio", idnegocio);
+        const parametros = new FormData();
+        parametros.append("operacion", "listar");
+        parametros.append("idnegocio", idnegocio);
 
-          fetch(`../controllers/galeria.controller.php`, {
+        fetch(`../controllers/galeria.controller.php`, {
             method: "POST",
             body: parametros
           })
@@ -577,21 +717,21 @@ if(isset($_GET['id'])){
           .catch(e => {
             console.error(e);
           });
-        }
+      }
 
-        carrusel();
+      carrusel();
 
-      });
-    </script>
+    });
+  </script>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        function horarios() {
-          const parametros = new FormData();
-          parametros.append("operacion", "obtenerHorarios");
-          parametros.append("idnegocio", idnegocio);
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      function horarios() {
+        const parametros = new FormData();
+        parametros.append("operacion", "obtenerHorarios");
+        parametros.append("idnegocio", idnegocio);
 
-          fetch(`../controllers/horario.controller.php`, {
+        fetch(`../controllers/horario.controller.php`, {
             method: "POST",
             body: parametros
           })
@@ -603,40 +743,44 @@ if(isset($_GET['id'])){
           .catch(e => {
             console.error(e);
           });
-        }
+      }
 
-        function renderizarHorarios(horarios) {
-          const dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+      function renderizarHorarios(horarios) {
+        const dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
-          // Obtener el día actual
-          const diaActual = new Date().getDay() - 1; // Domingo es 0, Lunes es 1, ..., Sábado es 6
+        // Obtener el día actual
+        const diaActual = new Date().getDay() - 1; // Domingo es 0, Lunes es 1, ..., Sábado es 6
 
-          const container = document.querySelector(".utils");
-          container.innerHTML = ""; // Limpiar el contenido existente
+        const container = document.querySelector(".utils");
+        container.innerHTML = ""; // Limpiar el contenido existente
 
-          const formatoHora = { hour: "numeric", minute: "numeric" }; // Formato de hora
+        const formatoHora = {
+          hour: "numeric",
+          minute: "numeric"
+        }; // Formato de hora
 
-          horarios.forEach((horario, index) => {
-            const dia = dias[index];
-            const activo = index === diaActual ? "dia_activo" : "dia_noactivo";
+        horarios.forEach((horario, index) => {
+          const dia = dias[index];
+          const activo = index === diaActual ? "dia_activo" : "dia_noactivo";
 
-            // Formatear hora de apertura y cierre
-            const apertura = new Date(`2000-01-01T${horario.apertura}`).toLocaleTimeString("en-US", formatoHora);
-            const cierre = new Date(`2000-01-01T${horario.cierre}`).toLocaleTimeString("en-US", formatoHora);
+          // Formatear hora de apertura y cierre
+          const apertura = new Date(`2000-01-01T${horario.apertura}`).toLocaleTimeString("en-US", formatoHora);
+          const cierre = new Date(`2000-01-01T${horario.cierre}`).toLocaleTimeString("en-US", formatoHora);
 
-            const html = `
+          const html = `
               <span class="border ${activo}">
                 <h3 class="font20 font-weight-bold mt-4 text-sting">${dia}</h3>
                 <p class="font12 font-weight-bold">${apertura} - ${cierre}</p>
               </span>
             `;
 
-            container.insertAdjacentHTML("beforeend", html);
-          });
-        }
+          container.insertAdjacentHTML("beforeend", html);
+        });
+      }
 
-        horarios();
-      });
-    </script>
-  </body>
+      horarios();
+    });
+  </script>
+</body>
+
 </html>
