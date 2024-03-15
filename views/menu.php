@@ -1,4 +1,24 @@
 <?php
+
+session_start();
+
+//REDIRECT SINO ESTA LOQUEADO
+/*if (!isset($_SESSION['google_loggedin'])) {
+    header('Location: google-oauth.php');
+    exit;
+}
+*/
+
+//RETRY VARIABLE SESSION
+if(isset($_SESSION['google_loggedin'])):
+  $google_loggedin = $_SESSION['google_loggedin'];
+  $google_email = $_SESSION['google_email'];
+  $google_name = $_SESSION['google_name'];
+  $google_picture = $_SESSION['google_picture'];
+endif;
+
+//_________________________________________________________>
+
 if (isset($_GET['id'])) {
   $idnegocio = $_GET['id'];
 
@@ -9,6 +29,7 @@ if (isset($_GET['id'])) {
     </script>
   ";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -22,23 +43,16 @@ if (isset($_GET['id'])) {
 
   <link href="https://fonts.googleapis.com/css?family=Quicksand:400,600,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-      crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
   <link rel="stylesheet" href="../fonts/icomoon/style.css">
-
   <link rel="stylesheet" href="../css/owl.carousel.min.css">
-
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-
   <!-- Style -->
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/comentarios.css">
-
-  
 </head>
 
 <body>
@@ -62,10 +76,8 @@ if (isset($_GET['id'])) {
             <nav class="site-navigation text-right" role="navigation">
               <div class="container">
                 <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3 text-dark"></span></a></div>
-
                 <ul class="site-menu main-menu js-clone-nav d-none d-lg-block">
                   <li><a href="#home-section" class="nav-link">Inicio</a></li>
-                  <li><a href="#servicios" class="nav-link">Servicios</a></li>
                   <li class="has-children">
                     <a href="#" class="nav-link"><strong>Idioma</strong></a>
                     <ul class="dropdown arrow-top">
@@ -73,6 +85,17 @@ if (isset($_GET['id'])) {
                       <li><a href="#" class="nav-link">English</a></li>
                       <li><a href="#" class="nav-link">Portugues</a></li>
                     </ul>
+                  </li>
+                  <li>
+                    <?php if(isset($google_picture)): ?>
+                      <span style="color:#FFF; margin-left:20px;"><?=$google_name?></span>
+                      <img src="<?=$google_picture?>" alt="<?=$google_name?>" style="width:30px; border-radius:50px; margin-left:0px;">
+                      <a style="padding:0px;" href="desconectar.php" class="logout-btn"><svg style="width:20px; fill:#FFF;" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><title/><g data-name="1" id="_1"><path d="M27,3V29a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V27H7v1H25V4H7V7H5V3A1,1,0,0,1,6,2H26A1,1,0,0,1,27,3ZM12.29,20.29l1.42,1.42,5-5a1,1,0,0,0,0-1.42l-5-5-1.42,1.42L15.59,15H5v2H15.59Z" id="login_account_enter_door"/></g></svg></a>
+                    <?php else: ?>
+                      <a href="google-oauth.php">
+                        <span style="width:20px;"><svg id="Layer_1_1_" style="width:20px; fill:#FFF;" version="1.1" viewBox="0 0 16 16" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M12,9H8H4c-2.209,0-4,1.791-4,4v3h16v-3C16,10.791,14.209,9,12,9z"/><path d="M12,5V4c0-2.209-1.791-4-4-4S4,1.791,4,4v1c0,2.209,1.791,4,4,4S12,7.209,12,5z"/></svg></span>
+                      </a>
+                    <?php endif; ?>
                   </li>
                 </ul>
               </div>
@@ -83,6 +106,7 @@ if (isset($_GET['id'])) {
     </div>
   </header>
 
+  <div class="content home">
   <section class="portada" id="portadaSection">
     <div class="cuadro-encima2">
       <i class="bi bi-clock icon-sting"></i>
@@ -100,8 +124,7 @@ if (isset($_GET['id'])) {
               </div>
               <div class="col-md-4">
                 <!-- Segunda sección con estrellas de valoración -->
-                <div class="stars estrella-sting">
-                </div>
+                <div class="stars estrella-sting"></div>
               </div>
             </div>
             <div class="row mt-4">
@@ -111,12 +134,10 @@ if (isset($_GET['id'])) {
               </div>
               <div class="col-md-4 limitador spacing2 demimv">
                 <!-- Sección con lista de redes sociales -->
-                <div class="social-list" id="redesSociales">
-                </div>
+                <div class="social-list" id="redesSociales"></div>
               </div>
               <div class="col-md-4 limitador spacing2 demimv">
-                <div class="social-list" id="redesSociales2">
-                </div>
+                <div class="social-list" id="redesSociales2"></div>
               </div>
             </div>
           </div>
@@ -124,9 +145,6 @@ if (isset($_GET['id'])) {
       </div>
     </div>
   </section>
-
-
-
 
   <!-- ACERCA DE -->
   <section class="width100">
@@ -138,20 +156,15 @@ if (isset($_GET['id'])) {
     </div>
   </section>
 
-
-
   <!-- GALERIA -->
   <section class="width100 sting">
     <div class="container mt-5 py-5">
       <!-- TITULO -->
       <h1 class="font24 text-blanco lineabaja mb-5">Galería de fotos</h1>
-
       <!-- IMAGENES -->
       <div class="owl-2-style">
-        <div class="owl-carousel owl-2" id="galeria-carousel">
-        </div>
+        <div class="owl-carousel owl-2" id="galeria-carousel"></div>
       </div>
-
     </div>
   </section>
 
@@ -171,9 +184,7 @@ if (isset($_GET['id'])) {
     <div class="container mt-5">
       <!-- TITULO -->
       <h1 class="font24 text-sting lineabaja my-5">Horario de atención</h1>
-
-      <div class="row utils justify-content-center">
-      </div>
+      <div class="row utils justify-content-center"></div>
     </div>
   </section>
 
@@ -182,27 +193,40 @@ if (isset($_GET['id'])) {
   </a>
   <div class="cuadro-btn text-sting">Inicia con nosotros</div>
 
+  
 
+
+
+
+
+
+
+<!-- _____________________________________________ COMENTARIOS __________________________________________________ -->
 
   <section class="apock-contenedor-comentarios mt-5">
     <div class="apock-area-comentar">
-        <div class="apock-avatar">
-            <img src="../img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="img">
+      <div class="apock-avatar">
+        <img src="../img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="img">
+      </div>
+      <form action="#" method="post" class="apock-inputs-comentarios" id="comentarioForm">
+        <textarea name="" class="apock-area-comentario" id="nuevoComentario"></textarea>
+        <div class="apock-botones-comentar">
+          <button class="apock-boton-enviar" type="submit">
+            <i class="fas fa-paper-plane"></i>
+            Enviar
+          </button>
         </div>
-        <form action="#" method="post" class="apock-inputs-comentarios" id="comentarioForm">
-            <textarea name="" class="apock-area-comentario" id="nuevoComentario"></textarea>
-            <div class="apock-botones-comentar">
-                <button class="apock-boton-enviar" type="submit">
-                    <i class="fas fa-paper-plane"></i>
-                    Enviar
-                </button>
-            </div>
-        </form>
+      </form>
     </div>
     <div class="apock-publicacion-realizada" style="display: none;" id="comentarioPublicado">
-        <!-- Contenido del comentario publicado se agregará aquí dinámicamente -->
     </div>
-</section>
+  </section>
+
+<!-- _____________________________________________________________________________________________________________ -->
+
+
+
+
 
 
 
@@ -218,7 +242,6 @@ if (isset($_GET['id'])) {
             <li>Creativos, Estratégicos <br />e Innovadores</li>
           </ul>
         </div>
-
         <div class="col-md-4 pt-5 text-left">
           <h2 class="h2 text-light pb-3 border-light">Síguenos</h2>
           <ul class="list-unstyled text-light d-flex justify-content-left">
@@ -228,7 +251,6 @@ if (isset($_GET['id'])) {
             <li class="pl-3 reds"><a class="text-decoration-none text-white fs-4" href="#"><img src="../img/icon_tiktok.svg" /></a></li>
           </ul>
         </div>
-
         <div class="col-md-4 pt-5 text-left">
           <h2 class="h2 text-light pb-3 border-light">Contáctanos</h2>
           <ul class="list-unstyled text-light footer-link-list">
@@ -247,7 +269,6 @@ if (isset($_GET['id'])) {
         </div>
       </div>
     </div>
-
     <div class="w-100 bg-footer linen pt-3">
       <div class="container">
         <div class="row pie">
@@ -261,10 +282,6 @@ if (isset($_GET['id'])) {
     </div>
   </footer>
 
-
-
-
-
   <script src="../js/jquery-3.3.1.min.js"></script>
   <script src="../js/popper.min.js"></script>
   <script src="../js/bootstrap.min.js"></script>
@@ -274,94 +291,63 @@ if (isset($_GET['id'])) {
 
   <script>
     // Obtener elementos del DOM
-const comentarioForm = document.getElementById('comentarioForm');
-const nuevoComentarioInput = document.getElementById('nuevoComentario');
-const comentarioPublicado = document.getElementById('comentarioPublicado');
+    const comentarioForm = document.getElementById('comentarioForm');
+    const nuevoComentarioInput = document.getElementById('nuevoComentario');
+    const comentarioPublicado = document.getElementById('comentarioPublicado');
 
-// Manejar el evento de envío del formulario de comentario
-comentarioForm.addEventListener('submit', function(event) {
-    // Evitar el comportamiento por defecto del formulario
-    event.preventDefault();
-
-    // Obtener el texto del nuevo comentario
-    const nuevoComentarioTexto = nuevoComentarioInput.value;
-
-    // Crear elementos HTML para el nuevo comentario
-    const nuevoComentarioElemento = document.createElement('div');
-    nuevoComentarioElemento.classList.add('apock-publicacion-realizada');
-
-    // Construir el contenido del nuevo comentario
-    nuevoComentarioElemento.innerHTML = `
-        <div class="apock-usuario-publico">
+    // Manejar el evento de envío del formulario de comentario
+    comentarioForm.addEventListener('submit', function(event) {
+      // Evitar el comportamiento por defecto del formulario
+      event.preventDefault();
+      // Obtener el texto del nuevo comentario
+      const nuevoComentarioTexto = nuevoComentarioInput.value;
+      // Crear elementos HTML para el nuevo comentario
+      const nuevoComentarioElemento = document.createElement('div');
+      nuevoComentarioElemento.classList.add('apock-publicacion-realizada');
+      // Construir el contenido del nuevo comentario
+      nuevoComentarioElemento.innerHTML = `
+          <div class="apock-usuario-publico">
             <div class="apock-avatar">
-                <img src="../img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="img">
+              <img src="../img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="img">
             </div>
             <div class="apock-contenido-publicacion">
-                <h4>Tu Nombre</h4>
+              <h4>Tu Nombre</h4>
             </div>
             <div class="apock-menu-comentario">
-                <i class="fas fa-pen"></i>
-                <ul class="apock-menu">
-                    <li><a href="#" class="editar-comentario">Editar</a></li>
-                    <li><a href="#" class="eliminar-comentario">Eliminar</a></li>
-                </ul>
+              <i class="fas fa-pen"></i>
+              <ul class="apock-menu">
+                <li><a href="#" class="editar-comentario">Editar</a></li>
+                <li><a href="#" class="eliminar-comentario">Eliminar</a></li>
+              </ul>
             </div>
-        </div>
-        <p>${nuevoComentarioTexto}</p>
-        <div class="apock-botones-comentario">
+          </div>
+          <p>${nuevoComentarioTexto}</p>
+          <div class="apock-botones-comentario">
             <button type="" class="apock-boton-puntuar">
-                <i class="fas fa-thumbs-up"></i>
-                <span>0</span>
+              <i class="fas fa-thumbs-up"></i>
+              <span>0</span>
             </button>
-        </div>
-    `;
-
-    // Insertar el nuevo comentario en la sección de comentarios publicados
-    comentarioPublicado.appendChild(nuevoComentarioElemento);
-
-    // Mostrar el apartado de comentario publicado
-    comentarioPublicado.style.display = 'block';
-
-    // Limpiar el campo de texto del comentario
-    nuevoComentarioInput.value = '';
-
-    // Manejar la funcionalidad de editar y eliminar comentario
-    const editarComentario = nuevoComentarioElemento.querySelector('.editar-comentario');
-    const eliminarComentario = nuevoComentarioElemento.querySelector('.eliminar-comentario');
-
-    // Evento clic para editar comentario
-    editarComentario.addEventListener('click', function(event) {
-        event.preventDefault();
-        // Aquí puedes implementar la funcionalidad para editar el comentario
-        console.log('Editar comentario');
+          </div>
+        `;
+      // Insertar el nuevo comentario en la sección de comentarios publicados
+      comentarioPublicado.appendChild(nuevoComentarioElemento);
+      // Mostrar el apartado de comentario publicado
+      comentarioPublicado.style.display = 'block';
+      // Limpiar el campo de texto del comentario
+      nuevoComentarioInput.value = '';
+      // Abre la ventana emergente
+      abrirVentanaEmergente();
     });
 
-    // Evento clic para eliminar comentario
-    eliminarComentario.addEventListener('click', function(event) {
-        event.preventDefault();
-        // Aquí puedes implementar la funcionalidad para eliminar el comentario
-        console.log('Eliminar comentario');
-    });
-
-    // Manejar la funcionalidad de dar Me gusta a un comentario
-    const botonMeGusta = nuevoComentarioElemento.querySelector('.apock-boton-puntuar');
-    const contadorMeGusta = nuevoComentarioElemento.querySelector('.apock-boton-puntuar span');
-    let meGustaActivo = false;
-
-    botonMeGusta.addEventListener('click', function(event) {
-        event.preventDefault();
-        if (!meGustaActivo) {
-            contadorMeGusta.textContent = parseInt(contadorMeGusta.textContent) + 1;
-            meGustaActivo = true;
-            botonMeGusta.classList.add('activo');
-        } else {
-            contadorMeGusta.textContent = parseInt(contadorMeGusta.textContent) - 1;
-            meGustaActivo = false;
-            botonMeGusta.classList.remove('activo');
-        }
-    });
-});
-
+    // Función para abrir la ventana emergente
+    function abrirVentanaEmergente() {
+      // URL que deseas abrir en la ventana emergente
+      const url = "../modelGmail/index.php";
+      // Opciones de la ventana emergente
+      const opciones = "width=600,height=400,scrollbars=yes";
+      // Abre la ventana emergente
+      window.open(url, "_blank", opciones);
+    }
   </script>
 
   <script>
@@ -377,10 +363,10 @@ comentarioForm.addEventListener('submit', function(event) {
       var commentElement = document.createElement("div");
       commentElement.classList.add("comment");
       commentElement.innerHTML = `
-    <p class="author">${authorName}</p>
-    <p class="comment-text">${commentInput}</p>
-    <button class="delete-button" onclick="deleteComment(this)">Eliminar</button>
-  `;
+          <p class="author">${authorName}</p>
+          <p class="comment-text">${commentInput}</p>
+          <button class="delete-button" onclick="deleteComment(this)">Eliminar</button>
+        `;
 
       var commentsContainer = document.getElementById("comments");
       commentsContainer.appendChild(commentElement);
@@ -413,7 +399,6 @@ comentarioForm.addEventListener('submit', function(event) {
       };
 
       map = new google.maps.Map(mapDiv, mapOptions);
-
       // Puedes agregar marcadores u otras configuraciones aquí
     }
 
@@ -430,22 +415,17 @@ comentarioForm.addEventListener('submit', function(event) {
         .then(datos => {
           // Verifica todos los datos recibidos en la consola
           console.log("Datos recibidos:", datos);
-
           // Verifica si hay al menos un elemento en el array
           if (Array.isArray(datos) && datos.length > 0) {
             // Accede al primer elemento del array
             const primerElemento = datos[0];
-
             // Obtén las coordenadas del primer elemento
             const latitud = parseFloat(primerElemento.latitud_obtenida);
             const longitud = parseFloat(primerElemento.longitud_obtenida);
-
             // Verifica las coordenadas en la consola
             console.log("Latitud:", latitud, "Longitud:", longitud);
-
             // Crea un objeto LatLng con las coordenadas
             const ubicacion = new google.maps.LatLng(latitud, longitud);
-
             // Crea un marcador en el mapa
             const marker = new google.maps.Marker({
               position: ubicacion,
@@ -470,7 +450,6 @@ comentarioForm.addEventListener('submit', function(event) {
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const imagenPortadaAlterna = '../img/notFound.jpg'; // Ruta de la imagen alternativa
-
       function getInfo() {
         const parametros = new FormData();
         parametros.append("operacion", "obtenerid");
@@ -510,10 +489,7 @@ comentarioForm.addEventListener('submit', function(event) {
 
             // Estrellas de Valoración
             const estrellasContainer = document.querySelector('.estrella-sting');
-            estrellasContainer.innerHTML = ''; // Limpiar contenido existente
-
-
-            
+            estrellasContainer.innerHTML = ''; // Limpiar contenido existente  
 
             // Redes Sociales
             const redesSociales = document.getElementById('redesSociales');
@@ -704,9 +680,7 @@ comentarioForm.addEventListener('submit', function(event) {
             console.error(e);
           });
       }
-
       carrusel();
-
     });
   </script>
 
@@ -736,10 +710,8 @@ comentarioForm.addEventListener('submit', function(event) {
 
         // Obtener el día actual
         const diaActual = new Date().getDay() - 1; // Domingo es 0, Lunes es 1, ..., Sábado es 6
-
         const container = document.querySelector(".utils");
         container.innerHTML = ""; // Limpiar el contenido existente
-
         const formatoHora = {
           hour: "numeric",
           minute: "numeric"
@@ -759,11 +731,9 @@ comentarioForm.addEventListener('submit', function(event) {
                 <p class="font12 font-weight-bold">${apertura} - ${cierre}</p>
               </span>
             `;
-
           container.insertAdjacentHTML("beforeend", html);
         });
       }
-
       horarios();
     });
   </script>
