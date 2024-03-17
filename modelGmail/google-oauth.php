@@ -3,7 +3,7 @@ session_start();
 
 $google_oauth_client_id = '57690745522-4nsmqkdhj7qebt3k40tgfnq8kcr0r857.apps.googleusercontent.com';
 $google_oauth_client_secret = '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';
-$google_oauth_redirect_uri = 'http://localhost/ProyectoIN/views/google-oauth.php';
+$google_oauth_redirect_uri = 'http://localhost/ProyectoIN/modelGmail/google-oauth.php';
 $google_oauth_version = 'v3';
 
 if (isset($_GET['code']) && !empty($_GET['code'])) {

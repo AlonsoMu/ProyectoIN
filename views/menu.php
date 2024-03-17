@@ -90,9 +90,9 @@ if (isset($_GET['id'])) {
                     <?php if(isset($google_picture)): ?>
                       <span style="color:#FFF; margin-left:20px;"><?=$google_name?></span>
                       <img src="<?=$google_picture?>" alt="<?=$google_name?>" style="width:30px; border-radius:50px; margin-left:0px;">
-                      <a style="padding:0px;" href="desconectar.php" class="logout-btn"><svg style="width:20px; fill:#FFF;" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><title/><g data-name="1" id="_1"><path d="M27,3V29a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V27H7v1H25V4H7V7H5V3A1,1,0,0,1,6,2H26A1,1,0,0,1,27,3ZM12.29,20.29l1.42,1.42,5-5a1,1,0,0,0,0-1.42l-5-5-1.42,1.42L15.59,15H5v2H15.59Z" id="login_account_enter_door"/></g></svg></a>
+                      <a style="padding:0px;" href="../modelGmail/desconectar.php" class="logout-btn"><svg style="width:20px; fill:#FFF;" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><title/><g data-name="1" id="_1"><path d="M27,3V29a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V27H7v1H25V4H7V7H5V3A1,1,0,0,1,6,2H26A1,1,0,0,1,27,3ZM12.29,20.29l1.42,1.42,5-5a1,1,0,0,0,0-1.42l-5-5-1.42,1.42L15.59,15H5v2H15.59Z" id="login_account_enter_door"/></g></svg></a>
                     <?php else: ?>
-                      <a href="google-oauth.php">
+                      <a href="../modelGmail/google-oauth.php">
                         <span style="width:20px;"><svg id="Layer_1_1_" style="width:20px; fill:#FFF;" version="1.1" viewBox="0 0 16 16" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M12,9H8H4c-2.209,0-4,1.791-4,4v3h16v-3C16,10.791,14.209,9,12,9z"/><path d="M12,5V4c0-2.209-1.791-4-4-4S4,1.791,4,4v1c0,2.209,1.791,4,4,4S12,7.209,12,5z"/></svg></span>
                       </a>
                     <?php endif; ?>

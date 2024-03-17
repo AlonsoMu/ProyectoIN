@@ -24,7 +24,7 @@ $registro_exitoso = $gmail_model->registrar([
 
 if ($registro_exitoso) {
     // Redirigir al menú después de la inserción exitosa en la base de datos
-    header('Location: menu.php');
+    header('Location: ../views/menu.php');
     exit;
 } else {
     exit('¡Error al registrar el usuario en la base de datos!');
