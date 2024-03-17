@@ -138,6 +138,10 @@ CREATE TABLE negocios(
 -- ------------------------------------------------------------------------
 -- 								| TABLA UBICACIONES |
 -- ------------------------------------------------------------------------
+DELETE FROM negocios;
+ALTER TABLE negocios AUTO_INCREMENT 1;
+-- Volver a activar la restricción de clave externa
+SET foreign_key_checks = 1;
 CREATE TABLE ubicaciones(
 	idubicacion 			INT 			AUTO_INCREMENT	PRIMARY KEY,
     idhorario 				INT 			NOT NULL, -- FK
@@ -157,16 +161,18 @@ CREATE TABLE ubicaciones(
 CREATE TABLE visitas
 (
 	idvisita 				INT 			AUTO_INCREMENT PRIMARY KEY,
-    user_google_id			VARCHAR(25)			NOT NULL,
-    user_first_name 		VARCHAR(50) 	NOT NULL,
-    user_last_name			VARCHAR(50) 	NOT NULL,
-    user_email_address		VARCHAR(100)	NOT NULL,
- 	user_image				VARCHAR(200) 	NULL,
+    email					VARCHAR(100)	NOT NULL,
+    name_google				VARCHAR(50) 	NOT NULL,
+    picture					VARCHAR(200) 	NOT NULL,
     create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL
 )ENGINE = INNODB;
-
+SELECT * FROM galerias;
+DELETE FROM galerias;
+ALTER TABLE galerias AUTO_INCREMENT 1;
+-- Volver a activar la restricción de clave externa
+SET foreign_key_checks = 1;
 -- ------------------------------------------------------------------------
 -- 								| TABLA COMENTARIOS |
 -- ------------------------------------------------------------------------

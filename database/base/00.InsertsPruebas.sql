@@ -6,12 +6,13 @@ INSERT INTO personas (apellidos, nombres, tipodoc, numerodoc) VALUES
 ('Muñoz','Alonso','DNI','74136969'),
 ('Hernandez','Yorghet','DNI','72159736');
 
-SELECT * FROM PERSONAS;
+SELECT * FROM negocios;
+SELECT * FROM horarios;
 
 INSERT INTO usuarios (idpersona,correo, claveacceso, celular, nivelacceso) VALUES
 (2,'yorghetyauri123@gmail.com','12345','946989937','ADM');
 
-select * from usuarios;
+select * from ubicaciones;
 
 INSERT INTO planes (tipoplan, precio) VALUES
 ('FREE', 0.00),
@@ -159,7 +160,6 @@ FROM negocios n
 INNER JOIN subcategorias s ON n.idsubcategoria = s.idsubcategoria
 INNER JOIN distritos d ON n.iddistrito = d.iddistrito
 WHERE s.idsubcategoria =8 AND d.iddistrito = 6;
-
 
 
 DELETE FROM galerias;

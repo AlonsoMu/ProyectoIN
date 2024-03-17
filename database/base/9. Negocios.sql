@@ -199,7 +199,7 @@ CREATE PROCEDURE spu_negocios_registrar(
     IN _whatsapp			VARCHAR(200),
     IN _instagram			VARCHAR(200),
     IN _tiktok				VARCHAR(200),
-    IN _pagweb 			VARCHAR(200),
+    IN _pagweb 				VARCHAR(200),
     IN _logo				VARCHAR(200),
     IN _portada 			VARCHAR(200)
 )

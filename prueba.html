@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+    <!-- CDN FONT - AWESOME  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./landing.css">
+  </head>
+  <body style="height: 100%;">
+
+  <nav class="w-100 bg-white relative mainNav">
+    <div class="grid-30x70 container-1280 padding-top-25 padding-bottom-25">
+      <div class="text-left">
+        <a href="https://www.pandero.com.pe">
+          <img src="./img/logo1.jpg" class="logo-principal">
+        </a>          
+      </div>
+      <div class="text-right display-table">
+        <p class="text-blue font-geo text-12 font-weight-bold margin-bottom-0 centrado-vertical">Tu auto, tu casa, más fácil de lo que imaginas</p>  
+      </div>
+    </div>
+  </nav>
+  <section class="w-100 bg-gris">
+    <div class="grid-40x60 container-1280 padding-top-70 padding-bottom-70 text-center padding-m">
+      <div class="display-table m">
+        <div class="centrado-vertical">
+          <div class="image-publicidad txtautoimg" style="display:block">
+            <img src="./img/logo1.jpg" class="image-principal">
+          </div>
+          <div class="image-publicidad txtcasaimg" style="display:none">
+            <img src="https://d1extt4q0kbmr.cloudfront.net/wp-content/uploads/2023/09/Landing_descuento-35_Casa.png" class="image-principal">
+          </div>
+        </div>
+      </div>
+
+      <div class="padding-left-30 display-table sax">
+        <div class="centrado-vertical">
+          <div class="row-contenido-630">
+            <div class="text-center">
+              <h3 class="titulo text-28 text-blue font-geo font-weight-bold">¡Únete a nuestros servicio!</h3>
+              <div class="subtitulo2 text-12 text-blue font-geo font-weight-bold text-left padding-top-10 extm">Déjanos tus datos y disfruta de esta promo exclusiva</div>
+            </div>
+            <br>
+            <!-- Agrega el formulario debajo del texto -->
+            <form action="" id="form-negocio" autocomplete="off">
+              <div class="row">
+                <!-- NOMBRE COMERCIAL DEL NEGOCIO -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre comercial</label>
+                    <input type="text" class="form-control" id="nombre">
+                  </div>
+                </div>
+                <!-- SUBCATEGORIA DEL NEGOCIO -->
+                <div class="col md-6">
+                  <div class="mb-3">
+                    <label for="idsubcategoria" class="form-label">Giro negocio</label>
+                    <select name="idsubcategoria" id="idsubcategoria" class="form-select" required>
+                      <option value="">Selecciona</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- BUSQUEDA DE NEGOCIO ASOCIADO -->
+                <div class="col-md-6">
+                  <label for="nombre_apellido" class="form-label">Dueño del negocio</label>
+                  <div class="input-group">
+                    <input type="tel" id="nombre_apellido" class="form-control" placeholder="Buscar...">
+                    <button class="btn btn-success" type="button" id="buscar">Buscar</button>
+                  </div>
+                  <div id="resultadoBusqueda" class="mb-3">
+                    <label for="resultado" class="form-label">Resultado de la búsqueda:</label>
+                    <input type="text" id="resultado" class="form-control" readonly>
+                  </div>
+                </div>
+                <!-- RUC -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="nroruc" class="form-label">RUC</label>
+                    <input type="tel" class="form-control" id="nroruc">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- DESCRIPCION -->
+                <div class="col md-6">
+                  <div class="mb-3">
+                    <label for="descripcion" class="form-label">Información negocio</label>
+                    <input type="text" class="form-control" id="descripcion">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <!-- DIRECCION -->
+                  <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="direccion">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- DISTRITO -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="iddistrito" class="form-label">Distrito</label>
+                    <select name="iddistrito" id="iddistrito" class="form-select" required>
+                      <option value="">Selecciona</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- TELEFONO -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="tel" class="form-control" id="telefono">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- CORREO -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="correo">
+                  </div>
+                </div>
+                <!-- Facebook -->
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="facebook" class="form-label">Facebook</label>
+                    <input type="text" class="form-control" id="facebook">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col md-6">
+                  <div class="mb-3">
+                    <label for="logo" class="form-label">Logo negocio</label>
+                    <input type="file" id="logo" class="form-control">
+                    <span id="nombreLogo" class="file-name"></span>
+                    <!-- Vista previa del logo -->
+                    <!-- <img id="logo-preview" src="#" alt="Vista previa del logo" style="display: none; max-width: 100px; max-height: 100px;"> -->
+                  </div>
+                </div>
+                <div class="col md-6">
+                  <div class="mb-3">
+                    <label for="portada" class="form-label">Portada negocio</label>
+                    <input type="file" id="portada" class="form-control">
+                    <span id="nombrePortada" class="file-name"></span>
+                    <!-- Vista previa de la portada -->
+                    <!-- <img id="portada-preview" src="#" alt="Vista previa de la portada" style="display: none; max-width: 100px; max-height: 100px;"> -->
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary" id="guardarDatos">Guardar</button>
+            </form>
+          </div>
+        </div>  
+      </div>  
+    </div> 
+  </section>
+  <!-- Modal de registro de nuevo usuario -->
+  <div class="modal fade" id="registroUsuarioModal" tabindex="-1" aria-labelledby="registroUsuarioModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registroUsuarioModalLabel">Registro de Nuevo Usuario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Formulario de registro de nuevo usuario aquí -->
+          <p>Este es un formulario de registro de nuevo usuario.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <!-- Agrega aquí el botón de guardar para el formulario de registro de nuevo usuario -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- <script src="js/negocio/negocio1.js"></script> -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      function $(id){
+        return document.querySelector(id);
+      }
+    });
+  </script>
+</body>
+</html>
