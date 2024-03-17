@@ -12,13 +12,11 @@ class Gmail extends Conexion{
 
   public function registrar($datos = []) {
     try {
-        $consulta = $this->conexion->prepare("CALL spu_registrar_visita(?,?,?,?,?)");
+        $consulta = $this->conexion->prepare("CALL spu_registrar_visita(?,?,?)");
         $consulta->execute([
-            $datos['user_google_id'],
-            $datos['user_first_name'],
-            $datos['user_last_name'],
-            $datos['user_email_address'],
-            $datos['user_image']
+            $datos['email'],
+            $datos['name_google'],
+            $datos['picture']
         ]);
         return true; // Retorna true si la inserción fue exitosa
     } catch (Exception $e) {
