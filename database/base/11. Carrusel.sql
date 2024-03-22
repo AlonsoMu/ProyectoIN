@@ -15,7 +15,7 @@ BEGIN
 	(idusuario, foto)
 	VALUES
 		(_idusuario, _foto);
-	SELECT @@last_insert_id 'idcarrusel';
+	-- SELECT @@last_insert_id 'idcarrusel';
 END $$
 
 -- ##########################################################################################################################

@@ -22,12 +22,12 @@
           <div>Registrar fotos</div>
         </div>
         <div class="card-body">
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <label for="usuario" class="form-label">Usuario</label>
             <select name="" id="usuario" class="form-select" required>
               <option value="">Seleccione:</option>
             </select>
-          </div>
+          </div> -->
           <div class="mb-3">
             <label for="foto" class="form-label">Fotografía</label>
             <input type="file" class="form-control" id="foto" accept=".jpg">
@@ -56,7 +56,7 @@
         return document.querySelector(id);
       }
 
-      function getUser(){
+      /*function getUser(){
         // Creando datos que enviaremos al controlador
         const parametros = new FormData();
         parametros.append("operacion", "listar");
@@ -82,12 +82,12 @@
           .catch(e => {
             console.error(e)
           });
-      }
+      }*/
 
       function carrusel() {
     const formData = new FormData();
     formData.append("operacion", "registrar");
-    formData.append("idusuario", $("#usuario").value);
+    // formData.append("idusuario", $("#usuario").value);
     formData.append("foto", $("#foto").files[0]);
 
     const options = {
@@ -99,10 +99,12 @@
     fetch(`./controllers/carrusel.controller.php`, options)
     .then(respuesta => respuesta.text())
     .then(datos => {
-        if (datos.idcarrusel > 0) {
-            alert(`Foto registrado con ID: ${datos.idcarrusel}`)
+
+          if (datos.trim() === "") {
+            // Registro exitoso, mostrar mensaje de éxito con alert()
+            alert('Registro guardado exitosamente');
             $("#form-carrusel").reset();
-        }
+          }
     })
     .catch(e => {
         console.error(e);
@@ -119,7 +121,7 @@
         }
       });
 
-      getUser();
+      // getUser();
 
 
       
