@@ -7,7 +7,6 @@ $_SESSION["musica"] = $datog;
 
 $idpropietario = isset($_SESSION["idvisitax"]) ? $_SESSION["idvisitax"] : "";
 
-
 //RETRY VARIABLE SESSION
 if (isset($_SESSION['google_loggedin'])) :
   $google_loggedin = $_SESSION['google_loggedin'];
@@ -216,45 +215,47 @@ if (isset($_GET['id'])) {
 
     <section class="apock-contenedor-comentarios mt-5">
       <div class="apock-area-comentar">
-
-        <?php if (isset($_SESSION['idvisitax'])) { ?>
-        <?php } else { ?>
-          <div class="apock-avatar">
-            <img src="../img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="img">
-          </div>
-          <form class="apock-inputs-comentarios" id="comentarioForm">
-            <textarea name="" class="apock-area-comentario" id="nuevoComentario" disabled></textarea>
-            <div class="apock-botones-comentar">
-              <button class="apock-boton-enviar" type="submit" disabled>
-                <i class="fas fa-paper-plane"></i>Enviar</button>
-            </div>
-          </form>
-        <?php } ?>
-
-      
-        <div class="nana">
-          <?php if (isset($_SESSION['idvisitax'])) { ?>
-              <h4>Registro de Comentarios</h4>
-              <form id="formulario-comentario" method="POST" action="../controllers/comentario.controller.php">
-                  <input type="text" name="operacion" value="registrarComentario" hidden>
-                  <!-- Agregar campos ocultos para idvisita e idnegocio -->
-                  <input type="text" name="idvisita" value="<?php echo $_SESSION['idvisitax']; ?>" hidden>
-                  <input type="text" name="idnegocio" value="<?php echo $_SESSION['musica']; ?>" hidden>
-                  <div class="mb-3 d-flex">
-                      <img src="<?= $google_picture ?>" class="bolita" />
-                      <textarea class="form-control" placeholder="Escribe tu comentario aquí..." id="tarea-comentario" name="comentario" required></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-primary nnita">Guardar Comentario</button>
-              </form>
-          <?php } else { ?>
-            <div class="teolvide">
-              <h4>Inicie Sesión</h4>
-              <p>Debe iniciar sesión para poder registrar un comentario.</p>
-              <a href="../modelGmail/google-oauth.php" class="btn btn-primary nnita">Iniciar Sesión</a>
-            </div>
-          <?php } ?>
+        <div class="apock-avatar">
+          <img src="../img/Donald-Trump-sign-in-snow-Urbandale-IA-Jan.-13-2024.webp" alt="img">
         </div>
+        <form action="#" method="post" class="apock-inputs-comentarios" id="comentarioForm">
+          <textarea name="" class="apock-area-comentario" id="nuevoComentario"></textarea>
+          <div class="apock-botones-comentar">
+            <button class="apock-boton-enviar" type="submit">
+              <i class="fas fa-paper-plane"></i>
+              Enviar
+            </button>
+          </div>
+        </form>
       </div>
+      <div class="apock-publicacion-realizada" style="display: none;" id="comentarioPublicado">
+      </div>
+    </section>
+
+
+    <section>
+    <div class="row">
+        <div class="col-md-3 p-3 m-1 bg-info">
+            <?php if (isset($_SESSION['idvisitax'])) { ?>
+                <h4>Registro de Comentarios</h4>
+                <form id="formulario-comentario" method="POST" action="../controllers/comentario.controller.php">
+                    <input type="text" name="operacion" value="registrarComentario" hidden>
+                    <!-- Agregar campos ocultos para idvisita e idnegocio -->
+                    <input type="text" name="idvisita" value="<?php echo $_SESSION['idvisitax']; ?>" hidden>
+                    <input type="text" name="idnegocio" value="<?php echo $_SESSION['musica']; ?>" hidden>
+                    <div class="mb-3">
+                        <label for="tarea-comentario">Comentario</label>
+                        <textarea class="form-control" placeholder="Escribe tu comentario aquí..." id="tarea-comentario" name="comentario" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Comentario</button>
+                </form>
+            <?php } else { ?>
+                <h4>Inicie Sesión</h4>
+                <p>Debe iniciar sesión para poder registrar un comentario.</p>
+                <a href="../modelGmail/google-oauth.php" class="btn btn-primary">Iniciar Sesión</a>
+            <?php } ?>
+        </div>
+    </div>
 </section>
 
 
@@ -262,8 +263,46 @@ if (isset($_GET['id'])) {
 
     <!-- _____________________________________________________________________________________________________________ -->
 
-    <div id="tabla-comentarios">
-    </div>
+    <table class="table table-sm table-bordered" id="tabla-comentarios">
+      <colgroup>
+        <col width="5%"> <!-- # -->
+        <col width="10%"> <!-- ID Negocio -->
+        <col width="10%"> <!-- ID Comentario -->
+        <col width="10%"> <!-- ID Visita -->
+        <col width="25%"> <!-- Comentarios -->
+        <col width="10%"> <!-- Valoración -->
+        <col width="15%"> <!-- Fecha de Creación -->
+        <col width="15%"> <!-- Autor -->
+        <col width="10%"> <!-- Imagen de Perfil -->
+        <col width="10%"> <!-- Imagen de Perfil -->
+      </colgroup>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>ID Negocio</th>
+          <th>ID Comentario</th>
+          <th>ID Visita</th>
+          <th>Comentarios</th>
+          <th>Valoración</th>
+          <th>Fecha de Creación</th>
+          <th>Autor</th>
+          <th>Imagen de Perfil</th>
+          <th>Operaciones</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Aquí se llenarán dinámicamente los datos de los comentarios -->
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
 
 
     <!-- Footer -->
@@ -348,24 +387,28 @@ if (isset($_GET['id'])) {
             .then(datosRecibidos => {
               // Recorrer cada fila del arreglo
               let numFila = 1;
-              $("#tabla-comentarios").innerHTML = '';
+              $("#tabla-comentarios tbody").innerHTML = '';
               datosRecibidos.forEach(registro => {
                 let nuevafila = ``;
-                const propietario = registro.idvisita == idpropietario;
-                console.log('Es propietario:', propietario); 
+                const propietario = registro.idvisita === idpropietario;
                 nuevafila = `
-                <div class="porti">
-                  <div class="ordenap">
-                    <img src="${registro.picture}" class="bolita2" />
-                    <div class="tuname">${registro.name_google}</div>
-                    <div class="tudate">${registro.create_at}</div>
-                    <div class="tudelete">${propietario ? `<button data-idcomentario="${registro.idcomentario}" class='eliminarp' type='button'></button>` : ''}</div>
-                  </div>
-                  <div class="d-flex tucomentariop">${registro.comentarios}</div>
-                </div>
+              <tr>
+                <td>${numFila}</td>
+                <td>${registro.idnegocio}</td>
+                <td>${registro.idcomentario}</td>
+                <td>${registro.idvisita}</td>
+                <td>${registro.comentarios}</td>
+                <td>${registro.valoracion}</td>
+                <td>${registro.create_at}</td>
+                <td>${registro.name_google}</td>
+                <td>${registro.picture}</td>
+                <td>
+                  ${propietario ? `<button data-idcomentario="${registro.idcomentario}" class='btn btn-danger btn-sm eliminar' type='button'>Eliminar</button>` : ''}
+                </td>
+              </tr>              
               `;
 
-                $("#tabla-comentarios").innerHTML += nuevafila;
+                $("#tabla-comentarios tbody").innerHTML += nuevafila;
                 numFila++;
               });
             })
@@ -377,7 +420,7 @@ if (isset($_GET['id'])) {
         listarComent();
 
         document.addEventListener("click", function(event) {
-        if (event.target.classList.contains("eliminarp")) {
+        if (event.target.classList.contains("eliminar")) {
             const idcomentario = event.target.dataset.idcomentario;
             if (confirm("¿Estás seguro de que quieres eliminar este comentario?")) {
                 const parametros = new FormData();

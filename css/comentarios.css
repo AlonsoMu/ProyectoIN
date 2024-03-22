@@ -46,18 +46,19 @@
 .apock-boton-enviar {
     display: inline-block;
     border: 0;
-    background-color: #374D71;
+    background-color: #dcdcdc;
     padding: 7px 15px;
     margin-right: .5rem;
     color: #fff;
     border-radius: 8px;
     cursor: pointer;
+    cursor:default;
     transition: background-color ease-in 200ms;
 }
 
 
 .apock-boton-enviar:hover {
-    background-color: #4C6FA7;
+    background-color: #dcdcdc;
 }
 
 /* fin */
@@ -198,3 +199,24 @@ margin-top: 1.5rem; /* Agregar margen superior */
     margin-bottom: 0.5rem;
     font-size: 0.9em;
 }
+
+.nana{display:block; width:100%; /*padding:30px 40px;*/ background:#FFF; margin:0 auto; text-align:center; margin-top:20px; border-radius:8px;}
+          .nnita{background-color:#374D71!important; border:0px!important; margin-left:70px;}
+          #tarea-comentario{background-color:#F0F0F0; border-radius:12px; color:#000!important; margin-left:20px;}
+          #tarea-comentario::placeholder{color:#000!important;}
+          .nana h4{text-align:left;  margin-left:70px;}
+          #formulario-comentario{text-align:left;}
+          .bolita{width:50px!important; height:50px; border-radius:50px; margin-top:25px;}
+          .teolvide{padding-bottom:20px; border-top:1px solid #f1f1f1; padding-top:20px;}
+          .nana .teolvide h4{text-align:center!important; margin-left:initial!important;}
+          .nana .teolvide .nnita{margin-left:initial!important;}
+
+          .ordernap{display:inline-block; width:100%;}
+          .porti{padding:30px; -moz-box-shadow:7px 7px 5px -3px rgba(0, 0, 0, 0.1); box-shadow:7px 7px 5px -3px rgba(0,0,0,0.1); border-radius:8px; margin-bottom:30px; border:1px solid #f2f2f2;}
+          #tabla-comentarios{max-width:850px; margin:0 auto;}
+          .bolita2{width:40px; height:40px; border-radius:40px;}
+          .tuname{font-size:20px; font-weight:600; padding:5px 10px 5px 20px; display:inline-block;}
+          .tudate{font-size:12px; font-weight:600; padding:12px 20px 5px 10px; display:inline-block;}
+          .tudelete{float:right;}
+          .eliminarp{border:0px; background:url(../img/delete.svg) no-repeat center center; width:15px; padding:15px 10px; background-size:12px;}
+          .tucomentariop{width:100%; padding-top:20px; font-size:14px; font-weight:600;}

@@ -659,6 +659,7 @@ BEGIN
     (_idvista, _idnegocio, _comentarios, _valoracion);
 END $$
 
+CALL 
 
 -- LISTAR COMENTNARIONS
 DELIMITER $$

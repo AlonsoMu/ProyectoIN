@@ -168,8 +168,9 @@ CREATE TABLE visitas
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL
 )ENGINE = INNODB;
-SELECT * FROM galerias;
-DELETE FROM galerias;
+
+
+
 ALTER TABLE galerias AUTO_INCREMENT 1;
 -- Volver a activar la restricción de clave externa
 SET foreign_key_checks = 1;
@@ -178,16 +179,20 @@ SET foreign_key_checks = 1;
 -- ------------------------------------------------------------------------
 CREATE TABLE comentarios(
 	idcomentario 			INT 			AUTO_INCREMENT PRIMARY KEY,
-    idvisita 				INT 			NULL,
+    idvisita				INT 			NULL,
     idnegocio 				INT 			NULL,
     comentarios 			TEXT 			NULL,
     valoracion 				SMALLINT 		NULL,
 	create_at 				DATETIME		DEFAULT NOW(),
 	update_at				DATETIME		NULL,
 	inactive_at				DATETIME	 	NULL,
-    CONSTRAINT fk_idvisita_com				FOREIGN KEY (idvisita) REFERENCES visitas (idvisita),
-    CONSTRAINT fk_idnegocio_com 			FOREIGN KEY (idnegocio) REFERENCES negocios (idnegocio)
+    CONSTRAINT fk_idvisita_com 		FOREIGN KEY (idvisita) REFERENCES visitas (idvisita),
+    CONSTRAINT fk_idnegocio_com 	FOREIGN KEY (idnegocio) REFERENCES negocios (idnegocio)
 )ENGINE = INNODB;
+
+use innovacion;
+
+DELETE FROM comentarios;
 
 -- ------------------------------------------------------------------------------------------------
 -- 									| TABLA GALERIAS |
@@ -237,8 +242,9 @@ CREATE TABLE carrusel(
 
 drop table negocios;
 select * from negocios;
-delete from negocios;
-
+delete from visitas;
+use innovacion;
 select * from visitas;
+	select * from comentarios;
 
 SET foreign_key_checks = 1;
